@@ -14,6 +14,10 @@
     "@iconify/react": "^4.1.1",
     "@mui/lab": "^5.0.0-alpha.145",
     "@mui/material": "^5.14.10",
+<<<<<<< HEAD
+=======
+    "date-fns": "^2.30.0",
+>>>>>>> f5b9e437ce3c2f02ea527d86390c53e9f98c8a16
     "lodash": "^4.17.21",
     "next": "13.5.2",
     "prop-types": "^15.8.1",

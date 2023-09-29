@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-
-import { Inter } from 'next/font/google'
-=======
 // i18n
 // not comment import 'src/locales/i18n';
->>>>>>> f5b9e437ce3c2f02ea527d86390c53e9f98c8a16
 
 // scrollbar
 // not comment import 'simplebar-react/dist/simplebar.min.css';

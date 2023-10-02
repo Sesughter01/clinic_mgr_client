@@ -6,10 +6,12 @@ import AuthClassicLayout from 'src/layouts/auth/classic';
 
 // ----------------------------------------------------------------------
 
-export default function Layout({ children }) {
-  return <AuthClassicLayout>{children}</AuthClassicLayout>;
+export default function Layout({ children, title }) {
+  return <AuthClassicLayout title="EDMS Clinic Manager">{children}</AuthClassicLayout>;
 }
 
 Layout.propTypes = {
   children: PropTypes.node,
+  title: PropTypes.string,
+  
 };

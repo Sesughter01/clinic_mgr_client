@@ -4,7 +4,7 @@ import { ClassicLoginView } from 'src/sections/auth-demo/classic';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Auth Classic: Login',
+  title: 'EDMS Login',
 };
 
 export default function ClassicLoginPage() {

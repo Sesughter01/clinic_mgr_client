@@ -1,5 +1,6 @@
 // sections
 import { HomeView } from 'src/sections/home/view';
+import { redirect } from 'next/navigation'
 
 // ----------------------------------------------------------------------
 
@@ -8,5 +9,8 @@ export const metadata = {
 };
 
 export default function HomePage() {
+  redirect("auth-demo/classic/login", 'push')
+ 
+
   return <HomeView />;
 }

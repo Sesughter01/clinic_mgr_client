@@ -1,44 +1,44 @@
 // i18n
-// not comment import 'src/locales/i18n';
+import 'src/locales/i18n';
 
 // scrollbar
-// not comment import 'simplebar-react/dist/simplebar.min.css';
+import 'simplebar-react/dist/simplebar.min.css';
 
 // lightbox
-// not comment import 'yet-another-react-lightbox/styles.css';
-// not comment import 'yet-another-react-lightbox/plugins/captions.css';
-// not comment import 'yet-another-react-lightbox/plugins/thumbnails.css';
+import 'yet-another-react-lightbox/styles.css';
+import 'yet-another-react-lightbox/plugins/captions.css';
+import 'yet-another-react-lightbox/plugins/thumbnails.css';
 
 // map
-// not comment import 'mapbox-gl/dist/mapbox-gl.css';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 // editor
-// not comment import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.snow.css';
 
 // carousel
-// not comment import 'slick-carousel/slick/slick.css';
-// not comment import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 // image
-// not comment import 'react-lazy-load-image-component/src/effects/blur.css';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 // ----------------------------------------------------------------------
 
-// not comment import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // locales
-// not comment import { LocalizationProvider } from 'src/locales';
+import { LocalizationProvider } from 'src/locales';
 // theme
 import ThemeProvider from 'src/theme';
 import { primaryFont } from 'src/theme/typography';
 // components
-// not comment import ProgressBar from 'src/components/progress-bar';
-// not comment import { MotionLazy } from 'src/components/animate/motion-lazy';
-// not comment import SnackbarProvider from 'src/components/snackbar/snackbar-provider';
-// not comment import { SettingsProvider, SettingsDrawer } from 'src/components/settings';
+import ProgressBar from 'src/components/progress-bar';
+import { MotionLazy } from 'src/components/animate/motion-lazy';
+import SnackbarProvider from 'src/components/snackbar/snackbar-provider';
+import { SettingsProvider, SettingsDrawer } from 'src/components/settings';
 // sections
-// not comment import { CheckoutProvider } from 'src/sections/checkout/context';
+import { CheckoutProvider } from 'src/sections/checkout/context';
 // auth
-// not comment import { AuthProvider, AuthConsumer } from 'src/auth/context/jwt';
+import { AuthProvider, AuthConsumer } from 'src/auth/context/jwt';
 // import { AuthProvider, AuthConsumer } from 'src/auth/context/auth0';
 // import { AuthProvider, AuthConsumer } from 'src/auth/context/amplify';
 // import { AuthProvider, AuthConsumer } from 'src/auth/context/firebase';
@@ -46,10 +46,10 @@ import { primaryFont } from 'src/theme/typography';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Minimal UI Kit',
+  title: 'EDMS Clinic Manager',
   description:
-    'The starting point for your next project with Minimal UI Kit, built on the newest version of Material-UI ©, ready to be customized to your style',
-  keywords: 'react,material,kit,application,dashboard,admin,template',
+    'The starting point for your next project with EDMS Clinic Manager, built on the newest version of EDMS ©, ready to be customized to your style',
+  keywords: 'react,Clinic,EDMS,application,dashboard,admin,template',
   themeColor: '#000000',
   manifest: '/manifest.json',
   viewport: {
@@ -84,14 +84,39 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={primaryFont.className}>
-        <ThemeProvider>{children}</ThemeProvider>
+    <html lang="en" className={primaryFont.className}>
+      <body>
+        <AuthProvider>
+          <LocalizationProvider>
+            <SettingsProvider
+              defaultSettings={{
+                themeMode: 'light', // 'light' | 'dark'
+                themeDirection: 'ltr', //  'rtl' | 'ltr'
+                themeContrast: 'default', // 'default' | 'bold'
+                themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
+                themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
+                themeStretch: false,
+              }}
+            >
+              <ThemeProvider>
+                <MotionLazy>
+                  <SnackbarProvider>
+                    <CheckoutProvider>
+                      <SettingsDrawer />
+                      <ProgressBar />
+                      <AuthConsumer>{children}</AuthConsumer>
+                    </CheckoutProvider>
+                  </SnackbarProvider>
+                </MotionLazy>
+              </ThemeProvider>
+            </SettingsProvider>
+          </LocalizationProvider>
+        </AuthProvider>
       </body>
     </html>
   );
 }
 
-//  RootLayout.propTypes = {
-//  children: PropTypes.node,
-// };
+RootLayout.propTypes = {
+  children: PropTypes.node,
+};

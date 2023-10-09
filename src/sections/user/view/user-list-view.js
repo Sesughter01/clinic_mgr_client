@@ -46,16 +46,19 @@ import UserTableFiltersResult from '../user-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [{ value: 'all', label: 'All Clinics' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name' },
-  { id: 'phoneNumber', label: 'Phone Number', width: 180 },
-  { id: 'company', label: 'Company', width: 220 },
-  { id: 'role', label: 'Role', width: 180 },
+  { id: 'name', label: 'Clinic Name', width: 180 },
+  // { id: 'corpName', label: 'Corp Name', width: 180 },
+  // { id: 'pms', label: 'PMS', width: 180 },
+  { id: 'phoneNumber', label: 'Stage', width: 180 },
+  { id: 'company', label: 'To do', width: 220 },
+  { id: 'role', label: 'Action By', width: 180 },
   { id: 'status', label: 'Status', width: 100 },
   { id: '', width: 88 },
 ];
+
 
 const defaultFilters = {
   name: '',
@@ -149,10 +152,10 @@ export default function UserListView() {
     <>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="List"
+          heading="Clinic Manager"
           links={[
-            { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'User', href: paths.dashboard.user.root },
+            // { name: 'Dashboard', href: paths.dashboard.root },
+            { name: 'Clinics', href: paths.dashboard.user.root },
             { name: 'List' },
           ]}
           action={
@@ -162,7 +165,7 @@ export default function UserListView() {
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
-              New User
+              New Clinic
             </Button>
           }
           sx={{
@@ -316,7 +319,7 @@ export default function UserListView() {
         title="Delete"
         content={
           <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
+            Are you sure want to delete <strong> {table.selected.length} </strong> clinics?
           </>
         }
         action={

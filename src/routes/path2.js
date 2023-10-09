@@ -12,10 +12,6 @@ const ROOTS = {
   AUTH: '/auth',
   AUTH_DEMO: '/auth-demo',
   DASHBOARD: '/dashboard',
-  CLINIC_MANAGER: '/clinic-manager',
-  CORPORATIONS: '/corporations',
-  PMS: '/pms',
-  SETTINGS: '/settings',
 };
 
 // ----------------------------------------------------------------------
@@ -181,62 +177,4 @@ export const paths = {
       },
     },
   },
-
-  // CLINIC_MANAGER
-  clinicmanager: {
-    root: `${ROOTS.CLINIC_MANAGER}`,
-    new: `${ROOTS.CLINIC_MANAGER}/new`,
-    list: `${ROOTS.CLINIC_MANAGER}/list`,
-    cards: `${ROOTS.CLINIC_MANAGER}/cards`,
-    profile: `${ROOTS.CLINIC_MANAGER}/profile`,
-    account: `${ROOTS.CLINIC_MANAGER}/account`,
-    edit: (id) => `${ROOTS.CLINIC_MANAGER}/${id}/edit`,
-    demo: {
-      edit: `${ROOTS.CLINIC_MANAGER}/${MOCK_ID}/edit`,
-    },
-  }, 
-  
-  // CORPORATIONS
-  corporations: {
-    root: `${ROOTS.CORPORATIONS}`,
-    new: `${ROOTS.CORPORATIONS}/new`,
-    list: `${ROOTS.CORPORATIONS}/list`,
-    cards: `${ROOTS.CORPORATIONS}/cards`,
-    profile: `${ROOTS.CORPORATIONS}/profile`,
-    account: `${ROOTS.CORPORATIONS}/account`,
-    edit: (id) => `${ROOTS.CORPORATIONS}/${id}/edit`,
-    demo: {
-      edit: `${ROOTS.CORPORATIONS}/${MOCK_ID}/edit`,
-    },
-  }, 
-
-  // PMS 
-  pms: {
-    root: `${ROOTS.PMS}`,
-    new: `${ROOTS.PMS}/new`,
-    list: `${ROOTS.PMS}/list`,
-    cards: `${ROOTS.PMS}/cards`,
-    profile: `${ROOTS.PMS}/profile`,
-    account: `${ROOTS.PMS}/account`,
-    edit: (id) => `${ROOTS.PMS}/${id}/edit`,
-    demo: {
-      edit: `${ROOTS.PMS}/${MOCK_ID}/edit`,
-    },
-  }, 
-  
-  // SETTINGS AND REPORTS
-  settings: {
-    root: `${ROOTS.SETTINGS}`,
-    // new: `${ROOTS.SETTINGS}/new`,
-    // list: `${ROOTS.SETTINGS}/list`,
-    // cards: `${ROOTS.SETTINGS}/cards`,
-    // profile: `${ROOTS.SETTINGS}/profile`,
-    // account: `${ROOTS.SETTINGS}/account`,
-    // edit: (id) => `${ROOTS.SETTINGS}/${id}/edit`,
-    // demo: {
-    //   edit: `${ROOTS.SETTINGS}/${MOCK_ID}/edit`,
-    // },
-  }, 
 };
-
-

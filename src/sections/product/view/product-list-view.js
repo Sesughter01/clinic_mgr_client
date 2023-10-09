@@ -46,10 +46,10 @@ import ProductTableFiltersResult from '../product-table-filters-result';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Product' },
-  { id: 'createdAt', label: 'Create at', width: 160 },
-  { id: 'inventoryType', label: 'Stock', width: 160 },
-  { id: 'price', label: 'Price', width: 140 },
+  { id: 'name', label: 'Corps ID' },
+  { id: 'createdAt', label: 'Corps Name', width: 160 },
+  { id: 'inventoryType', label: 'Base Scripts', width: 160 },
+  { id: 'price', label: 'Clinics', width: 140 },
   { id: 'publish', label: 'Publish', width: 110 },
   { id: '', width: 88 },
 ];
@@ -159,14 +159,14 @@ export default function ProductListView() {
     <>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="List"
+          heading="Corporations"
           links={[
-            { name: 'Dashboard', href: paths.dashboard.root },
+            // { name: 'Dashboard', href: paths.dashboard.root },
             {
-              name: 'Product',
+              name: 'Corps',
               href: paths.dashboard.product.root,
             },
-            { name: 'List' },
+            // { name: 'List of Corps' },
           ]}
           action={
             <Button
@@ -175,7 +175,7 @@ export default function ProductListView() {
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
-              New Product
+              New Corps
             </Button>
           }
           sx={{ mb: { xs: 3, md: 5 } }}
@@ -295,7 +295,7 @@ export default function ProductListView() {
         title="Delete"
         content={
           <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
+            Are you sure want to delete <strong> {table.selected.length} </strong> corps?
           </>
         }
         action={

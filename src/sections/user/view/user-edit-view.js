@@ -25,12 +25,12 @@ export default function UserEditView({ id }) {
       <CustomBreadcrumbs
         heading="Edit"
         links={[
+          // {
+          //   name: 'Dashboard',
+          //   href: paths.dashboard.root,
+          // },
           {
-            name: 'Dashboard',
-            href: paths.dashboard.root,
-          },
-          {
-            name: 'User',
+            name: 'Clinic',
             href: paths.dashboard.user.root,
           },
           { name: currentUser?.name },

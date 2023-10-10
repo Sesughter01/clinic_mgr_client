@@ -25,9 +25,9 @@ export default function ProductEditView({ id }) {
       <CustomBreadcrumbs
         heading="Edit"
         links={[
-          { name: 'Dashboard', href: paths.dashboard.root },
+          // { name: 'Dashboard', href: paths.dashboard.root },
           {
-            name: 'Product',
+            name: 'Corps',
             href: paths.dashboard.product.root,
           },
           { name: currentProduct?.name },

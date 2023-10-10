@@ -49,11 +49,11 @@ import OrderTableFiltersResult from '../order-table-filters-result';
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...ORDER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'orderNumber', label: 'Order', width: 116 },
-  { id: 'name', label: 'Customer' },
-  { id: 'createdAt', label: 'Date', width: 140 },
-  { id: 'totalQuantity', label: 'Items', width: 120, align: 'center' },
-  { id: 'totalAmount', label: 'Price', width: 140 },
+  { id: 'orderNumber', label: 'PMS', width: 116 },
+  { id: 'name', label: 'Description' },
+  { id: 'createdAt', label: 'Script Folder', width: 140 },
+  { id: 'totalQuantity', label: 'Wiki page', width: 120, align: 'center' },
+  { id: 'totalAmount', label: 'Clinics', width: 140 },
   { id: 'status', label: 'Status', width: 110 },
   { id: '', width: 88 },
 ];
@@ -158,14 +158,14 @@ export default function OrderListView() {
     <>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="List"
+          heading="List of PMS"
           links={[
+            // {
+            //   name: 'Dashboard',
+            //   href: paths.dashboard.root,
+            // },
             {
-              name: 'Dashboard',
-              href: paths.dashboard.root,
-            },
-            {
-              name: 'Order',
+              name: 'PMS',
               href: paths.dashboard.order.root,
             },
             { name: 'List' },
@@ -322,7 +322,7 @@ export default function OrderListView() {
         title="Delete"
         content={
           <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
+            Are you sure want to delete <strong> {table.selected.length} </strong> pms?
           </>
         }
         action={

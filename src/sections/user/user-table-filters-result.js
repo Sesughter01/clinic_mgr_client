@@ -24,6 +24,10 @@ export default function UserTableFiltersResult({
     onFilters('status', 'all');
   };
 
+  // const handleRemoveRole = (inputValue) => {
+  //   const newValue = filters.role.filter((item) => item !== inputValue);
+  //   onFilters('role', newValue);
+  // };
   const handleRemoveRole = (inputValue) => {
     const newValue = filters.corpName.filter((item) => item !== inputValue);
     onFilters('corpName', newValue);

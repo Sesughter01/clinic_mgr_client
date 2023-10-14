@@ -28,7 +28,8 @@ export default function UserTableToolbar({
 
   const handleFilterName = useCallback(
     (event) => {
-      onFilters('name', event.target.value);
+      // onFilters('name', event.target.value);
+      onFilters('clinicName', event.target.value);
     },
     [onFilters]
   );
@@ -162,7 +163,8 @@ export default function UserTableToolbar({
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
           <TextField
             fullWidth
-            value={filters.name}
+            // value={filters.name}
+            value={filters.clinicName}
             onChange={handleFilterName}
             placeholder="Search..."
             InputProps={{

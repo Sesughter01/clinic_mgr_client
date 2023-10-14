@@ -179,13 +179,14 @@ export default function UserListView() {
           heading="Clinic Manager"
           links={[
             // { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'Clinics', href: paths.dashboard.user.root },
+            { name: 'Clinics', href: paths.clinicmanager.root },
             { name: 'List' },
           ]}
           action={
             <Button
               component={RouterLink}
-              href={paths.dashboard.user.new}
+              // href={paths.dashboard.user.new}
+              href={paths.clinicmanager.new}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
@@ -391,16 +392,17 @@ function applyFilter({ inputData, comparator, filters }) {
       (user) => user.clinicName.toLowerCase().indexOf(clinicName.toLowerCase()) !== -1
     );
   }
-  // if (corpName) {
-  //   inputData = inputData.filter(
-  //     (user) => user.corpName.toLowerCase().indexOf(corpName.toLowerCase()) !== -1
-  //   );
-  // }
-  // if (pms) {
-  //   inputData = inputData.filter(
-  //     (user) => user.pms.toLowerCase().indexOf(pms.toLowerCase()) !== -1
-  //   );
-  // }
+  if (corporations) {
+    inputData = inputData.filter(
+      (user) => user.corporations.toLowerCase().indexOf(corporations.toLowerCase()) !== -1
+    );
+  }
+  if (pmss) {
+    inputData = inputData.filter(
+      (user) => user.pmss.toLowerCase().indexOf(pmss.toLowerCase()) !== -1
+    );
+  }
+  
 
   if (status !== 'all') {
     inputData = inputData.filter((user) => user.status === status);

@@ -22,6 +22,7 @@ export default function UserTableToolbar({
   onFilters,
   //
   roleOptions,
+  pmsOptions,
 }) {
   const popover = usePopover();
 
@@ -32,10 +33,19 @@ export default function UserTableToolbar({
     [onFilters]
   );
 
+  // const handleFilterRole = useCallback(
+  //   (event) => {
+  //     onFilters(
+  //       'role',
+  //       typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
+  //     );
+  //   },
+  //   [onFilters]
+  // );
   const handleFilterRole = useCallback(
     (event) => {
       onFilters(
-        'role',
+        'corpName',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
@@ -56,7 +66,7 @@ export default function UserTableToolbar({
           pr: { xs: 2.5, md: 1 },
         }}
       >
-        <FormControl
+        {/* <FormControl
           sx={{
             flexShrink: 0,
             width: { xs: 1, md: 200 },
@@ -83,6 +93,70 @@ export default function UserTableToolbar({
               </MenuItem>
             ))}
           </Select>
+
+          
+        </FormControl> */}
+
+        { <FormControl
+          sx={{
+            flexShrink: 0,
+            width: { xs: 1, md: 200 },
+          }}
+        >
+          <InputLabel>Corp Names</InputLabel>
+
+          <Select
+            multiple
+            value={filters.corpName}
+            onChange={handleFilterRole}
+            input={<OutlinedInput label="Corp Name" />}
+            renderValue={(selected) => selected.map((value) => value).join(', ')}
+            MenuProps={{
+              PaperProps: {
+                sx: { maxHeight: 240 },
+              },
+            }}
+          >
+            {roleOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                <Checkbox disableRipple size="small" checked={filters.corpName.includes(option)} />
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+
+          
+        </FormControl> }
+
+        <FormControl
+          sx={{
+            flexShrink: 0,
+            width: { xs: 1, md: 200 },
+          }}
+        >
+          <InputLabel>Pms</InputLabel>
+
+          <Select
+            multiple
+            value={filters.pms}
+            onChange={handleFilterRole}
+            input={<OutlinedInput label="Pms" />}
+            renderValue={(selected) => selected.map((value) => value).join(', ')}
+            MenuProps={{
+              PaperProps: {
+                sx: { maxHeight: 240 },
+              },
+            }}
+          >
+            {pmsOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                <Checkbox disableRipple size="small" checked={filters.pms.includes(option)} />
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+
+          
         </FormControl>
 
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
@@ -147,4 +221,5 @@ UserTableToolbar.propTypes = {
   filters: PropTypes.object,
   onFilters: PropTypes.func,
   roleOptions: PropTypes.array,
+  pmsOptions: PropTypes.array,
 };

@@ -31,7 +31,7 @@ export default function UserEditView({ id }) {
           // },
           {
             name: 'Clinic',
-            href: paths.dashboard.user.root,
+            // href: paths.dashboard.user.root,
           },
           { name: currentUser?.name },
         ]}

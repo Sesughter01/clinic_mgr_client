@@ -226,7 +226,7 @@ export const _phoneNumbers = [
   '538-295-9408',
   '531-492-6028',
   '981-699-7588',
-  '500-268-4826',
+  '502-268-4826',
   '205-952-3828',
   '222-255-5190',
   '408-439-8033',
@@ -263,6 +263,155 @@ export const _roles = [
   'CEO',
   'CFO',
   'CTO',
+];
+
+//new clinic name search added by blessing
+export const _clinicNames = [
+  'yings ',
+  'Heavens c',
+  'fings three Clinic',
+  'sings four Clinic',
+  'wings Clinic',
+  'qings Clinic',
+  'pings Clinic',
+  'jings Clinic',
+  'lings Clinic',
+  'Kings Clinic',
+  'Kings Clinic',
+  'Kings Clinic',
+  'Kings Clinic',
+  'Kings Clinic',
+  'Kings Clinic',
+  'Kings Clinic',
+  'Kings Clinic',
+  'Kings Clinic',
+  'Kings Clinic',
+  'Kings Clinic',
+  
+];
+
+//new corp name search added by blessing
+export const _corpNames = [
+  'Kings Corp',
+  'Heavens Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  'Kings Corp',
+  
+
+];
+
+//new corp name search added by blessing
+export const _pmss = [
+  'Kings pms',
+  'Heavens pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+  'Kings pms',
+];
+
+//new stage search added by blessing
+export const _stages = [
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+];
+
+//new to do search added by blessing
+export const _toDos = [
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  
+
+];
+
+//new action by mock up added by blessing
+export const _actionBys = [
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
 ];
 
 // ----------------------------------------------------------------------

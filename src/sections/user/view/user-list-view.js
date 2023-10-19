@@ -392,16 +392,7 @@ function applyFilter({ inputData, comparator, filters }) {
       (user) => user.clinicName.toLowerCase().indexOf(clinicName.toLowerCase()) !== -1
     );
   }
-  if (corporations) {
-    inputData = inputData.filter(
-      (user) => user.corporations.toLowerCase().indexOf(corporations.toLowerCase()) !== -1
-    );
-  }
-  if (pmss) {
-    inputData = inputData.filter(
-      (user) => user.pmss.toLowerCase().indexOf(pmss.toLowerCase()) !== -1
-    );
-  }
+  
   
 
   if (status !== 'all') {

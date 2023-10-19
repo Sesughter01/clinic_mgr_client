@@ -52,6 +52,15 @@ export default function UserTableToolbar({
     },
     [onFilters]
   );
+  const handleFilterPms = useCallback(
+    (event) => {
+      onFilters(
+        'pms',
+        typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
+      );
+    },
+    [onFilters]
+  );
 
   return (
     <>
@@ -107,11 +116,11 @@ export default function UserTableToolbar({
           <InputLabel>Corp Names</InputLabel>
 
           <Select
-            multiple
+            // multiple
             value={filters.corpName}
             onChange={handleFilterRole}
             input={<OutlinedInput label="Corp Name" />}
-            renderValue={(selected) => selected.map((value) => value).join(', ')}
+            // renderValue={(selected) => selected.map((value) => value).join(', ')}
             MenuProps={{
               PaperProps: {
                 sx: { maxHeight: 240 },
@@ -120,7 +129,7 @@ export default function UserTableToolbar({
           >
             {roleOptions.map((option) => (
               <MenuItem key={option} value={option}>
-                <Checkbox disableRipple size="small" checked={filters.corpName.includes(option)} />
+                {/* <Checkbox disableRipple size="small" checked={filters.corpName.includes(option)} /> */}
                 {option}
               </MenuItem>
             ))}
@@ -138,11 +147,11 @@ export default function UserTableToolbar({
           <InputLabel>Pms</InputLabel>
 
           <Select
-            multiple
+            // multiple
             value={filters.pms}
-            onChange={handleFilterRole}
+            onChange={handleFilterPms}
             input={<OutlinedInput label="Pms" />}
-            renderValue={(selected) => selected.map((value) => value).join(', ')}
+            // renderValue={(selected) => selected.map((value) => value).join(', ')}
             MenuProps={{
               PaperProps: {
                 sx: { maxHeight: 240 },
@@ -151,7 +160,7 @@ export default function UserTableToolbar({
           >
             {pmsOptions.map((option) => (
               <MenuItem key={option} value={option}>
-                <Checkbox disableRipple size="small" checked={filters.pms.includes(option)} />
+                {/* <Checkbox disableRipple size="small" checked={filters.pms.includes(option)} /> */}
                 {option}
               </MenuItem>
             ))}
@@ -225,3 +234,4 @@ UserTableToolbar.propTypes = {
   roleOptions: PropTypes.array,
   pmsOptions: PropTypes.array,
 };
+

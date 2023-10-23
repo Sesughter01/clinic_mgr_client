@@ -158,6 +158,7 @@ export const _userList = [...Array(20)].map((_, index) => ({
   pms: _mock.pms(index),
   stage: _mock.stage(index),
   toDo: _mock.toDo(index),
+  asanaLink: _mock.asanaLink(index),
   actionBy: _mock.actionBy(index),
 
   status:

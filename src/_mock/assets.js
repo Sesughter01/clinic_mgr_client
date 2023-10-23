@@ -414,6 +414,30 @@ export const _actionBys = [
   'None',
 ];
 
+//new action by mock up added by blessing
+export const _asanaLink = [
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+];
+
 // ----------------------------------------------------------------------
 
 export const _postTitles = [

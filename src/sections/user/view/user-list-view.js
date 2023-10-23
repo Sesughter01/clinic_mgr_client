@@ -221,21 +221,24 @@ export default function UserListView() {
                     }
                     color={
                       (tab.value === 'active' && 'success') ||
-                      (tab.value === 'pending' && 'warning') ||
-                      (tab.value === 'banned' && 'error') ||
+                      (tab.value === 'inactive' && 'warning') ||
+                      // (tab.value === 'pending' && 'warning') ||
+                      // (tab.value === 'banned' && 'error') ||
                       'default'
                     }
                   >
                     {tab.value === 'all' && _userList.length}
                     {tab.value === 'active' &&
                       _userList.filter((user) => user.status === 'active').length}
+                    {tab.value === 'inactive' &&
+                      _userList.filter((user) => user.status === 'inactive').length}
 
-                    {tab.value === 'pending' &&
+                    {/* {tab.value === 'pending' &&
                       _userList.filter((user) => user.status === 'pending').length}
                     {tab.value === 'banned' &&
                       _userList.filter((user) => user.status === 'banned').length}
                     {tab.value === 'rejected' &&
-                      _userList.filter((user) => user.status === 'rejected').length}
+                      _userList.filter((user) => user.status === 'rejected').length} */}
                   </Label>
                 }
               />

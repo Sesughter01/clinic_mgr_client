@@ -7,9 +7,9 @@ import { _mock } from './_mock';
 
 export const USER_STATUS_OPTIONS = [
   { value: 'active', label: 'Active' },
-  { value: 'pending', label: 'Pending' },
-  { value: 'banned', label: 'Banned' },
-  { value: 'rejected', label: 'Rejected' },
+  { value: 'inactive', label: 'Inactive' },
+  // { value: 'banned', label: 'Banned' },
+  // { value: 'rejected', label: 'Rejected' },
 ];
 
 export const _userAbout = {
@@ -162,5 +162,6 @@ export const _userList = [...Array(20)].map((_, index) => ({
   actionBy: _mock.actionBy(index),
 
   status:
-    (index % 2 && 'pending') || (index % 3 && 'banned') || (index % 4 && 'rejected') || 'active',
+    // (index % 2 && 'pending') || (index % 3 && 'banned') || (index % 4 && 'rejected') || 'active',
+    (index % 2 && 'inactive') || 'active',
 }));

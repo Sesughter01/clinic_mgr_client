@@ -27,6 +27,13 @@ import {
   _productNames,
   _descriptions,
   _phoneNumbers,
+  //new data from blessing
+  _clinicNames,
+  _corpNames,
+  _pmss,
+  _stages,
+  _toDos,
+  _actionBys
 } from './assets';
 
 // ----------------------------------------------------------------------
@@ -53,6 +60,15 @@ export const _mock = {
   lastName: (index) => _lastNames[index],
   fullName: (index) => _fullNames[index],
   companyName: (index) => _companyNames[index],
+
+  //Clinic Manager 
+  clinicName: (index) => _clinicNames[index],
+  corpName: (index) => _corpNames[index],
+  pms: (index) => _pmss[index],
+  stage: (index) => _stages[index],
+  toDo: (index) => _toDos[index],
+  actionBy: (index) => _actionBys[index],
+
   // Number
   number: {
     percent: (index) => _percents[index],

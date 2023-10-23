@@ -22,7 +22,8 @@ import UserQuickEditForm from './user-quick-edit-form';
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow }) {
-  const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
+  // const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
+  const { clinicName, avatarUrl, corpName, pms, actionBy, stage, status, toDo } = row;
 
   const confirm = useBoolean();
 
@@ -38,11 +39,11 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         </TableCell>
 
         <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar alt={name} src={avatarUrl} sx={{ mr: 2 }} />
+          <Avatar alt={clinicName} src={avatarUrl} sx={{ mr: 2 }} />
 
           <ListItemText
-            primary={name}
-            secondary={email}
+            primary={clinicName}
+            secondary=" "
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
               component: 'span',
@@ -51,11 +52,15 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           />
         </TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{phoneNumber}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{corpName}</TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{company}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{pms}</TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{role}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{stage}</TableCell>
+
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{toDo}</TableCell>
+
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{actionBy}</TableCell>
 
         <TableCell>
           <Label

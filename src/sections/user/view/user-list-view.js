@@ -19,7 +19,11 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 // _mock
-import { _userList, _roles, USER_STATUS_OPTIONS } from 'src/_mock';
+import { _userList, _roles, _corpNames, _pmss, USER_STATUS_OPTIONS } from 'src/_mock';
+
+//Added by Blessing
+// import { _corpName, _pms, _clinicName  } from 'src/_mock';
+
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
 // components
@@ -46,23 +50,43 @@ import UserTableFiltersResult from '../user-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All Clinics' }, ...USER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
+
+// const TABLE_HEAD2 = [
+//   { id: 'name', label: 'Name',},
+//   { id: 'phoneNumber', label: 'Phone Number', width: 180 },
+//   { id: 'company', label: 'Company', width: 220 },
+//   { id: 'role', label: 'Role', width: 180 },
+//   { id: 'status', label: 'Status', width: 100 },
+//   { id: '', width: 88 },
+// ];
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Clinic Name', width: 180 },
-  // { id: 'corpName', label: 'Corp Name', width: 180 },
-  // { id: 'pms', label: 'PMS', width: 180 },
-  { id: 'phoneNumber', label: 'Stage', width: 180 },
-  { id: 'company', label: 'To do', width: 220 },
-  { id: 'role', label: 'Action By', width: 180 },
+  { id: 'clinicName', label: 'Clinic Name',},
+  { id: 'corpName', label: 'Corp Name', width: 180 },
+  { id: 'pms', label: 'PMS', width: 180 },
+  { id: 'stage', label: 'Stage', width: 180 },
+  { id: 'toDo', label: 'To Do', width: 220 },
+  { id: 'actionBy', label: 'Action By', width: 180 },
   { id: 'status', label: 'Status', width: 100 },
   { id: '', width: 88 },
 ];
 
 
+// const defaultFilters = {
+//   name: '',
+//   role: [],
+//   status: 'all',
+// };
+
+//corpname, pms, clinicname search
 const defaultFilters = {
-  name: '',
-  role: [],
+  // name: '',
+  clinicName: '',
+  corporation: '',
+  pmss: '',
+  corpName: [],
+  pms: [],
   status: 'all',
 };
 
@@ -99,7 +123,7 @@ export default function UserListView() {
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
-    (name, value) => {
+     (name, value) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -155,13 +179,14 @@ export default function UserListView() {
           heading="Clinic Manager"
           links={[
             // { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'Clinics', href: paths.dashboard.user.root },
+            { name: 'Clinics', href: paths.clinicmanager.root },
             { name: 'List' },
           ]}
           action={
             <Button
               component={RouterLink}
-              href={paths.dashboard.user.new}
+              // href={paths.dashboard.user.new}
+              href={paths.clinicmanager.new}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
@@ -220,7 +245,9 @@ export default function UserListView() {
             filters={filters}
             onFilters={handleFilters}
             //
-            roleOptions={_roles}
+            // roleOptions={_roles}
+            roleOptions={_corpNames}
+            pmsOptions={_pmss}
           />
 
           {canReset && (
@@ -342,7 +369,8 @@ export default function UserListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters }) {
-  const { name, status, role } = filters;
+  // const { name, status, role } = filters;
+  const { clinicName, status, corpName, pms } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -354,18 +382,31 @@ function applyFilter({ inputData, comparator, filters }) {
 
   inputData = stabilizedThis.map((el) => el[0]);
 
-  if (name) {
+  // if (name) {
+  //   inputData = inputData.filter(
+  //     (user) => user.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+  //   );
+  // }
+  if (clinicName) {
     inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (user) => user.clinicName.toLowerCase().indexOf(clinicName.toLowerCase()) !== -1
     );
   }
+  
+  
 
   if (status !== 'all') {
     inputData = inputData.filter((user) => user.status === status);
   }
 
-  if (role.length) {
-    inputData = inputData.filter((user) => role.includes(user.role));
+  // if (role.length) {
+  //   inputData = inputData.filter((user) => role.includes(user.role));
+  // }
+  if (corpName.length) {
+    inputData = inputData.filter((user) => corpName.includes(user.corpName));
+  }
+  if (pms.length) {
+    inputData = inputData.filter((user) => pms.includes(user.pms));
   }
 
   return inputData;

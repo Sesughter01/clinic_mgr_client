@@ -416,7 +416,7 @@ export const _actionBys = [
 
 //new action by mock up added by blessing
 export const _asanaLink = [
-  'url',
+  'http://url.com',
   'url',
   'url',
   'url',

@@ -317,13 +317,35 @@ export default function BasicTabs(currentUser) {
           <Tab label="Employee Mapping" {...a11yProps(2)} />
           <Tab label="Appt. Status Values" {...a11yProps(2)} />
           <Tab label="Work Flow" {...a11yProps(2)} />
-          <Tab label="Swell CX" {...a11yProps(2)} />
+          {/* <Tab label="Swell CX" {...a11yProps(2)} /> */}
           <Tab label="Script" {...a11yProps(2)} />
-          <Tab label="Process" {...a11yProps(2)} />
+          {/* <Tab label="Process" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
+        <Grid container spacing={3}>
+          <Grid xs={12} md={12}>
+            <Card sx={{ p: 3 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="flex-end" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+          </Grid>
+        </Grid>
       <Grid container spacing={3}>
         {/* <Grid xs={12} md={4}>
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
@@ -423,6 +445,7 @@ export default function BasicTabs(currentUser) {
 
         <Grid xs={12} md={12}>
           <Card sx={{ p: 3 }}>
+             
             <Box
               rowGap={3}
               columnGap={2}
@@ -461,6 +484,7 @@ export default function BasicTabs(currentUser) {
                   );
                 }}
               />
+            
 
               <RHFTextField name="clinicAddress" label="Clinic Address" />
               <RHFTextField name="clinicId" label="Clinic Id" />
@@ -845,15 +869,15 @@ export default function BasicTabs(currentUser) {
       <CustomTabPanel value={value} index={6}>
         Item Seven
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={7}>
+      {/* <CustomTabPanel value={value} index={7}>
         Item Eight
-      </CustomTabPanel>
+      </CustomTabPanel> */}
       <CustomTabPanel value={value} index={8}>
         Item Nine
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={9}>
+      {/* <CustomTabPanel value={value} index={9}>
         Item Ten
-      </CustomTabPanel>
+      </CustomTabPanel> */}
     </Box>
   );
 }

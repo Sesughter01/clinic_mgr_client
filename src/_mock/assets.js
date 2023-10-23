@@ -282,7 +282,7 @@ export const _clinicNames = [
   'Bings Clinic',
   'Hings Clinic',
   'Wings Clinic',
-  'Yangs Clinic',
+  'Cings Clinic',
   'Bangs Clinic',
   'Mangs Clinic',
   'Pwngs Clinic',
@@ -293,7 +293,7 @@ export const _clinicNames = [
 //new corp name search added by blessing
 export const _corpNames = [
   'Kings Corp',
-  'Heavens Corp',
+  'Heaven Corp',
   'Qings Corp',
   'Wings Corp',
   'Rings Corp',
@@ -319,7 +319,7 @@ export const _corpNames = [
 //new corp name search added by blessing
 export const _pmss = [
   'Kings pms',
-  'Heavens pms',
+  'Heaven pms',
   'Qings pms',
   'Wings pms',
   'Rings pms',

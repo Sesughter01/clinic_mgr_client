@@ -67,7 +67,8 @@ const TABLE_HEAD = [
   { id: 'pms', label: 'PMS', width: 180 },
   { id: 'stage', label: 'Stage', width: 180 },
   { id: 'toDo', label: 'To Do', width: 220 },
-  { id: 'actionBy', label: 'Action By', width: 180 },
+  { id: 'actionBy', label: 'Action By', width: 220 },
+  { id: 'asanaLink', label: 'Asana Link', width: 300 },
   { id: 'status', label: 'Status', width: 100 },
   { id: '', width: 88 },
 ];

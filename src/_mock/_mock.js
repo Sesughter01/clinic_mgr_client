@@ -33,7 +33,8 @@ import {
   _pmss,
   _stages,
   _toDos,
-  _actionBys
+  _actionBys,
+  _asanaLink
 } from './assets';
 
 // ----------------------------------------------------------------------
@@ -68,6 +69,7 @@ export const _mock = {
   stage: (index) => _stages[index],
   toDo: (index) => _toDos[index],
   actionBy: (index) => _actionBys[index],
+  asanaLink: (index) => _asanaLink[index],
 
   // Number
   number: {

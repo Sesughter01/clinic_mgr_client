@@ -35,6 +35,12 @@ import Checkbox from '@mui/material/Checkbox';
 // utils
 import { fData } from 'src/utils/format-number';
 
+//List 
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+
 //added by blessing
 import * as Yup from 'yup';
 import { useCallback, useMemo } from 'react';
@@ -168,6 +174,10 @@ export default function BasicTabs(currentUser) {
     refund: Yup.string(),
     assignment: Yup.string(),
     paymentPlan: Yup.string(),
+    //Script
+    table: Yup.string(),
+    scriptType: Yup.string(),
+    edmsPrefix: Yup.string(),
   }); 
 
   // const defaultValues = useMemo(
@@ -251,6 +261,10 @@ export default function BasicTabs(currentUser) {
       refund: currentUser?.refund || '',
       assignment: currentUser?.assignment || '',
       paymentPlan: currentUser?.paymentPlan || '',
+      //Script
+      table: currentUser?.table || '',
+      scriptType: currentUser?.scriptType || '',
+      edmsPrefix: currentUser?.edmsPrefix || '',
     }),
     [currentUser]
   );
@@ -305,6 +319,12 @@ export default function BasicTabs(currentUser) {
     },
     [setValue]
   );
+
+  // const style = {
+  // width: '40%',
+  // maxWidth: 360,
+  // bgcolor: 'background.paper',
+  // };
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -921,8 +941,7 @@ export default function BasicTabs(currentUser) {
               </Box>
               </Card>  
             </Grid>
-          </Grid>
-      
+        </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
         Item Five
@@ -934,7 +953,174 @@ export default function BasicTabs(currentUser) {
         Item Seven
       </CustomTabPanel>
       <CustomTabPanel value={value} index={7}>
-        Item Eight
+        <FormProvider methods={methods} onSubmit={onSubmit}>
+          <List>
+            <ListItem >
+              <ListItemText primary="MSSSQL Script" />
+            </ListItem>
+                {/* <Divider /> */}
+          </List>
+          <Grid container spacing={3}>
+              
+              <Grid xs={12} md={12}>
+                <Card sx={{ p: 3 }}>
+                  <Box
+                    rowGap={3}
+                    columnGap={2}
+                    display="grid"
+                    gridTemplateColumns={{
+                      xs: 'repeat(1, 1fr)',
+                      sm: 'repeat(2, 1fr)',
+                    }}
+                  >
+                    
+                    <RHFAutocomplete
+                      name="table"
+                      label="Table"
+                      options={countries.map((country) => country.label)}
+                      getOptionLabel={(option) => option}
+                      isOptionEqualToValue={(option, value) => option === value}
+                      renderOption={(props, option) => {
+                        const { code, label, phone } = countries.filter(
+                          (country) => country.label === option
+                        )[0];
+
+                        if (!label) {
+                          return null;
+                        }
+
+                        return (
+                          <li {...props} key={label}>
+                            <Iconify
+                              key={label}
+                              icon={`circle-flags:${code.toLowerCase()}`}
+                              width={28}
+                              sx={{ mr: 1 }}
+                            />
+                            {label} ({code}) +{phone}
+                          </li>
+                        );
+                      }}
+                    />
+                    <RHFAutocomplete
+                      name="scriptType"
+                      label="Script Type"
+                      options={countries.map((country) => country.label)}
+                      getOptionLabel={(option) => option}
+                      isOptionEqualToValue={(option, value) => option === value}
+                      renderOption={(props, option) => {
+                        const { code, label, phone } = countries.filter(
+                          (country) => country.label === option
+                        )[0];
+
+                        if (!label) {
+                          return null;
+                        }
+
+                        return (
+                          <li {...props} key={label}>
+                            <Iconify
+                              key={label}
+                              icon={`circle-flags:${code.toLowerCase()}`}
+                              width={28}
+                              sx={{ mr: 1 }}
+                            />
+                            {label} ({code}) +{phone}
+                          </li>
+                        );
+                      }}
+                    />
+
+
+                  </Box>
+
+
+                  <Stack alignItems="flex-end" sx={{ mt: 2 }}>
+                    <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                      {/* {!currentUser ? 'Create User' : 'Save Changes'} */}
+                      {!currentUser ? 'Create User' : 'Generate'}
+                    </LoadingButton>
+                  </Stack>
+                </Card>
+              </Grid>
+          </Grid>
+
+          <List>
+            <ListItem >
+              <ListItemText primary="MySQL Script" sx={{ mt: 5 }}/>
+            </ListItem>
+                {/* <Divider /> */}
+          </List>
+          <Grid container spacing={3}>
+              
+              <Grid xs={12} md={12}>
+                <Card sx={{ p: 3 }}>
+                  <Box
+                    rowGap={3}
+                    columnGap={2}
+                    display="grid"
+                    gridTemplateColumns={{
+                      xs: 'repeat(1, 1fr)',
+                      sm: 'repeat(2, 1fr)',
+                    }}
+                  >
+                    
+                    <RHFAutocomplete
+                      name="edmsPrefix"
+                      label="EDMS Prefix"
+                      options={countries.map((country) => country.label)}
+                      getOptionLabel={(option) => option}
+                      isOptionEqualToValue={(option, value) => option === value}
+                      renderOption={(props, option) => {
+                        const { code, label, phone } = countries.filter(
+                          (country) => country.label === option
+                        )[0];
+
+                        if (!label) {
+                          return null;
+                        }
+
+                        return (
+                          <li {...props} key={label}>
+                            <Iconify
+                              key={label}
+                              icon={`circle-flags:${code.toLowerCase()}`}
+                              width={28}
+                              sx={{ mr: 1 }}
+                            />
+                            {label} ({code}) +{phone}
+                          </li>
+                        );
+                      }}
+                    />
+                    
+                  </Box>
+              
+                  
+                  <Stack 
+                  justifyContent="flex-end"
+                  alignItems="flex-end" 
+                  display="flex" 
+                  flexDirection="row" 
+                  // sx={{ mt: 0 }{ mt: 0 } }
+                  >
+                    <LoadingButton type="submit" variant="contained" loading={isSubmitting} sx={{ ml: 3, marginRight: 2  }}>
+                      {!currentUser ? 'Create User' : 'Pull corp\'s adjustments'}
+                    </LoadingButton>
+                    <LoadingButton type="submit" variant="contained" loading={isSubmitting} >
+                      {!currentUser ? 'Create User' : 'Add clinic script'}
+                    </LoadingButton>
+                  </Stack>
+                  
+                  {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+                    <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                      {!currentUser ? 'Create User' : 'Save Changes'}
+                    </LoadingButton>
+                  </Stack> */}
+                </Card>
+              </Grid>
+          </Grid>
+        </FormProvider>
       </CustomTabPanel>
       {/* <CustomTabPanel value={value} index={8}>
         Item Nine

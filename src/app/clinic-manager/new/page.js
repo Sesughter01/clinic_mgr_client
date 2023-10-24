@@ -6,6 +6,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
+import { styled } from '@mui/system';
+// import Textarea from '@mui/joy/Textarea';
 
 // assets
 import { countries } from 'src/assets/data';
@@ -40,6 +43,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+
 
 //added by blessing
 import * as Yup from 'yup';
@@ -178,6 +183,12 @@ export default function BasicTabs(currentUser) {
     table: Yup.string(),
     scriptType: Yup.string(),
     edmsPrefix: Yup.string(),
+    //Work flow
+    stage: Yup.string(),
+    toDo: Yup.string(),
+    by: Yup.string(),
+    asanaLink: Yup.string(),
+    notes: Yup.string(),
   }); 
 
   // const defaultValues = useMemo(
@@ -265,6 +276,11 @@ export default function BasicTabs(currentUser) {
       table: currentUser?.table || '',
       scriptType: currentUser?.scriptType || '',
       edmsPrefix: currentUser?.edmsPrefix || '',
+      //Workflow
+      stage: currentUser?.stage || '',
+      toDo: currentUser?.toDo || '',
+      by: currentUser?.by || '',
+      asanaLink: currentUser?.asanaLink || '',
     }),
     [currentUser]
   );
@@ -320,12 +336,48 @@ export default function BasicTabs(currentUser) {
     [setValue]
   );
 
-  // const style = {
-  // width: '40%',
-  // maxWidth: 360,
-  // bgcolor: 'background.paper',
-  // };
+  //For workflow tab (starts)
+  const blue = {
+    100: '#DAECFF',
+    200: '#b6daff',
+    400: '#3399FF',
+    500: '#007FFF',
+    600: '#0072E5',
+    900: '#003A75',
+  };
 
+  const grey = {
+    50: '#f6f8fa',
+    100: '#eaeef2',
+    200: '#d0d7de',
+    300: '#afb8c1',
+    400: '#8c959f',
+    500: '#6e7781',
+    600: '#57606a',
+    700: '#424a53',
+    800: '#32383f',
+    900: '#24292f',
+  };
+  const Textarea = styled(BaseTextareaAutosize)(
+    ({ theme }) => `
+    width: 100%;
+    font-family: IBM Plex Sans, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 12px;
+    border-radius: 12px 12px 0 12px;
+    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+    border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+    box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
+
+  `,
+  );
+
+  //For workflow tab (ends)
+
+  
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -345,8 +397,8 @@ export default function BasicTabs(currentUser) {
       <CustomTabPanel value={value} index={0}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Grid container spacing={3}>
-          <Grid xs={12} md={12}>
-            <Card sx={{ p: 3 }}>
+          <Grid xs={12} md={2}>
+            <Card sx={{ p: 1 }}>
               
               <Box
                 // rowGap={3}
@@ -357,9 +409,9 @@ export default function BasicTabs(currentUser) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <Stack alignItems="flex-end" >
+                <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Save Changes'}
+                    {!currentUser ? 'Create User' : 'Go live'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -740,7 +792,7 @@ export default function BasicTabs(currentUser) {
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentUser ? 'Create User' : 'Save Changes'}
+                {!currentUser ? 'Create User' : 'Go live'}
               </LoadingButton>
             </Stack>
           </Card>
@@ -950,7 +1002,159 @@ export default function BasicTabs(currentUser) {
         Item Six
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
-        Item Seven
+      <FormProvider methods={methods} onSubmit={onSubmit}>
+          <Grid container spacing={3}>
+              
+              <Grid xs={12} md={6}>
+                <Card sx={{ p: 3 }}>
+                  <Box
+                    rowGap={3}
+                    columnGap={2}
+                    display="grid"
+                    gridTemplateColumns={{
+                      xs: 'repeat(1, 1fr)',
+                      sm: 'repeat(1, 1fr)',
+                    }}
+                  >
+                    
+                    <RHFAutocomplete
+                      name="stage"
+                      label="Stage"
+                      options={countries.map((country) => country.label)}
+                      getOptionLabel={(option) => option}
+                      isOptionEqualToValue={(option, value) => option === value}
+                      renderOption={(props, option) => {
+                        const { code, label, phone } = countries.filter(
+                          (country) => country.label === option
+                        )[0];
+
+                        if (!label) {
+                          return null;
+                        }
+
+                        return (
+                          <li {...props} key={label}>
+                            <Iconify
+                              key={label}
+                              icon={`circle-flags:${code.toLowerCase()}`}
+                              width={28}
+                              sx={{ mr: 1 }}
+                            />
+                            {label} ({code}) +{phone}
+                          </li>
+                        );
+                      }}
+                    />
+                 
+                    <RHFAutocomplete
+                      name="toDo"
+                      label="To Do"
+                      options={countries.map((country) => country.label)}
+                      getOptionLabel={(option) => option}
+                      isOptionEqualToValue={(option, value) => option === value}
+                      renderOption={(props, option) => {
+                        const { code, label, phone } = countries.filter(
+                          (country) => country.label === option
+                        )[0];
+
+                        if (!label) {
+                          return null;
+                        }
+
+                        return (
+                          <li {...props} key={label}>
+                            <Iconify
+                              key={label}
+                              icon={`circle-flags:${code.toLowerCase()}`}
+                              width={28}
+                              sx={{ mr: 1 }}
+                            />
+                            {label} ({code}) +{phone}
+                          </li>
+                        );
+                      }}
+                    />
+                    
+                    <RHFAutocomplete
+                      name="by"
+                      label="By"
+                      options={countries.map((country) => country.label)}
+                      getOptionLabel={(option) => option}
+                      isOptionEqualToValue={(option, value) => option === value}
+                      renderOption={(props, option) => {
+                        const { code, label, phone } = countries.filter(
+                          (country) => country.label === option
+                        )[0];
+
+                        if (!label) {
+                          return null;
+                        }
+
+                        return (
+                          <li {...props} key={label}>
+                            <Iconify
+                              key={label}
+                              icon={`circle-flags:${code.toLowerCase()}`}
+                              width={28}
+                              sx={{ mr: 1 }}
+                            />
+                            {label} ({code}) +{phone}
+                          </li>
+                        );
+                      }}
+                    />
+                    
+                    <Textarea aria-label="minimum height" minRows={5} placeholder="Asana Link" />
+  
+                  </Box>
+
+
+                  
+                </Card>
+              </Grid>
+
+              <Grid xs={12} md={6}>
+                <Card sx={{ p: 3 }}>
+                  <Box
+                    rowGap={3}
+                    columnGap={2}
+                    display="grid"
+                    gridTemplateColumns={{
+                      xs: 'repeat(1, 1fr)',
+                      sm: 'repeat(1, 1fr)',
+                    }}
+                  >
+
+                    <Textarea aria-label="minimum height" minRows={16} placeholder="Notes" />
+  
+                  </Box>
+                  
+                </Card>
+              </Grid>
+          </Grid>
+            <Grid container spacing={3}>
+              <Grid xs={12} md={2}>
+                <Card sx={{ p: 1 }}>
+                  
+                  <Box
+                    // rowGap={3}
+                    // columnGap={2}
+                    display="grid"
+                    gridTemplateColumns={{
+                      xs: 'repeat(1, 1fr)',
+                      sm: 'repeat(1, 1fr)',
+                    }}
+                  >
+                    <Stack alignItems="center" >
+                      <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                        {!currentUser ? 'Create User' : 'Post >>>'}
+                      </LoadingButton>
+                    </Stack>
+                </Box>
+                </Card>  
+              </Grid>
+            </Grid>
+        </FormProvider>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={7}>
         <FormProvider methods={methods} onSubmit={onSubmit}>

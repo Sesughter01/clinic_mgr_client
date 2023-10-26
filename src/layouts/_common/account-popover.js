@@ -68,7 +68,7 @@ export default function AccountPopover() {
 
   return (
     <>
-      <IconButton
+      {/* <IconButton
         component={m.button}
         whileTap="tap"
         whileHover="hover"
@@ -95,9 +95,14 @@ export default function AccountPopover() {
         >
           {user?.displayName.charAt(0).toUpperCase()}
         </Avatar>
-      </IconButton>
-
-      <CustomPopover open={popover.open} onClose={popover.onClose} sx={{ width: 200, p: 0 }}>
+      </IconButton> */}
+      <MenuItem
+          onClick={handleLogout}
+          sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main' }}
+        >
+          Logout
+      </MenuItem>
+      {/* <CustomPopover open={popover.open} onClose={popover.onClose} sx={{ width: 200, p: 0 }}>
         <Box sx={{ p: 2, pb: 1.5 }}>
           <Typography variant="subtitle2" noWrap>
             {user?.displayName}
@@ -126,7 +131,7 @@ export default function AccountPopover() {
         >
           Logout
         </MenuItem>
-      </CustomPopover>
+      </CustomPopover> */}
     </>
   );
 }

@@ -70,7 +70,7 @@ export function useNavData() {
           // },
           {
             // title: t('analytics'),
-            title: t('dashboardd'),
+            title: t('dashboard'),
             path: paths.dashboard.root,
             // path: paths.dashboard.general.analytics,
             icon: ICONS.analytics,

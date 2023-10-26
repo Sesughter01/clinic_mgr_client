@@ -21,7 +21,7 @@ import {
   AccountPopover,
   SettingsButton,
   // LanguagePopover,
-  ContactsPopover,
+  // ContactsPopover,
   NotificationsPopover,
 } from '../_common';
 
@@ -65,7 +65,7 @@ export default function Header({ onOpenNav }) {
 
         <NotificationsPopover />
 
-        <ContactsPopover />
+        {/* <ContactsPopover /> */}
 
         <SettingsButton />
 

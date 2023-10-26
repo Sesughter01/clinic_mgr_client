@@ -19,7 +19,7 @@ import { HEADER, NAV } from '../config-layout';
 import {
   // Searchbar,
   AccountPopover,
-  SettingsButton,
+  // SettingsButton,
   // LanguagePopover,
   // ContactsPopover,
   NotificationsPopover,
@@ -67,7 +67,7 @@ export default function Header({ onOpenNav }) {
 
         {/* <ContactsPopover /> */}
 
-        <SettingsButton />
+        {/* <SettingsButton /> */}
 
         <AccountPopover />
       </Stack>

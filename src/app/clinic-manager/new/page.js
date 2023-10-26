@@ -8,7 +8,15 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
 import { styled } from '@mui/system';
-// import Textarea from '@mui/joy/Textarea';
+
+//For table
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 // assets
 import { countries } from 'src/assets/data';
@@ -189,6 +197,10 @@ export default function BasicTabs(currentUser) {
     by: Yup.string(),
     asanaLink: Yup.string(),
     notes: Yup.string(),
+    //Appt Status Value starts
+    defId: Yup.string(),
+    edmsStatus: Yup.string(),
+    pmsStatus: Yup.string(),
   }); 
 
   // const defaultValues = useMemo(
@@ -281,6 +293,10 @@ export default function BasicTabs(currentUser) {
       toDo: currentUser?.toDo || '',
       by: currentUser?.by || '',
       asanaLink: currentUser?.asanaLink || '',
+      //Appt status values
+      defId: currentUser?.defId || '',
+      edmsStatus: currentUser?.edmsStatus || '',
+      pmsStatus: currentUser?.pmsStatus || '',
     }),
     [currentUser]
   );
@@ -374,10 +390,23 @@ export default function BasicTabs(currentUser) {
 
   `,
   );
-
   //For workflow tab (ends)
 
+  //For appt status value (starts)
+  function createData(defId, pmsStatus, edmsStatus,) {
+    return { defId, pmsStatus, edmsStatus, };
+  }
   
+  const rows = [
+    createData(1, 159, 6.0),
+    // createData(2, 237, 9.0),
+    // createData(3, 262, 16.0),
+    // createData(4, 305, 3.7),
+    // createData(5, 356, 16.0),
+  ];
+  //For appt status value (ends)
+
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -999,7 +1028,98 @@ export default function BasicTabs(currentUser) {
         Item Five
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        Item Six
+      <Grid container spacing={3} >
+          <Grid 
+          xs={12} 
+          md={4}
+          display="flex"
+          flexDirection="row"
+          >
+            <Card sx={{ p: 1, marginRight:2 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center"  >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'purge record'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+            <Card sx={{ p: 1 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Add new'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+          </Grid>
+        </Grid> 
+       <Grid container spacing={3}>
+          <Grid xs={12} md={12}>
+            <Card sx={{ p: 1 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Defid</TableCell>
+                      <TableCell align="center">PMS Status</TableCell>
+                      <TableCell align="center">EDMS Status</TableCell>
+                      {/* <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                      <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow
+                        key={row.defId}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      >
+                        <TableCell component="th" scope="row" >
+                          {row.defId}
+                        </TableCell>
+                        <TableCell align="center">{row.pmsStatus}</TableCell>
+                        <TableCell align="center">{row.edmsStatus}</TableCell>
+                        {/* <TableCell align="right">{row.carbs}</TableCell>
+                        <TableCell align="right">{row.protein}</TableCell> */}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+             </Box>
+            </Card>  
+          </Grid>
+
+        </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
       <FormProvider methods={methods} onSubmit={onSubmit}>

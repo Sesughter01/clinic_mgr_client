@@ -17,10 +17,10 @@ import { useSettingsContext } from 'src/components/settings';
 //
 import { HEADER, NAV } from '../config-layout';
 import {
-  Searchbar,
+  // Searchbar,
   AccountPopover,
   SettingsButton,
-  LanguagePopover,
+  // LanguagePopover,
   ContactsPopover,
   NotificationsPopover,
 } from '../_common';
@@ -52,7 +52,7 @@ export default function Header({ onOpenNav }) {
         </IconButton>
       )}
 
-      <Searchbar />
+      {/* <Searchbar /> */}
 
       <Stack
         flexGrow={1}

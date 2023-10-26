@@ -197,10 +197,17 @@ export default function BasicTabs(currentUser) {
     by: Yup.string(),
     asanaLink: Yup.string(),
     notes: Yup.string(),
-    //Appt Status Value starts
+    //Appt Status Value 
     defId: Yup.string(),
     edmsStatus: Yup.string(),
     pmsStatus: Yup.string(),
+    //Employee mapping
+    providerCode: Yup.string(),
+    employee: Yup.string(),
+    mapEmployeeTo: Yup.string(),
+    designation: Yup.string(),
+    practice: Yup.string(),
+    primaryChar: Yup.string(),
   }); 
 
   // const defaultValues = useMemo(
@@ -297,6 +304,13 @@ export default function BasicTabs(currentUser) {
       defId: currentUser?.defId || '',
       edmsStatus: currentUser?.edmsStatus || '',
       pmsStatus: currentUser?.pmsStatus || '',
+      //Employee mapping
+      providerCode: currentUser?.providerCode || '',
+      employee: currentUser?.employee || '',
+      mapEmployeeTo: currentUser?.mapEmployeeTo || '',
+      designation: currentUser?.designation || '',
+      practice: currentUser?.practice || '',
+      primaryChar: currentUser?.primaryChar || '',
     }),
     [currentUser]
   );
@@ -405,6 +419,21 @@ export default function BasicTabs(currentUser) {
     // createData(5, 356, 16.0),
   ];
   //For appt status value (ends)
+
+   //For Employee mapping (starts)
+   function createEmData(providerCode, employee, mapEmployeeTo, designation, practice, primaryChair) {
+    return { providerCode, employee, mapEmployeeTo, designation, practice, primaryChair };
+  }
+  
+  const emRows = [
+    createEmData(1, 159, 6.0, 7.0, 9.0, 8.0)
+    // createData(2, 237, 9.0),
+    // createData(3, 262, 16.0),
+    // createData(4, 305, 3.7),
+    // createData(5, 356, 16.0),
+  ];
+  //For employee maping (ends)
+
 
 
   return (
@@ -974,61 +1003,113 @@ export default function BasicTabs(currentUser) {
                 >
 
                   
-                  {/* function createData(name, calories, fat, carbs, protein) {
-                      return { name, calories, fat, carbs, protein };
-                    }
+                 
 
-                const rows = [
-                  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-                  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-                  createData('Eclair', 262, 16.0, 24, 6.0),
-                  createData('Cupcake', 305, 3.7, 67, 4.3),
-                  createData('Gingerbread', 356, 16.0, 49, 3.9),
-                ];
-
-                export default function BasicTable() {
-                  return (
-                    <TableContainer component={Paper}>
-                      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Dessert (100g serving)</TableCell>
-                            <TableCell align="right">Calories</TableCell>
-                            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.map((row) => (
-                            <TableRow
-                              key={row.name}
-                              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                              <TableCell component="th" scope="row">
-                                {row.name}
-                              </TableCell>
-                              <TableCell align="right">{row.calories}</TableCell>
-                              <TableCell align="right">{row.fat}</TableCell>
-                              <TableCell align="right">{row.carbs}</TableCell>
-                              <TableCell align="right">{row.protein}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  );
-                  } */}
+                
+                   
               </Box>
               </Card>  
             </Grid>
         </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        Item Five
+      {/* <Grid container spacing={3} >
+          <Grid 
+          xs={12} 
+          md={4}
+          display="flex"
+          flexDirection="row"
+          >
+            <Card sx={{ p: 1, marginRight:2 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center"  >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'purge record'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+            <Card sx={{ p: 1 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Add new'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+          </Grid>
+        </Grid>  */}
+        <Grid container spacing={3}>
+          <Grid xs={12} md={12}>
+            <Card sx={{ p: 1 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Provider Code</TableCell>
+                      <TableCell align="center">Employee</TableCell>
+                      <TableCell align="center">Map Employee To</TableCell>
+                      <TableCell align="center">Designation</TableCell>
+                      <TableCell align="center">Practice</TableCell>
+                      <TableCell align="center">Primary Chair</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {emRows.map((emRows) => (
+                      <TableRow
+                        key={emRows.providerCode}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      >
+                        <TableCell component="th" scope="row" >
+                          {emRows.providerCode}
+                        </TableCell>
+                        <TableCell align="center">{emRows.employee}</TableCell>
+                        <TableCell align="center">{emRows.mapEmployeeTo}</TableCell>
+                        <TableCell align="center">{emRows.designation}</TableCell>
+                        <TableCell align="center">{emRows.practice}</TableCell>
+                        <TableCell align="center">{emRows.primaryChair}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+             </Box>
+            </Card>  
+          </Grid>
+
+        </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-      <Grid container spacing={3} >
+        <Grid container spacing={3} >
           <Grid 
           xs={12} 
           md={4}
@@ -1073,7 +1154,7 @@ export default function BasicTabs(currentUser) {
             </Card>  
           </Grid>
         </Grid> 
-       <Grid container spacing={3}>
+        <Grid container spacing={3}>
           <Grid xs={12} md={12}>
             <Card sx={{ p: 1 }}>
               

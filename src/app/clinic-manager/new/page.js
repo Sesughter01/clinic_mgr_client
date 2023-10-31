@@ -434,7 +434,26 @@ export default function BasicTabs(currentUser) {
   ];
   //For employee maping (ends)
 
+// For adjustment 
+const [tableData, setTableData] = useState([
+  {
+    defid: 1,
+    adjustmentDescription: 'Adjustment 1',
+    impact: 'Some Impact',
+    chargeAdj: false,
+    paymentAdj: false,
+    providerAdj: false,
+    hygienistAdj: false,
+    entryMap: 0,
+  },
+  // Add more data as needed
+ ]);
 
+ const handleCheckboxChange = (index, field) => {
+  const updatedTableData = [...tableData];
+  updatedTableData[index][field] = !updatedTableData[index][field];
+  setTableData(updatedTableData);
+ }; 
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -988,6 +1007,52 @@ export default function BasicTabs(currentUser) {
       </FormProvider>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
+      <Grid container spacing={3} >
+          <Grid 
+          xs={12} 
+          md={4}
+          display="flex"
+          flexDirection="row"
+          >
+            <Card sx={{ p: 1, marginRight:2 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center"  >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'purge record'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+            <Card sx={{ p: 1 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Add new'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+          </Grid>
+        </Grid>
+
         <Grid container spacing={3}>
             <Grid xs={12} md={12}>
               <Card sx={{ p: 3 }}>
@@ -1001,12 +1066,58 @@ export default function BasicTabs(currentUser) {
                     sm: 'repeat(1, 1fr)',
                   }}
                 >
-
-                  
-                 
-
-                
-                   
+                <table>
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>Description</th>
+                          <th>Impact</th>
+                          <th>Charge </th>
+                          <th>Payment </th>
+                          <th>Provider </th>
+                          <th>Hygienist </th>
+                          {/* <th>Entry Map</th> */}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableData.map((rowData, index) => (
+                          <tr key={index}>
+                            <td align="center">{rowData.defid}</td>
+                            <td align="center">{rowData.adjustmentDescription}</td>
+                            <td align="center">{rowData.impact}</td>
+                            <td align="center">
+                              <input
+                                type="checkbox"
+                                checked={rowData.chargeAdj}
+                                onChange={() => handleCheckboxChange(index, 'chargeAdj')}
+                              />
+                            </td>
+                            <td align="center">
+                              <input
+                                type="checkbox"
+                                checked={rowData.paymentAdj}
+                                onChange={() => handleCheckboxChange(index, 'paymentAdj')}
+                              />
+                            </td>
+                            <td align="center">
+                              <input
+                                type="checkbox"
+                                checked={rowData.providerAdj}
+                                onChange={() => handleCheckboxChange(index, 'providerAdj')}
+                              />
+                            </td>
+                            <td align="center">
+                              <input
+                                type="checkbox"
+                                checked={rowData.hygienistAdj}
+                                onChange={() => handleCheckboxChange(index, 'hygienistAdj')}
+                              />
+                            </td>
+                            {/* <td>{rowData.entryMap}</td> */}
+                          </tr>
+                        ))}
+                      </tbody>
+                   </table>
               </Box>
               </Card>  
             </Grid>

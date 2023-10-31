@@ -50,8 +50,10 @@ import { fData } from 'src/utils/format-number';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 
 //added by blessing
@@ -1084,7 +1086,28 @@ const [tableData, setTableData] = useState([
                           <tr key={index}>
                             <td align="center">{rowData.defid}</td>
                             <td align="center">{rowData.adjustmentDescription}</td>
-                            <td align="center">{rowData.impact}</td>
+                            <td align="center">
+                              {/* {rowData.impact} */}
+                              <div>
+                                {/* <FormControl sx={{ m: 1, minWidth: 80 }}> */}
+                                  {/* <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel> */}
+                                  <Select
+                                    // labelId="demo-simple-select-autowidth-label"
+                                    // id="demo-simple-select-autowidth"
+                                    // value={age}
+                                    // onChange={handleChange}
+                                    // autoWidth
+                                    // label="Age"
+                                  >
+                                    {/* <MenuItem value="">
+                                      <em>None</em>
+                                    </MenuItem> */}
+                                    <MenuItem value={10}>Positive</MenuItem>
+                                    <MenuItem value={21}>Negative</MenuItem>
+                                  </Select>
+                                {/* </FormControl> */}
+                              </div>
+                            </td>
                             <td align="center">
                               <input
                                 type="checkbox"

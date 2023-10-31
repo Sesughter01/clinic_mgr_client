@@ -476,7 +476,28 @@ const [tableData, setTableData] = useState([
       <CustomTabPanel value={value} index={0}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Grid container spacing={3}>
-          <Grid xs={12} md={2}>
+          <Grid xs={12} 
+          md={4}
+          display="flex"
+          flexDirection="row">
+          <Card sx={{ p: 1, marginRight:2 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center"  >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Go live'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
             <Card sx={{ p: 1 }}>
               
               <Box
@@ -490,11 +511,11 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Go live'}
+                    {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
              </Box>
-            </Card>  
+            </Card>
           </Grid>
         </Grid>
       <Grid container spacing={3}>
@@ -926,86 +947,114 @@ const [tableData, setTableData] = useState([
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
        <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Grid container spacing={3}>
-        <Grid xs={12} md={8}>
-          <Card sx={{ p: 3 }}>
-            <Box
-              rowGap={3}
-              columnGap={2}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(2, 1fr)',
-              }}
-            >
+        <Grid container spacing={3} >
+          <Grid 
+          xs={12} 
+          md={4}
+          display="flex"
+          flexDirection="row"
+          >
+            <Card sx={{ p: 1, marginRight:2 }}>
               
-
-              <RHFTextField name="creditCard" label="Credit Card" />
-              <RHFTextField name="writeOff" label="Write Off" />
-              <RHFTextField name="visa" label="Visa" />
-              <RHFTextField name="finance" label="Finance" />
-              <RHFTextField name="masterCard" label="Master Card" />
-              <RHFTextField name="directDeposit" label="Direct Deposit" />
-              <RHFTextField name="debit" label="Debit" />
-              <RHFTextField name="giftCerticate" label="Gift Certificate" />
-              <RHFTextField name="cash" label="Cash" />
-              <RHFTextField name="webCoupon" label="Web Coupon" />
-              <RHFTextField name="personalCheque" label="Personal Cheque" />
-              <RHFTextField name="insuranceEft" label="Insurance EFTs" />
-              <RHFTextField name="insuranceCheque" label="insurance Cheque" />
-              <RHFTextField name="insuranceOthers" label="Insurance Others" />
-              <RHFTextField name="cashBalance" label="Cash Balance" />
-              <RHFTextField name="batchCollection" label="Batch Collection" />
-              <RHFTextField name="eTransfer" label="E-Transfer" />
-              <RHFTextField name="others" label="Others" />
-              <RHFTextField name="americanExp" label="American Exp" />
-
-              {/* <FormGroup>
-                <FormControlLabel control={<Checkbox defaultChecked />} label="Is Active" />
-                <FormControlLabel required control={<Checkbox />} label="Required" />
-             </FormGroup> */}
-            </Box>
-
-
-            {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentUser ? 'Create User' : 'Save Changes'}
-              </LoadingButton>
-            </Stack> */}
-          </Card>
-        </Grid>
-        <Grid xs={12} md={4}>
-          {/* <Card sx={{ pt: 10, pb: 5, px: 3 }}> */}
-            {/* {currentUser && (
-              <Label
-                color={
-                  (values.status === 'active' && 'success') ||
-                  (values.status === 'banned' && 'error') ||
-                  'warning'
-                }
-                sx={{ position: 'absolute', top: 24, right: 24 }}
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
               >
-                {values.status}
-              </Label>
-            )} */}
-           <Card sx={{ p: 3 }}>
-            <Box
-              rowGap={3}
-              columnGap={2}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-            <RHFTextField name="refund" label="Refund" />
+                <Stack alignItems="center"  >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+          </Grid>
+        </Grid>  
+        <Grid container spacing={3}>
+            <Grid xs={12} md={8}>
+              <Card sx={{ p: 3 }}>
+                <Box
+                  rowGap={3}
+                  columnGap={2}
+                  display="grid"
+                  gridTemplateColumns={{
+                    xs: 'repeat(1, 1fr)',
+                    sm: 'repeat(2, 1fr)',
+                  }}
+                >
+                  
 
-            <RHFTextField name="assignment" label="Assignment" />
-            <RHFTextField name="paymentPlan" label="Payment Plan" />
-            </Box>
-          </Card>
-        </Grid>
-      </Grid>
+                  <RHFTextField name="creditCard" label="Credit Card" />
+                  <RHFTextField name="writeOff" label="Write Off" />
+                  <RHFTextField name="visa" label="Visa" />
+                  <RHFTextField name="finance" label="Finance" />
+                  <RHFTextField name="masterCard" label="Master Card" />
+                  <RHFTextField name="directDeposit" label="Direct Deposit" />
+                  <RHFTextField name="debit" label="Debit" />
+                  <RHFTextField name="giftCerticate" label="Gift Certificate" />
+                  <RHFTextField name="cash" label="Cash" />
+                  <RHFTextField name="webCoupon" label="Web Coupon" />
+                  <RHFTextField name="personalCheque" label="Personal Cheque" />
+                  {/* <RHFTextField name="insuranceEft" label="Insurance EFTs" /> */}
+                  {/* <RHFTextField name="insuranceCheque" label="insurance Cheque" /> */}
+                  {/* <RHFTextField name="insuranceOthers" label="Insurance Others" /> */}
+                  <RHFTextField name="cashBalance" label="Cash Balance" />
+                  {/* <RHFTextField name="batchCollection" label="Batch Collection" /> */}
+                  <RHFTextField name="eTransfer" label="E-Transfer" />
+                  <RHFTextField name="others" label="Others" />
+                  <RHFTextField name="americanExp" label="American Exp" />
+
+                  {/* <FormGroup>
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Is Active" />
+                    <FormControlLabel required control={<Checkbox />} label="Required" />
+                </FormGroup> */}
+                </Box>
+
+
+                {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack> */}
+              </Card>
+            </Grid>
+            <Grid xs={12} md={4}>
+              {/* <Card sx={{ pt: 10, pb: 5, px: 3 }}> */}
+                {/* {currentUser && (
+                  <Label
+                    color={
+                      (values.status === 'active' && 'success') ||
+                      (values.status === 'banned' && 'error') ||
+                      'warning'
+                    }
+                    sx={{ position: 'absolute', top: 24, right: 24 }}
+                  >
+                    {values.status}
+                  </Label>
+                )} */}
+              <Card sx={{ p: 3 }}>
+                <Box
+                  rowGap={3}
+                  columnGap={2}
+                  display="grid"
+                  gridTemplateColumns={{
+                    xs: 'repeat(1, 1fr)',
+                    sm: 'repeat(1, 1fr)',
+                  }}
+                >
+                <RHFTextField name="insuranceCheque" label="Insurance Cheque" />
+
+                <RHFTextField name="insuranceEft" label="Insurance Efts" />
+                <RHFTextField name="insuranceOthers" label="Insurance Others" />
+                <RHFTextField name="batchCollection" label="Batch Collection" />
+                </Box>
+              </Card>
+            </Grid>
+         </Grid>
       </FormProvider>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
@@ -1091,7 +1140,7 @@ const [tableData, setTableData] = useState([
                               <div>
                                 {/* <FormControl sx={{ m: 1, minWidth: 80 }}> */}
                                   {/* <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel> */}
-                                  <Select
+                                  <Select sx={{ m: 1, minWidth: 120 }}
                                     // labelId="demo-simple-select-autowidth-label"
                                     // id="demo-simple-select-autowidth"
                                     // value={age}
@@ -1147,7 +1196,7 @@ const [tableData, setTableData] = useState([
         </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-      {/* <Grid container spacing={3} >
+      { <Grid container spacing={3} >
           <Grid 
           xs={12} 
           md={4}
@@ -1189,9 +1238,9 @@ const [tableData, setTableData] = useState([
                   </LoadingButton>
                 </Stack>
              </Box>
-            </Card>  
+            </Card>
           </Grid>
-        </Grid>  */}
+        </Grid>  }
         <Grid container spacing={3}>
           <Grid xs={12} md={12}>
             <Card sx={{ p: 1 }}>
@@ -1338,8 +1387,52 @@ const [tableData, setTableData] = useState([
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
-          <Grid container spacing={3}>
+      <Grid container spacing={3} >
+          <Grid 
+          xs={12} 
+          md={4}
+          display="flex"
+          flexDirection="row"
+          >
+            <Card sx={{ p: 1, marginRight:2 }}>
               
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center"  >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Post >>>'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+            <Card sx={{ p: 1 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+          </Grid>
+         </Grid> 
+          <Grid container spacing={3}>
               <Grid xs={12} md={6}>
                 <Card sx={{ p: 3 }}>
                   <Box
@@ -1466,29 +1559,7 @@ const [tableData, setTableData] = useState([
                   
                 </Card>
               </Grid>
-          </Grid>
-            <Grid container spacing={3}>
-              <Grid xs={12} md={2}>
-                <Card sx={{ p: 1 }}>
-                  
-                  <Box
-                    // rowGap={3}
-                    // columnGap={2}
-                    display="grid"
-                    gridTemplateColumns={{
-                      xs: 'repeat(1, 1fr)',
-                      sm: 'repeat(1, 1fr)',
-                    }}
-                  >
-                    <Stack alignItems="center" >
-                      <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                        {!currentUser ? 'Create User' : 'Post >>>'}
-                      </LoadingButton>
-                    </Stack>
-                </Box>
-                </Card>  
-              </Grid>
-            </Grid>
+           </Grid>
         </FormProvider>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={7}>

@@ -120,6 +120,43 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           <Iconify icon="solar:pen-bold" />
           Edit
         </MenuItem>
+         
+         {/* Added by Blessing */}
+        <MenuItem
+          onClick={() => {
+            onViewRow();
+            popover.onClose();
+          }}
+        >
+          <Iconify icon="solar:eye-bold" />
+
+          View
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            onViewRow();
+            popover.onClose();
+          }}
+        >
+          
+          <Iconify icon="solar:file-linear" />
+
+          PMS Report
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            onViewRow();
+            popover.onClose();
+          }}
+        >
+          {/* <Iconify icon="solar:eye-bold" /> */}
+          <Iconify icon="solar:notification-unread-bold" color="blue" />
+
+          Jira Issues
+        </MenuItem>
+
       </CustomPopover>
 
       <ConfirmDialog

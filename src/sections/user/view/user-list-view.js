@@ -157,7 +157,8 @@ export default function UserListView() {
 
   const handleEditRow = useCallback(
     (id) => {
-      router.push(paths.dashboard.user.edit(id));
+      // router.push(paths.dashboard.user.edit(id));
+      router.push(paths.clinicmanager.clinic.edit(id));
     },
     [router]
   );
@@ -187,7 +188,7 @@ export default function UserListView() {
             <Button
               component={RouterLink}
               // href={paths.dashboard.user.new}
-              href={paths.clinicmanager.new}
+              href={paths.clinicmanager.clinic.new}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >

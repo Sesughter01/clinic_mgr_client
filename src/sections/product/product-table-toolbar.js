@@ -73,8 +73,8 @@ export default function ProductTableToolbar({
             width: { xs: 1, md: 200 },
           }}
         >
-          <InputLabel>Stock</InputLabel>
-
+          {/* <InputLabel>Stock</InputLabel> */}
+          <InputLabel>Location</InputLabel>
           <Select
             multiple
             value={filters.stock}
@@ -85,11 +85,11 @@ export default function ProductTableToolbar({
           >
             {stockOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
-                <Checkbox
+                {/* <Checkbox
                   disableRipple
                   size="small"
                   checked={filters.stock.includes(option.value)}
-                />
+                /> */}
                 {option.label}
               </MenuItem>
             ))}
@@ -102,7 +102,8 @@ export default function ProductTableToolbar({
             width: { xs: 1, md: 200 },
           }}
         >
-          <InputLabel>Publish</InputLabel>
+          {/* <InputLabel>Publish</InputLabel> */}
+          <InputLabel>Status</InputLabel>
 
           <Select
             multiple
@@ -114,11 +115,11 @@ export default function ProductTableToolbar({
           >
             {publishOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
-                <Checkbox
+                {/* <Checkbox
                   disableRipple
                   size="small"
                   checked={filters.publish.includes(option.value)}
-                />
+                /> */}
                 {option.label}
               </MenuItem>
             ))}

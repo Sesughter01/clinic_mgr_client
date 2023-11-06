@@ -2,13 +2,14 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 // utils
 import { fetcher, endpoints } from 'src/utils/axios';
-
+// Shakirat
+import {data}  from 'src/_mock/_coorperation';
 // ----------------------------------------------------------------------
 
 export function useGetProducts() {
   const URL = endpoints.product.list;
 
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  const { isLoading, error, isValidating } = useSWR(URL, fetcher);
 
   const memoizedValue = useMemo(
     () => ({
@@ -29,7 +30,7 @@ export function useGetProducts() {
 export function useGetProduct(productId) {
   const URL = productId ? [endpoints.product.details, { params: { productId } }] : null;
 
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  const { isLoading, error, isValidating } = useSWR(URL, fetcher);
 
   const memoizedValue = useMemo(
     () => ({

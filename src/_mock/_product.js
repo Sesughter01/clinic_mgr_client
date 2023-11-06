@@ -47,19 +47,33 @@ export const PRODUCT_SIZE_OPTIONS = [
 ];
 
 export const PRODUCT_STOCK_OPTIONS = [
-  { value: 'in stock', label: 'In stock' },
-  { value: 'low stock', label: 'Low stock' },
-  { value: 'out of stock', label: 'Out of stock' },
+  // { value: 'in stock', label: 'In stock' },
+  // { value: 'low stock', label: 'Low stock' },
+  // { value: 'out of stock', label: 'Out of stock' },
+  { value: 'US', label: 'US' },
+  { value: 'Canada', label: 'Canada' },
 ];
 
 export const PRODUCT_PUBLISH_OPTIONS = [
+  // {
+  //   value: 'published',
+  //   label: 'Published',
+  // },
+  // {
+  //   value: 'draft',
+  //   label: 'Draft',
+  // },
   {
-    value: 'published',
-    label: 'Published',
+    value: 'Text',
+    label: 'Text',
   },
   {
-    value: 'draft',
-    label: 'Draft',
+    value: 'Active',
+    label: 'Active',
+  },
+  {
+    value: 'Retired',
+    label: 'Retired',
   },
 ];
 

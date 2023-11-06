@@ -46,17 +46,22 @@ import ProductTableFiltersResult from '../product-table-filters-result';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Corps ID' },
-  { id: 'createdAt', label: 'Corps Name', width: 160 },
+  { id: 'name', label: 'Corp Name' },
+  { id: 'createdAt', label: 'Corp Id', width: 160 },
   { id: 'inventoryType', label: 'Base Scripts', width: 160 },
-  { id: 'price', label: 'Clinics', width: 140 },
-  { id: 'publish', label: 'Publish', width: 110 },
+  { id: 'price', label: '#Clinics', width: 140 },
+  // { id: 'Status', label: 'Status', width: 110 },
   { id: '', width: 88 },
 ];
 
+// const PUBLISH_OPTIONS = [
+//   { value: 'published', label: 'Published' },
+//   { value: 'draft', label: 'Draft' },
+// ];
 const PUBLISH_OPTIONS = [
-  { value: 'published', label: 'Published' },
-  { value: 'draft', label: 'Draft' },
+  { value: 'Text', label: 'Text' },
+  { value: 'Active', label: 'Active' },
+  { value: 'Retired', label: 'Retired' },
 ];
 
 const defaultFilters = {
@@ -171,7 +176,8 @@ export default function ProductListView() {
           action={
             <Button
               component={RouterLink}
-              href={paths.dashboard.product.new}
+              // href={paths.dashboard.product.new}
+              href={paths.corporations.new}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >

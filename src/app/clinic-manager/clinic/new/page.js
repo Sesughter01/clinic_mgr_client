@@ -1058,10 +1058,10 @@ const [tableData, setTableData] = useState([
       </FormProvider>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-      <Grid container spacing={3} >
+       <Grid container spacing={3} >
           <Grid 
           xs={12} 
-          md={4}
+          md={8}
           display="flex"
           flexDirection="row"
           >
@@ -1083,7 +1083,7 @@ const [tableData, setTableData] = useState([
                 </Stack>
              </Box>
             </Card>  
-            <Card sx={{ p: 1 }}>
+            <Card sx={{ p: 1, marginRight:2 }}>
               
               <Box
                 // rowGap={3}
@@ -1099,7 +1099,25 @@ const [tableData, setTableData] = useState([
                     {!currentUser ? 'Create User' : 'Add new'}
                   </LoadingButton>
                 </Stack>
-             </Box>
+              </Box>
+            </Card>  
+
+            <Card sx={{ p: 1 }}>  
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+              </Box>
             </Card>  
           </Grid>
         </Grid>
@@ -1199,7 +1217,7 @@ const [tableData, setTableData] = useState([
       { <Grid container spacing={3} >
           <Grid 
           xs={12} 
-          md={4}
+          md={8}
           display="flex"
           flexDirection="row"
           >
@@ -1221,7 +1239,7 @@ const [tableData, setTableData] = useState([
                 </Stack>
              </Box>
             </Card>  
-            <Card sx={{ p: 1 }}>
+            <Card sx={{ p: 1, marginRight:2  }}>
               
               <Box
                 // rowGap={3}
@@ -1239,6 +1257,24 @@ const [tableData, setTableData] = useState([
                 </Stack>
              </Box>
             </Card>
+
+            <Card sx={{ p: 1 }}>  
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+              </Box>
+            </Card>  
           </Grid>
         </Grid>  }
         <Grid container spacing={3}>
@@ -1295,7 +1331,7 @@ const [tableData, setTableData] = useState([
         <Grid container spacing={3} >
           <Grid 
           xs={12} 
-          md={4}
+          md={8}
           display="flex"
           flexDirection="row"
           >
@@ -1317,8 +1353,7 @@ const [tableData, setTableData] = useState([
                 </Stack>
              </Box>
             </Card>  
-            <Card sx={{ p: 1 }}>
-              
+            <Card sx={{ p: 1, marginRight:2  }}>
               <Box
                 // rowGap={3}
                 // columnGap={2}
@@ -1334,7 +1369,26 @@ const [tableData, setTableData] = useState([
                   </LoadingButton>
                 </Stack>
              </Box>
+            </Card> 
+
+            <Card sx={{ p: 1 }}>  
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+              </Box>
             </Card>  
+
           </Grid>
         </Grid> 
         <Grid container spacing={3}>
@@ -1563,6 +1617,34 @@ const [tableData, setTableData] = useState([
         </FormProvider>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={7}>
+        <Grid container spacing={3} >
+          <Grid 
+          xs={12} 
+          md={8}
+          display="flex"
+          flexDirection="row"
+          >
+
+            <Card sx={{ p: 1 }}>  
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+              </Box>
+            </Card>  
+
+          </Grid>
+        </Grid> 
         <FormProvider methods={methods} onSubmit={onSubmit}>
           <List>
             <ListItem >

@@ -7,7 +7,7 @@ import { UserEditView } from 'src/sections/user/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Dashboard: User Edit',
+  title: 'Clinic manager: Clinic Edit',
 };
 
 export default function UserEditPage({ params }) {

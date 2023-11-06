@@ -4,7 +4,7 @@ import { UserListView } from 'src/sections/user/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Dashboard: User List',
+  title: 'Clinic manager: Clinic List',
   
 };
 

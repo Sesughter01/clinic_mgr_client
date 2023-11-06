@@ -65,11 +65,12 @@ const TABLE_HEAD = [
   { id: 'clinicName', label: 'Clinic Name',},
   { id: 'corpName', label: 'Corp Name', width: 180 },
   { id: 'pms', label: 'PMS', width: 180 },
-  { id: 'stage', label: 'Stage', width: 180 },
-  { id: 'toDo', label: 'To Do', width: 220 },
+  { id: 'stage', label: 'Stage',  },
+  { id: 'toDo', label: 'To Do', },
   { id: 'actionBy', label: 'Action By', width: 220 },
   { id: 'asanaLink', label: 'Asana Link', width: 300 },
   { id: 'status', label: 'Status', width: 100 },
+  { id: '', width: 88 },
   { id: '', width: 88 },
 ];
 
@@ -182,7 +183,7 @@ export default function UserListView() {
           links={[
             // { name: 'Dashboard', href: paths.dashboard.root },
             { name: 'Clinics', href: paths.clinicmanager.root },
-            { name: 'List' },
+            { name: 'List' }, 
           ]}
           action={
             <Button
@@ -318,6 +319,8 @@ export default function UserListView() {
                         onSelectRow={() => table.onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onEditRow={() => handleEditRow(row.id)}
+                        //Added by blessing
+                        onPmsReportRow
                       />
                     ))}
 

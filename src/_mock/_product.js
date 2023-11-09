@@ -75,7 +75,24 @@ export const PRODUCT_PUBLISH_OPTIONS = [
     value: 'Retired',
     label: 'Retired',
   },
+  
 ];
+
+
+// export const _status = [
+//   {
+//     value: 'text',
+//     label: 'Text',
+//   },
+//   {
+//     value: 'active',
+//     label: 'Active',
+//   },
+//   {
+//     value: 'retired',
+//     label: 'Retired',
+//   },
+// ]
 
 export const PRODUCT_SORT_OPTIONS = [
   { value: 'featured', label: 'Featured' },

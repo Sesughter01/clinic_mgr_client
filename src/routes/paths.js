@@ -204,6 +204,7 @@ export const paths = {
     cards: `${ROOTS.CORPORATIONS}/cards`,
     profile: `${ROOTS.CORPORATIONS}/profile`,
     account: `${ROOTS.CORPORATIONS}/account`,
+    // edit: (id) => `${ROOTS.CORPORATIONS}/${id}/edit`,
     edit: (id) => `${ROOTS.CORPORATIONS}/${id}/edit`,
     demo: {
       edit: `${ROOTS.CORPORATIONS}/${MOCK_ID}/edit`,

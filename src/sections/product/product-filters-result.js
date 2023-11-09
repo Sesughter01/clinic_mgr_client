@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -23,36 +23,46 @@ export default function ProductFiltersResult({
 }) {
   const handleRemoveGender = (inputValue) => {
     const newValue = filters.gender.filter((item) => item !== inputValue);
-    onFilters('gender', newValue);
+    onFilters("gender", newValue);
   };
 
   const handleRemoveCategory = () => {
-    onFilters('category', 'all');
+    onFilters("category", "all");
+  };
+  // Shakirat
+  const handleRemoveStatus = () => {
+    onFilters("status", "all");
   };
 
   const handleRemoveColor = (inputValue) => {
     const newValue = filters.colors.filter((item) => item !== inputValue);
-    onFilters('colors', newValue);
+    onFilters("colors", newValue);
   };
 
   const handleRemovePrice = () => {
-    onFilters('priceRange', [0, 200]);
+    onFilters("priceRange", [0, 200]);
   };
 
   const handleRemoveRating = () => {
-    onFilters('rating', '');
+    onFilters("rating", "");
   };
 
   return (
     <Stack spacing={1.5} {...other}>
-      <Box sx={{ typography: 'body2' }}>
+      <Box sx={{ typography: "body2" }}>
         <strong>{results}</strong>
-        <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
+        <Box component="span" sx={{ color: "text.secondary", ml: 0.25 }}>
           results found
         </Box>
       </Box>
 
-      <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
+      <Stack
+        flexGrow={1}
+        spacing={1}
+        direction="row"
+        flexWrap="wrap"
+        alignItems="center"
+      >
         {!!filters.gender.length && (
           <Block label="Gender:">
             {filters.gender.map((item) => (
@@ -66,9 +76,23 @@ export default function ProductFiltersResult({
           </Block>
         )}
 
-        {filters.category !== 'all' && (
+        {filters.category !== "all" && (
           <Block label="Category:">
-            <Chip size="small" label={filters.category} onDelete={handleRemoveCategory} />
+            <Chip
+              size="small"
+              label={filters.category}
+              onDelete={handleRemoveCategory}
+            />
+          </Block>
+        )}
+
+        {filters.status !== "all" && (
+          <Block label="Status:">
+            <Chip
+              size="small"
+              label={filters.status}
+              onDelete={handleRemoveStatus}
+            />
           </Block>
         )}
 
@@ -85,8 +109,9 @@ export default function ProductFiltersResult({
                       width: 18,
                       height: 18,
                       bgcolor: item,
-                      borderRadius: '50%',
-                      border: (theme) => `solid 1px ${alpha(theme.palette.common.white, 0.24)}`,
+                      borderRadius: "50%",
+                      border: (theme) =>
+                        `solid 1px ${alpha(theme.palette.common.white, 0.24)}`,
                     }}
                   />
                 }
@@ -108,7 +133,11 @@ export default function ProductFiltersResult({
 
         {!!filters.rating && (
           <Block label="Rating:">
-            <Chip size="small" label={filters.rating} onDelete={handleRemoveRating} />
+            <Chip
+              size="small"
+              label={filters.rating}
+              onDelete={handleRemoveRating}
+            />
           </Block>
         )}
 
@@ -146,13 +175,13 @@ function Block({ label, children, sx, ...other }) {
       sx={{
         p: 1,
         borderRadius: 1,
-        overflow: 'hidden',
-        borderStyle: 'dashed',
+        overflow: "hidden",
+        borderStyle: "dashed",
         ...sx,
       }}
       {...other}
     >
-      <Box component="span" sx={{ typography: 'subtitle2' }}>
+      <Box component="span" sx={{ typography: "subtitle2" }}>
         {label}
       </Box>
 

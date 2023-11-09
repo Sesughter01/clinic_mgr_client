@@ -4,6 +4,10 @@ import isEqual from 'lodash/isEqual';
 import { useState, useEffect, useCallback } from 'react';
 // @mui
 import Card from '@mui/material/Card';
+import { alpha } from '@mui/material/styles';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Label from 'src/components/label';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
@@ -42,15 +46,21 @@ import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import ProductTableRow from '../product-table-row';
 import ProductTableToolbar from '../product-table-toolbar';
 import ProductTableFiltersResult from '../product-table-filters-result';
+import { _userList, _roles, _corpNames, _pmss, USER_STATUS_OPTIONS, _status ,PUBLISH_STATUS_OPTIONS } from 'src/_mock';
 
 // ----------------------------------------------------------------------
+//Shakirat
+// const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [{ value: 'text', label: 'Text' }, ...PUBLISH_STATUS_OPTIONS];
+
+
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Corp Name' },
   { id: 'createdAt', label: 'Corp Id', width: 160 },
   { id: 'inventoryType', label: 'Base Scripts', width: 160 },
   { id: 'price', label: '#Clinics', width: 140 },
-  // { id: 'Status', label: 'Status', width: 110 },
+  { id: 'Status', label: 'Status', width: 110 },
   { id: '', width: 88 },
 ];
 
@@ -65,9 +75,11 @@ const PUBLISH_OPTIONS = [
 ];
 
 const defaultFilters = {
-  name: '',
+  // name: '',
+  corp_Name: '',
   publish: [],
   stock: [],
+  corpStatus: [],
 };
 
 // ----------------------------------------------------------------------
@@ -111,11 +123,14 @@ export default function ProductListView() {
   const notFound = (!dataFiltered.length && canReset) || productsEmpty;
 
   const handleFilters = useCallback(
-    (name, value) => {
+    // (name, value) => {
+    (corp_Name, value) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
-        [name]: value,
+        // [name]: value,
+        [corp_Name]: value,
+
       }));
     },
     [table]
@@ -147,6 +162,13 @@ export default function ProductListView() {
       router.push(paths.dashboard.product.edit(id));
     },
     [router]
+  );
+//Shakirat
+  const handleFilterStatus = useCallback(
+    (event, newValue) => {
+      handleFilters('status', newValue);
+    },
+    [handleFilters]
   );
 
   const handleViewRow = useCallback(
@@ -188,12 +210,59 @@ export default function ProductListView() {
         />
 
         <Card>
+        <Tabs
+            value={filters.status}
+            onChange={handleFilterStatus}
+            sx={{
+              px: 2.5,
+              boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
+            }}
+          >
+            {STATUS_OPTIONS.map((tab) => (
+              <Tab
+                key={tab.value}
+                iconPosition="end"
+                value={tab.value}
+                label={tab.label}
+                icon={
+                  <Label
+                    variant={
+                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                    }
+                    color={
+                      (tab.value === 'active' && 'success') ||
+                      (tab.value === 'inactive' && 'warning') ||
+                      // (tab.value === 'pending' && 'warning') ||
+                      // (tab.value === 'banned' && 'error') ||
+                      'default'
+                    }
+                  >
+                    {tab.value === 'all' && _userList.length}
+                    {tab.value === 'text' &&
+                      _userList.filter((user) => user.status === 'text').length}
+                    {tab.value === 'active' &&
+                      _userList.filter((user) => user.status === 'active').length}
+                    {tab.value === 'retired' &&
+                      _userList.filter((user) => user.status === 'retired').length}
+
+                    {/* {tab.value === 'pending' &&
+                      _userList.filter((user) => user.status === 'pending').length}
+                    {tab.value === 'banned' &&
+                      _userList.filter((user) => user.status === 'banned').length}
+                    {tab.value === 'rejected' &&
+                      _userList.filter((user) => user.status === 'rejected').length} */}
+                  </Label>
+                }
+              />
+            ))}
+          </Tabs>
           <ProductTableToolbar
             filters={filters}
             onFilters={handleFilters}
             //
             stockOptions={PRODUCT_STOCK_OPTIONS}
-            publishOptions={PUBLISH_OPTIONS}
+            // publishOptions={PUBLISH_OPTIONS}
+            statusOptions={_status}
           />
 
           {canReset && (
@@ -324,7 +393,8 @@ export default function ProductListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters }) {
-  const { name, stock, publish } = filters;
+  // const { name, stock, publish } = filters;
+  const { corp_Name, stock, publish, corpStatus } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -336,19 +406,29 @@ function applyFilter({ inputData, comparator, filters }) {
 
   inputData = stabilizedThis.map((el) => el[0]);
 
-  if (name) {
+  // if (name) {
+  //   inputData = inputData.filter(
+  //     (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+  //   );
+  // }
+
+  if (corp_Name) {
     inputData = inputData.filter(
-      (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (product) => product.corp_Name.toLowerCase().indexOf(corp_Name.toLowerCase()) !== -1
     );
   }
 
   if (stock.length) {
     inputData = inputData.filter((product) => stock.includes(product.inventoryType));
   }
+  // if (publish.length) {
+  //   inputData = inputData.filter((product) => publish.includes(product.publish));
+  // }
 
-  if (publish.length) {
-    inputData = inputData.filter((product) => publish.includes(product.publish));
+  if (corpStatus) {
+    inputData = inputData.filter(
+      (product) => product.corpStatus
+    );
   }
-
   return inputData;
 }

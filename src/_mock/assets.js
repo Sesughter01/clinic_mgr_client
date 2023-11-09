@@ -339,6 +339,13 @@ export const _pmss = [
   'Vings pms',
   'Kings pms',
 ];
+//Shakirat
+export const _status = [
+  'Text',
+  'Active',
+  'Retired',
+]
+
 
 //new stage search added by blessing
 export const _stages = [
@@ -386,8 +393,6 @@ export const _toDos = [
   'none',
   'none',
   'none',
-  
-
 ];
 
 //new action by mock up added by blessing

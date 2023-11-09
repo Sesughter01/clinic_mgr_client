@@ -401,12 +401,14 @@ export default function BasicTabs(currentUser) {
     line-height: 1.5;
     padding: 12px;
     border-radius: 12px 12px 0 12px;
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-    border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-    box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
+    color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+    background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
+    border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
+    box-shadow: 0px 2px 2px ${
+      theme.palette.mode === "dark" ? grey[900] : grey[50]
+    };
 
-  `,
+  `
   );
   //For workflow tab (ends)
 
@@ -461,15 +463,8 @@ export default function BasicTabs(currentUser) {
           aria-label="basic tabs example"
         >
           <Tab label="Detail" {...a11yProps(0)} />
-          <Tab label="Summary" {...a11yProps(1)} />
-          <Tab label="3rd Party" {...a11yProps(2)} />
-          {/* <Tab label="Adjustments" {...a11yProps(2)} />
-          <Tab label="Employee Mapping" {...a11yProps(2)} />
-          <Tab label="Appt. Status Values" {...a11yProps(2)} />
-          <Tab label="Work Flow" {...a11yProps(2)} /> */}
-          {/* <Tab label="Swell CX" {...a11yProps(2)} /> */}
-          {/* <Tab label="Script" {...a11yProps(2)} /> */}
-          {/* <Tab label="Process" {...a11yProps(2)} /> */}
+          {/* <Tab label="Summary" {...a11yProps(1)} /> */}
+          {/* <Tab label="3rd Party" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -682,12 +677,7 @@ export default function BasicTabs(currentUser) {
                   </Grid>
                   <Grid>
                     <Card>
-                      <Box
-                        rowGap={3}
-                        columnGap={2}
-                        display="grid"
-                        
-                      >
+                      <Box rowGap={3} columnGap={2} display="grid">
                         <RHFTextField
                           name="contact"
                           label="Contact"

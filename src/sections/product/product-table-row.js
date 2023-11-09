@@ -21,6 +21,8 @@ import Label from "src/components/label";
 import Iconify from "src/components/iconify";
 import { ConfirmDialog } from "src/components/custom-dialog";
 import CustomPopover, { usePopover } from "src/components/custom-popover";
+import { _userList, _roles, _corpNames, _pmss, USER_STATUS_OPTIONS,_status, PUBLISH_STATUS_OPTIONS } from 'src/_mock';
+
 
 // ----------------------------------------------------------------------
 
@@ -42,11 +44,19 @@ export default function ProductTableRow({
     createdAt,
     available,
     inventoryType,
+    status,
+    corp_Name,
+    corpId,
+    corpNum,
+    corpScrName,
+    archive,
+    corpStatus,
   } = row;
 
   const confirm = useBoolean();
 
   const popover = usePopover();
+const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PUBLISH_STATUS_OPTIONS];
 
   return (
     <>
@@ -74,8 +84,22 @@ export default function ProductTableRow({
                 onClick={onViewRow}
                 sx={{ cursor: "pointer" }}
               >
-                {name}
+                {/* {name} */}
+                { corp_Name }
               </Link>
+            // }
+            // ListItemText
+            // disableTypography
+            // primary={
+            //   <Link
+            //     noWrap
+            //     color="inherit"
+            //     variant="subtitle2"
+            //     onClick={onViewRow}
+            //     sx={{ cursor: "pointer" }}
+            //   >
+            //     {corp_Name}
+            //   </Link>
             }
             // secondary={
             //   <Box
@@ -88,7 +112,7 @@ export default function ProductTableRow({
           />
         </TableCell>
 
-        <TableCell>
+        {/* <TableCell>
           <ListItemText
             // primary={format(new Date(createdAt), 'dd MMM yyyy')}
             primary={price}
@@ -101,7 +125,9 @@ export default function ProductTableRow({
               typography: "caption",
             }}
           />
-        </TableCell>
+        </TableCell> */}
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{corpNum}</TableCell>
+
 
         {/* <TableCell sx={{ typography: 'caption', color: 'text.secondary' }}>
           <LinearProgress
@@ -116,7 +142,7 @@ export default function ProductTableRow({
           />
           {!!available && available} {inventoryType}
         </TableCell> */}
-        <TableCell>
+        {/* <TableCell>
           <ListItemText
             // primary={format(new Date(createdAt), 'dd MMM yyyy')}
             primary={inventoryType}
@@ -129,7 +155,9 @@ export default function ProductTableRow({
               typography: "caption",
             }}
           />
-        </TableCell>
+        </TableCell> */}
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{corpScrName}</TableCell>
+
 
         {/* <TableCell>{fCurrency(price)}</TableCell> */}
         <TableCell>{price}</TableCell>
@@ -156,6 +184,8 @@ export default function ProductTableRow({
             }
           />
         </TableCell> */}
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{corpStatus}</TableCell>
+        
         <TableCell align="right">
           <IconButton
             color={popover.open ? "primary" : "default"}

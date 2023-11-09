@@ -23,12 +23,15 @@ export default function ProductTableToolbar({
   //
   stockOptions,
   publishOptions,
+  statusOptions,
 }) {
   const popover = usePopover();
 
   const handleFilterName = useCallback(
     (event) => {
-      onFilters('name', event.target.value);
+      // onFilters('name', event.target.value);
+      onFilters('corp_Name', event.target.value);
+
     },
     [onFilters]
   );
@@ -43,10 +46,28 @@ export default function ProductTableToolbar({
     [onFilters]
   );
 
-  const handleFilterPublish = useCallback(
+  // const handleFilterPublish = useCallback(
+  //   (event) => {
+  //     onFilters(
+  //       'publish',
+  //       typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
+  //     );
+  //   },
+  //   [onFilters]
+  // );
+
+  // const handleFilterPublish = useCallback(
+  //   (event) => {
+  //     onFilters(
+  //       'corpStatus',
+  //       typeof event.target.value);
+  //   },
+  //   [onFilters]
+  // );
+  const handleFilterStatus = useCallback(
     (event) => {
       onFilters(
-        'publish',
+        'corpStatus',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
@@ -104,32 +125,33 @@ export default function ProductTableToolbar({
         >
           {/* <InputLabel>Publish</InputLabel> */}
           <InputLabel>Status</InputLabel>
-
           <Select
-            multiple
-            value={filters.publish}
-            onChange={handleFilterPublish}
-            input={<OutlinedInput label="Publish" />}
-            renderValue={(selected) => selected.map((value) => value).join(', ')}
-            sx={{ textTransform: 'capitalize' }}
+            // multiple
+            value={filters.status}
+            onChange={handleFilterStatus}
+            input={<OutlinedInput label="Status" />}
+            // renderValue={(selected) => selected.map((value) => value).join(', ')}
+            MenuProps={{
+              PaperProps: {
+                sx: { maxHeight: 240 },
+              },
+            }}
           >
-            {publishOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {/* <Checkbox
-                  disableRipple
-                  size="small"
-                  checked={filters.publish.includes(option.value)}
-                /> */}
-                {option.label}
+            {statusOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                {/* <Checkbox disableRipple size="small" checked={filters.pms.includes(option)} /> */}
+                {option}
               </MenuItem>
             ))}
           </Select>
+
         </FormControl>
 
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
           <TextField
             fullWidth
-            value={filters.name}
+            // value={filters.name}
+            value={filters.corp_Name}
             onChange={handleFilterName}
             placeholder="Search..."
             InputProps={{
@@ -189,4 +211,5 @@ ProductTableToolbar.propTypes = {
   onFilters: PropTypes.func,
   publishOptions: PropTypes.array,
   stockOptions: PropTypes.array,
+  statusOptions: PropTypes.array,
 };

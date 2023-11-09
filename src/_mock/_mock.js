@@ -34,8 +34,11 @@ import {
   _stages,
   _toDos,
   _actionBys,
-  _asanaLink
+  _asanaLink,
+  //Shakirat
+  _status
 } from './assets';
+// import { _status } from './_product';
 
 // ----------------------------------------------------------------------
 
@@ -70,6 +73,9 @@ export const _mock = {
   toDo: (index) => _toDos[index],
   actionBy: (index) => _actionBys[index],
   asanaLink: (index) => _asanaLink[index],
+
+  //Corperation
+  status: (index) => _status[index],
 
   // Number
   number: {

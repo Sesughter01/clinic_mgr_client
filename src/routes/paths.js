@@ -185,14 +185,17 @@ export const paths = {
   // CLINIC_MANAGER
   clinicmanager: {
     root: `${ROOTS.CLINIC_MANAGER}`,
-    new: `${ROOTS.CLINIC_MANAGER}/new`,
-    list: `${ROOTS.CLINIC_MANAGER}/list`,
-    cards: `${ROOTS.CLINIC_MANAGER}/cards`,
-    profile: `${ROOTS.CLINIC_MANAGER}/profile`,
-    account: `${ROOTS.CLINIC_MANAGER}/account`,
-    edit: (id) => `${ROOTS.CLINIC_MANAGER}/${id}/edit`,
-    demo: {
-      edit: `${ROOTS.CLINIC_MANAGER}/${MOCK_ID}/edit`,
+    clinic: {
+      root: `${ROOTS.CLINIC_MANAGER}/clinic`,
+      new: `${ROOTS.CLINIC_MANAGER}/clinic/new`,
+      list: `${ROOTS.CLINIC_MANAGER}/clinic/list`,
+      cards: `${ROOTS.CLINIC_MANAGER}/clinic/cards`,
+      profile: `${ROOTS.CLINIC_MANAGER}/clinic/profile`,
+      account: `${ROOTS.CLINIC_MANAGER}/clinic/account`,
+      edit: (id) => `${ROOTS.CLINIC_MANAGER}/clinic/${id}/edit`,
+      demo: {
+        edit: `${ROOTS.CLINIC_MANAGER}/clinic/${MOCK_ID}/edit`,
+      },
     },
   }, 
   

@@ -50,8 +50,10 @@ import { fData } from 'src/utils/format-number';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 
 //added by blessing
@@ -434,7 +436,26 @@ export default function BasicTabs(currentUser) {
   ];
   //For employee maping (ends)
 
+// For adjustment 
+const [tableData, setTableData] = useState([
+  {
+    defid: 1,
+    adjustmentDescription: 'Adjustment 1',
+    impact: 'Some Impact',
+    chargeAdj: false,
+    paymentAdj: false,
+    providerAdj: false,
+    hygienistAdj: false,
+    entryMap: 0,
+  },
+  // Add more data as needed
+ ]);
 
+ const handleCheckboxChange = (index, field) => {
+  const updatedTableData = [...tableData];
+  updatedTableData[index][field] = !updatedTableData[index][field];
+  setTableData(updatedTableData);
+ }; 
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -455,7 +476,28 @@ export default function BasicTabs(currentUser) {
       <CustomTabPanel value={value} index={0}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Grid container spacing={3}>
-          <Grid xs={12} md={2}>
+          <Grid xs={12} 
+          md={4}
+          display="flex"
+          flexDirection="row">
+          <Card sx={{ p: 1, marginRight:2 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center"  >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Go live'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
             <Card sx={{ p: 1 }}>
               
               <Box
@@ -469,11 +511,11 @@ export default function BasicTabs(currentUser) {
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Go live'}
+                    {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
              </Box>
-            </Card>  
+            </Card>
           </Grid>
         </Grid>
       <Grid container spacing={3}>
@@ -905,118 +947,121 @@ export default function BasicTabs(currentUser) {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
        <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Grid container spacing={3}>
-        <Grid xs={12} md={8}>
-          <Card sx={{ p: 3 }}>
-            <Box
-              rowGap={3}
-              columnGap={2}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(2, 1fr)',
-              }}
-            >
+        <Grid container spacing={3} >
+          <Grid 
+          xs={12} 
+          md={4}
+          display="flex"
+          flexDirection="row"
+          >
+            <Card sx={{ p: 1, marginRight:2 }}>
               
-
-              <RHFTextField name="creditCard" label="Credit Card" />
-              <RHFTextField name="writeOff" label="Write Off" />
-              <RHFTextField name="visa" label="Visa" />
-              <RHFTextField name="finance" label="Finance" />
-              <RHFTextField name="masterCard" label="Master Card" />
-              <RHFTextField name="directDeposit" label="Direct Deposit" />
-              <RHFTextField name="debit" label="Debit" />
-              <RHFTextField name="giftCerticate" label="Gift Certificate" />
-              <RHFTextField name="cash" label="Cash" />
-              <RHFTextField name="webCoupon" label="Web Coupon" />
-              <RHFTextField name="personalCheque" label="Personal Cheque" />
-              <RHFTextField name="insuranceEft" label="Insurance EFTs" />
-              <RHFTextField name="insuranceCheque" label="insurance Cheque" />
-              <RHFTextField name="insuranceOthers" label="Insurance Others" />
-              <RHFTextField name="cashBalance" label="Cash Balance" />
-              <RHFTextField name="batchCollection" label="Batch Collection" />
-              <RHFTextField name="eTransfer" label="E-Transfer" />
-              <RHFTextField name="others" label="Others" />
-              <RHFTextField name="americanExp" label="American Exp" />
-
-              {/* <FormGroup>
-                <FormControlLabel control={<Checkbox defaultChecked />} label="Is Active" />
-                <FormControlLabel required control={<Checkbox />} label="Required" />
-             </FormGroup> */}
-            </Box>
-
-
-            {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentUser ? 'Create User' : 'Save Changes'}
-              </LoadingButton>
-            </Stack> */}
-          </Card>
-        </Grid>
-        <Grid xs={12} md={4}>
-          {/* <Card sx={{ pt: 10, pb: 5, px: 3 }}> */}
-            {/* {currentUser && (
-              <Label
-                color={
-                  (values.status === 'active' && 'success') ||
-                  (values.status === 'banned' && 'error') ||
-                  'warning'
-                }
-                sx={{ position: 'absolute', top: 24, right: 24 }}
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
               >
-                {values.status}
-              </Label>
-            )} */}
-           <Card sx={{ p: 3 }}>
-            <Box
-              rowGap={3}
-              columnGap={2}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-            <RHFTextField name="refund" label="Refund" />
-
-            <RHFTextField name="assignment" label="Assignment" />
-            <RHFTextField name="paymentPlan" label="Payment Plan" />
-            </Box>
-          </Card>
-        </Grid>
-      </Grid>
-      </FormProvider>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
+                <Stack alignItems="center"  >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+          </Grid>
+        </Grid>  
         <Grid container spacing={3}>
-            <Grid xs={12} md={12}>
+            <Grid xs={12} md={8}>
               <Card sx={{ p: 3 }}>
-                
                 <Box
-                  // rowGap={3}
-                  // columnGap={2}
+                  rowGap={3}
+                  columnGap={2}
+                  display="grid"
+                  gridTemplateColumns={{
+                    xs: 'repeat(1, 1fr)',
+                    sm: 'repeat(2, 1fr)',
+                  }}
+                >
+                  
+
+                  <RHFTextField name="creditCard" label="Credit Card" />
+                  <RHFTextField name="writeOff" label="Write Off" />
+                  <RHFTextField name="visa" label="Visa" />
+                  <RHFTextField name="finance" label="Finance" />
+                  <RHFTextField name="masterCard" label="Master Card" />
+                  <RHFTextField name="directDeposit" label="Direct Deposit" />
+                  <RHFTextField name="debit" label="Debit" />
+                  <RHFTextField name="giftCerticate" label="Gift Certificate" />
+                  <RHFTextField name="cash" label="Cash" />
+                  <RHFTextField name="webCoupon" label="Web Coupon" />
+                  <RHFTextField name="personalCheque" label="Personal Cheque" />
+                  {/* <RHFTextField name="insuranceEft" label="Insurance EFTs" /> */}
+                  {/* <RHFTextField name="insuranceCheque" label="insurance Cheque" /> */}
+                  {/* <RHFTextField name="insuranceOthers" label="Insurance Others" /> */}
+                  <RHFTextField name="cashBalance" label="Cash Balance" />
+                  {/* <RHFTextField name="batchCollection" label="Batch Collection" /> */}
+                  <RHFTextField name="eTransfer" label="E-Transfer" />
+                  <RHFTextField name="others" label="Others" />
+                  <RHFTextField name="americanExp" label="American Exp" />
+
+                  {/* <FormGroup>
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Is Active" />
+                    <FormControlLabel required control={<Checkbox />} label="Required" />
+                </FormGroup> */}
+                </Box>
+
+
+                {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack> */}
+              </Card>
+            </Grid>
+            <Grid xs={12} md={4}>
+              {/* <Card sx={{ pt: 10, pb: 5, px: 3 }}> */}
+                {/* {currentUser && (
+                  <Label
+                    color={
+                      (values.status === 'active' && 'success') ||
+                      (values.status === 'banned' && 'error') ||
+                      'warning'
+                    }
+                    sx={{ position: 'absolute', top: 24, right: 24 }}
+                  >
+                    {values.status}
+                  </Label>
+                )} */}
+              <Card sx={{ p: 3 }}>
+                <Box
+                  rowGap={3}
+                  columnGap={2}
                   display="grid"
                   gridTemplateColumns={{
                     xs: 'repeat(1, 1fr)',
                     sm: 'repeat(1, 1fr)',
                   }}
                 >
+                <RHFTextField name="insuranceCheque" label="Insurance Cheque" />
 
-                  
-                 
-
-                
-                   
-              </Box>
-              </Card>  
+                <RHFTextField name="insuranceEft" label="Insurance Efts" />
+                <RHFTextField name="insuranceOthers" label="Insurance Others" />
+                <RHFTextField name="batchCollection" label="Batch Collection" />
+                </Box>
+              </Card>
             </Grid>
-        </Grid>
+         </Grid>
+      </FormProvider>
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
-      {/* <Grid container spacing={3} >
+      <CustomTabPanel value={value} index={3}>
+       <Grid container spacing={3} >
           <Grid 
           xs={12} 
-          md={4}
+          md={8}
           display="flex"
           flexDirection="row"
           >
@@ -1038,7 +1083,163 @@ export default function BasicTabs(currentUser) {
                 </Stack>
              </Box>
             </Card>  
-            <Card sx={{ p: 1 }}>
+            <Card sx={{ p: 1, marginRight:2 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Add new'}
+                  </LoadingButton>
+                </Stack>
+              </Box>
+            </Card>  
+
+            <Card sx={{ p: 1 }}>  
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+              </Box>
+            </Card>  
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={3}>
+            <Grid xs={12} md={12}>
+              <Card sx={{ p: 3 }}>
+                
+                <Box
+                  // rowGap={3}
+                  // columnGap={2}
+                  display="grid"
+                  gridTemplateColumns={{
+                    xs: 'repeat(1, 1fr)',
+                    sm: 'repeat(1, 1fr)',
+                  }}
+                >
+                <table>
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>Description</th>
+                          <th>Impact</th>
+                          <th>Charge </th>
+                          <th>Payment </th>
+                          <th>Provider </th>
+                          <th>Hygienist </th>
+                          {/* <th>Entry Map</th> */}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableData.map((rowData, index) => (
+                          <tr key={index}>
+                            <td align="center">{rowData.defid}</td>
+                            <td align="center">{rowData.adjustmentDescription}</td>
+                            <td align="center">
+                              {/* {rowData.impact} */}
+                              <div>
+                                {/* <FormControl sx={{ m: 1, minWidth: 80 }}> */}
+                                  {/* <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel> */}
+                                  <Select sx={{ m: 1, minWidth: 120 }}
+                                    // labelId="demo-simple-select-autowidth-label"
+                                    // id="demo-simple-select-autowidth"
+                                    // value={age}
+                                    // onChange={handleChange}
+                                    // autoWidth
+                                    // label="Age"
+                                  >
+                                    {/* <MenuItem value="">
+                                      <em>None</em>
+                                    </MenuItem> */}
+                                    <MenuItem value={10}>Positive</MenuItem>
+                                    <MenuItem value={21}>Negative</MenuItem>
+                                  </Select>
+                                {/* </FormControl> */}
+                              </div>
+                            </td>
+                            <td align="center">
+                              <input
+                                type="checkbox"
+                                checked={rowData.chargeAdj}
+                                onChange={() => handleCheckboxChange(index, 'chargeAdj')}
+                              />
+                            </td>
+                            <td align="center">
+                              <input
+                                type="checkbox"
+                                checked={rowData.paymentAdj}
+                                onChange={() => handleCheckboxChange(index, 'paymentAdj')}
+                              />
+                            </td>
+                            <td align="center">
+                              <input
+                                type="checkbox"
+                                checked={rowData.providerAdj}
+                                onChange={() => handleCheckboxChange(index, 'providerAdj')}
+                              />
+                            </td>
+                            <td align="center">
+                              <input
+                                type="checkbox"
+                                checked={rowData.hygienistAdj}
+                                onChange={() => handleCheckboxChange(index, 'hygienistAdj')}
+                              />
+                            </td>
+                            {/* <td>{rowData.entryMap}</td> */}
+                          </tr>
+                        ))}
+                      </tbody>
+                   </table>
+              </Box>
+              </Card>  
+            </Grid>
+        </Grid>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={4}>
+      { <Grid container spacing={3} >
+          <Grid 
+          xs={12} 
+          md={8}
+          display="flex"
+          flexDirection="row"
+          >
+            <Card sx={{ p: 1, marginRight:2 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center"  >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'purge record'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+            <Card sx={{ p: 1, marginRight:2  }}>
               
               <Box
                 // rowGap={3}
@@ -1055,9 +1256,27 @@ export default function BasicTabs(currentUser) {
                   </LoadingButton>
                 </Stack>
              </Box>
+            </Card>
+
+            <Card sx={{ p: 1 }}>  
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+              </Box>
             </Card>  
           </Grid>
-        </Grid>  */}
+        </Grid>  }
         <Grid container spacing={3}>
           <Grid xs={12} md={12}>
             <Card sx={{ p: 1 }}>
@@ -1112,7 +1331,7 @@ export default function BasicTabs(currentUser) {
         <Grid container spacing={3} >
           <Grid 
           xs={12} 
-          md={4}
+          md={8}
           display="flex"
           flexDirection="row"
           >
@@ -1134,8 +1353,7 @@ export default function BasicTabs(currentUser) {
                 </Stack>
              </Box>
             </Card>  
-            <Card sx={{ p: 1 }}>
-              
+            <Card sx={{ p: 1, marginRight:2  }}>
               <Box
                 // rowGap={3}
                 // columnGap={2}
@@ -1151,7 +1369,26 @@ export default function BasicTabs(currentUser) {
                   </LoadingButton>
                 </Stack>
              </Box>
+            </Card> 
+
+            <Card sx={{ p: 1 }}>  
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+              </Box>
             </Card>  
+
           </Grid>
         </Grid> 
         <Grid container spacing={3}>
@@ -1204,8 +1441,52 @@ export default function BasicTabs(currentUser) {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
-          <Grid container spacing={3}>
+      <Grid container spacing={3} >
+          <Grid 
+          xs={12} 
+          md={4}
+          display="flex"
+          flexDirection="row"
+          >
+            <Card sx={{ p: 1, marginRight:2 }}>
               
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center"  >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Post >>>'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+            <Card sx={{ p: 1 }}>
+              
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+             </Box>
+            </Card>  
+          </Grid>
+         </Grid> 
+          <Grid container spacing={3}>
               <Grid xs={12} md={6}>
                 <Card sx={{ p: 3 }}>
                   <Box
@@ -1332,32 +1613,38 @@ export default function BasicTabs(currentUser) {
                   
                 </Card>
               </Grid>
-          </Grid>
-            <Grid container spacing={3}>
-              <Grid xs={12} md={2}>
-                <Card sx={{ p: 1 }}>
-                  
-                  <Box
-                    // rowGap={3}
-                    // columnGap={2}
-                    display="grid"
-                    gridTemplateColumns={{
-                      xs: 'repeat(1, 1fr)',
-                      sm: 'repeat(1, 1fr)',
-                    }}
-                  >
-                    <Stack alignItems="center" >
-                      <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                        {!currentUser ? 'Create User' : 'Post >>>'}
-                      </LoadingButton>
-                    </Stack>
-                </Box>
-                </Card>  
-              </Grid>
-            </Grid>
+           </Grid>
         </FormProvider>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={7}>
+        <Grid container spacing={3} >
+          <Grid 
+          xs={12} 
+          md={8}
+          display="flex"
+          flexDirection="row"
+          >
+
+            <Card sx={{ p: 1 }}>  
+              <Box
+                // rowGap={3}
+                // columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <Stack alignItems="center" >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {!currentUser ? 'Create User' : 'Save Changes'}
+                  </LoadingButton>
+                </Stack>
+              </Box>
+            </Card>  
+
+          </Grid>
+        </Grid> 
         <FormProvider methods={methods} onSubmit={onSubmit}>
           <List>
             <ListItem >

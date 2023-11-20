@@ -60,7 +60,8 @@ const PUBLISH_OPTIONS = [
 ];
 
 const defaultFilters = {
-  name: '',
+  // name: '',
+  corp_Name: '',
   publish: [],
   stock: [],
 };
@@ -106,11 +107,14 @@ export default function ProductListView() {
   const notFound = (!dataFiltered.length && canReset) || productsEmpty;
 
   const handleFilters = useCallback(
-    (name, value) => {
+    // (name, value) => {
+    (corp_Name, value) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
-        [name]: value,
+        // [name]: value,
+        [corp_Name]: value,
+
       }));
     },
     [table]
@@ -318,7 +322,8 @@ export default function ProductListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters }) {
-  const { name, stock, publish } = filters;
+  // const { name, stock, publish, corp_Name } = filters;
+  const { corp_Name, stock, publish,  } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -330,9 +335,14 @@ function applyFilter({ inputData, comparator, filters }) {
 
   inputData = stabilizedThis.map((el) => el[0]);
 
-  if (name) {
+  // if (name) {
+  //   inputData = inputData.filter(
+  //     (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+  //   );
+  // }
+  if (corp_Name) {
     inputData = inputData.filter(
-      (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (product) => product.corp_Name.toLowerCase().indexOf(corp_Name.toLowerCase()) !== -1
     );
   }
 

@@ -28,7 +28,8 @@ export default function ProductTableToolbar({
 
   const handleFilterName = useCallback(
     (event) => {
-      onFilters('name', event.target.value);
+      // onFilters('name', event.target.value);
+      onFilters('corp_Name', event.target.value);
     },
     [onFilters]
   );
@@ -128,7 +129,8 @@ export default function ProductTableToolbar({
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
           <TextField
             fullWidth
-            value={filters.name}
+            // value={filters.name}
+            value={filters.corp_Name}
             onChange={handleFilterName}
             placeholder="Search..."
             InputProps={{

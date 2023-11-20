@@ -1,26 +1,31 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
 // utils
-import { fetcher, endpoints } from 'src/utils/axios';
+import { fetcher, endpoints, fetcher_Two } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
 export function useGetProducts() {
-  const URL = endpoints.product.list;
+  // const URL = endpoints.product.list;
+  const URL = endpoints.product.corp_data;
 
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-
+  // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two);
+  
+  
   const memoizedValue = useMemo(
     () => ({
-      products: data?.products || [],
+      // products: data?.products || [],
+      products: data?.data?.items || [], 
       productsLoading: isLoading,
       productsError: error,
       productsValidating: isValidating,
-      productsEmpty: !isLoading && !data?.products.length,
+      // productsEmpty: !isLoading && !data?.products.length,
     }),
-    [data?.products, error, isLoading, isValidating]
+    // [data?.products, error, isLoading, isValidating]
+    [data?.data?.items, error, isLoading, isValidating]
   );
-
+  console.log(data);
   return memoizedValue;
 }
 
@@ -29,7 +34,8 @@ export function useGetProducts() {
 export function useGetProduct(productId) {
   const URL = productId ? [endpoints.product.details, { params: { productId } }] : null;
 
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two);
 
   const memoizedValue = useMemo(
     () => ({
@@ -40,7 +46,7 @@ export function useGetProduct(productId) {
     }),
     [data?.product, error, isLoading, isValidating]
   );
-
+  
   return memoizedValue;
 }
 
@@ -49,7 +55,8 @@ export function useGetProduct(productId) {
 export function useSearchProducts(query) {
   const URL = query ? [endpoints.product.search, { params: { query } }] : null;
 
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
+  // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two, {
     keepPreviousData: true,
   });
 

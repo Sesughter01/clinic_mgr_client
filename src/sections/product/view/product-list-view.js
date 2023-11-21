@@ -393,8 +393,8 @@ export default function ProductListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters }) {
-  // const { name, stock, publish } = filters;
-  const { corp_Name, stock, publish, corpStatus } = filters;
+  // const { name, stock, publish, corp_Name } = filters;
+  const { corp_Name, stock, publish,  } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -411,7 +411,6 @@ function applyFilter({ inputData, comparator, filters }) {
   //     (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
   //   );
   // }
-
   if (corp_Name) {
     inputData = inputData.filter(
       (product) => product.corp_Name.toLowerCase().indexOf(corp_Name.toLowerCase()) !== -1

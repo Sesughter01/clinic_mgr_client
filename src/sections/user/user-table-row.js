@@ -25,7 +25,7 @@ import UserQuickEditForm from './user-quick-edit-form';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow }) {
+export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, onPmsreportRow }) {
   // const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
   const { clinicName, avatarUrl, corpName, pms, actionBy, stage, status, toDo, asanaLink } = row;
 
@@ -196,7 +196,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
 
         <MenuItem
           onClick={() => {
-            onViewRow();
+            onPmsreportRow();
             popover.onClose();
           }}
         >
@@ -208,7 +208,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
 
         <MenuItem
           onClick={() => {
-            onViewRow();
+            // onPmsreportRow();
             popover.onClose();
           }}
         >
@@ -238,6 +238,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
 UserTableRow.propTypes = {
   onDeleteRow: PropTypes.func,
   onEditRow: PropTypes.func,
+  onPmsreportRow: PropTypes.func,
   onSelectRow: PropTypes.func,
   row: PropTypes.object,
   selected: PropTypes.bool,

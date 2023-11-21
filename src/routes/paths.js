@@ -193,6 +193,7 @@ export const paths = {
       profile: `${ROOTS.CLINIC_MANAGER}/clinic/profile`,
       account: `${ROOTS.CLINIC_MANAGER}/clinic/account`,
       edit: (id) => `${ROOTS.CLINIC_MANAGER}/clinic/${id}/edit`,
+      pmsreport: (id) => `${ROOTS.CLINIC_MANAGER}/clinic/${id}/pmsreport`,
       demo: {
         edit: `${ROOTS.CLINIC_MANAGER}/clinic/${MOCK_ID}/edit`,
       },

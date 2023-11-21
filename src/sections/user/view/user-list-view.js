@@ -164,6 +164,14 @@ export default function UserListView() {
     [router]
   );
 
+  const handlePmsreportRow = useCallback(
+    (id) => {
+      // router.push(paths.dashboard.user.edit(id));
+      router.push(paths.clinicmanager.clinic.pmsreport(id));
+    },
+    [router]
+  );
+
   const handleFilterStatus = useCallback(
     (event, newValue) => {
       handleFilters('status', newValue);
@@ -320,7 +328,8 @@ export default function UserListView() {
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onEditRow={() => handleEditRow(row.id)}
                         //Added by blessing
-                        onPmsReportRow
+                        onPmsreportRow={() => handlePmsreportRow(row.id)}
+                        
                       />
                     ))}
 

@@ -35,8 +35,8 @@ import {
   _toDos,
   _actionBys,
   _asanaLink,
-  //Shakirat
-  _status
+
+  _clinc_data,
 } from './assets';
 // import { _status } from './_product';
 

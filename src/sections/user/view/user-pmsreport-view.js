@@ -11,14 +11,15 @@ import { _userList } from 'src/_mock';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 //
-import UserNewEditForm from '../user-new-edit-form';
+// import UserNewEditForm from '../user-new-edit-form';
+import UserPmsreportForm from '../user-pmsreport-form';
 
 
 
 
 // ----------------------------------------------------------------------
 
-export default function UserEditView({ id }) {
+export default function UserPmsreporttView({ id }) {
   const settings = useSettingsContext();
 
   const currentUser = _userList.find((user) => user.id === id);
@@ -26,7 +27,7 @@ export default function UserEditView({ id }) {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading="Edit"
+        heading="Pms Report"
         links={[
           // {
           //   name: 'Dashboard',
@@ -45,11 +46,11 @@ export default function UserEditView({ id }) {
         }}
       />
 
-      <UserNewEditForm currentUser={currentUser} />
+      <UserPmsreportForm currentUser={currentUser} />
     </Container>
   );
 }
 
-UserEditView.propTypes = {
+UserPmsreporttView.propTypes = {
   id: PropTypes.string,
 };

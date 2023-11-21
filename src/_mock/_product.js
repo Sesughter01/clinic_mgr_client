@@ -52,15 +52,31 @@ export const PRODUCT_STOCK_OPTIONS = [
   { value: 'out of stock', label: 'Out of stock' },
 ];
 
+// export const PRODUCT_PUBLISH_OPTIONS = [
+//   {
+//     value: 'published',
+//     label: 'Published',
+//   },
+//   {
+//     value: 'draft',
+//     label: 'Draft',
+//   },
+  
+// ];
 export const PRODUCT_PUBLISH_OPTIONS = [
   {
-    value: 'published',
-    label: 'Published',
+    value: '1',
+    label: '1',
   },
   {
-    value: 'draft',
-    label: 'Draft',
+    value: '2',
+    label: '2',
   },
+  {
+    value: '3',
+    label: '3',
+  },
+  
 ];
 
 export const PRODUCT_SORT_OPTIONS = [

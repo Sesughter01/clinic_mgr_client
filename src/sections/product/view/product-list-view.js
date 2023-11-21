@@ -54,16 +54,46 @@ const TABLE_HEAD = [
   { id: '', width: 88 },
 ];
 
-const PUBLISH_OPTIONS = [
-  { value: 'published', label: 'Published' },
-  { value: 'draft', label: 'Draft' },
+// const PUBLISH_OPTIONS = [
+//   { value: 'published', label: 'Published' },
+//   { value: 'draft', label: 'Draft' },
+// ];
+
+export const PUBLISH_OPTIONS = [
+  {
+    value: '1',
+    label: 'Text',
+  },
+  {
+    value: '2',
+    label: 'Active',
+  },
+  {
+    value: '3',
+    label: 'Retired',
+  },
+  
+];
+//Addedby Shakirat
+export const STOCK_OPTIONS = [
+  {
+    value: '1',
+    label: 'US',
+  },
+  {
+    value: '2',
+    label: 'Canada',
+  },
+  
 ];
 
 const defaultFilters = {
   // name: '',
   corp_Name: '',
-  publish: [],
-  stock: [],
+  // publish: [],
+  corpStatus: [],
+  // stock: [],
+  corpId: [],
 };
 
 // ----------------------------------------------------------------------
@@ -190,7 +220,7 @@ export default function ProductListView() {
             filters={filters}
             onFilters={handleFilters}
             //
-            stockOptions={PRODUCT_STOCK_OPTIONS}
+            stockOptions={STOCK_OPTIONS}
             publishOptions={PUBLISH_OPTIONS}
           />
 
@@ -323,7 +353,7 @@ export default function ProductListView() {
 
 function applyFilter({ inputData, comparator, filters }) {
   // const { name, stock, publish, corp_Name } = filters;
-  const { corp_Name, stock, publish,  } = filters;
+  const { corp_Name, corpId, corpStatus,  } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -346,12 +376,19 @@ function applyFilter({ inputData, comparator, filters }) {
     );
   }
 
-  if (stock.length) {
-    inputData = inputData.filter((product) => stock.includes(product.inventoryType));
+  // if (stock.length) {
+  //   inputData = inputData.filter((product) => stock.includes(product.inventoryType));
+  // }
+  if (corpStatus.length) {
+    inputData = inputData.filter((product) => corpStatus.includes(product.corpStatus));
   }
+  
 
-  if (publish.length) {
-    inputData = inputData.filter((product) => publish.includes(product.publish));
+  // if (publish.length) {
+  //   inputData = inputData.filter((product) => publish.includes(product.publish));
+  // }
+  if (corpStatus.length) {
+    inputData = inputData.filter((product) => corpStatus.includes(product.corpStatus));
   }
 
   return inputData;

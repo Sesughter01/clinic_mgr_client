@@ -46,11 +46,11 @@ import ProductTableFiltersResult from '../product-table-filters-result';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Corps ID' },
-  { id: 'createdAt', label: 'Corps Name', width: 160 },
+  { id: 'name', label: 'Corps Name' },
+  { id: 'createdAt', label: 'Corps ID', width: 160 },
   { id: 'inventoryType', label: 'Base Scripts', width: 160 },
-  { id: 'price', label: 'Clinics', width: 140 },
-  { id: 'publish', label: 'Publish', width: 110 },
+  { id: 'price', label: '#Clinics', width: 140 },
+  { id: 'publish', label: 'Status', width: 110 },
   { id: '', width: 88 },
 ];
 

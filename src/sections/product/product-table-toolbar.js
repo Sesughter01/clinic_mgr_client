@@ -23,7 +23,6 @@ export default function ProductTableToolbar({
   //
   stockOptions,
   publishOptions,
-  statusOptions,
 }) {
   const popover = usePopover();
 
@@ -46,25 +45,7 @@ export default function ProductTableToolbar({
     [onFilters]
   );
 
-  // const handleFilterPublish = useCallback(
-  //   (event) => {
-  //     onFilters(
-  //       'publish',
-  //       typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
-  //     );
-  //   },
-  //   [onFilters]
-  // );
-
-  // const handleFilterPublish = useCallback(
-  //   (event) => {
-  //     onFilters(
-  //       'corpStatus',
-  //       typeof event.target.value);
-  //   },
-  //   [onFilters]
-  // );
-  const handleFilterStatus = useCallback(
+  const handleFilterPublish = useCallback(
     (event) => {
       onFilters(
         // 'publish',
@@ -110,7 +91,7 @@ export default function ProductTableToolbar({
           >
             {stockOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
-                {/* <Checkbox
+                <Checkbox
                   disableRipple
                   size="small"
                   // checked={filters.stock.includes(option.value)}
@@ -152,7 +133,6 @@ export default function ProductTableToolbar({
               </MenuItem>
             ))}
           </Select>
-
         </FormControl>
 
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
@@ -219,5 +199,4 @@ ProductTableToolbar.propTypes = {
   onFilters: PropTypes.func,
   publishOptions: PropTypes.array,
   stockOptions: PropTypes.array,
-  statusOptions: PropTypes.array,
 };

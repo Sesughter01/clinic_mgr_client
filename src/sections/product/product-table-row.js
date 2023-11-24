@@ -52,13 +52,12 @@ export default function ProductTableRow({
   const confirm = useBoolean();
 
   const popover = usePopover();
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PUBLISH_STATUS_OPTIONS];
 
   return (
     <>
       <TableRow hover selected={selected}>
         <TableCell padding="checkbox">
-          {/* <Checkbox checked={selected} onClick={onSelectRow} /> */}
+          <Checkbox checked={selected} onClick={onSelectRow} />
         </TableCell>
 
         <TableCell sx={{ display: "flex", alignItems: "center" }}>
@@ -66,8 +65,7 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PUBLISH_STATUS_OPTION
             alt={name}
             src={coverUrl}
             variant="rounded"
-            // sx={{ width: 64, height: 64, mr: 2 }}
-            sx={{ mr: 2 }}
+            sx={{ width: 64, height: 64, mr: 2 }}
           />
 
           <ListItemText
@@ -76,7 +74,7 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PUBLISH_STATUS_OPTION
               <Link
                 noWrap
                 color="inherit"
-                // variant="subtitle2"
+                variant="subtitle2"
                 onClick={onViewRow}
                 sx={{ cursor: "pointer" }}
               >
@@ -101,8 +99,8 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PUBLISH_STATUS_OPTION
             primaryTypographyProps={{ typography: 'body2', noWrap: true }}
             secondaryTypographyProps={{
               mt: 0.5,
-              component: "span",
-              typography: "caption",
+              component: 'span',
+              typography: 'caption',
             }}
           />
         </TableCell> */}
@@ -126,30 +124,15 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PUBLISH_STATUS_OPTION
 
         <TableCell>{fCurrency(price)}</TableCell>
 
-        {/* <TableCell>
-          <Label variant="soft" color={(publish === 'published' && 'info') || 'default'}>
-            {publish}
+        <TableCell>
+          <Label
+            variant="soft"
+            color={(publish === "published" && "info") || "default"}
+          >
+            {corpStatus}
           </Label>
-        </TableCell> */}
-        {/* <TableCell sx={{ display: "flex", alignItems: "center" }}>
+        </TableCell>
 
-          <ListItemText
-            disableTypography
-            primary={
-              <Link
-                noWrap
-                color="inherit"
-                variant="subtitle2"
-                onClick={onViewRow}
-                sx={{ cursor: "pointer" }}
-              >
-                {publish}
-              </Link>
-            }
-          />
-        </TableCell> */}
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{corpStatus}</TableCell>
-        
         <TableCell align="right">
           <IconButton
             color={popover.open ? "primary" : "default"}

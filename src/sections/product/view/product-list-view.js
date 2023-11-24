@@ -56,11 +56,11 @@ const STATUS_OPTIONS = [{ value: 'text', label: 'Text' }, ...PUBLISH_STATUS_OPTI
 
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Corp Name' },
-  { id: 'createdAt', label: 'Corp Id', width: 160 },
+  { id: 'name', label: 'Corps Name' },
+  { id: 'createdAt', label: 'Corps ID', width: 160 },
   { id: 'inventoryType', label: 'Base Scripts', width: 160 },
   { id: 'price', label: '#Clinics', width: 140 },
-  { id: 'Status', label: 'Status', width: 110 },
+  { id: 'publish', label: 'Status', width: 110 },
   { id: '', width: 88 },
 ];
 
@@ -68,18 +68,42 @@ const TABLE_HEAD = [
 //   { value: 'published', label: 'Published' },
 //   { value: 'draft', label: 'Draft' },
 // ];
-const PUBLISH_OPTIONS = [
-  { value: 'Text', label: 'Text' },
-  { value: 'Active', label: 'Active' },
-  { value: 'Retired', label: 'Retired' },
+
+export const PUBLISH_OPTIONS = [
+  {
+    value: '1',
+    label: 'Text',
+  },
+  {
+    value: '2',
+    label: 'Active',
+  },
+  {
+    value: '3',
+    label: 'Retired',
+  },
+  
+];
+//Addedby Shakirat
+export const STOCK_OPTIONS = [
+  {
+    value: '1',
+    label: 'US',
+  },
+  {
+    value: '2',
+    label: 'Canada',
+  },
+  
 ];
 
 const defaultFilters = {
   // name: '',
   corp_Name: '',
-  publish: [],
-  stock: [],
+  // publish: [],
   corpStatus: [],
+  // stock: [],
+  corpId: [],
 };
 
 // ----------------------------------------------------------------------
@@ -260,9 +284,8 @@ export default function ProductListView() {
             filters={filters}
             onFilters={handleFilters}
             //
-            stockOptions={PRODUCT_STOCK_OPTIONS}
-            // publishOptions={PUBLISH_OPTIONS}
-            statusOptions={_status}
+            stockOptions={STOCK_OPTIONS}
+            publishOptions={PUBLISH_OPTIONS}
           />
 
           {canReset && (
@@ -393,8 +416,8 @@ export default function ProductListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters }) {
-  // const { name, stock, publish } = filters;
-  const { corp_Name, stock, publish, corpStatus } = filters;
+  // const { name, stock, publish, corp_Name } = filters;
+  const { corp_Name, corpId, corpStatus,  } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -411,19 +434,26 @@ function applyFilter({ inputData, comparator, filters }) {
   //     (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
   //   );
   // }
-
   if (corp_Name) {
     inputData = inputData.filter(
       (product) => product.corp_Name.toLowerCase().indexOf(corp_Name.toLowerCase()) !== -1
     );
   }
 
-  if (stock.length) {
-    inputData = inputData.filter((product) => stock.includes(product.inventoryType));
+  // if (stock.length) {
+  //   inputData = inputData.filter((product) => stock.includes(product.inventoryType));
+  // }
+  if (corpStatus.length) {
+    inputData = inputData.filter((product) => corpStatus.includes(product.corpStatus));
   }
+  
+
   // if (publish.length) {
   //   inputData = inputData.filter((product) => publish.includes(product.publish));
   // }
+  if (corpStatus.length) {
+    inputData = inputData.filter((product) => corpStatus.includes(product.corpStatus));
+  }
 
   if (corpStatus) {
     inputData = inputData.filter(

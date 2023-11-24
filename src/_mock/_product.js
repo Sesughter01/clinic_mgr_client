@@ -47,52 +47,37 @@ export const PRODUCT_SIZE_OPTIONS = [
 ];
 
 export const PRODUCT_STOCK_OPTIONS = [
-  // { value: 'in stock', label: 'In stock' },
-  // { value: 'low stock', label: 'Low stock' },
-  // { value: 'out of stock', label: 'Out of stock' },
-  { value: 'US', label: 'US' },
-  { value: 'Canada', label: 'Canada' },
+  { value: 'in stock', label: 'In stock' },
+  { value: 'low stock', label: 'Low stock' },
+  { value: 'out of stock', label: 'Out of stock' },
 ];
 
+// export const PRODUCT_PUBLISH_OPTIONS = [
+//   {
+//     value: 'published',
+//     label: 'Published',
+//   },
+//   {
+//     value: 'draft',
+//     label: 'Draft',
+//   },
+  
+// ];
 export const PRODUCT_PUBLISH_OPTIONS = [
-  // {
-  //   value: 'published',
-  //   label: 'Published',
-  // },
-  // {
-  //   value: 'draft',
-  //   label: 'Draft',
-  // },
   {
-    value: 'Text',
-    label: 'Text',
+    value: '1',
+    label: '1',
   },
   {
-    value: 'Active',
-    label: 'Active',
+    value: '2',
+    label: '2',
   },
   {
-    value: 'Retired',
-    label: 'Retired',
+    value: '3',
+    label: '3',
   },
   
 ];
-
-
-// export const _status = [
-//   {
-//     value: 'text',
-//     label: 'Text',
-//   },
-//   {
-//     value: 'active',
-//     label: 'Active',
-//   },
-//   {
-//     value: 'retired',
-//     label: 'Retired',
-//   },
-// ]
 
 export const PRODUCT_SORT_OPTIONS = [
   { value: 'featured', label: 'Featured' },

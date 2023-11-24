@@ -20,9 +20,10 @@ export default function ProductTableFiltersResult({
   ...other
 }) {
   const handleRemoveStock = (inputValue) => {
-    const newValue = filters.stock.filter((item) => item !== inputValue);
-    onFilters('stock', newValue);
-    
+    // const newValue = filters.stock.filter((item) => item !== inputValue);
+    // onFilters('stock', newValue);
+    const newValue = filters.corpStatus.filter((item) => item !== inputValue);
+    onFilters('corpStatus', newValue);
   };
 
   const handleRemovePublish = (inputValue) => {
@@ -42,9 +43,17 @@ export default function ProductTableFiltersResult({
       </Box>
 
       <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
-        {!!filters.stock.length && (
+        {/* {!!filters.stock.length && (
           <Block label="Stock:">
             {filters.stock.map((item) => (
+              <Chip key={item} label={item} size="small" onDelete={() => handleRemoveStock(item)} />
+            ))}
+          </Block>
+        )} */}
+        {!!filters.corpStatus.length && (
+          // <Block label="Stock:">
+          <Block label="Location:">
+            {filters.corpStatus.map((item) => (
               <Chip key={item} label={item} size="small" onDelete={() => handleRemoveStock(item)} />
             ))}
           </Block>
@@ -62,6 +71,18 @@ export default function ProductTableFiltersResult({
             ))}
           </Block>
         )} */}
+        {!!filters.corpStatus.length && (
+          <Block label="Status:">
+            {filters.corpStatus.map((item) => (
+              <Chip
+                key={item}
+                label={item}
+                size="small"
+                onDelete={() => handleRemovePublish(item)}
+              />
+            ))}
+          </Block>
+        )}
 
         <Button
           color="error"

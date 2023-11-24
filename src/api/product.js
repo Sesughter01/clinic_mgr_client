@@ -1,9 +1,8 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
 // utils
-import { fetcher, endpoints } from 'src/utils/axios';
-// Shakirat
-import {data}  from 'src/_mock/_coorperation';
+import { fetcher, endpoints, fetcher_Two } from 'src/utils/axios';
+
 // ----------------------------------------------------------------------
 
 // export function useGetProducts() {
@@ -26,14 +25,27 @@ import {data}  from 'src/_mock/_coorperation';
 // }
 
 export function useGetProducts() {
-  const products = data.data.items; // Use the items array from your data
-  return {
-    products,
-    productsLoading: false, // Set to false since you are using static data
-    productsError: null, // Set to null since there is no error
-    productsValidating: false, // Set to false since you are using static data
-    productsEmpty: products.length === 0,
-  };
+  // const URL = endpoints.product.list;
+  const URL = endpoints.product.corp_data;
+
+  // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two);
+  
+  
+  const memoizedValue = useMemo(
+    () => ({
+      // products: data?.products || [],
+      products: data?.data?.items || [], 
+      productsLoading: isLoading,
+      productsError: error,
+      productsValidating: isValidating,
+      // productsEmpty: !isLoading && !data?.products.length,
+    }),
+    // [data?.products, error, isLoading, isValidating]
+    [data?.data?.items, error, isLoading, isValidating]
+  );
+  console.log(data);
+  return memoizedValue;
 }
 
 
@@ -42,7 +54,8 @@ export function useGetProducts() {
 export function useGetProduct(productId) {
   const URL = productId ? [endpoints.product.details, { params: { productId } }] : null;
 
-  const { isLoading, error, isValidating } = useSWR(URL, fetcher);
+  // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two);
 
   const memoizedValue = useMemo(
     () => ({
@@ -53,7 +66,7 @@ export function useGetProduct(productId) {
     }),
     [data?.product, error, isLoading, isValidating]
   );
-
+  
   return memoizedValue;
 }
 
@@ -93,12 +106,23 @@ export function useGetProduct(productId) {
 
 
 export function useSearchProducts(query) {
-  const searchResults = data.data.items.filter(item => item.corp_Name.toLowerCase().includes(query.toLowerCase())); // Filter items based on the query
-  return {
-    searchResults,
-    searchLoading: false, // Set to false since you are using static data
-    searchError: null, // Set to null since there is no error
-    searchValidating: false, // Set to false since you are using static data
-    searchEmpty: searchResults.length === 0,
-  };
+  const URL = query ? [endpoints.product.search, { params: { query } }] : null;
+
+  // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two, {
+    keepPreviousData: true,
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      searchResults: data?.results || [],
+      searchLoading: isLoading,
+      searchError: error,
+      searchValidating: isValidating,
+      searchEmpty: !isLoading && !data?.results.length,
+    }),
+    [data?.results, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
 }

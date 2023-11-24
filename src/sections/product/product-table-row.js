@@ -21,8 +21,6 @@ import Label from "src/components/label";
 import Iconify from "src/components/iconify";
 import { ConfirmDialog } from "src/components/custom-dialog";
 import CustomPopover, { usePopover } from "src/components/custom-popover";
-import { _userList, _roles, _corpNames, _pmss, USER_STATUS_OPTIONS,_status, PUBLISH_STATUS_OPTIONS } from 'src/_mock';
-
 
 // ----------------------------------------------------------------------
 
@@ -44,12 +42,10 @@ export default function ProductTableRow({
     createdAt,
     available,
     inventoryType,
-    status,
+    //Added by Shakirat
     corp_Name,
     corpId,
-    corpNum,
     corpScrName,
-    archive,
     corpStatus,
   } = row;
 
@@ -84,41 +80,25 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PUBLISH_STATUS_OPTION
                 onClick={onViewRow}
                 sx={{ cursor: "pointer" }}
               >
-                {/* {name} */}
-                { corp_Name }
+                {corp_Name}
               </Link>
-            // }
-            // ListItemText
-            // disableTypography
-            // primary={
-            //   <Link
-            //     noWrap
-            //     color="inherit"
-            //     variant="subtitle2"
-            //     onClick={onViewRow}
-            //     sx={{ cursor: "pointer" }}
-            //   >
-            //     {corp_Name}
-            //   </Link>
             }
-            // secondary={
-            //   <Box
-            //     component="div"
-            //     sx={{ typography: "body2", color: "text.disabled" }}
-            //   >
-            //     {category}
-            //   </Box>
-            // }
+            secondary={
+              <Box
+                component="div"
+                sx={{ typography: "body2", color: "text.disabled" }}
+              >
+                {category}
+              </Box>
+            }
           />
         </TableCell>
 
         {/* <TableCell>
           <ListItemText
             // primary={format(new Date(createdAt), 'dd MMM yyyy')}
-            primary={price}
             // secondary={format(new Date(createdAt), 'p')}
-            secondary={" "}
-            primaryTypographyProps={{ typography: "body2", noWrap: true }}
+            primaryTypographyProps={{ typography: 'body2', noWrap: true }}
             secondaryTypographyProps={{
               mt: 0.5,
               component: "span",
@@ -126,41 +106,25 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PUBLISH_STATUS_OPTION
             }}
           />
         </TableCell> */}
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{corpNum}</TableCell>
 
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corpId}</TableCell>
 
-        {/* <TableCell sx={{ typography: 'caption', color: 'text.secondary' }}>
+        {/* <TableCell sx={{ typography: "caption", color: "text.secondary" }}>
           <LinearProgress
             value={(available * 100) / quantity}
             variant="determinate"
             color={
-              (inventoryType === 'out of stock' && 'error') ||
-              (inventoryType === 'low stock' && 'warning') ||
-              'success'
+              (inventoryType === "out of stock" && "error") ||
+              (inventoryType === "low stock" && "warning") ||
+              "success"
             }
             sx={{ mb: 1, height: 6, maxWidth: 80 }}
           />
           {!!available && available} {inventoryType}
         </TableCell> */}
-        {/* <TableCell>
-          <ListItemText
-            // primary={format(new Date(createdAt), 'dd MMM yyyy')}
-            primary={inventoryType}
-            // secondary={format(new Date(createdAt), 'p')}
-            secondary={" "}
-            primaryTypographyProps={{ typography: "body2", noWrap: true }}
-            secondaryTypographyProps={{
-              mt: 0.5,
-              component: "span",
-              typography: "caption",
-            }}
-          />
-        </TableCell> */}
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{corpScrName}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corpScrName}</TableCell>
 
-
-        {/* <TableCell>{fCurrency(price)}</TableCell> */}
-        <TableCell>{price}</TableCell>
+        <TableCell>{fCurrency(price)}</TableCell>
 
         {/* <TableCell>
           <Label variant="soft" color={(publish === 'published' && 'info') || 'default'}>

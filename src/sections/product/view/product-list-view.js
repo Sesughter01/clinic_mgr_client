@@ -162,7 +162,7 @@ export default function ProductListView() {
 
   const handleDeleteRow = useCallback(
     (id) => {
-      const deleteRow = tableData.filter((row) => row.id !== id);
+      const deleteRow = tableData.filter((row) => row.corpId !== id);
       setTableData(deleteRow);
 
       table.onUpdatePageDeleteRow(dataInPage.length);
@@ -351,13 +351,13 @@ export default function ProductListView() {
                         )
                         .map((row) => (
                           <ProductTableRow
-                            key={row.id}
+                            key={row.corpId}
                             row={row}
-                            selected={table.selected.includes(row.id)}
-                            onSelectRow={() => table.onSelectRow(row.id)}
-                            onDeleteRow={() => handleDeleteRow(row.id)}
-                            onEditRow={() => handleEditRow(row.id)}
-                            onViewRow={() => handleViewRow(row.id)}
+                            selected={table.selected.includes(row.corpId)}
+                            onSelectRow={() => table.onSelectRow(row.corpId)}
+                            onDeleteRow={() => handleDeleteRow(row.corpId)}
+                            onEditRow={() => handleEditRow(row.corpId)}
+                            onViewRow={() => handleViewRow(row.corpId)}
                           />
                         ))}
                     </>

@@ -67,11 +67,13 @@ export const endpoints = {
   },
   product: {
     list: '/api/product/list',
-    details: '/api/product/details',
+    // details: '/api/product/details',
     search: '/api/product/search',
 
     // Added by Blessing NEXT_PUBLIC_HOST_API_TWO
     corp_data: '/api/Corps',
+    details: '/api/Corps/corpNum',
+
   },
 
   //Added by Blessing

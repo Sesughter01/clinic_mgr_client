@@ -13,6 +13,9 @@ import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 //
 import UserNewEditForm from '../user-new-edit-form';
 
+
+
+
 // ----------------------------------------------------------------------
 
 export default function UserEditView({ id }) {
@@ -30,10 +33,14 @@ export default function UserEditView({ id }) {
           //   href: paths.dashboard.root,
           // },
           {
-            name: 'Clinic',
+            name: 'Clinic Manager',
             // href: paths.dashboard.user.root,
           },
-          { name: currentUser?.name },
+          // { name: currentUser?.name },
+          { name: currentUser?.clinicName },
+          { name: currentUser?.corpName },
+          { name: currentUser?.pms },
+
         ]}
         sx={{
           mb: { xs: 3, md: 5 },

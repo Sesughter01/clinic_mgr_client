@@ -6,6 +6,10 @@ import { paths } from 'src/routes/paths';
 
 export const HOST_API = process.env.NEXT_PUBLIC_HOST_API;
 export const ASSETS_API = process.env.NEXT_PUBLIC_ASSETS_API;
+//Added by Blessing
+export const HOST_API_TWO = process.env.NEXT_PUBLIC_HOST_API_TWO;
+
+
 
 export const FIREBASE_API = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

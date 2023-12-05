@@ -20,13 +20,17 @@ export default function ProductTableFiltersResult({
   ...other
 }) {
   const handleRemoveStock = (inputValue) => {
-    const newValue = filters.stock.filter((item) => item !== inputValue);
-    onFilters('stock', newValue);
+    // const newValue = filters.stock.filter((item) => item !== inputValue);
+    // onFilters('stock', newValue);
+    const newValue = filters.corp_statusfilter((item) => item !== inputValue);
+    onFilters('corp_status', newValue);
   };
 
   const handleRemovePublish = (inputValue) => {
-    const newValue = filters.publish.filter((item) => item !== inputValue);
-    onFilters('publish', newValue);
+    // const newValue = filters.publish.filter((item) => item !== inputValue);
+    // onFilters('publish', newValue);
+    const newValue = filters.corp_status.filter((item) => item !== inputValue);
+    onFilters('corp_status', newValue);
   };
 
   return (
@@ -39,17 +43,37 @@ export default function ProductTableFiltersResult({
       </Box>
 
       <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
-        {!!filters.stock.length && (
+        {/* {!!filters.stock.length && (
           <Block label="Stock:">
             {filters.stock.map((item) => (
               <Chip key={item} label={item} size="small" onDelete={() => handleRemoveStock(item)} />
             ))}
           </Block>
+        )} */}
+        {!!filters.corp_status.length && (
+          // <Block label="Stock:">
+          <Block label="Location:">
+            {filters.corp_status.map((item) => (
+              <Chip key={item} label={item} size="small" onDelete={() => handleRemoveStock(item)} />
+            ))}
+          </Block>
         )}
 
-        {!!filters.publish.length && (
+        {/* {!!filters.publish.length && (
           <Block label="Publish:">
             {filters.publish.map((item) => (
+              <Chip
+                key={item}
+                label={item}
+                size="small"
+                onDelete={() => handleRemovePublish(item)}
+              />
+            ))}
+          </Block>
+        )} */}
+        {!!filters.corp_status.length && (
+          <Block label="Status:">
+            {filters.corp_status.map((item) => (
               <Chip
                 key={item}
                 label={item}

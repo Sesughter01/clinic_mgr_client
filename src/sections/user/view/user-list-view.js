@@ -1,7 +1,7 @@
 'use client';
 
 import isEqual from 'lodash/isEqual';
-import { useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 // @mui
 import { alpha } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
@@ -19,8 +19,8 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 // _mock
-import { _userList, _roles, _corpNames, _pmss, USER_STATUS_OPTIONS } from 'src/_mock';
-
+import { _userList, _userListTwo, _roles, _corpNames, _pmss, USER_STATUS_OPTIONS } from 'src/_mock';
+import { useGetClinics } from 'src/api/clinic_manager';
 //Added by Blessing
 // import { _corpName, _pms, _clinicName  } from 'src/_mock';
 
@@ -62,14 +62,15 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 // ];
 
 const TABLE_HEAD = [
-  { id: 'clinicName', label: 'Clinic Name',},
+  { id: 'clinic_name', label: 'Clinic Name',},
   { id: 'corpName', label: 'Corp Name', width: 180 },
   { id: 'pms', label: 'PMS', width: 180 },
-  { id: 'stage', label: 'Stage', width: 180 },
-  { id: 'toDo', label: 'To Do', width: 220 },
-  { id: 'actionBy', label: 'Action By', width: 220 },
-  { id: 'asanaLink', label: 'Asana Link', width: 300 },
+  { id: 'stage', label: 'Stage',  },
+  { id: 'todo', label: 'To Do', },
+  { id: 'actioBy', label: 'Action By', width: 220 },
+  { id: 'asana_url', label: 'Asana Link', width: 300 },
   { id: 'status', label: 'Status', width: 100 },
+  { id: '', width: 88 },
   { id: '', width: 88 },
 ];
 
@@ -83,7 +84,7 @@ const TABLE_HEAD = [
 //corpname, pms, clinicname search
 const defaultFilters = {
   // name: '',
-  clinicName: '',
+  clinic_name: '',
   corporation: '',
   pmss: '',
   corpName: [],
@@ -100,11 +101,23 @@ export default function UserListView() {
 
   const router = useRouter();
 
-  const confirm = useBoolean();
+  // const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_userList);
+  // const [tableData, setTableData] = useState(_userList);
+  const [tableData, setTableData] = useState([]);
 
   const [filters, setFilters] = useState(defaultFilters);
+
+  const { clinics, clinicsLoading, clinicsEmpty } = useGetClinics();
+
+  const confirm = useBoolean();
+
+  useEffect(() => {
+    if (clinics.length) {
+      console.log(" The clinic details: " + JSON.stringify(clinics));
+      setTableData(clinics);
+    }
+  }, [clinics]);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -157,7 +170,17 @@ export default function UserListView() {
 
   const handleEditRow = useCallback(
     (id) => {
-      router.push(paths.dashboard.user.edit(id));
+      // router.push(paths.dashboard.user.edit(id));
+      router.push(paths.clinicmanager.clinic.edit(id));
+      console.log(id)
+    },
+    [router]
+  );
+
+  const handlePmsreportRow = useCallback(
+    (id) => {
+      // router.push(paths.dashboard.user.edit(id));
+      router.push(paths.clinicmanager.clinic.pmsreport(id));
     },
     [router]
   );
@@ -181,13 +204,13 @@ export default function UserListView() {
           links={[
             // { name: 'Dashboard', href: paths.dashboard.root },
             { name: 'Clinics', href: paths.clinicmanager.root },
-            { name: 'List' },
+            { name: 'List' }, 
           ]}
           action={
             <Button
               component={RouterLink}
               // href={paths.dashboard.user.new}
-              href={paths.clinicmanager.new}
+              href={paths.clinicmanager.clinic.new}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
@@ -317,6 +340,9 @@ export default function UserListView() {
                         onSelectRow={() => table.onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onEditRow={() => handleEditRow(row.id)}
+                        //Added by blessing
+                        onPmsreportRow={() => handlePmsreportRow(row.id)}
+                        
                       />
                     ))}
 
@@ -374,9 +400,10 @@ export default function UserListView() {
 
 function applyFilter({ inputData, comparator, filters }) {
   // const { name, status, role } = filters;
-  const { clinicName, status, corpName, pms } = filters;
+  const { clinic_name, status, corpName, pms } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
+  
 
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -385,15 +412,16 @@ function applyFilter({ inputData, comparator, filters }) {
   });
 
   inputData = stabilizedThis.map((el) => el[0]);
+ 
 
   // if (name) {
   //   inputData = inputData.filter(
   //     (user) => user.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
   //   );
   // }
-  if (clinicName) {
+  if (clinic_name) {
     inputData = inputData.filter(
-      (user) => user.clinicName.toLowerCase().indexOf(clinicName.toLowerCase()) !== -1
+      (user) => user.clinic_name.toLowerCase().indexOf(clinic_name.toLowerCase()) !== -1
     );
   }
   

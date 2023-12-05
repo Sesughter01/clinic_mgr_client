@@ -266,7 +266,7 @@ export const _roles = [
 ];
 
 //new clinic name search added by blessing
-export const _clinicNames = [
+export const _clinic_names = [
   'Yings Clinic ',
   'Heavens Clinic',
   'Fings  Clinic',
@@ -339,6 +339,13 @@ export const _pmss = [
   'Vings pms',
   'Kings pms',
 ];
+//Shakirat
+export const _status = [
+  'Text',
+  'Active',
+  'Retired',
+]
+
 
 //new stage search added by blessing
 export const _stages = [
@@ -365,7 +372,7 @@ export const _stages = [
 ];
 
 //new to do search added by blessing
-export const _toDos = [
+export const _todos = [
   'none',
   'none',
   'none',
@@ -386,12 +393,10 @@ export const _toDos = [
   'none',
   'none',
   'none',
-  
-
 ];
 
 //new action by mock up added by blessing
-export const _actionBys = [
+export const _actioBys = [
   'None',
   'None',
   'None',
@@ -415,7 +420,7 @@ export const _actionBys = [
 ];
 
 //new action by mock up added by blessing
-export const _asanaLink = [
+export const _asana_url = [
   'http://url.com',
   'url',
   'url',
@@ -698,3 +703,5 @@ export const _descriptions = [
   `Ipsam aliquam velit nobis repellendus officiis aut deserunt id et. Nihil sunt aut dolores aut. Dolores est ipsa quia et laborum quidem laborum accusamus id. Facilis odit quod hic laudantium saepe omnis nisi in sint. Sed cupiditate possimus id.`,
   `Magnam non eveniet optio optio ut aliquid atque. Velit libero aspernatur quis laborum consequatur laudantium. Tempora facere optio fugit accusantium ut. Omnis aspernatur reprehenderit autem esse ut ut enim voluptatibus.`,
 ];
+
+

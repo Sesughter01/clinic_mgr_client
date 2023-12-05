@@ -28,15 +28,15 @@ import {
   _descriptions,
   _phoneNumbers,
   //new data from blessing
-  _clinicNames,
+  _clinic_names,
   _corpNames,
   _pmss,
   _stages,
-  _toDos,
-  _actionBys,
-  _asanaLink,
+  _todos,
+  _actioBys,
+  _asana_url,
 
-  _clinc_data,
+  clinic_data,
 } from './assets';
 // import { _status } from './_product';
 
@@ -66,13 +66,13 @@ export const _mock = {
   companyName: (index) => _companyNames[index],
 
   //Clinic Manager 
-  clinicName: (index) => _clinicNames[index],
+  clinic_name: (index) => _clinic_names[index],
   corpName: (index) => _corpNames[index],
   pms: (index) => _pmss[index],
   stage: (index) => _stages[index],
-  toDo: (index) => _toDos[index],
-  actionBy: (index) => _actionBys[index],
-  asanaLink: (index) => _asanaLink[index],
+  todo: (index) => _todos[index],
+  actioBy: (index) => _actioBys[index],
+  asana_url: (index) => _asana_url[index],
 
   //Corperation
   status: (index) => _status[index],

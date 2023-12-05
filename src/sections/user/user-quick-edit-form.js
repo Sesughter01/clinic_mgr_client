@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
+import React, { useState } from 'react';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -42,28 +43,28 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
   const NewUserSchema = Yup.object().shape({
     //details
     corpPractice: Yup.string().required('Corp practice is required'),
-    clinicAddress: Yup.string().required('Clinic Address is required'),
-    clinicId: Yup.string().required('Clinic Id is required'),
-    city: Yup.string().required('City is required'),
-    clinicCode: Yup.string().required('Clinic code is required'),
-    province: Yup.string().required('Province is required'),
-    dataPath: Yup.string().required('Data path is required'),
-    postalCode: Yup.string().required('Postal code is required'),
-    clinicName: Yup.string().required('Clinic name is required'),
+    clinic_address: Yup.string().required('Clinic Address is required'),
+    idclinics: Yup.string().required('Clinic Id is required'),
+    clinic_city: Yup.string().required('Clinic City is required'),
+    clinic_code: Yup.string().required('Clinic Code is required'),
+    clinic_province: Yup.string().required('Clinic Province is required'),
+    data_Path: Yup.string().required('Data path is required'),
+    clinic_postal: Yup.string().required('Clinic Postal is required'),
+    clinic_name: Yup.string().required('Clinic name is required'),
     country: Yup.string().required('Country is required'),
-    currentApplication: Yup.string().required('Current application is required'),
-    phone: Yup.string().required('Phone is required'),
-    destDb: Yup.string().required('Dest. db code is required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    appointmentUnit: Yup.string().required('Appointemnt unit is required'),
-    acquisitionDate: Yup.string().required('Acquisition date is required'),
-    productionBy: Yup.string().required('Production By is required'),
+    current_app: Yup.string().required('Current Application is required'),
+    clinic_phone: Yup.string().required('Clinic Phone is required'),
+    dest_db: Yup.string().required('Dest. db code is required'),
+    clinic_email: Yup.string().required('Clinic Email is required').email('Clinic Email must be a valid email address'),
+    clinic_appointmentunit: Yup.string().required('Clinic Appointemnt unit is required'),
+    acquistionDate: Yup.string().required('Acquisition date is required'),
+    prodDate: Yup.string().required('Production By is required'),
     cuttOffDate: Yup.string().required('Cutt off datee is required'),
-    chrgAdjBy: Yup.string().required('Chrg adj by is required'),
-    statingTransId: Yup.string().required('Stating trans id is required'),
-    collectionBy: Yup.string().required('Collection by is required'),
+    chargeAdj: Yup.string().required('Chrg adj by is required'),
+    firstTransId: Yup.string().required('Stating trans id is required'),
+    colDate: Yup.string().required('Collection by is required'),
     responsiblePerson: Yup.string().required('Responsible person is required'),
-    collAdjBy: Yup.string().required('Collection adj by is required'),
+    collectionAdj: Yup.string().required('Collection adj by is required'),
   
   }); 
 
@@ -89,29 +90,29 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
     () => ({
       //details
       corpPractice: currentUser?.corpPractice|| '',
-      clinicAddress: currentUser?.clinicAddress || '',
-      clinicId: currentUser?.clinicId || '',
-      city: currentUser?.city || '',
-      clinicCode: currentUser?.clinicCode || '',
-      province: currentUser?.province || '',
-      dataPath: currentUser?.dataPath || '',
-      postalCode: currentUser?.postalCode || '',
-      clinicName: currentUser?.clinicName || '',
+      clinic_address: currentUser?.clinic_address || '',
+      idclinics: currentUser?.idclinics || '',
+      clinic_city: currentUser?.clinic_city || '',
+      clinic_code: currentUser?.clinic_code || '',
+      clinic_province: currentUser?.clinic_province || '',
+      data_Path: currentUser?.data_Path || '',
+      clinic_postal: currentUser?.clinic_postal || '',
+      clinic_name: currentUser?.clinic_name || '',
       country: currentUser?.country || '',
       avatarUrl: currentUser?.avatarUrl || null,
-      currentApplication: currentUser?.currentApplication || '',
-      phone: currentUser?.phone || '',
-      destDb: currentUser?.destDb || '',
-      email: currentUser?.email || '',
-      appointmentUnit: currentUser?.appointmentUnit || '',
-      acquisitionDate: currentUser?.acquisitionDate || '',
-      productionBy: currentUser?.productionBy || '',
-      cutOffDate: currentUser?.cutOffDate || '',
-      chrgAdjBy: currentUser?.chrgAdjBy || '',
-      statingTransId: currentUser?.statingTransId || '',
-      collectionBy: currentUser?. collectionBy || '',
+      current_app: currentUser?.current_app || '',
+      clinic_phone: currentUser?.clinic_phone || '',
+      dest_db: currentUser?.dest_db || '',
+      clinic_email: currentUser?.clinic_email || '',
+      clinic_appointmentunit: currentUser?.clinic_appointmentunit || '',
+      acquistionDate: currentUser?.acquistionDate || '',
+      prodDate: currentUser?.prodDate || '',
+      cutoff_date: currentUser?.cutoff_date || '',
+      chargeAdj: currentUser?.chargeAdj || '',
+      firstTransId: currentUser?.firstTransId || '',
+      colDate: currentUser?. colDate || '',
       responsiblePerson: currentUser?.responsiblePerson || '',
-      collAdjBy: currentUser?.collAdjBy || '',
+      collectionAdj: currentUser?.collectionAdj || '',
       
     }),
     [currentUser]
@@ -139,6 +140,13 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
       console.error(error);
     }
   });
+
+   //For date
+  const [date, setDate] = useState("none");
+  const onDateChange = (event) => {
+   setDate(event.target.value);
+  };
+
 
   return (
     <Dialog
@@ -216,43 +224,19 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
             <RHFTextField name="company" label="Company" />
             <RHFTextField name="role" label="Role" /> */}
 
-            <RHFAutocomplete
+            <RHFTextField
                 name="corpPractice"
                 label="Corp Practice"
-                options={countries.map((country) => country.label)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.label === option
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {label} ({code}) +{phone}
-                    </li>
-                  );
-                }}
               />
 
-              <RHFTextField name="clinicAddress" label="Clinic Address" />
-              <RHFTextField name="clinicId" label="Clinic Id" />
-              <RHFTextField name="city" label="City" />
-              <RHFTextField name="clinicCode" label="Clinic Code" />
-              <RHFTextField name="province" label="Province" />
-              <RHFTextField name="dataPath" label="Data Path" />
-              <RHFTextField name="postalCode" label="Postal Code" />
-              <RHFTextField name="clinicName" label="Clinic Name" />
+              <RHFTextField name="clinic_address" label="Clinic Address" />
+              <RHFTextField name="idclinics" label="Clinic Id" />
+              <RHFTextField name="clinic_city" label="Clinic city" />
+              <RHFTextField name="clinic_code" label="Clinic Code" />
+              <RHFTextField name="clinic_province" label="Clinic Province" />
+              <RHFTextField name="data_Path" label="Data Path" />
+              <RHFTextField name="clinic_postal" label="Clinic postal" />
+              <RHFTextField name="clinic_name" label="Clinic Name" />
 
               <RHFAutocomplete
                 name="country"
@@ -283,184 +267,45 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
                 }}
               />
 
-              <RHFAutocomplete
-                name="currentApplication"
+              <RHFTextField
+                name="current_app"
                 label="Current Application"
-                options={countries.map((country) => country.label)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.label === option
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {label} ({code}) +{phone}
-                    </li>
-                  );
-                }}
               />
               
-              <RHFTextField name="phone" label="Phone" />
-              <RHFTextField name="destDb" label="Dest. DB" />
-              <RHFTextField name="email" label="Email" />
+              <RHFTextField name="clinic_phone" label="Clinic Phone" />
+              <RHFTextField name="dest_db" label="Dest. DB" />
+              <RHFTextField name="clinic_email" label="Clinic Email" />
 
-              <RHFAutocomplete
-                name="appointmentUnit"
-                label="Appointment Unit"
-                options={countries.map((country) => country.label)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.label === option
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {label} ({code}) +{phone}
-                    </li>
-                  );
-                }}
+              <RHFTextField
+                name="clinic_appointmentunit"
+                label="Clinic Appointment Unit"
               />
 
-              <RHFTextField name="acquisitionData" label="Acquisition Data" />
+              <RHFTextField name="acquistionDate" 
+                  label="Acquisition Date"
+                  type="date"
+                  value={date}
+                  onChange={onDateChange} />
 
-              <RHFAutocomplete
-                name="productionBy"
+              <RHFTextField
+                name="prodDate"
                 label="Production By"
-                options={countries.map((country) => country.label)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.label === option
-                  )[0];
 
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {label} ({code}) +{phone}
-                    </li>
-                  );
-                }}
               />
 
-              <RHFAutocomplete
-                name="chrgAdjBy"
+              <RHFTextField
+                name="chargeAdj"
                 label="Chrg Adj By"
-                options={countries.map((country) => country.label)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.label === option
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {label} ({code}) +{phone}
-                    </li>
-                  );
-                }}
               />
 
-              <RHFAutocomplete
-                name="collectionBy"
+              <RHFTextField
+                name="colDate"
                 label="Collection By"
-                options={countries.map((country) => country.label)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.label === option
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {label} ({code}) +{phone}
-                    </li>
-                  );
-                }}
               />
                
-               <RHFAutocomplete
-                name="collAdjBy"
+               <RHFTextField
+                name="collectionAdj"
                 label="Coll Adj By"
-                options={countries.map((country) => country.label)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.label === option
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {label} ({code}) +{phone}
-                    </li>
-                  );
-                }}
               />  
           </Box>
         </DialogContent>

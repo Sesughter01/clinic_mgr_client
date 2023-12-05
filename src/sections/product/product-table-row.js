@@ -43,10 +43,10 @@ export default function ProductTableRow({
     available,
     inventoryType,
     //Added by Shakirat
-    corp_Name,
-    corpId,
+    corp_name,
+    corp_id,
     corpScrName,
-    corpStatus,
+    corp_status,
   } = row;
 
   const confirm = useBoolean();
@@ -78,7 +78,7 @@ export default function ProductTableRow({
                 onClick={onViewRow}
                 sx={{ cursor: "pointer" }}
               >
-                {corp_Name}
+                {corp_name}
               </Link>
             }
             secondary={
@@ -105,7 +105,7 @@ export default function ProductTableRow({
           />
         </TableCell> */}
 
-        <TableCell sx={{ whiteSpace: "nowrap" }}>{corpId}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_id}</TableCell>
 
         {/* <TableCell sx={{ typography: "caption", color: "text.secondary" }}>
           <LinearProgress
@@ -129,7 +129,7 @@ export default function ProductTableRow({
             variant="soft"
             color={(publish === "published" && "info") || "default"}
           >
-            {corpStatus}
+            {corp_status}
           </Label>
         </TableCell>
 

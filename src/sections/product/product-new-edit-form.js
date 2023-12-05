@@ -37,9 +37,9 @@ import {
 
 //mock from Shakirat
 import {
-  corp_Name,
-  corpId,
-  corpStatus
+  corp_name,
+  corp_id,
+  corp_status
 } from "src/_mock/_coorperation";
 
 // components
@@ -141,7 +141,7 @@ export default function ProductNewEditForm({ currentProduct }) {
       newLabel: currentProduct?.newLabel || { enabled: false, content: "" },
       saleLabel: currentProduct?.saleLabel || { enabled: false, content: "" },
       //Shakirat
-      corp_Name: currentProduct?.corp_Name || "",
+      corp_name: currentProduct?.corp_name || "",
     }),
     [currentProduct]
   );
@@ -272,7 +272,7 @@ export default function ProductNewEditForm({ currentProduct }) {
               >
                 {/* <RHFTextField name="name" label="Product Name" /> */}
                 <RHFTextField name="name" label="Corp Id" />
-                <RHFTextField name="corp_Name" label="Corp Name" />
+                <RHFTextField name="corp_name" label="Corp Name" />
                 <RHFTextField name="name" label="script folder" />
                 {/* <RHFTextField name="subDescription" label="Sub Description" multiline rows={4} /> */}
               </Box>

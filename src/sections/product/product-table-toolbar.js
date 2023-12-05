@@ -29,7 +29,7 @@ export default function ProductTableToolbar({
   const handleFilterName = useCallback(
     (event) => {
       // onFilters('name', event.target.value);
-      onFilters('corp_Name', event.target.value);
+      onFilters('corp_name', event.target.value);
     },
     [onFilters]
   );
@@ -38,7 +38,7 @@ export default function ProductTableToolbar({
     (event) => {
       onFilters(
         // 'stock',
-        'corpStatus',
+        'corp_status',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
@@ -49,7 +49,7 @@ export default function ProductTableToolbar({
     (event) => {
       onFilters(
         // 'publish',
-        'corpStatus',
+        'corp_status',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
@@ -82,7 +82,7 @@ export default function ProductTableToolbar({
           <Select
             // multiple
             // value={filters.stock}
-            value={filters.corpStatus}
+            value={filters.corp_status}
             onChange={handleFilterStock}
             // input={<OutlinedInput label="Stock" />}
             input={<OutlinedInput label="Location" />}
@@ -95,7 +95,7 @@ export default function ProductTableToolbar({
                   disableRipple
                   size="small"
                   // checked={filters.stock.includes(option.value)}
-                  checked={filters.corpStatus.includes(option.value)}
+                  checked={filters.corp_status.includes(option.value)}
                 />
                 {option.label}
               </MenuItem>
@@ -114,7 +114,7 @@ export default function ProductTableToolbar({
 
           <Select
             // multiple
-            value={filters.corpStatus}
+            value={filters.corp_status}
             onChange={handleFilterPublish}
             // input={<OutlinedInput label="Publish" />}
             input={<OutlinedInput label="Status" />}
@@ -127,7 +127,7 @@ export default function ProductTableToolbar({
                   disableRipple
                   size="small"
                   // checked={filters.publish.includes(option.value)}
-                  checked={filters.corpStatus.includes(option.value)}
+                  checked={filters.corp_status.includes(option.value)}
                 />
                 {option.label}
               </MenuItem>
@@ -139,7 +139,7 @@ export default function ProductTableToolbar({
           <TextField
             fullWidth
             // value={filters.name}
-            value={filters.corp_Name}
+            value={filters.corp_name}
             onChange={handleFilterName}
             placeholder="Search..."
             InputProps={{

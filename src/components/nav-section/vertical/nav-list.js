@@ -44,6 +44,10 @@ export default function NavList({ data, depth, hasChild, config }) {
         externalLink={externalLink}
         onClick={handleToggle}
         config={config}
+        // Added by Blessing
+        style={{
+          color: active ? 'pink' : 'initial',
+        }}
       />
 
       {hasChild && (

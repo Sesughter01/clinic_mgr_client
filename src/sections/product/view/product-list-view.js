@@ -99,11 +99,11 @@ export const STOCK_OPTIONS = [
 
 const defaultFilters = {
   // name: '',
-  corp_Name: '',
+  corp_name: '',
   // publish: [],
-  corpStatus: [],
+  corp_status: [],
   // stock: [],
-  corpId: [],
+  corp_id: [],
 };
 
 // ----------------------------------------------------------------------
@@ -148,12 +148,12 @@ export default function ProductListView() {
 
   const handleFilters = useCallback(
     // (name, value) => {
-    (corp_Name, value) => {
+    (corp_name, value) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
         // [name]: value,
-        [corp_Name]: value,
+        [corp_name]: value,
 
       }));
     },
@@ -351,13 +351,14 @@ export default function ProductListView() {
                         )
                         .map((row) => (
                           <ProductTableRow
-                            key={row.id}
+                            // key={row.id}
+                            key={row.corp_id}
                             row={row}
-                            selected={table.selected.includes(row.id)}
-                            onSelectRow={() => table.onSelectRow(row.id)}
-                            onDeleteRow={() => handleDeleteRow(row.id)}
-                            onEditRow={() => handleEditRow(row.id)}
-                            onViewRow={() => handleViewRow(row.id)}
+                            selected={table.selected.includes(row.corp_id)}
+                            onSelectRow={() => table.onSelectRow(row.corp_id)}
+                            onDeleteRow={() => handleDeleteRow(row.corp_id)}
+                            onEditRow={() => handleEditRow(row.corp_id)}
+                            onViewRow={() => handleViewRow(row.corp_id)}
                           />
                         ))}
                     </>
@@ -416,8 +417,8 @@ export default function ProductListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters }) {
-  // const { name, stock, publish, corp_Name } = filters;
-  const { corp_Name, corpId, corpStatus,  } = filters;
+  // const { name, stock, publish, corp_name } = filters;
+  const { corp_name, corp_id, corp_status  } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -434,30 +435,30 @@ function applyFilter({ inputData, comparator, filters }) {
   //     (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
   //   );
   // }
-  if (corp_Name) {
+  if (corp_name) {
     inputData = inputData.filter(
-      (product) => product.corp_Name.toLowerCase().indexOf(corp_Name.toLowerCase()) !== -1
+      (product) => product.corp_name.toLowerCase().indexOf(corp_name.toLowerCase()) !== -1
     );
   }
 
   // if (stock.length) {
   //   inputData = inputData.filter((product) => stock.includes(product.inventoryType));
   // }
-  if (corpStatus.length) {
-    inputData = inputData.filter((product) => corpStatus.includes(product.corpStatus));
+  if (corp_status.length) {
+    inputData = inputData.filter((product) => corp_status.includes(product.corp_status));
   }
   
 
   // if (publish.length) {
   //   inputData = inputData.filter((product) => publish.includes(product.publish));
   // }
-  if (corpStatus.length) {
-    inputData = inputData.filter((product) => corpStatus.includes(product.corpStatus));
+  if (corp_status.length) {
+    inputData = inputData.filter((product) => corp_status.includes(product.corp_status));
   }
 
-  if (corpStatus) {
+  if (corp_status) {
     inputData = inputData.filter(
-      (product) => product.corpStatus
+      (product) => product.corp_status
     );
   }
   return inputData;

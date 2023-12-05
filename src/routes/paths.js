@@ -1,6 +1,9 @@
 // utils
+// import  axios, {endpoints}  from 'src/utils/axios.js';
 import { paramCase } from 'src/utils/change-case';
 import { _id, _postTitles } from 'src/_mock/assets';
+
+
 
 // ----------------------------------------------------------------------
 
@@ -193,6 +196,7 @@ export const paths = {
       profile: `${ROOTS.CLINIC_MANAGER}/clinic/profile`,
       account: `${ROOTS.CLINIC_MANAGER}/clinic/account`,
       edit: (id) => `${ROOTS.CLINIC_MANAGER}/clinic/${id}/edit`,
+      pmsreport: (id) => `${ROOTS.CLINIC_MANAGER}/clinic/${id}/pmsreport`,
       demo: {
         edit: `${ROOTS.CLINIC_MANAGER}/clinic/${MOCK_ID}/edit`,
       },
@@ -207,6 +211,7 @@ export const paths = {
     cards: `${ROOTS.CORPORATIONS}/cards`,
     profile: `${ROOTS.CORPORATIONS}/profile`,
     account: `${ROOTS.CORPORATIONS}/account`,
+    // edit: (id) => `${ROOTS.CORPORATIONS}/${id}/edit`,
     edit: (id) => `${ROOTS.CORPORATIONS}/${id}/edit`,
     demo: {
       edit: `${ROOTS.CORPORATIONS}/${MOCK_ID}/edit`,

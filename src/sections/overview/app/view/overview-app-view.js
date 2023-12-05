@@ -78,7 +78,7 @@ export default function OverviewAppView() {
           />
         </Grid>
 
-        <Grid xs={12} md={4}>
+        {/* <Grid xs={12} md={4}>
           <AppWidgetSummary
             title="Total Downloads"
             percent={-0.1}
@@ -88,9 +88,9 @@ export default function OverviewAppView() {
               series: [8, 9, 31, 8, 16, 37, 8, 33, 46, 31],
             }}
           />
-        </Grid>
+        </Grid> */}
 
-        <Grid xs={12} md={6} lg={4}>
+        {/* <Grid xs={12} md={6} lg={4}>
           <AppCurrentDownload
             title="Current Download"
             chart={{
@@ -102,9 +102,9 @@ export default function OverviewAppView() {
               ],
             }}
           />
-        </Grid>
+        </Grid> */}
 
-        <Grid xs={12} md={6} lg={8}>
+        {/* <Grid xs={12} md={6} lg={8}>
           <AppAreaInstalled
             title="Area Installed"
             subheader="(+43%) than last year"
@@ -153,7 +153,7 @@ export default function OverviewAppView() {
               ],
             }}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid xs={12} lg={8}>
           <AppNewInvoice

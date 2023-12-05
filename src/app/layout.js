@@ -50,13 +50,15 @@ export const metadata = {
   description:
     'The starting point for your next project with EDMS Clinic Manager, built on the newest version of EDMS ©, ready to be customized to your style',
   keywords: 'react,Clinic,EDMS,application,dashboard,admin,template',
-  themeColor: '#000000',
+  // themeColor: '#000000',
   manifest: '/manifest.json',
   viewport: {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 1,
+    themeColor: '#000000',
   },
+  
   icons: [
     {
       rel: 'icon',

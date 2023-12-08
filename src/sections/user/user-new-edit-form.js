@@ -1,7 +1,7 @@
 //Added By Blessing
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/system';
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
 import FormGroup from '@mui/material/FormGroup';
@@ -134,7 +134,7 @@ export default function UserNewEditForm({ currentUser, open, onClose }) {
   //Added By Blessing
   const NewUserSchema = Yup.object().shape({
     //details
-    corpPractice: Yup.string().required('Corp practice is required'),
+    id: Yup.string(),
     clinic_address: Yup.string().required('Clinic Address is required'),
     idclinics: Yup.string().required('Clinic Id is required'),
     clinic_city: Yup.string().required('Clinic city is required'),
@@ -220,7 +220,7 @@ export default function UserNewEditForm({ currentUser, open, onClose }) {
   const defaultValues = useMemo(
     () => ({
       //details
-      corpPractice: currentUser?.corpPractice|| '',
+      // corpPractice: currentUser?.corpPractice|| '',
       clinic_address: currentUser?.clinic_address || '',
       idclinics: currentUser?.idclinics || '',
       clinic_city: currentUser?.clinic_city || '',
@@ -300,9 +300,14 @@ export default function UserNewEditForm({ currentUser, open, onClose }) {
       practice: currentUser?.practice || '',
       primaryChar: currentUser?.primaryChar || '',
     }),
-    [currentUser]
+    [currentUser],
+    
   );
+  useEffect(() =>{
+    console.log("CLINIC_ADDRESS:", currentUser?.clinic_address)
+  }, [currentUser]);
 
+  
   const methods = useForm({
     resolver: yupResolver(NewUserSchema),
     defaultValues,

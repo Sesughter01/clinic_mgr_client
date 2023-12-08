@@ -22,7 +22,7 @@ export default function UserEditView({ id }) {
 
   console.log("RES: ", useGetClinic(id));
   const { clinic, clinicLoading, clinicEmpty } = useGetClinic(id);
-  console.log("CLINIC: ", clinic);
+  // console.log("CLINIC: ", clinic);
   const clinic3 = {
     status: true,
     message: "success",
@@ -150,7 +150,7 @@ export default function UserEditView({ id }) {
   // const currentUser =_userList.find((user) => user.id === id);
   // const currentUser =  clinicArray.find((user) => user.idclinics === id);
   const currentUser = clinic;
-  console.log(currentUser);
+  console.log("CURRENTUSER", currentUser);
 
   useEffect(() => {
     // console.log(currentUser);

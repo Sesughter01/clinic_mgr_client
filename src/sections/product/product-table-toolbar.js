@@ -30,6 +30,7 @@ export default function ProductTableToolbar({
     (event) => {
       // onFilters('name', event.target.value);
       onFilters('corp_name', event.target.value);
+      onFilters('corp_name', event.target.value);
     },
     [onFilters]
   );

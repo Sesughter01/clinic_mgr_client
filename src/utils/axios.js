@@ -40,7 +40,8 @@ export const fetcher_Two = async (args) => {
   const [url, config] = Array.isArray(args) ? args : [args];
 
   const res = await axiosInstance_Two.get(url, { ...config });
-
+  // console.log("Response:",(res.data));
+  console.log("Response:",(res.data));
   return res.data;
 };
 // ----------------------------------------------------------------------
@@ -88,33 +89,11 @@ pms: {
     list: '/api/clinicmanager/list',
     details: '/api/clinicmanager/details',
     search: '/api/clinicmanager/search',
-    _clinic_data: 'http://vnicomhub-001-site10.gtempurl.com/api/clinics',
+    clinic_data: '/api/clinics',
+    clinic: '/api/clinics/',
 
   },
 
 };
 
 
-//Added by blessing
-// Function to process the _clinic_data object
-const processClinicData = (_clinic_data) => {
-  // Check if _clinic_data is not null and contains the 'data' property
-  if (_clinic_data && _clinic_data.data && _clinic_data.data.result) {
-    const resultArray = _clinic_data.data.result;
-
-    // Initialize an array to hold arrays of clinic values
-    const arrayOfArrays = [];
-
-    // Map through each clinic object and extract values into sub arrays
-    resultArray.forEach(clinic => {
-      // Extract values of each property in the clinic object
-      const clinicValues = Object.values(clinic);
-      // Push the clinicValues array into the arrayOfArrays
-      arrayOfArrays.push(clinicValues);
-    });
-
-    return arrayOfArrays;
-  }
-
-  return null; // Return null if _clinic_data is incomplete or malformed
-};

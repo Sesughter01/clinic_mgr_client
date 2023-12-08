@@ -126,48 +126,48 @@ export default function BasicTabs(currentUser) {
   const NewUserSchema = Yup.object().shape({
     //details
     corpPractice: Yup.string().required("Corp practice is required"),
-    clinicAddress: Yup.string().required("Clinic Address is required"),
-    clinicId: Yup.string().required("Clinic Id is required"),
-    city: Yup.string().required("City is required"),
-    clinicCode: Yup.string().required("Clinic code is required"),
-    province: Yup.string().required("Province is required"),
-    dataPath: Yup.string().required("Data path is required"),
-    postalCode: Yup.string().required("Postal code is required"),
+    clinic_address: Yup.string().required("Clinic Address is required"),
+    idclinics: Yup.string().required("Clinic Id is required"),
+    clinic_city: Yup.string().required("Clinic city is required"),
+    clinic_code: Yup.string().required("Clinic code is required"),
+    clinic_province: Yup.string().required("Clinic Province is required"),
+    data_Path: Yup.string().required("Data path is required"),
+    clinic_postal: Yup.string().required("Clinic postal is required"),
     clinicName: Yup.string().required("Clinic name is required"),
     country: Yup.string().required("Country is required"),
-    currentApplication: Yup.string().required(
-      "Current application is required"
+    current_app: Yup.string().required(
+      "Current Application is required"
     ),
-    phone: Yup.string().required("Phone is required"),
-    destDb: Yup.string().required("Dest. db code is required"),
-    email: Yup.string()
-      .required("Email is required")
-      .email("Email must be a valid email address"),
-    appointmentUnit: Yup.string().required("Appointemnt unit is required"),
-    acquisitionDate: Yup.string().required("Acquisition date is required"),
-    productionBy: Yup.string().required("Production By is required"),
+    clinic_phone: Yup.string().required("Clinic Phone is required"),
+    dest_db: Yup.string().required("Dest. db code is required"),
+    clinic_email: Yup.string()
+      .required("Clinic Email is required")
+      .email("Clinic Email must be a valid email address"),
+    clinic_appointmentunit: Yup.string().required("Clinic Appointemnt Unit is required"),
+    acquistionDate: Yup.string().required("Acquisition date is required"),
+    prodDate: Yup.string().required("Production By is required"),
     cuttOffDate: Yup.string().required("Cutt off datee is required"),
-    chrgAdjBy: Yup.string().required("Chrg adj by is required"),
-    statingTransId: Yup.string().required("Stating trans id is required"),
-    collectionBy: Yup.string().required("Collection by is required"),
+    chargeAdj: Yup.string().required("Chrg adj by is required"),
+    firstTransId: Yup.string().required("Stating trans id is required"),
+    colDate: Yup.string().required("Collection by is required"),
     responsiblePerson: Yup.string().required("Responsible person is required"),
-    collAdjBy: Yup.string().required("Collection adj by is required"),
+    collectionAdj: Yup.string().required("Collection adj by is required"),
     scriptConvUnit: Yup.string().required("Script conversion unit is required"),
     dateFormat: Yup.string().required("Date format is required"),
-    timeZone: Yup.string().required("Time zone is required"),
+    timezone: Yup.string().required("Time zone is required"),
     avatarUrl: Yup.mixed().nullable().required("Avatar is required"),
     // not required
     status: Yup.string(),
     isVerified: Yup.boolean(),
     //jail
-    dataPathSource: Yup.string().required("Data path source is required"),
+    data_path_source: Yup.string().required("Data path source is required"),
     simpleJail: Yup.string().required("Simple jail  is required"),
     jailDataDir: Yup.string().required("Jail Data Directory is required"),
-    combineMulClinicJail: Yup.string().required(
+    multiClinicJail: Yup.string().required(
       "Combined multi clinic jail is required"
     ),
     locationId: Yup.string().required("Location id  is required"),
-    sepaMulClinicJail: Yup.string().required(
+    separateMultiClinicJail: Yup.string().required(
       "Separate multi clinic jail is required"
     ),
     //payment method
@@ -199,9 +199,9 @@ export default function BasicTabs(currentUser) {
     edmsPrefix: Yup.string(),
     //Work flow
     stage: Yup.string(),
-    toDo: Yup.string(),
-    by: Yup.string(),
-    asanaLink: Yup.string(),
+    todo: Yup.string(),
+    actioBy: Yup.string(),
+    asana_url: Yup.string(),
     notes: Yup.string(),
     //Appt Status Value
     defId: Yup.string(),
@@ -239,41 +239,41 @@ export default function BasicTabs(currentUser) {
     () => ({
       //details
       corpPractice: currentUser?.corpPractice || "",
-      clinicAddress: currentUser?.clinicAddress || "",
-      clinicId: currentUser?.clinicId || "",
-      city: currentUser?.city || "",
-      clinicCode: currentUser?.clinicCode || "",
-      province: currentUser?.province || "",
-      dataPath: currentUser?.dataPath || "",
-      postalCode: currentUser?.postalCode || "",
+      clinic_address: currentUser?.clinic_address || "",
+      idclinics: currentUser?.idclinics || "",
+      clinic_city: currentUser?.clinic_city || "",
+      clinic_code: currentUser?.clinic_code || "",
+      clinic_province: currentUser?.clinic_province || "",
+      data_Path: currentUser?.data_Path || "",
+      clinic_postal: currentUser?.clinic_postal || "",
       clinicName: currentUser?.clinicName || "",
       country: currentUser?.country || "",
       avatarUrl: currentUser?.avatarUrl || null,
-      currentApplication: currentUser?.currentApplication || "",
-      phone: currentUser?.phone || "",
-      destDb: currentUser?.destDb || "",
-      email: currentUser?.email || "",
-      appointmentUnit: currentUser?.appointmentUnit || "",
-      acquisitionDate: currentUser?.acquisitionDate || "",
-      productionBy: currentUser?.productionBy || "",
-      cutOffDate: currentUser?.cutOffDate || "",
-      chrgAdjBy: currentUser?.chrgAdjBy || "",
-      statingTransId: currentUser?.statingTransId || "",
-      collectionBy: currentUser?.collectionBy || "",
+      current_app: currentUser?.current_app || "",
+      clinic_phone: currentUser?.clinic_phone || "",
+      dest_db: currentUser?.dest_db || "",
+      clinic_email: currentUser?.clinic_email || "",
+      clinic_appointmentunit: currentUser?.clinic_appointmentunit || "",
+      acquistionDate: currentUser?.acquistionDate || "",
+      prodDate: currentUser?.prodDate || "",
+      cutoff_date: currentUser?.cutoff_date || "",
+      chargeAdj: currentUser?.chargeAdj || "",
+      firstTransId: currentUser?.firstTransId || "",
+      colDate: currentUser?.colDate || "",
       responsiblePerson: currentUser?.responsiblePerson || "",
-      collAdjBy: currentUser?.collAdjBy || "",
+      collectionAdj: currentUser?.collectionAdj || "",
       scriptConvUnit: currentUser?.scriptConvUnit || "",
-      collAdjBy: currentUser?.collAdjBy || "",
+      collectionAdj: currentUser?.collectionAdj || "",
       dateFormat: currentUser?.dateFormat || "",
-      timeZone: currentUser?.timeZone || "",
+      timezone: currentUser?.timezone || "",
       isVerified: currentUser?.isVerified || true,
       //Jail
-      dataPathSource: currentUser?.dataPathSource || "",
+      data_path_source: currentUser?.data_path_source || "",
       simpleJail: currentUser?.simpleJail || "",
       jailDataDir: currentUser?.jailDataDir || "",
-      combineMulClinicJail: currentUser?.combineMulClinicJail || "",
+      multiClinicJail: currentUser?.multiClinicJail || "",
       locationId: currentUser?.locationId || "",
-      sepaMulClinicJail: currentUser?.sepaMulClinicJail || "",
+      separateMultiClinicJail: currentUser?.separateMultiClinicJail || "",
       //Payment method
       creditCard: currentUser?.creditCard || "",
       writeOff: currentUser?.writeOff || "",
@@ -303,9 +303,9 @@ export default function BasicTabs(currentUser) {
       edmsPrefix: currentUser?.edmsPrefix || "",
       //Workflow
       stage: currentUser?.stage || "",
-      toDo: currentUser?.toDo || "",
-      by: currentUser?.by || "",
-      asanaLink: currentUser?.asanaLink || "",
+      todo: currentUser?.todo || "",
+      actioBy: currentUser?.actioBy || "",
+      asana_url: currentUser?.asana_url || "",
       //Appt status values
       defId: currentUser?.defId || "",
       edmsStatus: currentUser?.edmsStatus || "",
@@ -627,7 +627,7 @@ export default function BasicTabs(currentUser) {
                 }}
               /> */}
 
-                  {/* <RHFTextField name="clinicAddress" label="Clinic Address" /> */}
+                  {/* <RHFTextField name="clinic_address" label="Clinic Address" /> */}
                   <Grid>
                     <Card>
                       <Box rowGap={3} columnGap={2} display="grid">
@@ -640,7 +640,7 @@ export default function BasicTabs(currentUser) {
                       </Box>
                     </Card>
                   </Grid>
-                  {/* <RHFTextField name="city" label="City" /> */}
+                  {/* <RHFTextField name="clinic_city" label="Clinic City" /> */}
                   <Grid>
                     <RHFTextField
                       name="Status"
@@ -667,7 +667,7 @@ export default function BasicTabs(currentUser) {
                           name="copy script from *"
                           label="copy script from *"
                         />
-                        {/* <RHFTextField name="dataPath" label="Data Path" /> */}
+                        {/* <RHFTextField name="data_Path" label="Data Path" /> */}
                       </Box>
                     </Card>
                   </Grid>
@@ -748,7 +748,7 @@ export default function BasicTabs(currentUser) {
                   }}
                 >
                   <RHFTextField
-                    name="dataPathSource"
+                    name="data_path_source"
                     label="Data Path Source"
                   />
 
@@ -1125,91 +1125,19 @@ export default function BasicTabs(currentUser) {
                     sm: "repeat(1, 1fr)",
                   }}
                 >
-                  <RHFAutocomplete
+                  <RHFTextField
                     name="stage"
                     label="Stage"
-                    options={countries.map((country) => country.label)}
-                    getOptionLabel={(option) => option}
-                    isOptionEqualToValue={(option, value) => option === value}
-                    renderOption={(props, option) => {
-                      const { code, label, phone } = countries.filter(
-                        (country) => country.label === option
-                      )[0];
-
-                      if (!label) {
-                        return null;
-                      }
-
-                      return (
-                        <li {...props} key={label}>
-                          <Iconify
-                            key={label}
-                            icon={`circle-flags:${code.toLowerCase()}`}
-                            width={28}
-                            sx={{ mr: 1 }}
-                          />
-                          {label} ({code}) +{phone}
-                        </li>
-                      );
-                    }}
                   />
 
-                  <RHFAutocomplete
-                    name="toDo"
+                  <RHFTextField
+                    name="todo"
                     label="To Do"
-                    options={countries.map((country) => country.label)}
-                    getOptionLabel={(option) => option}
-                    isOptionEqualToValue={(option, value) => option === value}
-                    renderOption={(props, option) => {
-                      const { code, label, phone } = countries.filter(
-                        (country) => country.label === option
-                      )[0];
-
-                      if (!label) {
-                        return null;
-                      }
-
-                      return (
-                        <li {...props} key={label}>
-                          <Iconify
-                            key={label}
-                            icon={`circle-flags:${code.toLowerCase()}`}
-                            width={28}
-                            sx={{ mr: 1 }}
-                          />
-                          {label} ({code}) +{phone}
-                        </li>
-                      );
-                    }}
                   />
 
-                  <RHFAutocomplete
-                    name="by"
-                    label="By"
-                    options={countries.map((country) => country.label)}
-                    getOptionLabel={(option) => option}
-                    isOptionEqualToValue={(option, value) => option === value}
-                    renderOption={(props, option) => {
-                      const { code, label, phone } = countries.filter(
-                        (country) => country.label === option
-                      )[0];
-
-                      if (!label) {
-                        return null;
-                      }
-
-                      return (
-                        <li {...props} key={label}>
-                          <Iconify
-                            key={label}
-                            icon={`circle-flags:${code.toLowerCase()}`}
-                            width={28}
-                            sx={{ mr: 1 }}
-                          />
-                          {label} ({code}) +{phone}
-                        </li>
-                      );
-                    }}
+                  <RHFTextField
+                    name="actioBy"
+                    label="Action By"
                   />
 
                   <Textarea

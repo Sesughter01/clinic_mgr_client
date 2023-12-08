@@ -463,6 +463,7 @@ function applyFilter({ inputData, comparator, filters }) {
   //   );
   // }
   if (corp_name) {
+  if (corp_name) {
     inputData = inputData.filter(
       (product) =>
         product.corp_name.toLowerCase().indexOf(corp_name.toLowerCase()) !== -1

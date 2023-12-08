@@ -27,7 +27,7 @@ import UserQuickEditForm from './user-quick-edit-form';
 
 export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, onPmsreportRow }) {
   // const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
-  const { clinicName, avatarUrl, corpName, pms, actionBy, stage, status, toDo, asanaLink } = row;
+  const { clinic_name, avatarUrl, corpName, pms, actioBy, stage, status, todo, asana_url } = row;
 
   const confirm = useBoolean();
 
@@ -50,10 +50,10 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         </TableCell>
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>
-          {/* <Avatar alt={clinicName} src={avatarUrl} sx={{ mr: 2 }} /> */}
+          {/* <Avatar alt={clinic_name} src={avatarUrl} sx={{ mr: 2 }} /> */}
 
           <ListItemText
-            primary={clinicName}
+            primary={clinic_name}
             secondary=" "
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
@@ -69,11 +69,11 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{stage}</TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{toDo}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{todo}</TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{actionBy}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{actioBy}</TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{asanaLink}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{asana_url}</TableCell>
 
         <TableCell>
           <Label

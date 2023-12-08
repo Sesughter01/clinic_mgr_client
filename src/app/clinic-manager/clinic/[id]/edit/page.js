@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 // _mock
 import { _userList } from 'src/_mock/_user';
+
+
 // sections
 import { UserEditView } from 'src/sections/user/view';
 
@@ -18,9 +20,12 @@ export default function UserEditPage({ params }) {
 
 export async function generateStaticParams() {
   return _userList.map((user) => ({
+  
     id: user.id,
   }));
 }
+
+
 
 UserEditPage.propTypes = {
   params: PropTypes.shape({

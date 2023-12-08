@@ -631,8 +631,8 @@ export default function BasicTabs(currentUser) {
                   <Grid>
                     <Card>
                       <Box rowGap={3} columnGap={2} display="grid">
-                        <RHFTextField name="corpId" label="Corp Id" />
-                        <RHFTextField name="corpName" label="Corp Name" />
+                        <RHFTextField name="corp_id" label="Corp Id" />
+                        <RHFTextField name="corp_name" label="Corp Name" />
                         <RHFTextField
                           name="script folder"
                           label="script folder"

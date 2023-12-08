@@ -29,7 +29,7 @@ export default function ProductTableToolbar({
   const handleFilterName = useCallback(
     (event) => {
       // onFilters('name', event.target.value);
-      onFilters('corp_Name', event.target.value);
+      onFilters('corp_name', event.target.value);
     },
     [onFilters]
   );
@@ -38,7 +38,8 @@ export default function ProductTableToolbar({
     (event) => {
       onFilters(
         // 'stock',
-        'corpStatus',
+        // 'status',
+        'location',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
@@ -49,7 +50,7 @@ export default function ProductTableToolbar({
     (event) => {
       onFilters(
         // 'publish',
-        'corpStatus',
+        'status',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
@@ -77,12 +78,13 @@ export default function ProductTableToolbar({
           }}
         >
           {/* <InputLabel>Stock</InputLabel> */}
-          <InputLabel>Status</InputLabel>
+          <InputLabel>Location</InputLabel>
 
           <Select
             // multiple
             // value={filters.stock}
-            value={filters.corpStatus}
+            // value={filters.status}
+            value={filters.location}
             onChange={handleFilterStock}
             // input={<OutlinedInput label="Stock" />}
             input={<OutlinedInput label="Location" />}
@@ -91,12 +93,14 @@ export default function ProductTableToolbar({
           >
             {stockOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
-                <Checkbox
+                {/* <Checkbox
                   disableRipple
                   size="small"
                   // checked={filters.stock.includes(option.value)}
-                  checked={filters.corpStatus.includes(option.value)}
-                />
+                  // checked={filters.status.includes(option.value)}
+                  //Later use
+                  // checked={filters.location.includes(option.value)}
+                /> */}
                 {option.label}
               </MenuItem>
             ))}
@@ -114,7 +118,7 @@ export default function ProductTableToolbar({
 
           <Select
             // multiple
-            value={filters.corpStatus}
+            value={filters.status}
             onChange={handleFilterPublish}
             // input={<OutlinedInput label="Publish" />}
             input={<OutlinedInput label="Status" />}
@@ -123,12 +127,12 @@ export default function ProductTableToolbar({
           >
             {publishOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
-                <Checkbox
+                {/* <Checkbox
                   disableRipple
                   size="small"
                   // checked={filters.publish.includes(option.value)}
-                  checked={filters.corpStatus.includes(option.value)}
-                />
+                  checked={filters.status.includes(option.value)}
+                /> */}
                 {option.label}
               </MenuItem>
             ))}
@@ -139,7 +143,7 @@ export default function ProductTableToolbar({
           <TextField
             fullWidth
             // value={filters.name}
-            value={filters.corp_Name}
+            value={filters.corp_name}
             onChange={handleFilterName}
             placeholder="Search..."
             InputProps={{

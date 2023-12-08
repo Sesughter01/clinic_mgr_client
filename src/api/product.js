@@ -51,23 +51,23 @@ export function useGetProducts() {
 
 // ----------------------------------------------------------------------
 
-export function useGetProduct(productId) {
-  const URL = productId ? [endpoints.product.details, { params: { productId } }] : null;
+export function useGetProduct(corpId) {
+  const URL = corpId ? [endpoints.product.corp + corpId, { params: { corpId } }] : null;
 
   // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two);
+  console.log(corpId)
 
   const memoizedValue = useMemo(
     () => ({
       // product: data?.product,
-      product: data?.data?.item,
+      product: data?.data,
       productLoading: isLoading,
       productError: error,
       productValidating: isValidating,
     }),
-    [data?.data?.item, error, isLoading, isValidating]
+    [data?.data, error, isLoading, isValidating]
   );
-  console.log(data?.data?.item)
   return memoizedValue;
 }
 

@@ -1,32 +1,34 @@
-'use client';
+"use client";
 
-import isEqual from 'lodash/isEqual';
-import { useState, useEffect, useCallback } from 'react';
+import isEqual from "lodash/isEqual";
+import { useState, useEffect, useCallback } from "react";
 // @mui
-import Card from '@mui/material/Card';
-import { alpha } from '@mui/material/styles';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Label from 'src/components/label';
-import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import Container from '@mui/material/Container';
-import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
-import TableContainer from '@mui/material/TableContainer';
+import Card from "@mui/material/Card";
+import { alpha } from "@mui/material/styles";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Label from "src/components/label";
+import Table from "@mui/material/Table";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import Container from "@mui/material/Container";
+import TableBody from "@mui/material/TableBody";
+import IconButton from "@mui/material/IconButton";
+import TableContainer from "@mui/material/TableContainer";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
+import { RouterLink } from "src/routes/components";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // _mock
-import { PRODUCT_STOCK_OPTIONS } from 'src/_mock';
+import { PRODUCT_STOCK_OPTIONS } from "src/_mock";
+// _mock
+import { _products, PRODUCT_STATUS_OPTIONS } from "src/_mock";
 // api
-import { useGetProducts } from 'src/api/product';
+import { useGetProducts } from "src/api/product";
 // components
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext } from "src/components/settings";
 import {
   useTable,
   getComparator,
@@ -37,31 +39,40 @@ import {
   TableHeadCustom,
   TableSelectedAction,
   TablePaginationCustom,
-} from 'src/components/table';
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+} from "src/components/table";
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ProductTableRow from '../product-table-row';
-import ProductTableToolbar from '../product-table-toolbar';
-import ProductTableFiltersResult from '../product-table-filters-result';
-import { _userList, _roles, _corpNames, _pmss, USER_STATUS_OPTIONS, _status ,PUBLISH_STATUS_OPTIONS } from 'src/_mock';
+import ProductTableRow from "../product-table-row";
+import ProductTableToolbar from "../product-table-toolbar";
+import ProductTableFiltersResult from "../product-table-filters-result";
+import {
+  _userList,
+  _roles,
+  _corpNames,
+  _pmss,
+  USER_STATUS_OPTIONS,
+  _status,
+  PUBLISH_STATUS_OPTIONS,
+} from "src/_mock";
 
 // ----------------------------------------------------------------------
 //Shakirat
 // const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
-const STATUS_OPTIONS = [{ value: 'text', label: 'Text' }, ...PUBLISH_STATUS_OPTIONS];
-
-
+const STATUS_OPTIONS = [
+  { value: "all", label: "All" },
+  ...PRODUCT_STATUS_OPTIONS,
+];
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Corps Name' },
-  { id: 'createdAt', label: 'Corps ID', width: 160 },
-  { id: 'inventoryType', label: 'Base Scripts', width: 160 },
-  { id: 'price', label: '#Clinics', width: 140 },
-  { id: 'publish', label: 'Status', width: 110 },
-  { id: '', width: 88 },
+  { corp_id: "corp_name", label: "Corps Name" },
+  { corp_id: "corp_id", label: "Corps ID", width: 180 },
+  { corp_id: "corp_scr_name", label: "Base Scripts", width: 180 },
+  { corp_id: "corp_num", label: "#Clinics", width: 160 },
+  { corp_id: "status", label: "Status", width: 130 },
+  { corp_id: "", width: 88 },
 ];
 
 // const PUBLISH_OPTIONS = [
@@ -71,40 +82,41 @@ const TABLE_HEAD = [
 
 export const PUBLISH_OPTIONS = [
   {
-    value: '1',
-    label: 'Text',
+    value: "Text",
+    label: "Text",
   },
   {
-    value: '2',
-    label: 'Active',
+    value: "Active",
+    label: "Active",
   },
   {
-    value: '3',
-    label: 'Retired',
+    value: "Retired",
+    label: "Retired",
   },
-  
 ];
 //Addedby Shakirat
 export const STOCK_OPTIONS = [
   {
-    value: '1',
-    label: 'US',
+    value: "US",
+    label: "US",
   },
   {
-    value: '2',
-    label: 'Canada',
+    value: "Canada",
+    label: "Canada",
   },
-  
 ];
 
 const defaultFilters = {
   // name: '',
-  corp_Name: '',
+  corp_name: "",
   // publish: [],
-  corpStatus: [],
+  status: [],
   // stock: [],
-  corpId: [],
+  corp_id: [],
+  corp_status: "all",
+
 };
+// console.log("Corp_id: " + corp_id)
 
 // ----------------------------------------------------------------------
 
@@ -127,6 +139,7 @@ export default function ProductListView() {
     if (products.length) {
       setTableData(products);
     }
+    console.log(products);
   }, [products]);
 
   const dataFiltered = applyFilter({
@@ -148,13 +161,12 @@ export default function ProductListView() {
 
   const handleFilters = useCallback(
     // (name, value) => {
-    (corp_Name, value) => {
+    (corp_name, value) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
         // [name]: value,
-        [corp_Name]: value,
-
+        [corp_name]: value,
       }));
     },
     [table]
@@ -162,7 +174,7 @@ export default function ProductListView() {
 
   const handleDeleteRow = useCallback(
     (id) => {
-      const deleteRow = tableData.filter((row) => row.corpId !== id);
+      const deleteRow = tableData.filter((row) => row.corp_id !== id);
       setTableData(deleteRow);
 
       table.onUpdatePageDeleteRow(dataInPage.length);
@@ -171,7 +183,9 @@ export default function ProductListView() {
   );
 
   const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
+    const deleteRows = tableData.filter(
+      (row) => !table.selected.includes(row.id)
+    );
     setTableData(deleteRows);
 
     table.onUpdatePageDeleteRows({
@@ -187,10 +201,11 @@ export default function ProductListView() {
     },
     [router]
   );
-//Shakirat
+  //Shakirat
   const handleFilterStatus = useCallback(
     (event, newValue) => {
-      handleFilters('status', newValue);
+      // handleFilters("status", newValue);
+      handleFilters("pms_status", newValue);
     },
     [handleFilters]
   );
@@ -208,13 +223,13 @@ export default function ProductListView() {
 
   return (
     <>
-      <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+      <Container maxWidth={settings.themeStretch ? false : "lg"}>
         <CustomBreadcrumbs
           heading="Corporations"
           links={[
             // { name: 'Dashboard', href: paths.dashboard.root },
             {
-              name: 'Corps',
+              name: "Corps",
               href: paths.dashboard.product.root,
             },
             // { name: 'List of Corps' },
@@ -234,12 +249,13 @@ export default function ProductListView() {
         />
 
         <Card>
-        <Tabs
-            value={filters.status}
+          <Tabs
+            value={filters.corp_status}
             onChange={handleFilterStatus}
             sx={{
               px: 2.5,
-              boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
+              boxShadow: (theme) =>
+                `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
             }}
           >
             {STATUS_OPTIONS.map((tab) => (
@@ -251,30 +267,31 @@ export default function ProductListView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                      ((tab.value === "all" ||
+                        tab.value === filters.corp_status) &&
+                        "filled") ||
+                      "soft"
                     }
                     color={
-                      (tab.value === 'active' && 'success') ||
-                      (tab.value === 'inactive' && 'warning') ||
-                      // (tab.value === 'pending' && 'warning') ||
-                      // (tab.value === 'banned' && 'error') ||
-                      'default'
+                      (tab.value === "active" && "success") ||
+                      (tab.value === "text" && "warning") ||
+                      (tab.value === "retired" && "error") ||
+                      "default"
                     }
                   >
-                    {tab.value === 'all' && _userList.length}
-                    {tab.value === 'text' &&
-                      _userList.filter((user) => user.status === 'text').length}
-                    {tab.value === 'active' &&
-                      _userList.filter((user) => user.status === 'active').length}
-                    {tab.value === 'retired' &&
-                      _userList.filter((user) => user.status === 'retired').length}
-
-                    {/* {tab.value === 'pending' &&
-                      _userList.filter((user) => user.status === 'pending').length}
-                    {tab.value === 'banned' &&
-                      _userList.filter((user) => user.status === 'banned').length}
-                    {tab.value === 'rejected' &&
-                      _userList.filter((user) => user.status === 'rejected').length} */}
+                    {tab.value === "all" && _products.length}
+                    {tab.value === "text" &&
+                      _products.filter(
+                        (product) => product.corp_status === "text"
+                      ).length}
+                    {tab.value === "active" &&
+                      _products.filter(
+                        (product) => product.corp_status === "active"
+                      ).length}
+                    {tab.value === "retired" &&
+                      _products.filter((product) => product.corp_status === "retired")
+                        .length}
+                   
                   </Label>
                 }
               />
@@ -300,7 +317,7 @@ export default function ProductListView() {
             />
           )}
 
-          <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+          <TableContainer sx={{ position: "relative", overflow: "unset" }}>
             <TableSelectedAction
               dense={table.dense}
               numSelected={table.selected.length}
@@ -321,7 +338,10 @@ export default function ProductListView() {
             />
 
             <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <Table
+                size={table.dense ? "small" : "medium"}
+                sx={{ minWidth: 960 }}
+              >
                 <TableHeadCustom
                   order={table.order}
                   orderBy={table.orderBy}
@@ -332,7 +352,7 @@ export default function ProductListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row.corp_id)
                     )
                   }
                 />
@@ -349,23 +369,30 @@ export default function ProductListView() {
                           table.page * table.rowsPerPage,
                           table.page * table.rowsPerPage + table.rowsPerPage
                         )
-                        .map((row) => (
-                          <ProductTableRow
-                            key={row.corpId}
-                            row={row}
-                            selected={table.selected.includes(row.corpId)}
-                            onSelectRow={() => table.onSelectRow(row.corpId)}
-                            onDeleteRow={() => handleDeleteRow(row.corpId)}
-                            onEditRow={() => handleEditRow(row.corpId)}
-                            onViewRow={() => handleViewRow(row.corpId)}
-                          />
-                        ))}
+                        .map((row) => {
+                          console.log("Row Data:", row);
+                          return (
+                            <ProductTableRow
+                              key={row.corp_id}
+                              row={row}
+                              selected={table.selected.includes(row.corp_id)}
+                              onSelectRow={() => table.onSelectRow(row.corp_id)}
+                              onDeleteRow={() => handleDeleteRow(row.corp_id)}
+                              onEditRow={() => handleEditRow(row.corp_id)}
+                              onViewRow={() => handleViewRow(row.corp_id)}
+                            />
+                          );
+                        })}
                     </>
                   )}
 
                   <TableEmptyRows
                     height={denseHeight}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
+                    emptyRows={emptyRows(
+                      table.page,
+                      table.rowsPerPage,
+                      tableData.length
+                    )}
                   />
 
                   <TableNoData notFound={notFound} />
@@ -393,7 +420,8 @@ export default function ProductListView() {
         title="Delete"
         content={
           <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> corps?
+            Are you sure want to delete{" "}
+            <strong> {table.selected.length} </strong> corps?
           </>
         }
         action={
@@ -417,7 +445,7 @@ export default function ProductListView() {
 
 function applyFilter({ inputData, comparator, filters }) {
   // const { name, stock, publish, corp_Name } = filters;
-  const { corp_Name, corpId, corpStatus,  } = filters;
+  const { corp_name, corp_id, status } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -434,31 +462,29 @@ function applyFilter({ inputData, comparator, filters }) {
   //     (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
   //   );
   // }
-  if (corp_Name) {
+  if (corp_name) {
     inputData = inputData.filter(
-      (product) => product.corp_Name.toLowerCase().indexOf(corp_Name.toLowerCase()) !== -1
+      (product) =>
+        product.corp_name.toLowerCase().indexOf(corp_name.toLowerCase()) !== -1
     );
   }
 
   // if (stock.length) {
   //   inputData = inputData.filter((product) => stock.includes(product.inventoryType));
   // }
-  if (corpStatus.length) {
-    inputData = inputData.filter((product) => corpStatus.includes(product.corpStatus));
+  if (status.length) {
+    inputData = inputData.filter((product) => status.includes(product.status));
   }
-  
 
   // if (publish.length) {
   //   inputData = inputData.filter((product) => publish.includes(product.publish));
   // }
-  if (corpStatus.length) {
-    inputData = inputData.filter((product) => corpStatus.includes(product.corpStatus));
+  if (status.length) {
+    inputData = inputData.filter((product) => status.includes(product.status));
   }
 
-  if (corpStatus) {
-    inputData = inputData.filter(
-      (product) => product.corpStatus
-    );
+  if (status) {
+    inputData = inputData.filter((product) => product.status);
   }
   return inputData;
 }

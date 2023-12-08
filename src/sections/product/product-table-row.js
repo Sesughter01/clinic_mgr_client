@@ -21,6 +21,7 @@ import Label from "src/components/label";
 import Iconify from "src/components/iconify";
 import { ConfirmDialog } from "src/components/custom-dialog";
 import CustomPopover, { usePopover } from "src/components/custom-popover";
+import { sendStatusCode } from "next/dist/server/api-utils";
 
 // ----------------------------------------------------------------------
 
@@ -33,20 +34,21 @@ export default function ProductTableRow({
   onViewRow,
 }) {
   const {
-    name,
-    price,
-    publish,
-    coverUrl,
-    category,
-    quantity,
-    createdAt,
-    available,
-    inventoryType,
+    // name,
+    // price,
+    // publish,
+    // coverUrl,
+    // category,
+    // quantity,
+    // createdAt,
+    // available,
+    // inventoryType,
     //Added by Shakirat
-    corp_Name,
-    corpId,
-    corpScrName,
-    corpStatus,
+    corp_name,
+    corp_id,
+    corp_scr_name,
+    status,
+    corp_num,
   } = row;
 
   const confirm = useBoolean();
@@ -57,10 +59,10 @@ export default function ProductTableRow({
     <>
       <TableRow hover selected={selected}>
         <TableCell padding="checkbox">
-          <Checkbox checked={selected} onClick={onSelectRow} />
+          {/* <Checkbox checked={selected} onClick={onSelectRow} /> */}
         </TableCell>
 
-        <TableCell sx={{ display: "flex", alignItems: "center" }}>
+        {/* <TableCell sx={{ display: "flex", alignItems: "center" }}>
           <Avatar
             alt={name}
             src={coverUrl}
@@ -78,7 +80,7 @@ export default function ProductTableRow({
                 onClick={onViewRow}
                 sx={{ cursor: "pointer" }}
               >
-                {corp_Name}
+                {corp_name}
               </Link>
             }
             secondary={
@@ -90,7 +92,8 @@ export default function ProductTableRow({
               </Box>
             }
           />
-        </TableCell>
+        </TableCell> */}
+
 
         {/* <TableCell>
           <ListItemText
@@ -105,8 +108,6 @@ export default function ProductTableRow({
           />
         </TableCell> */}
 
-        <TableCell sx={{ whiteSpace: "nowrap" }}>{corpId}</TableCell>
-
         {/* <TableCell sx={{ typography: "caption", color: "text.secondary" }}>
           <LinearProgress
             value={(available * 100) / quantity}
@@ -120,18 +121,12 @@ export default function ProductTableRow({
           />
           {!!available && available} {inventoryType}
         </TableCell> */}
-        <TableCell sx={{ whiteSpace: "nowrap" }}>{corpScrName}</TableCell>
-
-        <TableCell>{fCurrency(price)}</TableCell>
-
-        <TableCell>
-          <Label
-            variant="soft"
-            color={(publish === "published" && "info") || "default"}
-          >
-            {corpStatus}
-          </Label>
-        </TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_name}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_id}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_scr_name}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_num}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{status}</TableCell>
+        
 
         <TableCell align="right">
           <IconButton

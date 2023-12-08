@@ -5,7 +5,7 @@ import { fetcher, endpoints } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
-export function useGetProducts() {
+export function useGetPms() {
 //   const URL = endpoints.product.list;
   const URL = endpoints.clinic_manager.list;
 

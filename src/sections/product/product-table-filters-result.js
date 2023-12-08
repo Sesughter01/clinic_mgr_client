@@ -22,15 +22,15 @@ export default function ProductTableFiltersResult({
   const handleRemoveStock = (inputValue) => {
     // const newValue = filters.stock.filter((item) => item !== inputValue);
     // onFilters('stock', newValue);
-    const newValue = filters.corpStatus.filter((item) => item !== inputValue);
-    onFilters('corpStatus', newValue);
+    const newValue = filters.status.filter((item) => item !== inputValue);
+    onFilters('status', newValue);
   };
 
   const handleRemovePublish = (inputValue) => {
     // const newValue = filters.publish.filter((item) => item !== inputValue);
     // onFilters('publish', newValue);
-    const newValue = filters.corpStatus.filter((item) => item !== inputValue);
-    onFilters('corpStatus', newValue);
+    const newValue = filters.status.filter((item) => item !== inputValue);
+    onFilters('status', newValue);
   };
 
   return (
@@ -50,10 +50,10 @@ export default function ProductTableFiltersResult({
             ))}
           </Block>
         )} */}
-        {!!filters.corpStatus.length && (
+        {!!filters.status.length && (
           // <Block label="Stock:">
           <Block label="Location:">
-            {filters.corpStatus.map((item) => (
+            {filters.status.map((item) => (
               <Chip key={item} label={item} size="small" onDelete={() => handleRemoveStock(item)} />
             ))}
           </Block>
@@ -71,9 +71,9 @@ export default function ProductTableFiltersResult({
             ))}
           </Block>
         )} */}
-        {!!filters.corpStatus.length && (
+        {!!filters.status.length && (
           <Block label="Status:">
-            {filters.corpStatus.map((item) => (
+            {filters.status.map((item) => (
               <Chip
                 key={item}
                 label={item}

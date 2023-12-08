@@ -37,9 +37,9 @@ import {
 
 //mock from Shakirat
 import {
-  corp_Name,
-  corpId,
-  corpStatus
+  corp_name,
+  corp_id,
+  status
 } from "src/_mock/_coorperation";
 
 // components
@@ -102,10 +102,10 @@ export default function ProductNewEditForm({ currentProduct }) {
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
   const NewProductSchema = Yup.object().shape({
-    corp_Name: Yup.string().required('Corp Name is required'),
-    corpId: Yup.string().required('Corp Id is required'),
-    corpStatus: Yup.string().required('Corp Status is required'),
-    corpScrName: Yup.string().required('corp Script Name is required'),
+    corp_name: Yup.string().required('Corp Name is required'),
+    corp_id: Yup.string().required('Corp Id is required'),
+    status: Yup.string().required('Status is required'),
+    corp_scr_name: Yup.string().required('corp Script Name is required'),
     
     // not required
     taxes: Yup.number(),
@@ -147,10 +147,10 @@ export default function ProductNewEditForm({ currentProduct }) {
 //Added by Shakirat
   const defaultValues = useMemo(
     () => ({
-      corp_Name: currentProduct?.corp_Name || "",
-      corpId: currentProduct?.corpId || "",
-      corpScrName: currentProduct?.corpScrName || "",
-      corpStatus: currentProduct?.corpStatus || "",
+      corp_name: currentProduct?.corp_name || "",
+      corp_id: currentProduct?.corp_id || "",
+      corp_scr_name: currentProduct?.corp_scr_name || "",
+      status: currentProduct?.status || "",
       //
     }),
     [currentProduct]
@@ -283,7 +283,7 @@ export default function ProductNewEditForm({ currentProduct }) {
               >
                 {/* <RHFTextField name="name" label="Product Name" /> */}
                 <RHFTextField name="name" label="Corp Id" />
-                <RHFTextField name="corp_Name" label="Corp Name" />
+                <RHFTextField name="corp_name" label="Corp Name" />
                 <RHFTextField name="name" label="script folder" />
                 {/* <RHFTextField name="subDescription" label="Sub Description" multiline rows={4} /> */}
               </Box>

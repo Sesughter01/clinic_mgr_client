@@ -72,10 +72,17 @@ export const endpoints = {
 
     // Added by Blessing NEXT_PUBLIC_HOST_API_TWO
     corp_data: '/api/Corps',
-    details: '/api/Corps/corpNum',
+    corp: '/api/Corps/',
 
   },
+//Added by Shakirat
 
+pms: {
+  // list: '/api/pms/list',
+  pms_data: '/api/pms',
+  details: '/api/pms/details',
+  search: '/api/pms/search',
+},
   //Added by Blessing
   clinic_manager: {
     list: '/api/clinicmanager/list',

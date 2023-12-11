@@ -40,24 +40,26 @@ export default function OverviewAppView() {
       <Grid container spacing={3}>
         <Grid xs={12} md={8}>
           <AppWelcome
-            title={`Welcome back 👋 \n ${user?.displayName}`}
-            description="If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything."
+            // title={`Welcome back 👋 \n ${user?.displayName}`}
+            title={`Wellcome to EDMS Clinic Manager 👋 \n Web (CM-WEB1.0)`}
+            // description="If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything."
+            description="Clinic Manager Web version comes with lots of online resources to strealine the onboarding process and to  consolidate all availble resources"
             img={<SeoIllustration />}
             action={
               <Button variant="contained" color="primary">
-                Go Now
+                Learn More
               </Button>
             }
           />
         </Grid>
-
+        
         <Grid xs={12} md={4}>
           <AppFeatured list={_appFeatured} />
         </Grid>
 
         <Grid xs={12} md={4}>
           <AppWidgetSummary
-            title="Total Active Users"
+            title="Total Active Clinics"
             percent={2.6}
             total={18765}
             chart={{
@@ -68,7 +70,7 @@ export default function OverviewAppView() {
 
         <Grid xs={12} md={4}>
           <AppWidgetSummary
-            title="Total Installed"
+            title="Total PMS"
             percent={0.2}
             total={4876}
             chart={{
@@ -78,9 +80,9 @@ export default function OverviewAppView() {
           />
         </Grid>
 
-        {/* <Grid xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <AppWidgetSummary
-            title="Total Downloads"
+            title="Total Corporations"
             percent={-0.1}
             total={678}
             chart={{
@@ -88,7 +90,7 @@ export default function OverviewAppView() {
               series: [8, 9, 31, 8, 16, 37, 8, 33, 46, 31],
             }}
           />
-        </Grid> */}
+        </Grid> 
 
         {/* <Grid xs={12} md={6} lg={4}>
           <AppCurrentDownload
@@ -157,24 +159,29 @@ export default function OverviewAppView() {
 
         <Grid xs={12} lg={8}>
           <AppNewInvoice
-            title="New Invoice"
+            title="Clinics On-Boarding"
             tableData={_appInvoices}
             tableLabels={[
-              { id: 'id', label: 'Invoice ID' },
-              { id: 'category', label: 'Category' },
-              { id: 'price', label: 'Price' },
-              { id: 'status', label: 'Status' },
+              // { id: 'id', label: 'Invoice ID' },
+              // { id: 'category', label: 'Category' },
+              // { id: 'price', label: 'Price' },
+              // { id: 'status', label: 'Status' },
+              // { id: '' },
+              { id: 'id', label: 'Clinic Name' },
+              { id: 'category', label: 'Stage' },
+              { id: 'price', label: 'Last Updated' },
+              // { id: 'status', label: 'Status' }, 
               { id: '' },
             ]}
           />
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <AppTopRelated title="Top Related Applications" list={_appRelated} />
+          <AppTopRelated title="Clinics in the pipeline" list={_appRelated} />
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <AppTopInstalledCountries title="Top Installed Countries" list={_appInstalled} />
+          <AppTopInstalledCountries title="New JIRA Tickets" list={_appInstalled} />
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>

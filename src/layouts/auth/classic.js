@@ -22,26 +22,30 @@ import Logo from 'src/components/logo';
 
 const METHODS = [
   {
-    id: 'jwt',
-    label: 'Jwt',
+    id: 'Development 1',
+    label: 'View our Staging Env',
+    text:'Staging',
     path: paths.auth.jwt.login,
     icon: '/assets/icons/auth/ic_jwt.svg',
   },
   {
-    id: 'firebase',
-    label: 'Firebase',
+    id: 'Development 2',
+    label: 'View our Production Env',
+    text:'Production',
     path: paths.auth.firebase.login,
     icon: '/assets/icons/auth/ic_firebase.svg',
   },
   {
-    id: 'amplify',
-    label: 'Amplify',
+    id: 'Production 1',
+    label: 'View Dentallytics',
+    text:'Dentallytics',
     path: paths.auth.amplify.login,
     icon: '/assets/icons/auth/ic_amplify.svg',
   },
   {
-    id: 'auth0',
-    label: 'Auth0',
+    id: 'Production 2',
+    label: 'View JIRA',
+    text:'JIRA',
     path: paths.auth.auth0.login,
     icon: '/assets/icons/auth/ic_auth0.svg',
   },
@@ -118,7 +122,7 @@ export default function AuthClassicLayout({ children, image, title }) {
           <Tooltip key={option.label} title={option.label}>
             <Link component={RouterLink} href={option.path}>
               <Box
-                component="img"
+                // component="img"
                 alt={option.label}
                 src={option.icon}
                 sx={{
@@ -128,10 +132,16 @@ export default function AuthClassicLayout({ children, image, title }) {
                     filter: 'grayscale(100%)',
                   }),
                 }}
+              
               />
+                {option.text}
             </Link>
           </Tooltip>
+
+            
+        
         ))}
+        
       </Stack>
     </Stack>
   );

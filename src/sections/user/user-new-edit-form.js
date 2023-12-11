@@ -323,7 +323,12 @@ export default function UserNewEditForm({ currentUser, open, onClose }) {
   } = methods;
 
   // const values = watch();
-
+  useEffect(() => {
+    if (currentUser) {
+      reset(defaultValues);
+    }
+  }, [currentUser, defaultValues, reset]);
+  
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));

@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 // utils
 import { fetcher, endpoints, fetcher_Two } from 'src/utils/axios';
+import { fetcher_Three } from '@/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -52,6 +53,26 @@ export function useGetClinic(clinicId) {
   return memoizedValue;
 }
 
+export function usePostClinic() {
+  const addClinic = async (clinic_add) => {
+    try {
+      const response = await fetcher_Three({
+        url: '/your-post-endpoint', // Replace with your actual POST endpoint
+        data: clinic_add, // Data to be sent in the POST request
+        method: 'post', // This indicates a POST request
+      });
+      // Optionally, handle the response here
+      console.log('Clinic added:', response);
+      return response;
+    } catch (error) {
+      // Handle errors if the POST request fails
+      console.error('Error adding clinic:', error);
+      throw new Error('Failed to add clinic');
+    }
+  };
+
+  return { addClinic };
+}
 
 
 // ----------------------------------------------------------------------

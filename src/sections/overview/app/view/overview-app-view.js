@@ -38,7 +38,8 @@ export default function OverviewAppView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Grid container spacing={3}>
-        <Grid xs={12} md={8}>
+        {/* <Grid xs={12} md={8}> */}
+        <Grid xs={12} md={12}>
           <AppWelcome
             // title={`Welcome back 👋 \n ${user?.displayName}`}
             title={`Wellcome to EDMS Clinic Manager 👋 \n Web (CM-WEB1.0)`}
@@ -53,40 +54,40 @@ export default function OverviewAppView() {
           />
         </Grid>
         
-        <Grid xs={12} md={4}>
+        {/* <Grid xs={12} md={4}>
           <AppFeatured list={_appFeatured} />
-        </Grid>
+        </Grid> */}
 
         <Grid xs={12} md={4}>
           <AppWidgetSummary
             title="Total Active Clinics"
-            percent={2.6}
+            // percent={2.6}
             total={18765}
-            chart={{
-              series: [5, 18, 12, 51, 68, 11, 39, 37, 27, 20],
-            }}
+            // chart={{
+            //   series: [5, 18, 12, 51, 68, 11, 39, 37, 27, 20],
+            // }}
           />
         </Grid>
 
         <Grid xs={12} md={4}>
           <AppWidgetSummary
             title="Total PMS"
-            percent={0.2}
+            // percent={0.2}
             total={4876}
-            chart={{
-              colors: [theme.palette.info.light, theme.palette.info.main],
-              series: [20, 41, 63, 33, 28, 35, 50, 46, 11, 26],
-            }}
+            // chart={{
+            //   // colors: [theme.palette.info.light, theme.palette.info.main],
+            //   series: [20, 41, 63, 33, 28, 35, 50, 46, 11, 26],
+            // }}
           />
         </Grid>
 
         <Grid xs={12} md={4}>
           <AppWidgetSummary
             title="Total Corporations"
-            percent={-0.1}
+            // percent={-0.1}
             total={678}
             chart={{
-              colors: [theme.palette.warning.light, theme.palette.warning.main],
+              // colors: [theme.palette.warning.light, theme.palette.warning.main],
               series: [8, 9, 31, 8, 16, 37, 8, 33, 46, 31],
             }}
           />
@@ -104,7 +105,7 @@ export default function OverviewAppView() {
               ],
             }}
           />
-        </Grid> */}
+        </Grid>  */}
 
         {/* <Grid xs={12} md={6} lg={8}>
           <AppAreaInstalled
@@ -180,15 +181,16 @@ export default function OverviewAppView() {
           <AppTopRelated title="Clinics in the pipeline" list={_appRelated} />
         </Grid>
 
-        <Grid xs={12} md={6} lg={4}>
+        {/* <Grid xs={12} md={8} lg={8}> */}
+        <Grid xs={12} md={4} lg={4}>
           <AppTopInstalledCountries title="New JIRA Tickets" list={_appInstalled} />
         </Grid>
 
-        <Grid xs={12} md={6} lg={4}>
+        {/* <Grid xs={12} md={6} lg={4}>
           <AppTopAuthors title="Top Authors" list={_appAuthors} />
-        </Grid>
+        </Grid> */}
 
-        <Grid xs={12} md={6} lg={4}>
+        {/* <Grid xs={12} md={6} lg={4}>
           <Stack spacing={3}>
             <AppWidget
               title="Conversion"
@@ -209,7 +211,7 @@ export default function OverviewAppView() {
               }}
             />
           </Stack>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Container>
   );

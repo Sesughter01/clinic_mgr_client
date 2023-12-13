@@ -334,18 +334,46 @@ export default function BasicTabs(currentUser) {
 
   const values = watch();
   
-  
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar(currentUser ? 'Update success!' : 'Create success!');
-      router.push(paths.dashboard.user.list);
-      console.info('DATA', data);
+      // Perform actions here with the form data
+      // For instance, make an API call to submit the form data
+  
+      // Example: Making a POST request using fetch
+      const response = await fetch('clinic_data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data), // 'data' contains your form fields
+      });
+  
+      if (response.ok) {
+        // Handle success - maybe show a success message or redirect
+        console.log('Form submitted successfully!');
+      } else {
+        // Handle errors if the submission fails
+        console.error('Form submission failed.');
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Error submitting the form:', error);
     }
-  });
+  };
+  
+  
+  
+  // const onSubmit = handleSubmit(async (data) => {
+  //   try {
+  //     await new Promise((resolve) => setTimeout(resolve, 500));
+  //     reset();
+  //     enqueueSnackbar(currentUser ? 'Update success!' : 'Create success!');
+  //     // router.push(paths.dashboard.user.list);
+  //     console.info('DATA', data);
+  //     console.log('DATA', data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // });
 
   const [value, setValue] = useState(0);
 

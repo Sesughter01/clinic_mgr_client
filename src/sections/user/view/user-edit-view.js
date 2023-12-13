@@ -20,7 +20,7 @@ import UserNewEditForm from "../user-new-edit-form";
 export default function UserEditView({ id }) {
   const settings = useSettingsContext();
 
-  // console.log("RES: ", useGetClinic(id));
+  // console.log("RES: ", (id));
   const { clinic: currentUser, clinicLoading, clinicEmpty } = useGetClinic(id);
   // console.log("CLINIC: ", clinic);
   // const clinic3 = {
@@ -151,7 +151,7 @@ export default function UserEditView({ id }) {
   // const currentUser =  clinicArray.find((user) => user.idclinics === id);
 
   // const currentUser = data;
-  
+
   // console.log("CURRENTUSER", currentUser);
 
   useEffect(() => {

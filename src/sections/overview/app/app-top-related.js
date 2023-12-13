@@ -45,7 +45,7 @@ function ApplicationItem({ app }) {
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
-      <Avatar
+      {/* <Avatar
         variant="rounded"
         sx={{
           width: 48,
@@ -54,14 +54,14 @@ function ApplicationItem({ app }) {
         }}
       >
         <Box component="img" src={shortcut} sx={{ width: 24, height: 24 }} />
-      </Avatar>
+      </Avatar> */}
 
       <Box sx={{ flexGrow: 1, minWidth: 0 }}>
         <Typography variant="subtitle2" noWrap>
           {name}
         </Typography>
 
-        <Stack direction="row" alignItems="center" sx={{ mt: 0.5, color: 'text.secondary' }}>
+        {/* <Stack direction="row" alignItems="center" sx={{ mt: 0.5, color: 'text.secondary' }}>
           <Iconify
             width={14}
             icon={system === 'Mac' ? 'mingcute:apple-fill' : 'mingcute:windows-fill'}
@@ -74,14 +74,14 @@ function ApplicationItem({ app }) {
           <Label color={price === 0 ? 'success' : 'error'}>
             {price === 0 ? 'Free' : fCurrency(price)}
           </Label>
-        </Stack>
+        </Stack> */}
       </Box>
 
       <Stack alignItems="flex-end">
         <Rating readOnly size="small" precision={0.5} name="reviews" value={ratingNumber} />
-        <Typography variant="caption" sx={{ mt: 0.5, color: 'text.secondary' }}>
+        {/* <Typography variant="caption" sx={{ mt: 0.5, color: 'text.secondary' }}>
           {fShortenNumber(totalReviews)} reviews
-        </Typography>
+        </Typography> */}
       </Stack>
     </Stack>
   );

@@ -46,6 +46,17 @@ export const fetcher_Two = async (args) => {
 };
 // ----------------------------------------------------------------------
 
+// ----------------------------------------------------------------------
+
+export const fetcher_Three = async (args) => {
+  const [url, data, config] = Array.isArray(args) ? args : [args, null, {}];
+
+  const res = await axiosInstance_Two.post(url, data, { ...config });
+  console.log("Response:", res.data);
+  return res.data;
+};
+// ----------------------------------------------------------------------
+
 export const endpoints = {
   chat: '/api/chat',
   kanban: '/api/kanban',
@@ -78,12 +89,12 @@ export const endpoints = {
   },
 //Added by Shakirat
 
-pms: {
+ pms: {
   // list: '/api/pms/list',
-  pms_data: '/api/pms',
-  details: '/api/pms/details',
-  search: '/api/pms/search',
-},
+   pms_data: '/api/pms',
+   details: '/api/pms/details',
+   search: '/api/pms/search',
+ },
   //Added by Blessing
   clinic_manager: {
     list: '/api/clinicmanager/list',
@@ -91,6 +102,9 @@ pms: {
     search: '/api/clinicmanager/search',
     clinic_data: '/api/clinics',
     clinic: '/api/clinics/',
+
+    clinic_add: '/api/clinics/',
+    clinic_update: '/api/clinics/',
 
   },
 

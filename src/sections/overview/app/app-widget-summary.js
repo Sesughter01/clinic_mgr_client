@@ -16,46 +16,46 @@ import Chart from 'src/components/chart';
 export default function AppWidgetSummary({ title, percent, total, chart, sx, ...other }) {
   const theme = useTheme();
 
-  const {
-    colors = [theme.palette.primary.light, theme.palette.primary.main],
-    series,
-    options,
-  } = chart;
+  // const {
+  //   // colors = [theme.palette.primary.light, theme.palette.primary.main],
+  //   // series,
+  //   // options,
+  // } = chart;
 
-  const chartOptions = {
-    colors: colors.map((colr) => colr[1]),
-    fill: {
-      type: 'gradient',
-      gradient: {
-        colorStops: [
-          { offset: 0, color: colors[0] },
-          { offset: 100, color: colors[1] },
-        ],
-      },
-    },
-    chart: {
-      sparkline: {
-        enabled: true,
-      },
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: '68%',
-        borderRadius: 2,
-      },
-    },
-    tooltip: {
-      x: { show: false },
-      y: {
-        formatter: (value) => fNumber(value),
-        title: {
-          formatter: () => '',
-        },
-      },
-      marker: { show: false },
-    },
-    ...options,
-  };
+  // const chartOptions = {
+  //   colors: colors.map((colr) => colr[1]),
+  //   fill: {
+  //     type: 'gradient',
+  //     gradient: {
+  //       colorStops: [
+  //         { offset: 0, color: colors[0] },
+  //         { offset: 100, color: colors[1] },
+  //       ],
+  //     },
+  //   },
+  //   chart: {
+  //     sparkline: {
+  //       enabled: true,
+  //     },
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       columnWidth: '68%',
+  //       borderRadius: 2,
+  //     },
+  //   },
+  //   tooltip: {
+  //     x: { show: false },
+  //     y: {
+  //       formatter: (value) => fNumber(value),
+  //       title: {
+  //         formatter: () => '',
+  //       },
+  //     },
+  //     marker: { show: false },
+  //   },
+  //   ...options,
+  // };
 
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3, ...sx }} {...other}>
@@ -89,13 +89,13 @@ export default function AppWidgetSummary({ title, percent, total, chart, sx, ...
         <Typography variant="h3">{fNumber(total)}</Typography>
       </Box>
 
-      <Chart type="bar" series={[{ data: series }]} options={chartOptions} width={60} height={36} />
+      {/* <Chart type="bar" series={[{ data: series }]} options={chartOptions} width={60} height={36} /> */}
     </Card>
   );
 }
 
 AppWidgetSummary.propTypes = {
-  chart: PropTypes.object,
+  // chart: PropTypes.object,
   percent: PropTypes.number,
   sx: PropTypes.object,
   title: PropTypes.string,

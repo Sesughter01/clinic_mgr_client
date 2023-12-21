@@ -197,7 +197,8 @@ export default function ProductListView() {
 
   const handleEditRow = useCallback(
     (id) => {
-      router.push(paths.dashboard.product.edit(id));
+      // router.push(paths.dashboard.product.edit(id));
+      router.push(paths.corporations.edit(id));
     },
     [router]
   );

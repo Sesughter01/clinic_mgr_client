@@ -206,13 +206,13 @@ export const paths = {
   // CORPORATIONS
   corporations: {
     root: `${ROOTS.CORPORATIONS}`,
-    new: `${ROOTS.CORPORATIONS}/new`,
+    new: `${ROOTS.CORPORATIONS}/corp/new`,
     list: `${ROOTS.CORPORATIONS}/list`,
     cards: `${ROOTS.CORPORATIONS}/cards`,
     profile: `${ROOTS.CORPORATIONS}/profile`,
     account: `${ROOTS.CORPORATIONS}/account`,
     // edit: (id) => `${ROOTS.CORPORATIONS}/${id}/edit`,
-    edit: (id) => `${ROOTS.CORPORATIONS}/${id}/edit`,
+    edit: (id) => `${ROOTS.CORPORATIONS}/corp/${id}/edit`,
     demo: {
       edit: `${ROOTS.CORPORATIONS}/${MOCK_ID}/edit`,
     },

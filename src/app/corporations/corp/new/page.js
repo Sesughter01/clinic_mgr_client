@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -99,230 +99,46 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs(currentUser) {
+export default function BasicTabs(currentProduct) {
   //added
 
   const router = useRouter();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  //   const NewUserSchema = Yup.object().shape({
-  //     name: Yup.string().required('Name is required'),
-  //     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-  //     phoneNumber: Yup.string().required('Phone number is required'),
-  //     address: Yup.string().required('Address is required'),
-  //     country: Yup.string().required('Country is required'),
-  //     company: Yup.string().required('Company is required'),
-  //     state: Yup.string().required('State is required'),
-  //     city: Yup.string().required('City is required'),
-  //     role: Yup.string().required('Role is required'),
-  //     zipCode: Yup.string().required('Zip code is required'),
-  //     avatarUrl: Yup.mixed().nullable().required('Avatar is required'),
-  //     // not required
-  //     status: Yup.string(),
-  //     isVerified: Yup.boolean(),
-  //   });
+  //  
+  const NewProductSchema = Yup.object().shape({
+    corp_name: Yup.string().required("Corp Name is required"),
+    corp_id: Yup.string().required("Corp Id is required"),
+    status: Yup.string().required("Status is required"),
+    corp_scr_name: Yup.string().required("corp Script Name is required"),
 
-  const NewUserSchema = Yup.object().shape({
-    //details
-    corpPractice: Yup.string().required("Corp practice is required"),
-    clinic_address: Yup.string().required("Clinic Address is required"),
-    idclinics: Yup.string().required("Clinic Id is required"),
-    clinic_city: Yup.string().required("Clinic city is required"),
-    clinic_code: Yup.string().required("Clinic code is required"),
-    clinic_province: Yup.string().required("Clinic Province is required"),
-    data_Path: Yup.string().required("Data path is required"),
-    clinic_postal: Yup.string().required("Clinic postal is required"),
-    clinicName: Yup.string().required("Clinic name is required"),
-    country: Yup.string().required("Country is required"),
-    current_app: Yup.string().required(
-      "Current Application is required"
-    ),
-    clinic_phone: Yup.string().required("Clinic Phone is required"),
-    dest_db: Yup.string().required("Dest. db code is required"),
-    clinic_email: Yup.string()
-      .required("Clinic Email is required")
-      .email("Clinic Email must be a valid email address"),
-    clinic_appointmentunit: Yup.string().required("Clinic Appointemnt Unit is required"),
-    acquistionDate: Yup.string().required("Acquisition date is required"),
-    prodDate: Yup.string().required("Production By is required"),
-    cuttOffDate: Yup.string().required("Cutt off datee is required"),
-    chargeAdj: Yup.string().required("Chrg adj by is required"),
-    firstTransId: Yup.string().required("Stating trans id is required"),
-    colDate: Yup.string().required("Collection by is required"),
-    responsiblePerson: Yup.string().required("Responsible person is required"),
-    collectionAdj: Yup.string().required("Collection adj by is required"),
-    scriptConvUnit: Yup.string().required("Script conversion unit is required"),
-    dateFormat: Yup.string().required("Date format is required"),
-    timezone: Yup.string().required("Time zone is required"),
-    avatarUrl: Yup.mixed().nullable().required("Avatar is required"),
     // not required
-    status: Yup.string(),
-    isVerified: Yup.boolean(),
-    //jail
-    data_path_source: Yup.string().required("Data path source is required"),
-    simpleJail: Yup.string().required("Simple jail  is required"),
-    jailDataDir: Yup.string().required("Jail Data Directory is required"),
-    multiClinicJail: Yup.string().required(
-      "Combined multi clinic jail is required"
-    ),
-    locationId: Yup.string().required("Location id  is required"),
-    separateMultiClinicJail: Yup.string().required(
-      "Separate multi clinic jail is required"
-    ),
-    //payment method
-    creditCard: Yup.string(),
-    writeOff: Yup.string(),
-    visa: Yup.string(),
-    finance: Yup.string(),
-    masterCard: Yup.string(),
-    directDeposit: Yup.string(),
-    debit: Yup.string(),
-    giftCertificate: Yup.string(),
-    cash: Yup.string(),
-    webCoupon: Yup.string(),
-    personalCheque: Yup.string(),
-    insuranceEfts: Yup.string(),
-    insuranceCheque: Yup.string(),
-    insuranceOthers: Yup.string(),
-    cashBalance: Yup.string(),
-    batchCollection: Yup.string(),
-    eTransfer: Yup.string(),
-    others: Yup.string(),
-    americanExp: Yup.string(),
-    refund: Yup.string(),
-    assignment: Yup.string(),
-    paymentPlan: Yup.string(),
-    //Script
-    table: Yup.string(),
-    scriptType: Yup.string(),
-    edmsPrefix: Yup.string(),
-    //Work flow
-    stage: Yup.string(),
-    todo: Yup.string(),
-    actioBy: Yup.string(),
-    asana_url: Yup.string(),
-    notes: Yup.string(),
-    //Appt Status Value
-    defId: Yup.string(),
-    edmsStatus: Yup.string(),
-    pmsStatus: Yup.string(),
-    //Employee mapping
-    providerCode: Yup.string(),
-    employee: Yup.string(),
-    mapEmployeeTo: Yup.string(),
-    designation: Yup.string(),
-    practice: Yup.string(),
-    primaryChar: Yup.string(),
+    taxes: Yup.number(),
+    newLabel: Yup.object().shape({
+      enabled: Yup.boolean(),
+      content: Yup.string(),
+    }),
+    saleLabel: Yup.object().shape({
+      enabled: Yup.boolean(),
+      content: Yup.string(),
+    }),
   });
 
-  // const defaultValues = useMemo(
-  //   () => ({
-  //     name: currentUser?.name || '',
-  //     city: currentUser?.city || '',
-  //     role: currentUser?.role || '',
-  //     email: currentUser?.email || '',
-  //     state: currentUser?.state || '',
-  //     status: currentUser?.status || '',
-  //     address: currentUser?.address || '',
-  //     country: currentUser?.country || '',
-  //     zipCode: currentUser?.zipCode || '',
-  //     company: currentUser?.company || '',
-  //     avatarUrl: currentUser?.avatarUrl || null,
-  //     phoneNumber: currentUser?.phoneNumber || '',
-  //     isVerified: currentUser?.isVerified || true,
-  //   }),
-  //   [currentUser]
-  // );
-
+  
   const defaultValues = useMemo(
     () => ({
-      //details
-      corpPractice: currentUser?.corpPractice || "",
-      clinic_address: currentUser?.clinic_address || "",
-      idclinics: currentUser?.idclinics || "",
-      clinic_city: currentUser?.clinic_city || "",
-      clinic_code: currentUser?.clinic_code || "",
-      clinic_province: currentUser?.clinic_province || "",
-      data_Path: currentUser?.data_Path || "",
-      clinic_postal: currentUser?.clinic_postal || "",
-      clinicName: currentUser?.clinicName || "",
-      country: currentUser?.country || "",
-      avatarUrl: currentUser?.avatarUrl || null,
-      current_app: currentUser?.current_app || "",
-      clinic_phone: currentUser?.clinic_phone || "",
-      dest_db: currentUser?.dest_db || "",
-      clinic_email: currentUser?.clinic_email || "",
-      clinic_appointmentunit: currentUser?.clinic_appointmentunit || "",
-      acquistionDate: currentUser?.acquistionDate || "",
-      prodDate: currentUser?.prodDate || "",
-      cutoff_date: currentUser?.cutoff_date || "",
-      chargeAdj: currentUser?.chargeAdj || "",
-      firstTransId: currentUser?.firstTransId || "",
-      colDate: currentUser?.colDate || "",
-      responsiblePerson: currentUser?.responsiblePerson || "",
-      collectionAdj: currentUser?.collectionAdj || "",
-      scriptConvUnit: currentUser?.scriptConvUnit || "",
-      collectionAdj: currentUser?.collectionAdj || "",
-      dateFormat: currentUser?.dateFormat || "",
-      timezone: currentUser?.timezone || "",
-      isVerified: currentUser?.isVerified || true,
-      //Jail
-      data_path_source: currentUser?.data_path_source || "",
-      simpleJail: currentUser?.simpleJail || "",
-      jailDataDir: currentUser?.jailDataDir || "",
-      multiClinicJail: currentUser?.multiClinicJail || "",
-      locationId: currentUser?.locationId || "",
-      separateMultiClinicJail: currentUser?.separateMultiClinicJail || "",
-      //Payment method
-      creditCard: currentUser?.creditCard || "",
-      writeOff: currentUser?.writeOff || "",
-      visa: currentUser?.visa || "",
-      finance: currentUser?.finance || "",
-      masterCard: currentUser?.masterCard || "",
-      directDeposit: currentUser?.directDeposit || "",
-      debit: currentUser?.debit || "",
-      giftCertificate: currentUser?.giftCertificate || "",
-      cash: currentUser?.cash || "",
-      webCoupon: currentUser?.webCoupon || "",
-      personalCheque: currentUser?.personalCheque || "",
-      insuranceEfts: currentUser?.insuranceEfts || "",
-      insuranceCheque: currentUser?.insuranceCheque || "",
-      insuranceOthers: currentUser?.insuranceOthers || "",
-      cashBalance: currentUser?.cashBalance || "",
-      batchCollection: currentUser?.batchCollection || "",
-      eTransfer: currentUser?.eTransfer || "",
-      others: currentUser?.others || "",
-      americanExp: currentUser?.americanExp || "",
-      refund: currentUser?.refund || "",
-      assignment: currentUser?.assignment || "",
-      paymentPlan: currentUser?.paymentPlan || "",
-      //Script
-      table: currentUser?.table || "",
-      scriptType: currentUser?.scriptType || "",
-      edmsPrefix: currentUser?.edmsPrefix || "",
-      //Workflow
-      stage: currentUser?.stage || "",
-      todo: currentUser?.todo || "",
-      actioBy: currentUser?.actioBy || "",
-      asana_url: currentUser?.asana_url || "",
-      //Appt status values
-      defId: currentUser?.defId || "",
-      edmsStatus: currentUser?.edmsStatus || "",
-      pmsStatus: currentUser?.pmsStatus || "",
-      //Employee mapping
-      providerCode: currentUser?.providerCode || "",
-      employee: currentUser?.employee || "",
-      mapEmployeeTo: currentUser?.mapEmployeeTo || "",
-      designation: currentUser?.designation || "",
-      practice: currentUser?.practice || "",
-      primaryChar: currentUser?.primaryChar || "",
+      corp_name: currentProduct?.corp_name || "",
+      corp_id: currentProduct?.corp_id || "",
+      corp_scr_name: currentProduct?.corp_scr_name || "",
+      status: currentProduct?.status || "",
+      //
     }),
-    [currentUser]
+    [currentProduct]
   );
 
   const methods = useForm({
-    resolver: yupResolver(NewUserSchema),
+    resolver: yupResolver(NewProductSchema),
     defaultValues,
   });
 
@@ -336,13 +152,18 @@ export default function BasicTabs(currentUser) {
   } = methods;
 
   const values = watch();
+  useEffect(() => {
+    if (currentProduct) {
+      reset(defaultValues);
+    }
+  }, [currentProduct, defaultValues, reset]);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
-      enqueueSnackbar(currentUser ? "Update success!" : "Create success!");
-      router.push(paths.dashboard.user.list);
+      enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
+      router.push(paths.corporations.root);
       console.info("DATA", data);
     } catch (error) {
       console.error(error);
@@ -629,16 +450,14 @@ export default function BasicTabs(currentUser) {
 
                   {/* <RHFTextField name="clinic_address" label="Clinic Address" /> */}
                   <Grid>
-                    <Card>
-                      <Box rowGap={3} columnGap={2} display="grid">
-                        <RHFTextField name="corp_id" label="Corp Id" />
-                        <RHFTextField name="corp_name" label="Corp Name" />
-                        <RHFTextField
-                          name="script folder"
-                          label="script folder"
-                        />
-                      </Box>
-                    </Card>
+                    <Box rowGap={3} columnGap={2} display="grid">
+                      <RHFTextField name="corp_id" label="Corp Id" />
+                      <RHFTextField name="corp_name" label="Corp Name" />
+                      <RHFTextField
+                        name="script folder"
+                        label="script folder"
+                      />
+                    </Box>
                   </Grid>
                   {/* <RHFTextField name="clinic_city" label="Clinic City" /> */}
                   <Grid>
@@ -650,72 +469,68 @@ export default function BasicTabs(currentUser) {
                     />
                   </Grid>
                   <Grid>
-                    <Card>
-                      <Box
-                        rowGap={3}
-                        columnGap={2}
-                        display="grid"
-                        multiline
-                        cols={2}
-                        gridTemplateColumns={{
-                          xs: "repeat(1, 1fr)",
-                          sm: "repeat(2, 1fr)",
-                        }}
-                      >
-                        <RHFTextField name="default db" label="default db" />
-                        <RHFTextField
-                          name="copy script from *"
-                          label="copy script from *"
-                        />
-                        {/* <RHFTextField name="data_Path" label="Data Path" /> */}
-                      </Box>
-                    </Card>
+                    <Box
+                      rowGap={3}
+                      columnGap={2}
+                      display="grid"
+                      multiline
+                      cols={2}
+                      gridTemplateColumns={{
+                        xs: "repeat(1, 1fr)",
+                        sm: "repeat(2, 1fr)",
+                      }}
+                    >
+                      <RHFTextField name="default db" label="default db" />
+                      <RHFTextField
+                        name="copy script from *"
+                        label="copy script from *"
+                      />
+                      {/* <RHFTextField name="data_Path" label="Data Path" /> */}
+                    </Box>
                   </Grid>
 
                   <Grid>
                     <RHFTextField name="sql" label="sql" />
                   </Grid>
                   <Grid>
-                    <Card>
-                      <Box rowGap={3} columnGap={2} display="grid">
-                        <RHFTextField
-                          name="contact"
-                          label="Contact"
-                          multiline
-                          rows={8}
-                        />
-                        <RHFAutocomplete
-                          name="location"
-                          label="Location"
-                          options={countries.map((country) => country.label)}
-                          getOptionLabel={(option) => option}
-                          isOptionEqualToValue={(option, value) =>
-                            option === value
+                    <Box rowGap={3} columnGap={2} display="grid">
+                      <RHFTextField
+                        name="contact"
+                        label="Contact"
+                        multiline
+                        rows={8}
+                      />
+                      <RHFAutocomplete
+                        name="location"
+                        label="Location"
+                        options={countries.map((country) => country.label)}
+                        getOptionLabel={(option) => option}
+                        isOptionEqualToValue={(option, value) =>
+                          option === value
+                        }
+                        renderOption={(props, option) => {
+                          const { code, label, phone } = countries.filter(
+                            (country) => country.label === option
+                          )[0];
+
+                          if (!label) {
+                            return null;
                           }
-                          renderOption={(props, option) => {
-                            const { code, label, phone } = countries.filter(
-                              (country) => country.label === option
-                            )[0];
 
-                            if (!label) {
-                              return null;
-                            }
-
-                            return (
-                              <li {...props} key={label}>
-                                <Iconify
-                                  key={label}
-                                  icon={`circle-flags:${code.toLowerCase()}`}
-                                  width={28}
-                                  sx={{ mr: 1 }}
-                                />
-                                {label} ({code}) +{phone}
-                              </li>
-                            );
-                          }}
-                        />
-                      </Box>
-                    </Card>
+                          return (
+                            <li {...props} key={label}>
+                              <Iconify
+                                key={label}
+                                icon={`circle-flags:${code.toLowerCase()}`}
+                                width={28}
+                                sx={{ mr: 1 }}
+                              />
+                              {label} ({code}) +{phone}
+                            </li>
+                          );
+                        }}
+                      />
+                    </Box>
                   </Grid>
                 </Box>
 
@@ -725,7 +540,7 @@ export default function BasicTabs(currentUser) {
                     variant="contained"
                     loading={isSubmitting}
                   >
-                    {!currentUser ? "Create User" : "Go live"}
+                    {!currentProduct ? "Create User" : "Go live"}
                   </LoadingButton>
                 </Stack>
               </Card>
@@ -787,7 +602,7 @@ export default function BasicTabs(currentUser) {
                     variant="contained"
                     loading={isSubmitting}
                   >
-                    {!currentUser ? "Create User" : "Save Changes"}
+                    {!currentProduct ? "Create User" : "Save Changes"}
                   </LoadingButton>
                 </Stack>
               </Card>
@@ -1031,7 +846,7 @@ export default function BasicTabs(currentUser) {
                     variant="contained"
                     loading={isSubmitting}
                   >
-                    {!currentUser ? "Create User" : "purge record"}
+                    {!currentProduct ? "Create User" : "purge record"}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -1052,7 +867,7 @@ export default function BasicTabs(currentUser) {
                     variant="contained"
                     loading={isSubmitting}
                   >
-                    {!currentUser ? "Create User" : "Add new"}
+                    {!currentProduct ? "Create User" : "Add new"}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -1125,20 +940,11 @@ export default function BasicTabs(currentUser) {
                     sm: "repeat(1, 1fr)",
                   }}
                 >
-                  <RHFTextField
-                    name="stage"
-                    label="Stage"
-                  />
+                  <RHFTextField name="stage" label="Stage" />
 
-                  <RHFTextField
-                    name="todo"
-                    label="To Do"
-                  />
+                  <RHFTextField name="todo" label="To Do" />
 
-                  <RHFTextField
-                    name="actioBy"
-                    label="Action By"
-                  />
+                  <RHFTextField name="actioBy" label="Action By" />
 
                   <Textarea
                     aria-label="minimum height"
@@ -1187,7 +993,7 @@ export default function BasicTabs(currentUser) {
                       variant="contained"
                       loading={isSubmitting}
                     >
-                      {!currentUser ? "Create User" : "Post >>>"}
+                      {!currentProduct ? "Create User" : "Post >>>"}
                     </LoadingButton>
                   </Stack>
                 </Box>
@@ -1281,7 +1087,7 @@ export default function BasicTabs(currentUser) {
                     loading={isSubmitting}
                   >
                     {/* {!currentUser ? 'Create User' : 'Save Changes'} */}
-                    {!currentUser ? "Create User" : "Generate"}
+                    {!currentProduct ? "Create User" : "Generate"}
                   </LoadingButton>
                 </Stack>
               </Card>
@@ -1349,14 +1155,14 @@ export default function BasicTabs(currentUser) {
                     loading={isSubmitting}
                     sx={{ ml: 3, marginRight: 2 }}
                   >
-                    {!currentUser ? "Create User" : "Pull corp's adjustments"}
+                    {!currentProduct ? "Create User" : "Pull corp's adjustments"}
                   </LoadingButton>
                   <LoadingButton
                     type="submit"
                     variant="contained"
                     loading={isSubmitting}
                   >
-                    {!currentUser ? "Create User" : "Add clinic script"}
+                    {!currentProduct ? "Create User" : "Add clinic script"}
                   </LoadingButton>
                 </Stack>
 
@@ -1370,12 +1176,7 @@ export default function BasicTabs(currentUser) {
           </Grid>
         </FormProvider>
       </CustomTabPanel>
-      {/* <CustomTabPanel value={value} index={8}>
-        Item Nine
-      </CustomTabPanel> */}
-      {/* <CustomTabPanel value={value} index={9}>
-        Item Ten
-      </CustomTabPanel> */}
+     
     </Box>
   );
 }
@@ -1384,458 +1185,3 @@ BasicTabs.propTypes = {
   currentUser: PropTypes.object,
 };
 
-// 'use client';
-
-// import PropTypes from 'prop-types';
-// import * as Yup from 'yup';
-// import { useCallback, useMemo, useEffect, useState } from 'react';
-// import { useForm } from 'react-hook-form';
-// import { yupResolver } from '@hookform/resolvers/yup';
-// // @mui
-// import LoadingButton from '@mui/lab/LoadingButton';
-// import Box from '@mui/material/Box';
-// import Chip from '@mui/material/Chip';
-// import Card from '@mui/material/Card';
-// import Stack from '@mui/material/Stack';
-// import Switch from '@mui/material/Switch';
-// import Divider from '@mui/material/Divider';
-// import Grid from '@mui/material/Unstable_Grid2';
-// import CardHeader from '@mui/material/CardHeader';
-// import Typography from '@mui/material/Typography';
-// import InputAdornment from '@mui/material/InputAdornment';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// // routes
-// import { paths } from 'src/routes/paths';
-// // hooks
-// import { useResponsive } from 'src/hooks/use-responsive';
-// // _mock
-// import {
-//   _tags,
-//   PRODUCT_SIZE_OPTIONS,
-//   PRODUCT_GENDER_OPTIONS,
-//   PRODUCT_COLOR_NAME_OPTIONS,
-//   PRODUCT_CATEGORY_GROUP_OPTIONS,
-// } from 'src/_mock';
-// // components
-// import { useSnackbar } from 'src/components/snackbar';
-// import { useRouter } from 'src/routes/hooks';
-// import FormProvider, {
-//   RHFSelect,
-//   RHFEditor,
-//   RHFUpload,
-//   RHFSwitch,
-//   RHFTextField,
-//   RHFMultiSelect,
-//   RHFAutocomplete,
-//   RHFMultiCheckbox,
-// } from 'src/components/hook-form';
-
-// // ----------------------------------------------------------------------
-
-// export default function ProductNewEditForm({ currentProduct }) {
-//   const router = useRouter();
-
-//   const mdUp = useResponsive('up', 'md');
-
-//   const { enqueueSnackbar } = useSnackbar();
-
-//   const [includeTaxes, setIncludeTaxes] = useState(false);
-
-//   const NewProductSchema = Yup.object().shape({
-//     name: Yup.string().required('Name is required'),
-//     images: Yup.array().min(1, 'Images is required'),
-//     tags: Yup.array().min(2, 'Must have at least 2 tags'),
-//     category: Yup.string().required('Category is required'),
-//     price: Yup.number().moreThan(0, 'Price should not be $0.00'),
-//     description: Yup.string().required('Description is required'),
-//     // not required
-//     taxes: Yup.number(),
-//     newLabel: Yup.object().shape({
-//       enabled: Yup.boolean(),
-//       content: Yup.string(),
-//     }),
-//     saleLabel: Yup.object().shape({
-//       enabled: Yup.boolean(),
-//       content: Yup.string(),
-//     }),
-//   });
-
-//   const defaultValues = useMemo(
-//     () => ({
-//       name: currentProduct?.name || '',
-//       description: currentProduct?.description || '',
-//       subDescription: currentProduct?.subDescription || '',
-//       images: currentProduct?.images || [],
-//       //
-//       code: currentProduct?.code || '',
-//       sku: currentProduct?.sku || '',
-//       price: currentProduct?.price || 0,
-//       quantity: currentProduct?.quantity || 0,
-//       priceSale: currentProduct?.priceSale || 0,
-//       tags: currentProduct?.tags || [],
-//       taxes: currentProduct?.taxes || 0,
-//       gender: currentProduct?.gender || '',
-//       category: currentProduct?.category || '',
-//       colors: currentProduct?.colors || [],
-//       sizes: currentProduct?.sizes || [],
-//       newLabel: currentProduct?.newLabel || { enabled: false, content: '' },
-//       saleLabel: currentProduct?.saleLabel || { enabled: false, content: '' },
-//     }),
-//     [currentProduct]
-//   );
-
-//   const methods = useForm({
-//     resolver: yupResolver(NewProductSchema),
-//     defaultValues,
-//   });
-
-//   const {
-//     reset,
-//     watch,
-//     setValue,
-//     handleSubmit,
-//     formState: { isSubmitting },
-//   } = methods;
-
-//   const values = watch();
-
-//   useEffect(() => {
-//     if (currentProduct) {
-//       reset(defaultValues);
-//     }
-//   }, [currentProduct, defaultValues, reset]);
-
-//   useEffect(() => {
-//     if (includeTaxes) {
-//       setValue('taxes', 0);
-//     } else {
-//       setValue('taxes', currentProduct?.taxes || 0);
-//     }
-//   }, [currentProduct?.taxes, includeTaxes, setValue]);
-
-//   const onSubmit = handleSubmit(async (data) => {
-//     try {
-//       await new Promise((resolve) => setTimeout(resolve, 500));
-//       reset();
-//       enqueueSnackbar(currentProduct ? 'Update success!' : 'Create success!');
-//       router.push(paths.dashboard.product.root);
-//       console.info('DATA', data);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   });
-
-//   const handleDrop = useCallback(
-//     (acceptedFiles) => {
-//       const files = values.images || [];
-
-//       const newFiles = acceptedFiles.map((file) =>
-//         Object.assign(file, {
-//           preview: URL.createObjectURL(file),
-//         })
-//       );
-
-//       setValue('images', [...files, ...newFiles], { shouldValidate: true });
-//     },
-//     [setValue, values.images]
-//   );
-
-//   const handleRemoveFile = useCallback(
-//     (inputFile) => {
-//       const filtered = values.images && values.images?.filter((file) => file !== inputFile);
-//       setValue('images', filtered);
-//     },
-//     [setValue, values.images]
-//   );
-
-//   const handleRemoveAllFiles = useCallback(() => {
-//     setValue('images', []);
-//   }, [setValue]);
-
-//   const handleChangeIncludeTaxes = useCallback((event) => {
-//     setIncludeTaxes(event.target.checked);
-//   }, []);
-
-//   const renderDetails = (
-//     <>
-
-//       {mdUp && (
-//         <Grid md={4}>
-//           <Typography variant="h6" sx={{ mb: 0.5 }}>
-//             Details
-//           </Typography>
-//           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-//             Title, short description, image...
-//           </Typography>
-//         </Grid>
-//       )}
-
-//       <Grid xs={12} md={8}>
-//         <Card>
-//           {!mdUp && <CardHeader title="Details" />}
-
-//           <Stack spacing={3} sx={{ p: 3 }}>
-//             <RHFTextField name="name" label="Product Name" />
-
-//             <RHFTextField name="subDescription" label="Sub Description" multiline rows={4} />
-
-//             <Stack spacing={1.5}>
-//               <Typography variant="subtitle2">Content</Typography>
-//               <RHFEditor simple name="description" />
-//             </Stack>
-
-//             <Stack spacing={1.5}>
-//               <Typography variant="subtitle2">Images</Typography>
-//               <RHFUpload
-//                 multiple
-//                 thumbnail
-//                 name="images"
-//                 maxSize={3145728}
-//                 onDrop={handleDrop}
-//                 onRemove={handleRemoveFile}
-//                 onRemoveAll={handleRemoveAllFiles}
-//                 onUpload={() => console.info('ON UPLOAD')}
-//               />
-//             </Stack>
-//           </Stack>
-//         </Card>
-//       </Grid>
-//     </>
-//   );
-
-//   const renderProperties = (
-//     <>
-//       {mdUp && (
-//         <Grid md={4}>
-//           <Typography variant="h6" sx={{ mb: 0.5 }}>
-//             Properties
-//           </Typography>
-//           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-//             Additional functions and attributes...
-//           </Typography>
-//         </Grid>
-//       )}
-
-//       <Grid xs={12} md={8}>
-//         <Card>
-//           {!mdUp && <CardHeader title="Properties" />}
-
-//           <Stack spacing={3} sx={{ p: 3 }}>
-//             <Box
-//               columnGap={2}
-//               rowGap={3}
-//               display="grid"
-//               gridTemplateColumns={{
-//                 xs: 'repeat(1, 1fr)',
-//                 md: 'repeat(2, 1fr)',
-//               }}
-//             >
-//               <RHFTextField name="code" label="Product Code" />
-
-//               <RHFTextField name="sku" label="Product SKU" />
-
-//               <RHFTextField
-//                 name="quantity"
-//                 label="Quantity"
-//                 placeholder="0"
-//                 type="number"
-//                 InputLabelProps={{ shrink: true }}
-//               />
-
-//               <RHFSelect native name="category" label="Category" InputLabelProps={{ shrink: true }}>
-//                 {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
-//                   <optgroup key={category.group} label={category.group}>
-//                     {category.classify.map((classify) => (
-//                       <option key={classify} value={classify}>
-//                         {classify}
-//                       </option>
-//                     ))}
-//                   </optgroup>
-//                 ))}
-//               </RHFSelect>
-
-//               <RHFMultiSelect
-//                 checkbox
-//                 name="colors"
-//                 label="Colors"
-//                 options={PRODUCT_COLOR_NAME_OPTIONS}
-//               />
-
-//               <RHFMultiSelect checkbox name="sizes" label="Sizes" options={PRODUCT_SIZE_OPTIONS} />
-//             </Box>
-
-//             <RHFAutocomplete
-//               name="tags"
-//               label="Tags"
-//               placeholder="+ Tags"
-//               multiple
-//               freeSolo
-//               options={_tags.map((option) => option)}
-//               getOptionLabel={(option) => option}
-//               renderOption={(props, option) => (
-//                 <li {...props} key={option}>
-//                   {option}
-//                 </li>
-//               )}
-//               renderTags={(selected, getTagProps) =>
-//                 selected.map((option, index) => (
-//                   <Chip
-//                     {...getTagProps({ index })}
-//                     key={option}
-//                     label={option}
-//                     size="small"
-//                     color="info"
-//                     variant="soft"
-//                   />
-//                 ))
-//               }
-//             />
-
-//             <Stack spacing={1}>
-//               <Typography variant="subtitle2">Gender</Typography>
-//               <RHFMultiCheckbox row name="gender" spacing={2} options={PRODUCT_GENDER_OPTIONS} />
-//             </Stack>
-
-//             <Divider sx={{ borderStyle: 'dashed' }} />
-
-//             <Stack direction="row" alignItems="center" spacing={3}>
-//               <RHFSwitch name="saleLabel.enabled" label={null} sx={{ m: 0 }} />
-//               <RHFTextField
-//                 name="saleLabel.content"
-//                 label="Sale Label"
-//                 fullWidth
-//                 disabled={!values.saleLabel.enabled}
-//               />
-//             </Stack>
-
-//             <Stack direction="row" alignItems="center" spacing={3}>
-//               <RHFSwitch name="newLabel.enabled" label={null} sx={{ m: 0 }} />
-//               <RHFTextField
-//                 name="newLabel.content"
-//                 label="New Label"
-//                 fullWidth
-//                 disabled={!values.newLabel.enabled}
-//               />
-//             </Stack>
-//           </Stack>
-//         </Card>
-//       </Grid>
-//     </>
-//   );
-
-//   const renderPricing = (
-//     <>
-//       {mdUp && (
-//         <Grid md={4}>
-//           <Typography variant="h6" sx={{ mb: 0.5 }}>
-//             Pricing
-//           </Typography>
-//           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-//             Price related inputs
-//           </Typography>
-//         </Grid>
-//       )}
-
-//       <Grid xs={12} md={8}>
-//         <Card>
-//           {!mdUp && <CardHeader title="Pricing" />}
-
-//           <Stack spacing={3} sx={{ p: 3 }}>
-//             <RHFTextField
-//               name="price"
-//               label="Regular Price"
-//               placeholder="0.00"
-//               type="number"
-//               InputLabelProps={{ shrink: true }}
-//               InputProps={{
-//                 startAdornment: (
-//                   <InputAdornment position="start">
-//                     <Box component="span" sx={{ color: 'text.disabled' }}>
-//                       $
-//                     </Box>
-//                   </InputAdornment>
-//                 ),
-//               }}
-//             />
-
-//             <RHFTextField
-//               name="priceSale"
-//               label="Sale Price"
-//               placeholder="0.00"
-//               type="number"
-//               InputLabelProps={{ shrink: true }}
-//               InputProps={{
-//                 startAdornment: (
-//                   <InputAdornment position="start">
-//                     <Box component="span" sx={{ color: 'text.disabled' }}>
-//                       $
-//                     </Box>
-//                   </InputAdornment>
-//                 ),
-//               }}
-//             />
-
-//             <FormControlLabel
-//               control={<Switch checked={includeTaxes} onChange={handleChangeIncludeTaxes} />}
-//               label="Price includes taxes"
-//             />
-
-//             {!includeTaxes && (
-//               <RHFTextField
-//                 name="taxes"
-//                 label="Tax (%)"
-//                 placeholder="0.00"
-//                 type="number"
-//                 InputLabelProps={{ shrink: true }}
-//                 InputProps={{
-//                   startAdornment: (
-//                     <InputAdornment position="start">
-//                       <Box component="span" sx={{ color: 'text.disabled' }}>
-//                         %
-//                       </Box>
-//                     </InputAdornment>
-//                   ),
-//                 }}
-//               />
-//             )}
-//           </Stack>
-//         </Card>
-//       </Grid>
-//     </>
-//   );
-
-//   const renderActions = (
-//     <>
-//       {mdUp && <Grid md={4} />}
-//       <Grid xs={12} md={8} sx={{ display: 'flex', alignItems: 'center' }}>
-//         <FormControlLabel
-//           control={<Switch defaultChecked />}
-//           label="Publish"
-//           sx={{ flexGrow: 1, pl: 3 }}
-//         />
-
-//         <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
-//           {!currentProduct ? 'Create Product' : 'Save Changes'}
-//         </LoadingButton>
-//       </Grid>
-//     </>
-//   );
-
-//   return (
-//     <FormProvider methods={methods} onSubmit={onSubmit}>
-//       <Grid container spacing={3}>
-//         {renderDetails}
-
-//         {renderProperties}
-
-//         {renderPricing}
-
-//         {renderActions}
-//       </Grid>
-//     </FormProvider>
-//   );
-// }
-
-// ProductNewEditForm.propTypes = {
-//   currentProduct: PropTypes.object,
-// };

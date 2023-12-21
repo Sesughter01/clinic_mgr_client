@@ -1,8 +1,15 @@
+// Added by Shakirat
+import * as React from "react";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { useCallback, useMemo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+
 // @mui
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
@@ -32,21 +39,19 @@ import {
   PRODUCT_SIZE_OPTIONS,
   PRODUCT_GENDER_OPTIONS,
   PRODUCT_COLOR_NAME_OPTIONS,
+  PRODUCT_STATUS_OPTIONS,
   PRODUCT_CATEGORY_GROUP_OPTIONS,
 } from "src/_mock";
 
 //mock from Shakirat
-import {
-  corp_name,
-  corp_id,
-  status
-} from "src/_mock/_coorperation";
+import { corp_name, corp_id, status } from "src/_mock/_coorperation";
 
 // components
 import { useSnackbar } from "src/components/snackbar";
 import { useRouter } from "src/routes/hooks";
 import FormProvider, {
   RHFSelect,
+  RHFRadioGroup,
   RHFEditor,
   RHFUpload,
   RHFSwitch,
@@ -102,11 +107,11 @@ export default function ProductNewEditForm({ currentProduct }) {
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
   const NewProductSchema = Yup.object().shape({
-    corp_name: Yup.string().required('Corp Name is required'),
-    corp_id: Yup.string().required('Corp Id is required'),
-    status: Yup.string().required('Status is required'),
-    corp_scr_name: Yup.string().required('corp Script Name is required'),
-    
+    corp_name: Yup.string().required("Corp Name is required"),
+    corp_id: Yup.string().required("Corp Id is required"),
+    status: Yup.string().required("Status is required"),
+    corp_scr_name: Yup.string().required("corp Script Name is required"),
+
     // not required
     taxes: Yup.number(),
     newLabel: Yup.object().shape({
@@ -144,7 +149,7 @@ export default function ProductNewEditForm({ currentProduct }) {
   //   }),
   //   [currentProduct]
   // );
-//Added by Shakirat
+  //Added by Shakirat
   const defaultValues = useMemo(
     () => ({
       corp_name: currentProduct?.corp_name || "",
@@ -155,7 +160,6 @@ export default function ProductNewEditForm({ currentProduct }) {
     }),
     [currentProduct]
   );
-
 
   const methods = useForm({
     resolver: yupResolver(NewProductSchema),
@@ -191,8 +195,9 @@ export default function ProductNewEditForm({ currentProduct }) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
-      router.push(paths.dashboard.product.root);
-      console.info("DATA", data);
+      router.push(paths.corporations.root);
+      // console.info("DATA", data);
+      console.log("DATA", data);
     } catch (error) {
       console.error(error);
     }
@@ -282,18 +287,52 @@ export default function ProductNewEditForm({ currentProduct }) {
                 // }}
               >
                 {/* <RHFTextField name="name" label="Product Name" /> */}
-                <RHFTextField name="name" label="Corp Id" />
+                <RHFTextField name="corp_id" label="Corp Id" />
                 <RHFTextField name="corp_name" label="Corp Name" />
-                <RHFTextField name="name" label="script folder" />
+                <RHFTextField name="corp_scr_name" label="script folder" />
                 {/* <RHFTextField name="subDescription" label="Sub Description" multiline rows={4} /> */}
               </Box>
               <Box>
-                <RHFTextField
-                  name="subDescription"
-                  label="Status"
+              
+                <FormControl
+                  variant="outlined"
                   multiline
                   rows={10}
-                />
+                  sx={{ width: "100%" }}
+                  style={{
+                    borderRadius: 8,
+                    padding: 16,
+                    border: "1px solid #ccc",
+                    marginBottom: 16,
+                    height: "100%",
+                  }}
+                >
+                  <Typography variant="h6" gutterBottom>
+                    Status
+                  </Typography>
+                  <RadioGroup
+                    aria-label="status"
+                    name="status"
+                    defaultValue="active"
+                  >
+                    <FormControlLabel
+                      value="text"
+                      control={<Radio />}
+                      label="Text"
+                    />
+                    <FormControlLabel
+                      value="active"
+                      control={<Radio />}
+                      label="Active"
+                    />
+                    <FormControlLabel
+                      value="retired"
+                      control={<Radio />}
+                      label="Retired"
+                    />
+                  </RadioGroup>
+                </FormControl>
+                
               </Box>
             </Box>
 
@@ -574,6 +613,11 @@ export default function ProductNewEditForm({ currentProduct }) {
               />
             </Box>
           </Stack>
+          <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                {!currentProduct ? 'Create Product' : 'Go live'}
+              </LoadingButton>
+            </Stack>
         </Card>
       </Grid>
     </>

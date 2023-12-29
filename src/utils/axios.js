@@ -85,15 +85,21 @@ export const endpoints = {
     // Added by Blessing NEXT_PUBLIC_HOST_API_TWO
     corp_data: '/api/Corps',
     corp: '/api/Corps/',
+    corp_add: 'api/Corps',
+    corp_delete: 'api/Corps',
 
   },
 //Added by Shakirat
 
  pms: {
   // list: '/api/pms/list',
-   pms_data: '/api/pms',
    details: '/api/pms/details',
    search: '/api/pms/search',
+   pms: '/api/pms',
+   pms_data: '/api/pms',
+   pms_add: '/api/pms',
+   pms_update: '/api/pms',
+   pms_delete: 'api/pms',
  },
   //Added by Blessing
   clinic_manager: {
@@ -105,6 +111,14 @@ export const endpoints = {
 
     clinic_add: '/api/clinics/',
     clinic_update: '/api/clinics/',
+    clinic_data_update: '/api/clinics',
+    clinic_corp: '/api/clinics/corp',
+    clinic_pms: '/api/clinics/pms',
+    clinic_adjustments: '/api/clinics/adjustments',
+    clinic_adjustments_update: '/api/clinics/adjustments',
+    clinic_paymethod_update: '/api/clinics/paymethod',
+    clinic_employee_update: '/api/clinics/employee',
+    clinic_appointment_update: '/api/clinics/appointment',
 
   },
 

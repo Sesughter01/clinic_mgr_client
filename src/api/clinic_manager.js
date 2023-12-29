@@ -57,6 +57,7 @@ export function usePostClinic() {
   const addClinic = async (clinic_add) => {
     try {
       const response = await fetcher_Three({
+        // url: '/your-post-endpoint', // Replace with your actual POST endpoint
         url: '/your-post-endpoint', // Replace with your actual POST endpoint
         data: clinic_add, // Data to be sent in the POST request
         method: 'post', // This indicates a POST request

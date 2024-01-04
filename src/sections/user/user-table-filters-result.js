@@ -29,8 +29,8 @@ export default function UserTableFiltersResult({
   //   onFilters('role', newValue);
   // };
   const handleRemoveRole = (inputValue) => {
-    const newValue = filters.corpName.filter((item) => item !== inputValue);
-    onFilters('corpName', newValue);
+    const newValue = filters.corp_Name.filter((item) => item !== inputValue);
+    onFilters('corp_Name', newValue);
   };
 
   const handleRemovePms = (inputValue) => {
@@ -54,9 +54,9 @@ export default function UserTableFiltersResult({
           </Block>
         )}
 
-        {!!filters.corpName.length && (
+        {!!filters.corp_Name.length && (
           <Block label="Corp Name:">
-            {filters.corpName.map((item) => (
+            {filters.corp_Name.map((item) => (
               <Chip key={item} label={item} size="small" onDelete={() => handleRemoveRole(item)} />
             ))}
           </Block>

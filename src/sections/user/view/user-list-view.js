@@ -19,7 +19,7 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 // _mock
-import { _userList, _userListTwo, _roles, _corpNames, _pmss, USER_STATUS_OPTIONS } from 'src/_mock';
+import { _userList, _userListTwo, _roles, _corp_Names, _pmss, USER_STATUS_OPTIONS } from 'src/_mock';
 import { useGetClinics } from 'src/api/clinic_manager';
 //Added by Blessing
 // import { _corpName, _pms, _clinicName  } from 'src/_mock';
@@ -63,7 +63,7 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
   { id: 'clinic_name', label: 'Clinic Name',},
-  { id: 'corpName', label: 'Corp Name', width: 180 },
+  { id: 'corp_Name', label: 'Corp Name', width: 180 },
   { id: 'pms', label: 'PMS', width: 180 },
   { id: 'stage', label: 'Stage',  },
   { id: 'todo', label: 'To Do', },
@@ -87,7 +87,7 @@ const defaultFilters = {
   clinic_name: '',
   corporation: '',
   pmss: '',
-  corpName: [],
+  corp_Name: [],
   pms: [],
   status: 'all',
 };
@@ -273,7 +273,7 @@ export default function UserListView() {
             onFilters={handleFilters}
             //
             // roleOptions={_roles}
-            roleOptions={_corpNames}
+            roleOptions={_corp_Names}
             pmsOptions={_pmss}
           />
 
@@ -400,7 +400,7 @@ export default function UserListView() {
 
 function applyFilter({ inputData, comparator, filters }) {
   // const { name, status, role } = filters;
-  const { clinic_name, status, corpName, pms } = filters;
+  const { clinic_name, status, corp_Name, pms } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
   
@@ -434,8 +434,8 @@ function applyFilter({ inputData, comparator, filters }) {
   // if (role.length) {
   //   inputData = inputData.filter((user) => role.includes(user.role));
   // }
-  if (corpName.length) {
-    inputData = inputData.filter((user) => corpName.includes(user.corpName));
+  if (corp_Name.length) {
+    inputData = inputData.filter((user) => corp_Name.includes(user.corp_Name));
   }
   if (pms.length) {
     inputData = inputData.filter((user) => pms.includes(user.pms));

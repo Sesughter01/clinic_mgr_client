@@ -27,7 +27,7 @@ import UserQuickEditForm from './user-quick-edit-form';
 
 export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, onPmsreportRow }) {
   // const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
-  const { clinic_name, avatarUrl, corpName, pms, actioBy, stage, status, todo, asana_url } = row;
+  const { clinic_name, avatarUrl, corp_Name, pms, actioBy, stage, status, todo, asana_url } = row;
 
   const confirm = useBoolean();
 
@@ -63,7 +63,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           />
         </TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{corpName}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{corp_Name}</TableCell>
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{pms}</TableCell>
 

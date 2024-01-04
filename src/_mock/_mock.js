@@ -29,7 +29,7 @@ import {
   _phoneNumbers,
   //new data from blessing
   _clinic_names,
-  _corpNames,
+  _corp_Names,
   _pmss,
   _stages,
   _todos,
@@ -67,7 +67,7 @@ export const _mock = {
 
   //Clinic Manager 
   clinic_name: (index) => _clinic_names[index],
-  corpName: (index) => _corpNames[index],
+  corp_Name: (index) => _corp_Names[index],
   pms: (index) => _pmss[index],
   stage: (index) => _stages[index],
   todo: (index) => _todos[index],

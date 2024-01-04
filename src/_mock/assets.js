@@ -291,7 +291,7 @@ export const _clinic_names = [
 ];
 
 //new corp name search added by blessing
-export const _corpNames = [
+export const _corp_Names = [
   'Kings Corp',
   'Heaven Corp',
   'Qings Corp',

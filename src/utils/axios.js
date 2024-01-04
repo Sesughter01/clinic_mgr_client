@@ -32,6 +32,18 @@ axiosInstance_Two.interceptors.response.use(
   (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
 );
 
+// Apply the CORS middleware to the Axios instance
+axiosInstance_Two.interceptors.request.use(
+  async (config) => {
+    // Apply the CORS middleware before making the request
+    await corsMiddleware(config, null);
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 
 
 // ----------------------------------------------------------------------

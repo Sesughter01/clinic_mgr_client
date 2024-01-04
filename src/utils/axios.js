@@ -1,6 +1,7 @@
 import axios from 'axios';
 // config
 import { HOST_API, HOST_API_TWO } from 'src/config-global';
+import corsMiddleware from 'src/utils/cors'; 
 
 // ----------------------------------------------------------------------
 

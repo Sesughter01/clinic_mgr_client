@@ -114,7 +114,7 @@ export default function UserListView() {
 
   useEffect(() => {
     if (clinics.length) {
-      console.log(" The clinic details: " + JSON.stringify(clinics));
+      // console.log(" The clinic details: " + JSON.stringify(clinics));
       setTableData(clinics);
     }
   }, [clinics]);

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -8,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
 import { styled } from '@mui/system';
+import axios from '/src/utils/axios';
 
 //For table
 import Table from '@mui/material/Table';
@@ -340,17 +342,20 @@ export default function BasicTabs(currentUser) {
       // For instance, make an API call to submit the form data
   
       // Example: Making a POST request using fetch
-      const response = await fetch('clinic_data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data), // 'data' contains your form fields
-      });
+      // const response = await fetch('clinic_add', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(data), // 'data' contains your form fields
+      // });
+      console.log('Form Data:', data);
+      const res = await axios.post(endpoints.clinic_manager.clinic_add, data, { ...config });
   
       if (response.ok) {
         // Handle success - maybe show a success message or redirect
-        console.log('Form submitted successfully!');
+        // console.log('Form submitted successfully!');
+        console.log("my post response" + response);
       } else {
         // Handle errors if the submission fails
         console.error('Form submission failed.');
@@ -547,6 +552,8 @@ const [tableData, setTableData] = useState([
                     {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
+                  
+
              </Box>
             </Card>
           </Grid>
@@ -774,7 +781,8 @@ const [tableData, setTableData] = useState([
       </FormProvider>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-      <FormProvider methods={methods} onSubmit={onSubmit}>
+      {/* <FormProvider methods={methods} onSubmit={onSubmit}> */}
+      <FormProvider onSubmit={methods.handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
         <Grid xs={12} md={12}>
           <Card sx={{ p: 3 }}>

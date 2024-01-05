@@ -54,6 +54,7 @@ import FormProvider, {
   RHFUploadAvatar,
   RHFAutocomplete,
 } from 'src/components/hook-form';
+import axios from 'axios';
 
 // ----------------------------------------------------------------------
 //Added by Blessing
@@ -332,11 +333,13 @@ export default function UserNewEditForm({ currentUser, open, onClose }) {
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
+      // await axiosInstance_Two.post(url, data, { ...config });
       reset();
       enqueueSnackbar(currentUser ? 'Update success!' : 'Create success!');
       // router.push(paths.dashboard.user.list);
       router.push(paths.clinicmanager.root);
-      console.info('DATA', data);
+      // console.info('DATA', data);
+      console.log('DATA', data);
     } catch (error) {
       console.error(error);
     }

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cors from 'cors';
 // config
 import { HOST_API, HOST_API_TWO } from 'src/config-global';
 import corsMiddleware from 'src/utils/cors'; 
@@ -25,6 +26,7 @@ export const fetcher = async (args) => {
 };
 
 
+
 //ADDED BY BLESSINGG
 export const axiosInstance_Two = axios.create({ baseURL: HOST_API_TWO });
  
@@ -33,17 +35,7 @@ axiosInstance_Two.interceptors.response.use(
   (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
 );
 
-// Apply the CORS middleware to the Axios instance
-axiosInstance_Two.interceptors.request.use(
-  async (config) => {
-    // Apply the CORS middleware before making the request
-    await corsMiddleware(config, null);
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+
 
 
 

@@ -55,7 +55,7 @@ export default function UserTableToolbar({
   const handleFilterPms = useCallback(
     (event) => {
       onFilters(
-        'pms',
+        'pmsName',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
@@ -148,7 +148,7 @@ export default function UserTableToolbar({
 
           <Select
             // multiple
-            value={filters.pms}
+            value={filters.pmsName}
             onChange={handleFilterPms}
             input={<OutlinedInput label="Pms" />}
             // renderValue={(selected) => selected.map((value) => value).join(', ')}

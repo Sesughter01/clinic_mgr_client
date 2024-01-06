@@ -166,7 +166,7 @@ export const _userList = [...Array(15)].map((_, index) => ({
   phoneNumber: _mock.phoneNumber(index),
   clinic_name: _mock.clinic_name(index),
   corp_Name: _mock.corp_Name(index),
-  pms: _mock.pms(index),
+  pmsName: _mock.pmsName(index),
   stage: _mock.stage(index),
   todo: _mock.todo(index),
   asana_url: _mock.asana_url(index),

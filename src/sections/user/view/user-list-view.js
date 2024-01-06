@@ -19,7 +19,7 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 // _mock
-import { _userList, _userListTwo, _roles, _corp_Names, _pmss, USER_STATUS_OPTIONS } from 'src/_mock';
+import { _userList, _userListTwo, _roles, _corp_Names, _pmsNames, USER_STATUS_OPTIONS } from 'src/_mock';
 import { useGetClinics } from 'src/api/clinic_manager';
 //Added by Blessing
 // import { _corpName, _pms, _clinicName  } from 'src/_mock';
@@ -64,7 +64,7 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 const TABLE_HEAD = [
   { id: 'clinic_name', label: 'Clinic Name',},
   { id: 'corp_Name', label: 'Corp Name', width: 180 },
-  { id: 'pms', label: 'PMS', width: 180 },
+  { id: 'pmsName', label: 'PMS', width: 180 },
   { id: 'stage', label: 'Stage',  },
   { id: 'todo', label: 'To Do', },
   { id: 'actioBy', label: 'Action By', width: 220 },
@@ -88,7 +88,7 @@ const defaultFilters = {
   corporation: '',
   pmss: '',
   corp_Name: [],
-  pms: [],
+  pmsName: [],
   status: 'all',
 };
 
@@ -274,7 +274,7 @@ export default function UserListView() {
             //
             // roleOptions={_roles}
             roleOptions={_corp_Names}
-            pmsOptions={_pmss}
+            pmsOptions={_pmsNames}
           />
 
           {canReset && (
@@ -400,7 +400,7 @@ export default function UserListView() {
 
 function applyFilter({ inputData, comparator, filters }) {
   // const { name, status, role } = filters;
-  const { clinic_name, status, corp_Name, pms } = filters;
+  const { clinic_name, status, corp_Name, pmsName } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
   
@@ -437,8 +437,8 @@ function applyFilter({ inputData, comparator, filters }) {
   if (corp_Name.length) {
     inputData = inputData.filter((user) => corp_Name.includes(user.corp_Name));
   }
-  if (pms.length) {
-    inputData = inputData.filter((user) => pms.includes(user.pms));
+  if (pmsName.length) {
+    inputData = inputData.filter((user) => pmsName.includes(user.pmsName));
   }
 
   return inputData;

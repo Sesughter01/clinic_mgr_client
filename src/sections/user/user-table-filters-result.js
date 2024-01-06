@@ -34,8 +34,8 @@ export default function UserTableFiltersResult({
   };
 
   const handleRemovePms = (inputValue) => {
-    const newValue = filters.pms.filter((item) => item !== inputValue);
-    onFilters('pms', newValue);
+    const newValue = filters.pmsName.filter((item) => item !== inputValue);
+    onFilters('pmsName', newValue);
   };
 
   return (
@@ -62,9 +62,9 @@ export default function UserTableFiltersResult({
           </Block>
         )}
 
-        {!!filters.pms.length && (
+        {!!filters.pmsName.length && (
           <Block label="Pms:">
-            {filters.pms.map((item) => (
+            {filters.pmsName.map((item) => (
               <Chip key={item} label={item} size="small" onDelete={() => handleRemovePms(item)} />
             ))}
           </Block>

@@ -37,8 +37,8 @@ axiosInstance_Two.interceptors.response.use(
 
 // Apply CORS middleware to the Axios instance
 // Set CORS headers directly in Axios instance configuration
-axiosInstance_Two.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axiosInstance_Two.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
+// axiosInstance_Two.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+// axiosInstance_Two.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
 
 
 // ----------------------------------------------------------------------

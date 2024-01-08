@@ -12,6 +12,8 @@ import { useMockedUser } from 'src/hooks/use-mocked-user';
 import { _appFeatured, _appAuthors, _appInstalled, _appRelated, _appInvoices } from 'src/_mock';
 // components
 import { useSettingsContext } from 'src/components/settings';
+
+// import { useAuthContext }
 // assets
 import { SeoIllustration } from 'src/assets/illustrations';
 //
@@ -38,8 +40,8 @@ export default function OverviewAppView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Grid container spacing={3}>
-        {/* <Grid xs={12} md={8}> */}
-        <Grid xs={12} md={12}>
+        <Grid xs={12} md={8}>
+        {/* <Grid xs={12} md={12}> */}
           <AppWelcome
             // title={`Welcome back 👋 \n ${user?.displayName}`}
             title={`Wellcome to EDMS Clinic Manager 👋 \n Web (CM-WEB1.0)`}
@@ -54,9 +56,9 @@ export default function OverviewAppView() {
           />
         </Grid>
         
-        {/* <Grid xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <AppFeatured list={_appFeatured} />
-        </Grid> */}
+        </Grid>
 
         <Grid xs={12} md={4}>
           <AppWidgetSummary
@@ -158,6 +160,15 @@ export default function OverviewAppView() {
           />
         </Grid> */}
 
+        {/* <Grid xs={12} md={8} lg={8}> */}
+        <Grid xs={12} md={8} lg={8}>
+          <AppTopInstalledCountries title="New JIRA Tickets" list={_appInstalled} />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={4}>
+          <AppTopRelated title="Clinics in the pipeline" list={_appRelated} />
+        </Grid>
+
         <Grid xs={12} lg={8}>
           <AppNewInvoice
             title="Clinics On-Boarding"
@@ -168,8 +179,8 @@ export default function OverviewAppView() {
               // { id: 'price', label: 'Price' },
               // { id: 'status', label: 'Status' },
               // { id: '' },
-              { id: 'id', label: 'Clinic Name' },
-              { id: 'category', label: 'Stage' },
+              { id: 'clinic_name', label: 'Clinic Name' },
+              { id: 'stage', label: 'Stage' },
               { id: 'price', label: 'Last Updated' },
               // { id: 'status', label: 'Status' }, 
               { id: '' },
@@ -177,14 +188,9 @@ export default function OverviewAppView() {
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={4}>
-          <AppTopRelated title="Clinics in the pipeline" list={_appRelated} />
-        </Grid>
+       
 
-        {/* <Grid xs={12} md={8} lg={8}> */}
-        <Grid xs={12} md={4} lg={4}>
-          <AppTopInstalledCountries title="New JIRA Tickets" list={_appInstalled} />
-        </Grid>
+  
 
         {/* <Grid xs={12} md={6} lg={4}>
           <AppTopAuthors title="Top Authors" list={_appAuthors} />

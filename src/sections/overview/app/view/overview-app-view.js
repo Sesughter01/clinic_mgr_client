@@ -9,7 +9,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 // hooks
 import { useMockedUser } from 'src/hooks/use-mocked-user';
 // _mock
-import { _appFeatured, _appAuthors, _appInstalled, _appRelated, _appInvoices } from 'src/_mock';
+import { _appFeatured, _appAuthors, _appInstalled, _appRelated, _appInvoices, _jiraTicket } from 'src/_mock';
 // components
 import { useSettingsContext } from 'src/components/settings';
 
@@ -21,6 +21,7 @@ import AppWidget from '../app-widget';
 import AppWelcome from '../app-welcome';
 import AppFeatured from '../app-featured';
 import AppNewInvoice from '../app-new-invoice';
+import AppJiraTicket from '../app-jira-ticket';
 import AppTopAuthors from '../app-top-authors';
 import AppTopRelated from '../app-top-related';
 import AppAreaInstalled from '../app-area-installed';
@@ -36,7 +37,8 @@ export default function OverviewAppView() {
   const theme = useTheme();
 
   const settings = useSettingsContext();
-
+// console.log(_jiraTicket);
+// console.log(_appInvoices);
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Grid container spacing={3}>
@@ -160,14 +162,33 @@ export default function OverviewAppView() {
           />
         </Grid> */}
 
-        {/* <Grid xs={12} md={8} lg={8}> */}
-        <Grid xs={12} md={8} lg={8}>
+        
+        {/* <Grid xs={12} md={8} lg={8}>
           <AppTopInstalledCountries title="New JIRA Tickets" list={_appInstalled} />
+        </Grid> */}
+
+        <Grid xs={12} lg={12}>
+          <AppJiraTicket
+            title="New Jira Tickets"
+            tableData={_jiraTicket}
+            tableLabels={[
+     
+              { id: 'ticket_id', label: 'Ticket Id' },
+              { id: 'project', label: 'project' },
+              { id: 'description', label: 'Description' },
+              { id: 'assign_to', label: 'Assign To' },
+              { id: 'last_updated', label: 'Last Updated' },
+              // { id: 'status', label: 'Status' }, 
+              { id: '' },
+            ]}
+          />
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
           <AppTopRelated title="Clinics in the pipeline" list={_appRelated} />
         </Grid>
+
+        
 
         <Grid xs={12} lg={8}>
           <AppNewInvoice
@@ -196,7 +217,7 @@ export default function OverviewAppView() {
           <AppTopAuthors title="Top Authors" list={_appAuthors} />
         </Grid> */}
 
-        {/* <Grid xs={12} md={6} lg={4}>
+        <Grid xs={12} md={6} lg={4}>
           <Stack spacing={3}>
             <AppWidget
               title="Conversion"
@@ -217,7 +238,7 @@ export default function OverviewAppView() {
               }}
             />
           </Stack>
-        </Grid> */}
+        </Grid>
       </Grid>
     </Container>
   );

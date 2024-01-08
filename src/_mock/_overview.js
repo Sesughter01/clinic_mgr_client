@@ -52,7 +52,7 @@ export const _appInvoices = [...Array(5)].map((_, index) => {
   const category = ['5-Moved To Production', '5-Moved To Production', '5-Moved To Production', '5-Moved To Production', '5-Moved To Production'][index];
   const invoiceNumber = ['BC-010 Camgara', 'Altima Barrie', 'Altima Bayview Village Dental Centre', 'Camgara Randall Allen', 'Bible Hill'][index];
 
-  // const status = ['paid', 'out of date', 'progress', 'paid', 'paid'][index];
+  const status = ['paid', 'out of date', 'progress', 'paid', 'paid'][index];
 
   return {
     // id: _mock.id(index),
@@ -61,6 +61,26 @@ export const _appInvoices = [...Array(5)].map((_, index) => {
     invoiceNumber,
     category,
     status,
+  };
+});
+
+//created by blessing
+export const _jiraTicket = [...Array(5)].map((_, index) => {
+  const ticket_id = ['EW-90', 'EW-61', 'EW-11', 'EW-91', 'EW-97'][index];
+  const project = ['Dashboard', 'Clinic Managar', 'Clinic Manager sub', 'Pms', 'Corporation'][index];
+  const description = ['Dashboard', 'Clinic Managar', 'Clinic Manager sub', 'Pms', 'Corporation'][index];
+  const assign_to = ['Blessing Ogodogu', 'Blessing Ogodogu', 'Blessing Ogodogu', '-', '-'][index];
+  const last_updated = ['Today', 'Today', 'Today', '-', '-'][index];
+
+  // const status = ['paid', 'out of date', 'progress', 'paid', 'paid'][index];
+  
+  return {
+    ticket_id,
+    project,
+    description,
+    assign_to,
+    last_updated,
+    
   };
 });
 

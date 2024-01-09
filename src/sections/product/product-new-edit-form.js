@@ -287,13 +287,12 @@ export default function ProductNewEditForm({ currentProduct }) {
                 // }}
               >
                 {/* <RHFTextField name="name" label="Product Name" /> */}
-                <RHFTextField name="corp_id" label="Corp Id" />
-                <RHFTextField name="corp_name" label="Corp Name" />
+                <RHFTextField name="corp_id" label="Corp Id"  disabled/>
+                <RHFTextField name="corp_name" label="Corp Name"  disabled/>
                 <RHFTextField name="corp_scr_name" label="script folder" />
                 {/* <RHFTextField name="subDescription" label="Sub Description" multiline rows={4} /> */}
               </Box>
               <Box>
-              
                 <FormControl
                   variant="outlined"
                   multiline
@@ -332,7 +331,6 @@ export default function ProductNewEditForm({ currentProduct }) {
                     />
                   </RadioGroup>
                 </FormControl>
-                
               </Box>
             </Box>
 
@@ -577,7 +575,7 @@ export default function ProductNewEditForm({ currentProduct }) {
   //   </>
   // );
 
-  const renderActions = (
+  const renderPricing = (
     <>
       {/* {mdUp && <Grid md={4} />} */}
       <Grid xs={12} md={8}>
@@ -613,12 +611,37 @@ export default function ProductNewEditForm({ currentProduct }) {
               />
             </Box>
           </Stack>
-          <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentProduct ? 'Create Product' : 'Go live'}
-              </LoadingButton>
-            </Stack>
+          {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+            >
+              {!currentProduct ? "Create Product" : "Go Live"}
+            </LoadingButton>
+          </Stack> */}
         </Card>
+      </Grid>
+    </>
+  );
+  const renderActions = (
+    <>
+      {mdUp && <Grid md={4} />}
+      <Grid xs={12} md={8} sx={{ display: "flex", alignItems: "center" }}>
+        <FormControlLabel
+          control={<Switch defaultChecked />}
+          label="Publish"
+          sx={{ flexGrow: 1, pl: 3 }}
+        />
+
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          size="large"
+          loading={isSubmitting}
+        >
+          {!currentProduct ? "Create Product" : "Save Changes"}
+        </LoadingButton>
       </Grid>
     </>
   );
@@ -630,7 +653,7 @@ export default function ProductNewEditForm({ currentProduct }) {
 
         {renderProperties}
 
-        {/* {renderPricing} */}
+        {renderPricing}
 
         {renderActions}
       </Grid>

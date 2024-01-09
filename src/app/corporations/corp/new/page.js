@@ -540,7 +540,7 @@ export default function BasicTabs(currentProduct) {
                     variant="contained"
                     loading={isSubmitting}
                   >
-                    {!currentProduct ? "Create User" : "Go live"}
+                    {!currentProduct ? "Create User" : "Create Corp"}
                   </LoadingButton>
                 </Stack>
               </Card>

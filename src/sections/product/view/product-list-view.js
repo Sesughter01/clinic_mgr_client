@@ -67,12 +67,15 @@ const STATUS_OPTIONS = [
 ];
 
 const TABLE_HEAD = [
-  { corp_id: "", width: 88 },
+  // { corp_id: "", width: 88 },
+  // { corp_id: "", width: 10 },
   { corp_id: "corp_name", label: "Corps Name" },
   { corp_id: "corp_id", label: "Corps ID", width: 180 },
   { corp_id: "corp_scr_name", label: "Base Scripts", width: 180 },
   { corp_id: "corp_num", label: "#Clinics", width: 160 },
   { corp_id: "status", label: "Status", width: 130 },
+  { corp_id: "", width: 88 },
+
 ];
 
 // const PUBLISH_OPTIONS = [
@@ -114,7 +117,6 @@ const defaultFilters = {
   // stock: [],
   corp_id: [],
   corp_status: "all",
-
 };
 // console.log("Corp_id: " + corp_id)
 
@@ -290,9 +292,9 @@ export default function ProductListView() {
                         (product) => product.corp_status === "active"
                       ).length}
                     {tab.value === "retired" &&
-                      _products.filter((product) => product.corp_status === "retired")
-                        .length}
-                   
+                      _products.filter(
+                        (product) => product.corp_status === "retired"
+                      ).length}
                   </Label>
                 }
               />
@@ -411,7 +413,7 @@ export default function ProductListView() {
             //
             dense={table.dense}
             onChangeDense={table.onChangeDense}
-                  />
+          />
         </Card>
       </Container>
 
@@ -463,7 +465,7 @@ function applyFilter({ inputData, comparator, filters }) {
   //     (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
   //   );
   // }
-// if (corp_name) {
+  // if (corp_name) {
   if (corp_name) {
     inputData = inputData.filter(
       (product) =>

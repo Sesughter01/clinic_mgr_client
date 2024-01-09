@@ -53,8 +53,8 @@ const SUMMARY = [
 
 // ----------------------------------------------------------------------
 
-export default function ProductDetailsView({ id }) {
-  const { product, productLoading, productError } = useGetProduct(id);
+export default function ProductDetailsView({ corp_id }) {
+  const { product, productLoading, productError } = useGetProduct(corp_id);
 
   const settings = useSettingsContext();
 

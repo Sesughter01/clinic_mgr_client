@@ -213,6 +213,7 @@ export const paths = {
     account: `${ROOTS.CORPORATIONS}/account`,
     // edit: (id) => `${ROOTS.CORPORATIONS}/${id}/edit`,
     edit: (id) => `${ROOTS.CORPORATIONS}/corp/${id}/edit`,
+    details: (id) => `${ROOTS.CORPORATIONS}/corp/${id}`,
     demo: {
       edit: `${ROOTS.CORPORATIONS}/${MOCK_ID}/edit`,
     },

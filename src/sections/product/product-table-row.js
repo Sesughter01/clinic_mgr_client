@@ -121,13 +121,6 @@ export default function ProductTableRow({
           />
           {!!available && available} {inventoryType}
         </TableCell> */}
-        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_name}</TableCell>
-        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_id}</TableCell>
-        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_scr_name}</TableCell>
-        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_num}</TableCell>
-        <TableCell sx={{ whiteSpace: "nowrap" }}>{status}</TableCell>
-        
-
         <TableCell align="right">
           <IconButton
             color={popover.open ? "primary" : "default"}
@@ -136,6 +129,14 @@ export default function ProductTableRow({
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
         </TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_name}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_id}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_scr_name}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_num}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{status}</TableCell>
+        
+
+        
       </TableRow>
 
       <CustomPopover

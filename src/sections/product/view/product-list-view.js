@@ -67,12 +67,12 @@ const STATUS_OPTIONS = [
 ];
 
 const TABLE_HEAD = [
+  { corp_id: "", width: 88 },
   { corp_id: "corp_name", label: "Corps Name" },
   { corp_id: "corp_id", label: "Corps ID", width: 180 },
   { corp_id: "corp_scr_name", label: "Base Scripts", width: 180 },
   { corp_id: "corp_num", label: "#Clinics", width: 160 },
   { corp_id: "status", label: "Status", width: 130 },
-  { corp_id: "", width: 88 },
 ];
 
 // const PUBLISH_OPTIONS = [
@@ -411,7 +411,7 @@ export default function ProductListView() {
             //
             dense={table.dense}
             onChangeDense={table.onChangeDense}
-          />
+                  />
         </Card>
       </Container>
 

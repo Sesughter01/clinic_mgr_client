@@ -19,8 +19,11 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 // _mock
-import { _userList, _userListTwo, _roles, _corp_Names, _pmsNames, USER_STATUS_OPTIONS } from 'src/_mock';
-import { useGetClinics } from 'src/api/clinic_manager';
+// import { _userList, _userListTwo, _roles, _corp_Names, pmsNames, USER_STATUS_OPTIONS } from 'src/_mock';
+import {CLINIC_STATUS_OPTIONS } from 'src/_mock';
+import useSWR from 'swr';
+import { $get, endpoints} from 'src/utils/axios';
+
 //Added by Blessing
 // import { _corpName, _pms, _clinicName  } from 'src/_mock';
 
@@ -50,36 +53,19 @@ import UserTableFiltersResult from '../user-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
-
-// const TABLE_HEAD2 = [
-//   { id: 'name', label: 'Name',},
-//   { id: 'phoneNumber', label: 'Phone Number', width: 180 },
-//   { id: 'company', label: 'Company', width: 220 },
-//   { id: 'role', label: 'Role', width: 180 },
-//   { id: 'status', label: 'Status', width: 100 },
-//   { id: '', width: 88 },
-// ];
+const STATUS_OPTIONS = [...CLINIC_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
   { id: 'clinic_name', label: 'Clinic Name',},
-  { id: 'corp_Name', label: 'Corp Name', width: 180 },
+  // { id: 'corp_Name', label: 'Corp Name', width: 180 },
   { id: 'pmsName', label: 'PMS', width: 180 },
-  { id: 'stage', label: 'Stage',  },
-  { id: 'todo', label: 'To Do', },
-  { id: 'actioBy', label: 'Action By', width: 220 },
-  { id: 'asana_url', label: 'Asana Link', width: 300 },
-  { id: 'status', label: 'Status', width: 100 },
-  { id: '', width: 88 },
-  { id: '', width: 88 },
+  { id: 'stage', label: 'Stage',  width: 300},
+  { id: 'todo', label: 'To Do', width: 350},
+  { id: 'actioBy', label: 'Action By', width: 350 },
+  // { id: 'asana_url', label: 'Asana Link', width: 300 },
+  // { id: 'status', label: 'Status', width: 100 },
+  // { id: '', width: 88 },
 ];
-
-
-// const defaultFilters = {
-//   name: '',
-//   role: [],
-//   status: 'all',
-// };
 
 //corpname, pms, clinicname search
 const defaultFilters = {
@@ -95,29 +81,75 @@ const defaultFilters = {
 // ----------------------------------------------------------------------
 
 export default function UserListView() {
+  // const [tableData, setTableData] = useState(_userList);
+
+
+  const [pageIndex, setPageIndex] = useState(1);
+  const [selectedPms, setselectedPms] = useState(null);
+  const [selectedCorp, setselectedCorp] = useState(null);
+
+  const [tableData, setTableData] = useState([]);
+  const [pmsNames, setPmsNames] = useState([]);
+  const [corpNames, setCorpNames] = useState([]);
+
+  // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
+  const URL = `${endpoints.clinic_manager.clinic_data}?${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
+  console.log("URL", URL);
+  const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
+    console.log("-------------------")
+    console.log("CLINIC PAGE DATA: ", data || [])
+    console.log("CLINICS", data?.result || 0)
+    console.log("totalCount", data?.totalCount || 0)
+    console.log("currentPage", data?.currentPage || 0)
+    console.log("-------------------")
+
+    // setTableData(data?.result)
+
+  }});
+  // The API URL includes the page index, which is a React state.
+  // const { data, isLoading, error} = useSWR(`${URL}?pageNumber=${pageIndex + 1}`, fetcher);
+  if (error) return console.log(error);
+  // if (isLoading) return <h6>Loading...</h6>;
+
+  // const table = useTable({defaultRowsPerPage: data?.pageSize || 0, defaultCurrentPage:data?.currentPage - 1 || 0});
   const table = useTable();
+
+  useEffect(()=>{
+    if(data) setTableData(data.result)
+  }, [data])
+
+  useEffect(()=>{
+    setPageIndex(table.page + 1)
+  }, [table.page])
+
+
+  const getPMS_Corps = ()=>{
+    $get(endpoints.pms.names)
+    .then(res =>{
+      res.sort()
+      res.splice(0, 0, "All")
+      setPmsNames(res)
+    })
+
+    $get(endpoints.corps.names)
+    .then(res =>{
+      res.sort()
+      res.splice(0, 0, "All")
+      setCorpNames(res)
+    })
+  }
+
+  useEffect(()=>{
+    getPMS_Corps()
+  }, [])
 
   const settings = useSettingsContext();
 
   const router = useRouter();
 
-  // const confirm = useBoolean();
-
-  // const [tableData, setTableData] = useState(_userList);
-  const [tableData, setTableData] = useState([]);
-
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { clinics, clinicsLoading, clinicsEmpty } = useGetClinics();
-
   const confirm = useBoolean();
-
-  useEffect(() => {
-    if (clinics.length) {
-      console.log(" The clinic details: " + JSON.stringify(clinics));
-      setTableData(clinics);
-    }
-  }, [clinics]);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -138,6 +170,21 @@ export default function UserListView() {
 
   const handleFilters = useCallback(
      (name, value) => {
+      console.log("nameval: ",name, value)
+
+      if(name == 'pmsName'){
+        if(value == 'All')
+          setselectedPms(null)
+        else
+          setselectedPms(value)
+
+      }
+      else if(name == 'corpName'){
+        if(value == 'All')
+          setselectedCorp(null)
+        else
+          setselectedCorp(value)
+      }
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -196,8 +243,15 @@ export default function UserListView() {
     setFilters(defaultFilters);
   }, []);
 
+  const greet = () =>{
+    alert(5)
+  }
+
   return (
+    // <h1>Welcome {data?.totalCount}</h1>
+
     <>
+    <h1>Welcome {selectedPms} - {selectedCorp}</h1>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Clinic Manager"
@@ -250,11 +304,9 @@ export default function UserListView() {
                       'default'
                     }
                   >
-                    {tab.value === 'all' && _userList.length}
-                    {tab.value === 'active' &&
-                      _userList.filter((user) => user.status === 'active').length}
-                    {tab.value === 'inactive' &&
-                      _userList.filter((user) => user.status === 'inactive').length}
+                    {/* {tab.value === 'all' && _userList.length} */}
+                    {tab.value === 'active' && data?.totalCount}
+                    {tab.value === 'inactive' && data?.totalCount}
 
                     {/* {tab.value === 'pending' &&
                       _userList.filter((user) => user.status === 'pending').length}
@@ -271,10 +323,8 @@ export default function UserListView() {
           <UserTableToolbar
             filters={filters}
             onFilters={handleFilters}
-            //
-            // roleOptions={_roles}
-            roleOptions={_corp_Names}
-            pmsOptions={_pmsNames}
+            pmsOptions={pmsNames}
+            corpOptions={corpNames}
           />
 
           {canReset && (
@@ -288,6 +338,7 @@ export default function UserListView() {
               sx={{ p: 2.5, pt: 0 }}
             />
           )}
+
 
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction
@@ -310,7 +361,7 @@ export default function UserListView() {
             />
 
             <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <Table onChangePage={greet} size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
                 <TableHeadCustom
                   order={table.order}
                   orderBy={table.orderBy}
@@ -328,10 +379,6 @@ export default function UserListView() {
 
                 <TableBody>
                   {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
                     .map((row) => (
                       <UserTableRow
                         key={row.id}
@@ -358,9 +405,9 @@ export default function UserListView() {
           </TableContainer>
 
           <TablePaginationCustom
-            count={dataFiltered.length}
-            page={table.page}
-            rowsPerPage={table.rowsPerPage}
+            count={data?.totalCount}
+            page={data?.currentPage - 1}
+            rowsPerPage={data?.pageSize}
             onPageChange={table.onChangePage}
             onRowsPerPageChange={table.onChangeRowsPerPage}
             //
@@ -369,7 +416,6 @@ export default function UserListView() {
           />
         </Card>
       </Container>
-
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
@@ -399,6 +445,7 @@ export default function UserListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters }) {
+  console.log("applyFilter START: ", inputData)
   // const { name, status, role } = filters;
   const { clinic_name, status, corp_Name, pmsName } = filters;
 
@@ -440,6 +487,7 @@ function applyFilter({ inputData, comparator, filters }) {
   if (pmsName.length) {
     inputData = inputData.filter((user) => pmsName.includes(user.pmsName));
   }
+  console.log("applyFilter END: ", inputData)
 
   return inputData;
 }

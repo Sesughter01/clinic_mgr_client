@@ -1,38 +1,39 @@
 import axios from 'axios';
 import Cors from 'cors';
 // config
-import { HOST_API, HOST_API_TWO } from 'src/config-global';
+import { HOST_API, EDMS_API } from 'src/config-global';
 import corsMiddleware from 'src/utils/cors'; 
 
 // ----------------------------------------------------------------------
 
 const axiosInstance = axios.create({ baseURL: HOST_API });
-
 axiosInstance.interceptors.response.use(
   (res) => res,
   (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
 );
-
 export default axiosInstance;
 
 // ----------------------------------------------------------------------
-
 export const fetcher = async (args) => {
   const [url, config] = Array.isArray(args) ? args : [args];
 
   const res = await axiosInstance.get(url, { ...config });
-
   return res.data;
 };
 
 
 
 //ADDED BY BLESSINGG
-export const axiosInstance_Two = axios.create({ baseURL: HOST_API_TWO });
+export const axiosInstance_Two = axios.create({ baseURL: EDMS_API });
  
 axiosInstance_Two.interceptors.response.use(
   (res) => res,
-  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
+  (error) => {
+    console.log("---API ERROR---");
+    console.log(error);
+    console.log("--------------");
+    Promise.reject((error.response && error.response.data) || 'Something went wrong')
+  }
 );
 
 // Apply CORS middleware to the Axios instance
@@ -42,14 +43,17 @@ axiosInstance_Two.interceptors.response.use(
 
 
 // ----------------------------------------------------------------------
-
-export const fetcher_Two = async (args) => {
+export const $get = async (args) => {
   const [url, config] = Array.isArray(args) ? args : [args];
+  console.log("---API URL & CONFIG---");
+  console.log("Response:",{url, config});
+  console.log("-----------------");
 
   const res = await axiosInstance_Two.get(url, { ...config });
-  // console.log("Response:",(res.data));
+  console.log("---API DATA---");
   console.log("Response:",(res.data));
-  return res.data;
+  console.log("----------------");
+  return res.data.data;
 };
 // ----------------------------------------------------------------------
 
@@ -89,12 +93,21 @@ export const endpoints = {
     // details: '/api/product/details',
     search: '/api/product/search',
 
-    // Added by Blessing NEXT_PUBLIC_HOST_API_TWO
-    corp_data: '/api/Corps',
-    corp: '/api/Corps/',
-    corp_add: 'api/Corps',
-    corp_delete: 'api/Corps',
+    // Added by Blessing NEXT_PUBLIC_EDMS_API
+    corp_data: '/api/corps',
+    corp: '/api/corps/',
+    corp_add: 'api/corps',
+    corp_delete: 'api/corps',
 
+  },
+
+  corps: {
+    // Added by Blessing NEXT_PUBLIC_EDMS_API
+    names: '/api/corps/names',
+    corp_data: '/api/corps',
+    corp: '/api/corps/',
+    corp_add: 'api/corps',
+    corp_delete: 'api/corps',
   },
 //Added by Shakirat
 
@@ -102,6 +115,7 @@ export const endpoints = {
   // list: '/api/pms/list',
    details: '/api/pms/details',
    search: '/api/pms/search',
+   names: '/api/pms/names',
    pms: '/api/pms',
    pms_data: '/api/pms',
    pms_add: '/api/pms',

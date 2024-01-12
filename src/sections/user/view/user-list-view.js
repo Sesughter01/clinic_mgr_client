@@ -251,7 +251,7 @@ export default function UserListView() {
     // <h1>Welcome {data?.totalCount}</h1>
 
     <>
-    <h1>Welcome {selectedPms} - {selectedCorp}</h1>
+      {/* <h1>Welcome {selectedPms} - {selectedCorp}</h1> */}
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Clinic Manager"

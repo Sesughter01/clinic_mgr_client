@@ -24,7 +24,11 @@ export const fetcher = async (args) => {
 
 
 //ADDED BY BLESSINGG
-export const axiosInstance_Two = axios.create({ baseURL: EDMS_API });
+export const axiosInstance_Two = axios.create({
+  baseURL: EDMS_API,
+  // timeout: 1000,
+  // headers: {'X-Custom-Header': 'edms'}
+});
  
 axiosInstance_Two.interceptors.response.use(
   (res) => res,
@@ -45,13 +49,23 @@ axiosInstance_Two.interceptors.response.use(
 // ----------------------------------------------------------------------
 export const $get = async (args) => {
   const [url, config] = Array.isArray(args) ? args : [args];
-  console.log("---API URL & CONFIG---");
-  console.log("Response:",{url, config});
-  console.log("-----------------");
+  console.log("--- GET REQUEST ---");
+  console.log("URL :", url);
 
   const res = await axiosInstance_Two.get(url, { ...config });
-  console.log("---API DATA---");
-  console.log("Response:",(res.data));
+  console.log("RESPONSE:", (res.data));
+  console.log("----------------");
+  return res.data.data;
+};
+
+export const $post = async (url, body) => {
+  // const [url, body] = Array.isArray(args) ? args : [args];
+  console.log("--- POST REQUEST ---");
+  console.log("URL :", url);
+  console.log("BODY :", body);
+
+  const res = await axiosInstance_Two.post(url, body);
+  console.log("RESPONSE:", (res.data));
   console.log("----------------");
   return res.data.data;
 };

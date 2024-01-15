@@ -24,98 +24,31 @@ import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, { RHFSelect, RHFTextField, RHFAutocomplete } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
+import { $post, endpoints} from 'src/utils/axios';
+// ----------------------------------------------------------------------
+
+const URL = `${endpoints.clinic_manager.clinic_data}`
 
 export default function UserQuickEditForm({ currentUser, open, onClose }) {
   const { enqueueSnackbar } = useSnackbar();
 
-  // const NewUserSchema = Yup.object().shape({
-  //   name: Yup.string().required('Name is required'),
-  //   email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-  //   phoneNumber: Yup.string().required('Phone number is required'),
-  //   address: Yup.string().required('Address is required'),
-  //   country: Yup.string().required('Country is required'),
-  //   company: Yup.string().required('Company is required'),
-  //   state: Yup.string().required('State is required'),
-  //   city: Yup.string().required('City is required'),
-  //   role: Yup.string().required('Role is required'),
-  // });
-
   const NewUserSchema = Yup.object().shape({
     //details
-    corpPractice: Yup.string().required('Corp practice is required'),
-    clinic_address: Yup.string().required('Clinic Address is required'),
-    idclinics: Yup.string().required('Clinic Id is required'),
-    clinic_city: Yup.string().required('Clinic City is required'),
-    clinic_code: Yup.string().required('Clinic Code is required'),
-    clinic_province: Yup.string().required('Clinic Province is required'),
-    data_Path: Yup.string().required('Data path is required'),
-    clinic_postal: Yup.string().required('Clinic Postal is required'),
+    corp_id: Yup.string().required('Corp practice is required'),
     clinic_name: Yup.string().required('Clinic name is required'),
-    country: Yup.string().required('Country is required'),
     current_app: Yup.string().required('Current Application is required'),
-    clinic_phone: Yup.string().required('Clinic Phone is required'),
-    dest_db: Yup.string().required('Dest. db code is required'),
-    clinic_email: Yup.string().required('Clinic Email is required').email('Clinic Email must be a valid email address'),
-    clinic_appointmentunit: Yup.string().required('Clinic Appointemnt unit is required'),
-    acquistionDate: Yup.string().required('Acquisition date is required'),
-    prodDate: Yup.string().required('Production By is required'),
-    cuttOffDate: Yup.string().required('Cutt off datee is required'),
-    chargeAdj: Yup.string().required('Chrg adj by is required'),
-    firstTransId: Yup.string().required('Stating trans id is required'),
-    colDate: Yup.string().required('Collection by is required'),
-    responsiblePerson: Yup.string().required('Responsible person is required'),
-    collectionAdj: Yup.string().required('Collection adj by is required'),
-  
+    locationId: Yup.string().required('Please select a location'),
   }); 
-
-  // const defaultValues = useMemo(
-  //   () => ({
-  //     name: currentUser?.name || '',
-  //     email: currentUser?.email || '',
-  //     phoneNumber: currentUser?.phoneNumber || '',
-  //     address: currentUser?.address || '',
-  //     country: currentUser?.country || '',
-  //     state: currentUser?.state || '',
-  //     city: currentUser?.city || '',
-  //     zipCode: currentUser?.zipCode || '',
-  //     status: currentUser?.status,
-  //     company: currentUser?.company || '',
-  //     role: currentUser?.role || '',
-  //   }),
-  //   [currentUser]
-  // );
-
    
   const defaultValues = useMemo(
     () => ({
       //details
-      corpPractice: currentUser?.corpPractice|| '',
-      clinic_address: currentUser?.clinic_address || '',
-      idclinics: currentUser?.idclinics || '',
-      clinic_city: currentUser?.clinic_city || '',
-      clinic_code: currentUser?.clinic_code || '',
-      clinic_province: currentUser?.clinic_province || '',
-      data_Path: currentUser?.data_Path || '',
-      clinic_postal: currentUser?.clinic_postal || '',
-      clinic_name: currentUser?.clinic_name || '',
-      country: currentUser?.country || '',
-      avatarUrl: currentUser?.avatarUrl || null,
-      current_app: currentUser?.current_app || '',
-      clinic_phone: currentUser?.clinic_phone || '',
-      dest_db: currentUser?.dest_db || '',
-      clinic_email: currentUser?.clinic_email || '',
-      clinic_appointmentunit: currentUser?.clinic_appointmentunit || '',
-      acquistionDate: currentUser?.acquistionDate || '',
-      prodDate: currentUser?.prodDate || '',
-      cutoff_date: currentUser?.cutoff_date || '',
-      chargeAdj: currentUser?.chargeAdj || '',
-      firstTransId: currentUser?.firstTransId || '',
-      colDate: currentUser?. colDate || '',
-      responsiblePerson: currentUser?.responsiblePerson || '',
-      collectionAdj: currentUser?.collectionAdj || '',
-      
+      corp_id: '',
+      locationId: '',
+      clinic_name: '',
+      current_app: '',
     }),
-    [currentUser]
+    []
   );
 
   const methods = useForm({
@@ -130,22 +63,20 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
+      console.info('FORM DATA: ', data);
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      const body = data;
+      $post(URL, body)
+      .then(res => window.location.reload())
+      // await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       onClose();
       enqueueSnackbar('Clinic record created successfully!');
-      console.info('DATA', data);
     } catch (error) {
       console.error(error);
     }
   });
-
-   //For date
-  const [date, setDate] = useState("none");
-  const onDateChange = (event) => {
-   setDate(event.target.value);
-  };
 
 
   return (
@@ -177,7 +108,7 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
           >
             <RHFTextField name="clinic_name" label="Clinic Name" />
 
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
+            {/* <Box sx={{ display: { xs: 'none', sm: 'block' } }} /> */}
 
             {/* <RHFTextField name="name" label="Full Name" />
             <RHFTextField name="email" label="Email Address" />
@@ -218,23 +149,13 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
             <RHFTextField name="company" label="Company" />
             <RHFTextField name="role" label="Role" /> */}
 
-            <RHFSelect name="status" label="Status">
+            {/* <RHFSelect name="status" label="Status">
               {USER_STATUS_OPTIONS.map((status) => (
                 <MenuItem key={status.value} value={status.value}>
                   {status.label}
                 </MenuItem>
               ))}
-            </RHFSelect>
-
-            <RHFTextField
-                name="corpPractice"
-                label="Corp Practice"
-              />
-
-              <RHFTextField
-                name="current_app"
-                label="Current Application"
-              />
+            </RHFSelect> */}
               
               {/* <RHFTextField name="data_Path" label="Data Path" /> */}
               {/* <RHFTextField name="clinic_email" label="Clinic Email" /> */}
@@ -246,9 +167,20 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
 
               {/* <RHFTextField name="clinic_postal" label="Clinic postal" /> */}
 
+
+              <RHFTextField
+                name="corp_id"
+                label="Corp Practice"
+              />
+
+              <RHFTextField
+                name="current_app"
+                label="Current Application"
+              />
+              
               <RHFAutocomplete
-                name="country"
-                label="Country"
+                name="locationId"
+                label="Location"
                 options={edms_countries.map((country) => country.label)}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) => option === value}
@@ -262,14 +194,14 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
                   }
 
                   return (
-                    <li {...props} key={label}>
+                    <li {...props} key={code}>
                       <Iconify
                         key={label}
                         icon={`circle-flags:${code.toLowerCase()}`}
                         width={28}
                         sx={{ mr: 1 }}
                       />
-                      {label} ({code}) +{phone}
+                      {label} ({code})
                     </li>
                   );
                 }}

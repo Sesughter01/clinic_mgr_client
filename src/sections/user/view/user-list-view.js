@@ -75,7 +75,7 @@ const defaultFilters = {
   pmss: '',
   corpName: "",
   pmsName: "",
-  status: 'all',
+  status: 'active',
 };
 
 // ----------------------------------------------------------------------
@@ -88,6 +88,7 @@ export default function UserListView() {
   const [selectedPms, setSelectedPms] = useState(null);
   const [selectedCorp, setSelectedCorp] = useState(null);
   const [clinicName, setClinicName] = useState(null);
+  const [isActive, setIsActive] = useState(true);
 
   const [tableData, setTableData] = useState([]);
   const [pmsNames, setPmsNames] = useState([]);
@@ -95,7 +96,7 @@ export default function UserListView() {
   const quickEdit = useBoolean();
 
   // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
-  const URL = `${endpoints.clinic_manager.clinic_data}?${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
+  const URL = `${endpoints.clinic_manager.clinic_data}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
   const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
     console.log("-------------------")
     console.log("CLINIC PAGE DATA: ", data || [])
@@ -188,7 +189,17 @@ export default function UserListView() {
          setClinicName(value)
         else
           setClinicName(null)
-
+      }
+      else if(name == 'status'){
+        
+        if(value == 'active'){
+            setIsActive(true)
+            console.log('isActive: ', isActive)
+        }
+        else if(value == 'inactive'){
+          setIsActive(false)
+          console.log('Inactive: ', isActive)
+        }
       }
 
       table.onResetPage();
@@ -211,6 +222,11 @@ export default function UserListView() {
          setSelectedPms(null)
      else if(name == 'corpName')
          setSelectedCorp(null)
+      else if(name == 'clinic_name'){
+          setClinicName(null)
+      }
+    
+    setIsActive(isActive)
 
      table.onResetPage();
      setFilters((prevState) => ({
@@ -270,6 +286,7 @@ export default function UserListView() {
     setFilters(defaultFilters);
     setSelectedCorp(null)
     setSelectedPms(null)
+    setIsActive(true);
   }, []);
 
   return (
@@ -329,8 +346,8 @@ export default function UserListView() {
                     }
                   >
                     {/* {tab.value === 'all' && _userList.length} */}
-                    {tab.value === 'active' && data?.totalCount}
-                    {tab.value === 'inactive' && data?.totalCount}
+                    {tab.value === 'active' && data?.active}
+                    {tab.value === 'inactive' && data?.inactive}
 
                     {/* {tab.value === 'pending' &&
                       _userList.filter((user) => user.status === 'pending').length}

@@ -2,13 +2,13 @@ export const edms_countries = [
   { code: '', label: '', phone: '' },
   {
     code: 'CA',
-    label: 'Canada',
+    label: 'CA',
     phone: '1',
     suggested: true,
   },
   {
     code: 'US',
-    label: 'United States',
+    label: 'US',
     phone: '1',
     suggested: true,
   },

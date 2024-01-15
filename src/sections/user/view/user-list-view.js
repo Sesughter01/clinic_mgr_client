@@ -50,7 +50,7 @@ import {
 import UserTableRow from '../user-table-row';
 import UserTableToolbar from '../user-table-toolbar';
 import UserTableFiltersResult from '../user-table-filters-result';
-
+import UserQuickCreateForm from '../user-quick-create-form';
 // ----------------------------------------------------------------------
 
 const STATUS_OPTIONS = [...CLINIC_STATUS_OPTIONS];
@@ -73,8 +73,8 @@ const defaultFilters = {
   clinic_name: '',
   corporation: '',
   pmss: '',
-  corp_Name: [],
-  pmsName: [],
+  corpName: "",
+  pmsName: "",
   status: 'all',
 };
 
@@ -85,16 +85,17 @@ export default function UserListView() {
 
 
   const [pageIndex, setPageIndex] = useState(1);
-  const [selectedPms, setselectedPms] = useState(null);
-  const [selectedCorp, setselectedCorp] = useState(null);
+  const [selectedPms, setSelectedPms] = useState(null);
+  const [selectedCorp, setSelectedCorp] = useState(null);
+  const [clinicName, setClinicName] = useState(null);
 
   const [tableData, setTableData] = useState([]);
   const [pmsNames, setPmsNames] = useState([]);
   const [corpNames, setCorpNames] = useState([]);
+  const quickEdit = useBoolean();
 
   // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
-  const URL = `${endpoints.clinic_manager.clinic_data}?${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
-  console.log("URL", URL);
+  const URL = `${endpoints.clinic_manager.clinic_data}?${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
   const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
     console.log("-------------------")
     console.log("CLINIC PAGE DATA: ", data || [])
@@ -115,7 +116,7 @@ export default function UserListView() {
   const table = useTable();
 
   useEffect(()=>{
-    if(data) setTableData(data.result)
+    setTableData(data?.result || [])
   }, [data])
 
   useEffect(()=>{
@@ -170,21 +171,26 @@ export default function UserListView() {
 
   const handleFilters = useCallback(
      (name, value) => {
-      console.log("nameval: ",name, value)
-
-      if(name == 'pmsName'){
-        if(value == 'All')
-          setselectedPms(null)
-        else
-          setselectedPms(value)
-
+      console.log("nameval------------: ",name, value)
+      
+      if(value == 'all'){
+        setSelectedPms(null)
+        setSelectedCorp(null)
       }
+
+      if(name == 'pmsName')
+          setSelectedPms(value)
       else if(name == 'corpName'){
-        if(value == 'All')
-          setselectedCorp(null)
-        else
-          setselectedCorp(value)
+        setSelectedCorp(value)
       }
+      else if(name == 'clinic_name'){
+        if(value.length >= 3)
+         setClinicName(value)
+        else
+          setClinicName(null)
+
+      }
+
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -193,6 +199,27 @@ export default function UserListView() {
     },
     [table]
   );
+
+  const handleRemoveFilter = useCallback(
+    (name, value) => {
+    //  console.log("removeval: ",name, value)
+     if(value == 'all'){
+      setSelectedPms(null)
+      setSelectedCorp(null)
+     }
+     else if(name == 'pmsName')
+         setSelectedPms(null)
+     else if(name == 'corpName')
+         setSelectedCorp(null)
+
+     table.onResetPage();
+     setFilters((prevState) => ({
+       ...prevState,
+       [name]: value,
+     }));
+   },
+   [table]
+ );
 
   const handleDeleteRow = useCallback(
     (id) => {
@@ -241,17 +268,14 @@ export default function UserListView() {
 
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
+    setSelectedCorp(null)
+    setSelectedPms(null)
   }, []);
 
-  const greet = () =>{
-    alert(5)
-  }
-
   return (
-    // <h1>Welcome {data?.totalCount}</h1>
-
     <>
-      {/* <h1>Welcome {selectedPms} - {selectedCorp}</h1> */}
+      <UserQuickCreateForm currentUser={data?.result[0]} open={quickEdit.value} onClose={quickEdit.onFalse} />
+
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Clinic Manager"
@@ -262,9 +286,9 @@ export default function UserListView() {
           ]}
           action={
             <Button
-              component={RouterLink}
+              // component={RouterLink}
               // href={paths.dashboard.user.new}
-              href={paths.clinicmanager.clinic.new}
+              onClick={quickEdit.onTrue}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
@@ -330,11 +354,11 @@ export default function UserListView() {
           {canReset && (
             <UserTableFiltersResult
               filters={filters}
-              onFilters={handleFilters}
+              onFilters={handleRemoveFilter}
               //
               onResetFilters={handleResetFilters}
               //
-              results={dataFiltered.length}
+              results={data?.totalCount}
               sx={{ p: 2.5, pt: 0 }}
             />
           )}
@@ -361,7 +385,7 @@ export default function UserListView() {
             />
 
             <Scrollbar>
-              <Table onChangePage={greet} size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
                 <TableHeadCustom
                   order={table.order}
                   orderBy={table.orderBy}
@@ -445,49 +469,50 @@ export default function UserListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters }) {
-  console.log("applyFilter START: ", inputData)
-  // const { name, status, role } = filters;
-  const { clinic_name, status, corp_Name, pmsName } = filters;
+  // console.log("applyFilter START: ", inputData)
+  // // const { name, status, role } = filters;
+  // const { clinic_name, status, corpName, pmsName } = filters;
 
-  const stabilizedThis = inputData.map((el, index) => [el, index]);
+  // const stabilizedThis = inputData.map((el, index) => [el, index]);
   
 
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+  // stabilizedThis.sort((a, b) => {
+  //   const order = comparator(a[0], b[0]);
+  //   if (order !== 0) return order;
+  //   return a[1] - b[1];
+  // });
 
-  inputData = stabilizedThis.map((el) => el[0]);
+  // inputData = stabilizedThis.map((el) => el[0]);
  
 
-  // if (name) {
+  // // if (name) {
+  // //   inputData = inputData.filter(
+  // //     (user) => user.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+  // //   );
+  // // }
+  // if (clinic_name) {
   //   inputData = inputData.filter(
-  //     (user) => user.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+  //     (user) => user.clinic_name.toLowerCase().indexOf(clinic_name.toLowerCase()) !== -1
   //   );
   // }
-  if (clinic_name) {
-    inputData = inputData.filter(
-      (user) => user.clinic_name.toLowerCase().indexOf(clinic_name.toLowerCase()) !== -1
-    );
-  }
   
   
 
-  if (status !== 'all') {
-    inputData = inputData.filter((user) => user.status === status);
-  }
-
-  // if (role.length) {
-  //   inputData = inputData.filter((user) => role.includes(user.role));
+  // if (status !== 'all') {
+  //   inputData = inputData.filter((user) => user.status === status);
   // }
-  if (corp_Name.length) {
-    inputData = inputData.filter((user) => corp_Name.includes(user.corp_Name));
-  }
-  if (pmsName.length) {
-    inputData = inputData.filter((user) => pmsName.includes(user.pmsName));
-  }
-  console.log("applyFilter END: ", inputData)
+
+  // // if (role.length) {
+  // //   inputData = inputData.filter((user) => role.includes(user.role));
+  // // }
+  // if (corpName.length) {
+  //   inputData = inputData.filter((user) => corpName.includes(user.corpName));
+  // }
+
+  // if (pmsName.length) {
+  //   inputData = inputData.filter((user) => pmsName.includes(user.pmsName));
+  // }
+  // console.log("applyFilter END: ", inputData)
 
   return inputData;
 }

@@ -17,7 +17,7 @@ import DialogContent from '@mui/material/DialogContent';
 // _mock
 import { USER_STATUS_OPTIONS } from 'src/_mock';
 // assets
-import { countries } from 'src/assets/data';
+import { edms_countries } from 'src/assets/data';
 // components
 import Iconify from 'src/components/iconify';
 import { useSnackbar } from 'src/components/snackbar';
@@ -134,7 +134,7 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       onClose();
-      enqueueSnackbar('Update success!');
+      enqueueSnackbar('Clinic record created successfully!');
       console.info('DATA', data);
     } catch (error) {
       console.error(error);
@@ -159,11 +159,11 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
       }}
     >
       <FormProvider methods={methods} onSubmit={onSubmit}>
-        <DialogTitle>Quick Update</DialogTitle>
+        <DialogTitle>Create New Clinic</DialogTitle>
 
         <DialogContent>
           <Alert variant="outlined" severity="info" sx={{ mb: 3 }}>
-            Account is waiting for confirmation
+            Enter clinic details
           </Alert>
 
           <Box
@@ -175,13 +175,7 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
               sm: 'repeat(2, 1fr)',
             }}
           >
-            <RHFSelect name="status" label="Status">
-              {USER_STATUS_OPTIONS.map((status) => (
-                <MenuItem key={status.value} value={status.value}>
-                  {status.label}
-                </MenuItem>
-              ))}
-            </RHFSelect>
+            <RHFTextField name="clinic_name" label="Clinic Name" />
 
             <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
 
@@ -192,10 +186,10 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
             <RHFAutocomplete
               name="country"
               label="Country"
-              options={countries.map((country) => country.label)}
+              options={edms_countries.map((country) => country.label)}
               getOptionLabel={(option) => option}
               renderOption={(props, option) => {
-                const { code, label, phone } = countries.filter(
+                const { code, label, phone } = edms_countries.filter(
                   (country) => country.label === option
                 )[0];
 
@@ -224,28 +218,42 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
             <RHFTextField name="company" label="Company" />
             <RHFTextField name="role" label="Role" /> */}
 
+            <RHFSelect name="status" label="Status">
+              {USER_STATUS_OPTIONS.map((status) => (
+                <MenuItem key={status.value} value={status.value}>
+                  {status.label}
+                </MenuItem>
+              ))}
+            </RHFSelect>
+
             <RHFTextField
                 name="corpPractice"
                 label="Corp Practice"
               />
 
-              <RHFTextField name="clinic_address" label="Clinic Address" />
-              <RHFTextField name="idclinics" label="Clinic Id" />
-              <RHFTextField name="clinic_city" label="Clinic city" />
-              <RHFTextField name="clinic_code" label="Clinic Code" />
-              <RHFTextField name="clinic_province" label="Clinic Province" />
-              <RHFTextField name="data_Path" label="Data Path" />
-              <RHFTextField name="clinic_postal" label="Clinic postal" />
-              <RHFTextField name="clinic_name" label="Clinic Name" />
+              <RHFTextField
+                name="current_app"
+                label="Current Application"
+              />
+              
+              {/* <RHFTextField name="data_Path" label="Data Path" /> */}
+              {/* <RHFTextField name="clinic_email" label="Clinic Email" /> */}
+
+              {/* <RHFTextField name="clinic_address" label="Clinic Address" /> */}
+              {/* <RHFTextField name="clinic_city" label="Clinic city" /> */}
+              {/* <RHFTextField name="clinic_code" label="Clinic Code" /> */}
+              {/* <RHFTextField name="clinic_province" label="Clinic Province" /> */}
+
+              {/* <RHFTextField name="clinic_postal" label="Clinic postal" /> */}
 
               <RHFAutocomplete
                 name="country"
                 label="Country"
-                options={countries.map((country) => country.label)}
+                options={edms_countries.map((country) => country.label)}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) => option === value}
                 renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
+                  const { code, label, phone } = edms_countries.filter(
                     (country) => country.label === option
                   )[0];
 
@@ -266,22 +274,16 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
                   );
                 }}
               />
-
-              <RHFTextField
-                name="current_app"
-                label="Current Application"
-              />
               
-              <RHFTextField name="clinic_phone" label="Clinic Phone" />
-              <RHFTextField name="dest_db" label="Dest. DB" />
-              <RHFTextField name="clinic_email" label="Clinic Email" />
+              {/* <RHFTextField name="clinic_phone" label="Clinic Phone" /> */}
+              {/* <RHFTextField name="dest_db" label="Dest. DB" /> */}
 
-              <RHFTextField
+              {/* <RHFTextField
                 name="clinic_appointmentunit"
                 label="Clinic Appointment Unit"
-              />
+              /> */}
 
-              <RHFTextField name="acquistionDate" 
+              {/* <RHFTextField name="acquistionDate" 
                   label="Acquisition Date"
                   type="date"
                   value={date}
@@ -306,7 +308,7 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
                <RHFTextField
                 name="collectionAdj"
                 label="Coll Adj By"
-              />  
+              />   */}
           </Box>
         </DialogContent>
 
@@ -316,7 +318,7 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
           </Button>
 
           <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-            Update
+            Submit
           </LoadingButton>
         </DialogActions>
       </FormProvider>

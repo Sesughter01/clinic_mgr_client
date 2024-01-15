@@ -21,7 +21,7 @@ import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 //
-import UserQuickEditForm from './user-quick-edit-form';
+import UserQuickEditForm from './user-quick-create-form';
 
 // ----------------------------------------------------------------------
 
@@ -153,7 +153,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         </TableCell> */}
       </TableRow>
 
-      <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
+      {/* <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} /> */}
 
       <CustomPopover
         open={popover.open}

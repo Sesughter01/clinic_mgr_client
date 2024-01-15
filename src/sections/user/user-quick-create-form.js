@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -24,13 +24,15 @@ import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, { RHFSelect, RHFTextField, RHFAutocomplete } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
-import { $post, endpoints} from 'src/utils/axios';
+import { $post, $get, endpoints} from 'src/utils/axios';
 // ----------------------------------------------------------------------
 
 const URL = `${endpoints.clinic_manager.clinic_data}`
 
-export default function UserQuickEditForm({ currentUser, open, onClose }) {
+export default function UserQuickEditForm({ open, onClose }) {
   const { enqueueSnackbar } = useSnackbar();
+  const [pmsNames, setPmsNames] = useState([]);
+  const [corpNames, setCorpNames] = useState([]);
 
   const NewUserSchema = Yup.object().shape({
     //details
@@ -78,6 +80,23 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
     }
   });
 
+  const getPMS_Corps = ()=>{
+    $get(endpoints.pms.names)
+    .then(res =>{
+      res.sort()
+      setPmsNames(res)
+    })
+
+    $get(endpoints.corps.names)
+    .then(res =>{
+      res.sort()
+      setCorpNames(res)
+    })
+  }
+
+  useEffect(()=>{
+    getPMS_Corps()
+  }, [])
 
   return (
     <Dialog
@@ -168,15 +187,26 @@ export default function UserQuickEditForm({ currentUser, open, onClose }) {
               {/* <RHFTextField name="clinic_postal" label="Clinic postal" /> */}
 
 
-              <RHFTextField
-                name="corp_id"
-                label="Corp Practice"
-              />
+              <RHFSelect name="corp_id" label="Corp Practice">
+                {corpNames.map((corp) => (
+                  <MenuItem key={corp} value={corp}>
+                    {corp}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
 
-              <RHFTextField
+              <RHFSelect name="current_app" label="Current Application">
+                {pmsNames.map((pms) => (
+                  <MenuItem key={pms} value={pms}>
+                    {pms}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
+
+              {/* <RHFTextField
                 name="current_app"
                 label="Current Application"
-              />
+              /> */}
               
               <RHFAutocomplete
                 name="locationId"

@@ -286,12 +286,13 @@ export default function UserListView() {
     setFilters(defaultFilters);
     setSelectedCorp(null)
     setSelectedPms(null)
+    setClinicName(null)
     setIsActive(true);
   }, []);
 
   return (
     <>
-      <UserQuickCreateForm currentUser={data?.result[0]} open={quickEdit.value} onClose={quickEdit.onFalse} />
+      <UserQuickCreateForm open={quickEdit.value} onClose={quickEdit.onFalse} />
 
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs

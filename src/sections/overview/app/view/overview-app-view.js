@@ -38,8 +38,8 @@ export default function OverviewAppView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Grid container spacing={3}>
-        {/* <Grid xs={12} md={8}> */}
-        <Grid xs={12} md={12}>
+        <Grid xs={12} md={8}>
+        {/* <Grid xs={12} md={12}> */}
           <AppWelcome
             // title={`Welcome back 👋 \n ${user?.displayName}`}
             title={`Wellcome to EDMS Clinic Manager 👋 \n Web (CM-WEB1.0)`}
@@ -54,9 +54,9 @@ export default function OverviewAppView() {
           />
         </Grid>
         
-        {/* <Grid xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <AppFeatured list={_appFeatured} />
-        </Grid> */}
+        </Grid>
 
         <Grid xs={12} md={4}>
           <AppWidgetSummary

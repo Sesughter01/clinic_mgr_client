@@ -24,8 +24,17 @@ import FileManagerTableRow from './file-manager-table-row';
 
 // ----------------------------------------------------------------------
 
+// const TABLE_HEAD = [
+//   { id: 'name', label: 'Name' },
+//   { id: 'size', label: 'Size', width: 120 },
+//   { id: 'type', label: 'Type', width: 120 },
+//   { id: 'modifiedAt', label: 'Modified', width: 140 },
+//   { id: 'shared', label: 'Shared', align: 'right', width: 140 },
+//   { id: '', width: 88 },
+// ];
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name' },
+  { id: 'name', label: 'Jail Name' },
+  { id: 'corpId', label: 'Clinic ' },
   { id: 'size', label: 'Size', width: 120 },
   { id: 'type', label: 'Type', width: 120 },
   { id: 'modifiedAt', label: 'Modified', width: 140 },
@@ -65,6 +74,7 @@ export default function FileManagerTable({
   const denseHeight = dense ? 58 : 78;
 
   return (
+    
     <>
       <Box
         sx={{
@@ -152,6 +162,7 @@ export default function FileManagerTable({
               {dataFiltered
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
+                  
                   <FileManagerTableRow
                     key={row.id}
                     row={row}

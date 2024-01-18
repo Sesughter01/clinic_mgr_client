@@ -309,24 +309,24 @@ export const _corp_Names = [
   'ALTIMA-1015',
 ];
 
-//new corp name search added by blessing
-export const _pmsNames = [
-  'Tracker',
-  'Dentrix G6',
-  'Dentrix G6',
-  'Maxident',
-  'Abledent',
-  'Tracker',
-  'Power Practice',
-  'Dentrix G6',
-  'Dentrix G6',
-  'Dentrix G4',
-  'Dentrix G4',
-  'Dentrix G6',
-  'Dentrix G4',
-  'Dentrix G6',
-  'Dentrix G6',
-];
+// new corp name search added by blessing
+// export const _pmsNames = [
+//   'Tracker',
+//   'Dentrix G6',
+//   'Dentrix G6',
+//   'Maxident',
+//   'Abledent',
+//   'Tracker',
+//   'Power Practice',
+//   'Dentrix G6',
+//   'Dentrix G6',
+//   'Dentrix G4',
+//   'Dentrix G4',
+//   'Dentrix G6',
+//   'Dentrix G4',
+//   'Dentrix G6',
+//   'Dentrix G6',
+// ];
 //Shakirat
 export const _status = [
   'Text',

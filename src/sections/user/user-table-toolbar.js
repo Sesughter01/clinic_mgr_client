@@ -21,7 +21,7 @@ export default function UserTableToolbar({
   filters,
   onFilters,
   //
-  roleOptions,
+  corpOptions,
   pmsOptions,
 }) {
   const popover = usePopover();
@@ -46,7 +46,7 @@ export default function UserTableToolbar({
   const handleFilterRole = useCallback(
     (event) => {
       onFilters(
-        'corp_Name',
+        'corpName',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
@@ -96,7 +96,7 @@ export default function UserTableToolbar({
               },
             }}
           >
-            {roleOptions.map((option) => (
+            {corpOptions.map((option) => (
               <MenuItem key={option} value={option}>
                 <Checkbox disableRipple size="small" checked={filters.role.includes(option)} />
                 {option}
@@ -117,7 +117,7 @@ export default function UserTableToolbar({
 
           <Select
             // multiple
-            value={filters.corp_Name}
+            value={filters.corpName}
             onChange={handleFilterRole}
             input={<OutlinedInput label="Corp Name" />}
             // renderValue={(selected) => selected.map((value) => value).join(', ')}
@@ -127,9 +127,9 @@ export default function UserTableToolbar({
               },
             }}
           >
-            {roleOptions.map((option) => (
+            {corpOptions.map((option) => (
               <MenuItem key={option} value={option}>
-                {/* <Checkbox disableRipple size="small" checked={filters.corp_Name.includes(option)} /> */}
+                {/* <Checkbox disableRipple size="small" checked={filters.corpName.includes(option)} /> */}
                 {option}
               </MenuItem>
             ))}
@@ -231,7 +231,7 @@ export default function UserTableToolbar({
 UserTableToolbar.propTypes = {
   filters: PropTypes.object,
   onFilters: PropTypes.func,
-  roleOptions: PropTypes.array,
+  corpOptions: PropTypes.array,
   pmsOptions: PropTypes.array,
 };
 

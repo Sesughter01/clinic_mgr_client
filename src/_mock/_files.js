@@ -6,6 +6,8 @@ import { _tags } from './assets';
 const GB = 1000000000 * 24;
 
 const FOLDERS = ['Docs', 'Projects', 'Work', 'Training', 'Sport', 'Foods'];
+const CLINIC_CORP = ['Altima_Barrie-Gozer_16001', 'Altima_Barrie-Gozer_16001', 'Altima_Barrie-Gozer_16001', 'Altima_Barrie-Gozer_16001', 'Altima_Barrie-Gozer_16001', 'Altima_Barrie-Gozer_16001'];
+const CLINIC = ['Altima Barrie', 'Altima Russell', 'BC-010 Camgora', 'Bible Hill', 'College Clinic', 'Camgora Randall'];
 
 const FILES = [
   'cover-2.jpg',
@@ -60,6 +62,8 @@ const URLS = [
   _mock.image.cover(17),
   'https://www.cloud.com/s/c218bo6kjuqyv66/xl_david-blaine_component_tanzania_books.pdf',
 ];
+
+
 
 const SHARED_PERSONS = [...Array(20)].map((_, index) => ({
   id: _mock.id(index),
@@ -119,5 +123,29 @@ export const _files = FILES.map((name, index) => ({
   type: `${name.split('.').pop()}`,
   isFavorited: _mock.boolean(index + 1),
 }));
+export const _clinics_corps =  CLINIC_CORP.map((name, index) => ({
+  id: `${_mock.id(index)}_file`,
+  name,
+  url: URLS[index],
+  shared: shared(index),
+  tags: _tags.slice(0, 5),
+  // size: GB / ((index + 1) * 500),
+  createdAt: _mock.time(index),
+  modifiedAt: _mock.time(index),
+  type: `${name.split('.').pop()}`,     
+  isFavorited: _mock.boolean(index + 1),
+}));
+export const _clinics =  CLINIC.map((name, index) => ({
+  id: `${_mock.id(index)}_file`,
+  name,
+  url: URLS[index],
+  shared: shared(index),
+  tags: _tags.slice(0, 5),
+  size: GB / ((index + 1) * 500),
+  createdAt: _mock.time(index),
+  modifiedAt: _mock.time(index),
+  type: `${name.split('.').pop()}`,
+  isFavorited: _mock.boolean(index + 1),
+}));
 
-export const _allFiles = [..._folders, ..._files];
+export const _allFiles = [..._folders, ..._files,..._clinics_corps,..._clinics];

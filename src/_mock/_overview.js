@@ -4,7 +4,7 @@ import { _mock } from './_mock';
 // ----------------------------------------------------------------------
 
 // export const _appRelated = ['Chrome', 'Drive', 'Dropbox', 'Evernote', 'Github'].map(
-export const _appRelated = ['Jira', 'Clinic'].map(
+export const _appRelated = ['Jira', 'Clinic', '-', '-', '-', '-'].map(
   (name, index) => {
     const system = [2, 4].includes(index) ? 'Windows' : 'Mac';
 

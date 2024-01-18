@@ -24,6 +24,8 @@ import { useRouter } from "src/routes/hooks";
 import { _orders, ORDER_STATUS_OPTIONS } from "src/_mock";
 // utils
 import { fTimestamp } from "src/utils/format-time";
+// routes
+import { RouterLink } from 'src/routes/components';
 // hooks
 import { useBoolean } from "src/hooks/use-boolean";
 // components
@@ -62,7 +64,7 @@ const TABLE_HEAD = [
   // { id: 'totalQuantity', label: 'Wiki page', width: 120, align: 'center' },
   // { id: 'totalAmount', label: 'Clinics', width: 140 },
   // { id: 'status', label: 'Status', width: 110 },
-  // { id: '', width: 88 },
+  { id: '', width: 88 },
   { id: "staff", label: "PMS", width: 126 },
   { id: "name", label: "Description" },
   { id: "createdAt", label: "Script Folder", width: 160 },
@@ -165,6 +167,15 @@ export default function OrderListView() {
       totalRowsFiltered: dataFiltered.length,
     });
   }, [dataFiltered.length, dataInPage.length, table, tableData]);
+  
+  const handleEditRow = useCallback(
+    (id) => {
+      // router.push(paths.dashboard.user.edit(id));
+      router.push(paths.pms.edit(id));
+      console.log(id)
+    },
+    [router]
+  );
 
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
@@ -187,6 +198,7 @@ export default function OrderListView() {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : "lg"}>
+
         <CustomBreadcrumbs
           heading="List of PMS"
           links={[
@@ -196,10 +208,21 @@ export default function OrderListView() {
             // },
             {
               name: "PMS",
-              href: paths.dashboard.order.root,
+              href: paths.pms.root,
             },
             { name: "List" },
           ]}
+          action={
+            <Button
+              component={RouterLink}
+              // href={paths.dashboard.user.new}
+              href={paths.pms.new}
+              variant="contained"
+              startIcon={<Iconify icon="mingcute:add-line" />}
+            >
+              New Pms
+            </Button>
+          }
           sx={{
             mb: { xs: 3, md: 5 },
           }}
@@ -346,11 +369,11 @@ export default function OrderListView() {
                       <OrderTableRow
                         key={row.pmsid}
                         row={row}
-                        selected={table.selected.includes(row.pmsid)}
-                        onSelectRow={() => table.onSelectRow(row.pmsid)}
-                        onDeleteRow={() => handleDeleteRow(row.pmsid)}
-                        onEditRow={() => handleEditRow(row.pmsid)}
-                        onViewRow={() => handleViewRow(row.pmsid)}
+                        selected={table.selected.includes(row.id)}
+                        onSelectRow={() => table.onSelectRow(row.id)}
+                        onDeleteRow={() => handleDeleteRow(row.id)}
+                        onEditRow={() => handleEditRow(row.id)}
+                        onViewRow={() => handleViewRow(row.id)}
                       />
                     ))}
 

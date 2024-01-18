@@ -25,7 +25,7 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
-export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteRow }) {
+export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteRow, onEditRow }) {
   const { 
     // items, 
     // status, 
@@ -49,6 +49,23 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
+      <TableCell align="left" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+        {/* <IconButton
+          color={collapse.value ? 'inherit' : 'default'}
+          onClick={collapse.onToggle}
+          sx={{
+            ...(collapse.value && {
+              bgcolor: 'action.hover',
+            }),
+          }}
+        >
+          <Iconify icon="eva:arrow-ios-downward-fill" />
+        </IconButton> */}
+
+        <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+          <Iconify icon="eva:more-vertical-fill" />
+        </IconButton>
+      </TableCell>
       <TableCell padding="checkbox">
         {/* <Checkbox checked={selected} onClick={onSelectRow} /> */}
       </TableCell>
@@ -117,23 +134,6 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
         </Label> */}
       </TableCell>
 
-      <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-        {/* <IconButton
-          color={collapse.value ? 'inherit' : 'default'}
-          onClick={collapse.onToggle}
-          sx={{
-            ...(collapse.value && {
-              bgcolor: 'action.hover',
-            }),
-          }}
-        >
-          <Iconify icon="eva:arrow-ios-downward-fill" />
-        </IconButton> */}
-
-        <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-          <Iconify icon="eva:more-vertical-fill" />
-        </IconButton>
-      </TableCell>
     </TableRow>
   );
 
@@ -211,6 +211,16 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
         </MenuItem>
+        
+        <MenuItem
+          onClick={() => {
+            onEditRow();
+            popover.onClose();
+          }}
+        >
+          <Iconify icon="solar:pen-bold" />
+          Edit
+        </MenuItem>
 
         <MenuItem
           onClick={() => {
@@ -240,6 +250,7 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
 
 OrderTableRow.propTypes = {
   onDeleteRow: PropTypes.func,
+  onEditRow: PropTypes.func,
   onSelectRow: PropTypes.func,
   onViewRow: PropTypes.func,
   row: PropTypes.object,

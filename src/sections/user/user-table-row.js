@@ -27,7 +27,7 @@ import UserQuickEditForm from './user-quick-edit-form';
 
 export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, onPmsreportRow }) {
   // const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
-  const { clinic_name, avatarUrl, corp_Name, pmsName, actioBy, stage, status, todo, asana_url } = row;
+  const { clinic_name, avatarUrl, corp_Name, pmsName, actioBy, stage, status, todo, } = row;
 
   const confirm = useBoolean();
 
@@ -44,6 +44,8 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
 
   return (
     <>
+
+    
       <TableRow hover selected={selected}>
         <TableCell>
           {/* <Checkbox checked={selected} onClick={onSelectRow} /> */}
@@ -74,7 +76,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{actioBy}</TableCell>
 
         {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{asana_url}</TableCell> */}
-        <TableCell align="center">{asana_url === '' ? ' - ' : asana_url}</TableCell>
+        {/* <TableCell align="center">{asana_url === '' ? ' - ' : asana_url}</TableCell> */}
 
         <TableCell>
           <Label
@@ -92,7 +94,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         </TableCell>
 
         <TableCell>
-              <ToggleButtonGroup
+          <ToggleButtonGroup
             value={marked}
             exclusive
             onChange={handleToggle}
@@ -127,31 +129,6 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
         </TableCell>
-
-        {/* <TableCell>
-              <ToggleButtonGroup
-            value={marked}
-            exclusive
-            onChange={handleToggle}
-            aria-label="custom-toggle-button"
-          >
-            <ToggleButton 
-              value={true}
-              aria-label="marked"
-              style={{ backgroundColor: marked ? '#118D57' : 'white' }}
-            >
-              GoLive
-            </ToggleButton>
-            <ToggleButton
-              value={false}
-              aria-label="not-marked"
-              style={{ backgroundColor: !marked ? '#118D57' : 'white' }}
-            >
-              Retired
-            </ToggleButton>
-          </ToggleButtonGroup>
-         
-        </TableCell> */}
       </TableRow>
 
       <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />

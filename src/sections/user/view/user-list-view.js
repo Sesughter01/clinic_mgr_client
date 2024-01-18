@@ -50,7 +50,8 @@ import UserTableFiltersResult from '../user-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
+// const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [...USER_STATUS_OPTIONS];
 
 // const TABLE_HEAD2 = [
 //   { id: 'name', label: 'Name',},
@@ -68,7 +69,7 @@ const TABLE_HEAD = [
   { id: 'stage', label: 'Stage',  },
   { id: 'todo', label: 'To Do', },
   { id: 'actioBy', label: 'Action By', width: 220 },
-  { id: 'asana_url', label: 'Asana Link', width: 300 },
+  // { id: 'asana_url', label: 'Asana Link', width: 300 },
   { id: 'status', label: 'Status', width: 100 },
   { id: '', width: 88 },
   { id: '', width: 88 },

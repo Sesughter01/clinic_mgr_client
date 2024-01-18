@@ -1,5 +1,6 @@
 'use client';
-
+import * as React from 'react';
+// import { BarChart } from '@mui/x-charts/BarChart';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
@@ -22,6 +23,7 @@ import AppWelcome from '../app-welcome';
 import AppFeatured from '../app-featured';
 import AppNewInvoice from '../app-new-invoice';
 import AppJiraTicket from '../app-jira-ticket';
+
 import AppTopAuthors from '../app-top-authors';
 import AppTopRelated from '../app-top-related';
 import AppAreaInstalled from '../app-area-installed';
@@ -30,6 +32,41 @@ import AppCurrentDownload from '../app-current-download';
 import AppTopInstalledCountries from '../app-top-installed-countries';
 
 // ----------------------------------------------------------------------
+
+//For the barchart
+// const chartSetting = {
+//   xAxis: [
+//     {
+//       label: 'Pending',
+//     },
+//   ],
+//   width: 500,
+//   height: 400,
+// };
+// const dataset = [
+//   {
+//     london: 59,
+//     paris: 57,
+//     newYork: 86,
+//     seoul: 21,
+//     month: 'Jan',
+//   },
+//   {
+//     london: 50,
+//     paris: 52,
+//     newYork: 78,
+//     seoul: 28,
+//     month: 'Fev',
+//   },
+//   {
+//     london: 47,
+//     paris: 53,
+//     newYork: 106,
+//     seoul: 41,
+//     month: 'Mar',
+//   },
+  
+// ];
 
 export default function OverviewAppView() {
   const { user } = useMockedUser();
@@ -209,9 +246,15 @@ export default function OverviewAppView() {
           />
         </Grid>
 
-       
-
-  
+        {/* <Grid xs={12} md={6} lg={4}>
+        <BarChart
+            dataset={dataset}
+            yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
+            series={[{ dataKey: 'seoul', label: '',}]}
+            layout="horizontal"
+            {...chartSetting}
+        />
+        </Grid> */}
 
         {/* <Grid xs={12} md={6} lg={4}>
           <AppTopAuthors title="Top Authors" list={_appAuthors} />

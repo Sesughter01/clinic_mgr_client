@@ -44,7 +44,7 @@ export default function AppNewInvoice({ title, subheader, tableData, tableLabels
 
       <Divider sx={{ borderStyle: 'dashed' }} />
 
-      <Box sx={{ p: 2, textAlign: 'right' }}>
+      {/* <Box sx={{ p: 2, textAlign: 'right' }}>
         <Button
           size="small"
           color="inherit"
@@ -52,7 +52,7 @@ export default function AppNewInvoice({ title, subheader, tableData, tableLabels
         >
           View All
         </Button>
-      </Box>
+      </Box> */}
     </Card>
   );
 }

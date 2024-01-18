@@ -40,15 +40,16 @@ export default function UserQuickEditForm({ open, onClose }) {
     clinic_name: Yup.string().required('Clinic name is required'),
     current_app: Yup.string().required('Current Application is required'),
     locationId: Yup.string().required('Please select a location'),
+    Data_Path: Yup.string().required('Data Path is required'),
   }); 
    
   const defaultValues = useMemo(
     () => ({
-      //details
       corp_id: '',
       locationId: '',
       clinic_name: '',
       current_app: '',
+      Data_Path: ''
     }),
     []
   );
@@ -125,9 +126,9 @@ export default function UserQuickEditForm({ open, onClose }) {
               sm: 'repeat(2, 1fr)',
             }}
           >
-            <RHFTextField name="clinic_name" label="Clinic Name" />
+            <RHFTextField name="Data_Path" label="Data Path" />
 
-            {/* <Box sx={{ display: { xs: 'none', sm: 'block' } }} /> */}
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
 
             {/* <RHFTextField name="name" label="Full Name" />
             <RHFTextField name="email" label="Email Address" />
@@ -186,6 +187,7 @@ export default function UserQuickEditForm({ open, onClose }) {
 
               {/* <RHFTextField name="clinic_postal" label="Clinic postal" /> */}
 
+              <RHFTextField name="clinic_name" label="Clinic Name" />
 
               <RHFSelect name="corp_id" label="Corp Practice">
                 {corpNames.map((corp) => (

@@ -52,10 +52,14 @@ export const $get = async (args) => {
   console.log("--- GET REQUEST ---");
   console.log("URL :", url);
 
-  const res = await axiosInstance_Two.get(url, { ...config });
-  console.log("RESPONSE:", (res.data));
-  console.log("----------------");
-  return res.data.data;
+  try {
+    const res = await axiosInstance_Two.get(url, { ...config });
+    console.log("RESPONSE SUCCESS:", (res.data));
+    console.log("----------------");
+    return res.data.data;
+  } catch (error) {
+    return error
+  }
 };
 
 export const $post = async (url, body) => {
@@ -136,25 +140,21 @@ export const endpoints = {
    pms_update: '/api/pms',
    pms_delete: 'api/pms',
  },
-  //Added by Blessing
+
+ 
   clinic_manager: {
-    list: '/api/clinicmanager/list',
-    details: '/api/clinicmanager/details',
-    search: '/api/clinicmanager/search',
-    clinic_data: '/api/clinics',
     clinic: '/api/clinics/',
 
-    clinic_add: '/api/clinics/',
-    clinic_update: '/api/clinics/',
-    clinic_data_update: '/api/clinics',
-    clinic_corp: '/api/clinics/corp',
-    clinic_pms: '/api/clinics/pms',
-    clinic_adjustments: '/api/clinics/adjustments',
-    clinic_adjustments_update: '/api/clinics/adjustments',
-    clinic_paymethod_update: '/api/clinics/paymethod',
-    clinic_employee_update: '/api/clinics/employee',
-    clinic_appointment_update: '/api/clinics/appointment',
+    clinic_corp: '/api/clinics/corp/',
+    clinic_pms: '/api/clinics/pms/',
 
+    clinic_adjustments: '/api/clinics/adjustments/',
+
+    clinic_paymethod: '/api/clinics/paymethod/',
+
+    clinic_employee: '/api/clinics/employee/',
+
+    clinic_appointment: '/api/clinics/appointment/',
   },
 
 };

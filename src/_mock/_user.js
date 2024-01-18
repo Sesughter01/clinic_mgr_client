@@ -150,7 +150,7 @@ export const _userPlans = [
 ];
 
 // export const _userList = [...Array(20)].map((_, index) => ({
-export const _userList = [...Array(15)].map((_, index) => ({
+export const _userList = [...Array(55)].map((_, index) => ({
   id: _mock.id(index),
   zipCode: "85807",
   state: "Virginia",
@@ -166,7 +166,6 @@ export const _userList = [...Array(15)].map((_, index) => ({
   phoneNumber: _mock.phoneNumber(index),
   clinic_name: _mock.clinic_name(index),
   corp_Name: _mock.corp_Name(index),
-  pmsName: _mock.pmsName(index),
   stage: _mock.stage(index),
   todo: _mock.todo(index),
   asana_url: _mock.asana_url(index),

@@ -1,30 +1,39 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
 // utils
-import { fetcher, endpoints, fetcher_Two } from 'src/utils/axios';
+import { fetcher, endpoints, $get } from 'src/utils/axios';
 import { fetcher_Three } from '@/utils/axios';
 
 // ----------------------------------------------------------------------
 
-export function useGetPmss() {
+export function useGetPmss(pageNumber = 1) {
   // const URL = endpoints.product.list;
   const URL = endpoints.pms.pms_data;
 
   // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two);
+  const { data, isLoading, error, isValidating } = useSWR(`${URL}?pageNumber=${pageNumber}`, $get);
   
   
   const memoizedValue = useMemo(
     () => ({
-      // products: data?.products || [],
-      pmss: data?.data?.result || [], 
-      pmssLoading: isLoading,
-      pmssError: error,
-      pmssValidating: isValidating,
+      pmss:data?.result || [], 
+      totalCount:data?.totalCount || 0,
+      pageSize:data?.pageSize || 15,
+      currentPage:data?.currentPage || 0,
+      totalPages:data?.totalPages || 0,
+      hasNext:data?.hasNext || true,
+      hasPrevious:data?.hasPrevious || false,
+      loading: isLoading,
+      error: error,
+      validating: isValidating,
+      // pmss: data?.data?.result || [], 
+      // pmssLoading: isLoading,
+      // pmssError: error,
+      // pmssValidating: isValidating,
       // pmssEmpty: !isLoading && !data?.pmss.length,
     }),
-    // [data?.products, error, isLoading, isValidating]
-    [data?.data?.result, error, isLoading, isValidating]
+    // [data?.data?.result, error, isLoading, isValidating]
+    [data?.result, error, isLoading, isValidating]
   );
   // console.log(data);
   return memoizedValue;
@@ -37,7 +46,7 @@ export function useGetPms(pmsId) {
   const URL = pmsId ? [endpoints.pms.pms + pmsId, { params: { pmsId } }] : null;
 
   // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two);
+  const { data, isLoading, error, isValidating } = useSWR(URL, $get);
    console.log(pmsId)
   const memoizedValue = useMemo(
     () => ({
@@ -83,7 +92,7 @@ export function useSearchClinics(query) {
   const URL = query ? [endpoints.pms.search, { params: { query } }] : null;
 
   // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two, {
+  const { data, isLoading, error, isValidating } = useSWR(URL, $get, {
     keepPreviousData: true,
   });
 

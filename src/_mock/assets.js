@@ -309,7 +309,7 @@ export const _corp_Names = [
   'ALTIMA-1015',
 ];
 
-//new corp name search added by blessing
+// new corp name search added by blessing
 export const _pmsNames = [
   'Tracker',
   'Dentrix G6',

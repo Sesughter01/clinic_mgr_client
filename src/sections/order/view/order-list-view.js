@@ -100,12 +100,12 @@ export default function OrderListView() {
   // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
   const URL = `${endpoints.pms.pms_data}?${ isActive != null ? `active=${isActive}&` : ''}${ pms != null ? `search=${pms}&` : ''}pageNumber=${pageIndex}`;
   const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
-    // console.log("-------------------")
-    // console.log("PMS PAGE DATA: ", data || [])
-    // console.log("CLINICS", data?.result || 0)
-    // console.log("totalCount", data?.totalCount || 0)
-    // console.log("currentPage", data?.currentPage || 0)
-    // console.log("-------------------")
+    console.log("-------------------")
+    console.log("PMS PAGE DATA: ", data || [])
+    console.log("PMS", data?.result || 0)
+    console.log("totalCount", data?.totalCount || 0)
+    console.log("currentPage", data?.currentPage || 0)
+    console.log("-------------------")
 
     // setTableData(data?.result)
 
@@ -127,7 +127,14 @@ export default function OrderListView() {
   const [filters, setFilters] = useState(defaultFilters);
   // Added by Shakirat
   // const { pmss, pmssLoading, pmssEmpty } = useGetPmss();
+  useEffect(()=>{
+    setTableData(data?.result || [])
+  }, [data])
 
+  useEffect(()=>{
+    setPageIndex(table.page + 1)
+  }, [table.page])
+  
   // useEffect(() => {
   //   if (pmss.length) {
   //     setTableData(pmss);

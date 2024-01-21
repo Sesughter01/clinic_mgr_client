@@ -27,6 +27,11 @@ import AppCurrentDownload from '../app-current-download';
 import AppTopInstalledCountries from '../app-top-installed-countries';
 
 // ----------------------------------------------------------------------
+import useSWR from 'swr';
+import { $post, $get, endpoints} from 'src/utils/axios';
+
+// ----------------------------------------------------------------------
+
 
 export default function OverviewAppView() {
   const { user } = useMockedUser();
@@ -34,6 +39,13 @@ export default function OverviewAppView() {
   const theme = useTheme();
 
   const settings = useSettingsContext();
+
+  const URL = `${endpoints.info.dashboard}`;
+  const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{}});
+  if (error) return console.log(error);
+
+  console.log("CLINIC: ", data);
+
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
@@ -62,7 +74,7 @@ export default function OverviewAppView() {
           <AppWidgetSummary
             title="Total Active Clinics"
             // percent={2.6}
-            total={18765}
+            total={data?.clinics}
             // chart={{
             //   series: [5, 18, 12, 51, 68, 11, 39, 37, 27, 20],
             // }}
@@ -73,7 +85,7 @@ export default function OverviewAppView() {
           <AppWidgetSummary
             title="Total PMS"
             // percent={0.2}
-            total={4876}
+            total={data?.pms}
             // chart={{
             //   // colors: [theme.palette.info.light, theme.palette.info.main],
             //   series: [20, 41, 63, 33, 28, 35, 50, 46, 11, 26],
@@ -85,7 +97,7 @@ export default function OverviewAppView() {
           <AppWidgetSummary
             title="Total Corporations"
             // percent={-0.1}
-            total={678}
+            total={data?.corps}
             chart={{
               // colors: [theme.palette.warning.light, theme.palette.warning.main],
               series: [8, 9, 31, 8, 16, 37, 8, 33, 46, 31],
@@ -171,6 +183,7 @@ export default function OverviewAppView() {
               { id: 'id', label: 'Clinic Name' },
               { id: 'category', label: 'Stage' },
               { id: 'price', label: 'Last Updated' },
+              { id: '', label: '' },
               // { id: 'status', label: 'Status' }, 
               { id: '' },
             ]}

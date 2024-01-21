@@ -57,19 +57,20 @@ import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, {
   RHFSwitch,
   RHFTextField,
+  RHFTextArea,
   RHFUploadAvatar,
   RHFAutocomplete,
   RHFSelect
 } from 'src/components/hook-form';
+import Adjustment from "./adjustments";
 
 
 // ----------------------------------------------------------------------
 
-import { $post, $get, endpoints} from 'src/utils/axios';
+import { $put, $get, endpoints} from 'src/utils/axios';
 import { CLINIC_DATEFORMAT_OPTIONS, CLINIC_DATE_OPTIONS, CLINIC_UNITAPPOINTMENTS_OPTIONS, CLINIC_TIMEZONE_OPTIONS, CLINIC_PERSONS_OPTIONS } from 'src/_mock';
 
 // ----------------------------------------------------------------------
-
 
 //Added by Blessing
 function CustomTabPanel(props) {
@@ -85,7 +86,8 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
+          {/* <Typography>{children}</Typography> */}
         </Box>
       )}
     </div>
@@ -105,10 +107,35 @@ function a11yProps(index) {
   };
 }
 
-export default function UserNewEditForm({ clinic, open, onClose }) {
-  
+
+function CustomCheck({onChange, name, label, value}) {
+  const [checked, setChecked] = useState(value);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+    onChange({name, value:event.target.checked})
+    // onChange({name, value:event.target.checked ? "1" : "0"})
+    // handleCheckBox(label, event.target.checked ? "1" : "0")
+  };
+
+  return (
+    <FormGroup>
+      <FormControlLabel  control={
+          <Checkbox 
+          checked={checked}
+          onChange={handleChange}
+          inputProps={{ 'aria-label': 'controlled' }}
+          />
+        } label={label} />
+      </FormGroup>
+  );
+}
+
+
+export default function UserNewEditForm({ clinic, open, onClose, id }) {
   const [pmsNames, setPmsNames] = useState([]);
   const [corpNames, setCorpNames] = useState([]);
+  const [allAdjustments, setAdjustments] = useState([]);
 
   const router = useRouter();
 
@@ -118,87 +145,11 @@ export default function UserNewEditForm({ clinic, open, onClose }) {
   const NewUserSchema = Yup.object().shape({
     //details
     id: Yup.string(),
-    clinic_address: Yup.string().required('Clinic Address is required'),
+    // clinic_address: Yup.string().required('Clinic Address is required'),
     corp_id: Yup.string().required('Corp practice is required'),
     idclinics: Yup.string().required('Clinic Id is required'),
-    clinic_city: Yup.string().required('Clinic city is required'),
-    clinic_code: Yup.string().required('Clinic code is required'),
-    clinic_province: Yup.string().required('Clinic Province is required'),
-    data_Path: Yup.string().required('Data path is required'),
-    clinic_postal: Yup.string().required('Clinic postal is required'),
     clinic_name: Yup.string().required('Clinic name is required'),
-    country: Yup.string().required('Country is required'),
     current_app: Yup.string().required('Current Application is required'),
-    clinic_phone: Yup.string().required('Clinc Phone is required'),
-    dest_db: Yup.string().required('Dest. db code is required'),
-    clinic_email: Yup.string().required('Clinic Email is required').email('Clinic Email must be a valid email address'),
-    clinic_appointmentunit: Yup.string().required('Clinic Appointemnt Unit is required'),
-    acquistionDate: Yup.string().required('Acquisition date is required'),
-    prodDate: Yup.string().required('Production By is required'),
-    cutoff_date: Yup.string().required('Cut off date is required'),
-    chargeAdj: Yup.string().required('Chrg adj by is required'),
-    firstTransId: Yup.string().required('Stating trans id is required'),
-    colDate: Yup.string().required('Collection by is required'),
-    responsiblePerson: Yup.string().required('Responsible person is required'),
-    collectionAdj: Yup.string().required('Collection adj by is required'),
-    scriptConvUnit: Yup.string().required('Script conversion unit is required'),
-    dateFormat: Yup.string().required('Date format is required'),
-    timezone: Yup.string().required('Time zone is required'),
-    avatarUrl: Yup.mixed().nullable().required('Avatar is required'),
-    // not required
-    status: Yup.string(),
-    isVerified: Yup.boolean(),
-    //jail
-    data_path_source: Yup.string().required('Data path source is required'),
-    simpleJail: Yup.string().required('Simple jail  is required'),
-    jailDataDir: Yup.string().required('Jail Data Directory is required'),
-    multiClinicJail: Yup.string().required('Combined multi clinic jail is required'),
-    locationId: Yup.string().required('Location id  is required'),
-    separateMultiClinicJail: Yup.string().required('Separate multi clinic jail is required'),
-    //payment method
-    creditCard: Yup.string(),
-    writeOff: Yup.string(),
-    visa: Yup.string(),
-    finance: Yup.string(),
-    masterCard: Yup.string(),
-    directDeposit: Yup.string(),
-    debit: Yup.string(),
-    giftCertificate: Yup.string(),
-    cash: Yup.string(),
-    webCoupon: Yup.string(),
-    personalCheque: Yup.string(),
-    insuranceEfts: Yup.string(),
-    insuranceCheque: Yup.string(),
-    insuranceOthers: Yup.string(),
-    cashBalance: Yup.string(),
-    batchCollection: Yup.string(),
-    eTransfer: Yup.string(),
-    others: Yup.string(),
-    americanExp: Yup.string(),
-    refund: Yup.string(),
-    assignment: Yup.string(),
-    paymentPlan: Yup.string(),
-    //Script
-    table: Yup.string(),
-    scriptType: Yup.string(),
-    edmsPrefix: Yup.string(),
-    //Work flow
-    stage: Yup.string(),
-    todo: Yup.string(),
-    actioBy: Yup.string(),
-    asana_url: Yup.string(),
-    notes: Yup.string(),
-    //Appt Status Value 
-    defId: Yup.string(),
-    edmsStatus: Yup.string(),
-    pmsStatus: Yup.string(),
-    //Employee mapping
-    providerCode: Yup.string(),
-    employee: Yup.string(),
-    mapEmployeeTo: Yup.string(),
-    designation: Yup.string(),
-    practice: Yup.string(),
-    primaryChar: Yup.string(),
   }); 
 
   const defaultValues = useMemo(
@@ -232,50 +183,63 @@ export default function UserNewEditForm({ clinic, open, onClose }) {
       collectionAdj: clinic?.collectionAdj || '',
       dateFormat: clinic?.dateFormat || '',
       timezone: clinic?.timezone || '',
-      isVerified: clinic?.isVerified || true,
+      isVerified: clinic?.isVerified || false,
+      runLedgerBalance: clinic?.runLedgerBalance || false,
+
+
       //Jail
       data_path_source: clinic?.data_path_source || '',
-      simpleJail: clinic?.simpleJail || '',
+      // simpleJail: clinic?.simpleJail || '',
       jailDataDir: clinic?.jailDataDir || '',
-      multiClinicJail: clinic?.multiClinicJail || '',
+      multiClinicJail: clinic?.multiClinicJail || false,
       locationId: clinic?.locationId || '',
-      separateMultiClinicJail: clinic?.separateMultiClinicJail || '',
+      separateMultiClinicJail: clinic?.separateMultiClinicJail || false,
+
       //Payment method
-      creditCard: clinic?.creditCard || '',
-      writeOff: clinic?.writeOff || '',
-      visa: clinic?.visa || '',
-      finance: clinic?.finance || '',
-      masterCard: clinic?.masterCard || '',
-      directDeposit: clinic?.directDeposit || '',
-      debit: clinic?.debit || '',
-      giftCertificate: clinic?.giftCertificate || '',
-      cash: clinic?.cash || '',
-      webCoupon: clinic?.webCoupon || '',
-      personalCheque: clinic?.personalCheque || '',
-      insuranceEfts: clinic?.insuranceEfts || '',
-      insuranceCheque: clinic?.insuranceCheque || '',
-      insuranceOthers: clinic?.insuranceOthers || '',
-      cashBalance: clinic?.cashBalance || '',
-      batchCollection: clinic?.batchCollection || '',
-      eTransfer: clinic?.eTransfer || '',
-      others: clinic?.others || '',
-      americanExp: clinic?.americanExp || '',
-      refund: clinic?.refund || '',
-      assignment: clinic?.assignment || '',
-      paymentPlan: clinic?.paymentPlan || '',
+      visa: clinic?.payMethodData?.visa || '',
+      masterCard: clinic?.payMethodData?.masterCard || '',
+      persCheque: clinic?.payMethodData?.persCheque || '',
+      insCheque: clinic?.payMethodData?.insCheque || '',
+      payPlan: clinic?.payMethodData?.payPlan || '',
+      balance: clinic?.payMethodData?.balance || '',
+      refund: clinic?.payMethodData?.refund || '',
+      amex: clinic?.payMethodData?.amex || '',
+      writeOff: clinic?.payMethodData?.writeOff || '',
+      assignment: clinic?.payMethodData?.assignment || '',
+      etransfer: clinic?.payMethodData?.etransfer || '',
+      cash: clinic?.payMethodData?.cash || '',
+      debit: clinic?.payMethodData?.debit || '',
+      directDeposit: clinic?.payMethodData?.directDeposit || '',
+      giftCertificate: clinic?.payMethodData?.giftCertificate || '',
+      webCoupon: clinic?.payMethodData?.webCoupon || '',
+      batchCheque: clinic?.payMethodData?.batchCheque || '',
+      finance: clinic?.payMethodData?.finance || '',
+      creditCard: clinic?.payMethodData?.creditCard || '',
+      insuranceETF: clinic?.payMethodData?.insuranceETF || '',
+      insuranceOthers: clinic?.payMethodData?.insuranceOthers || '',
+      otherMethods: clinic?.payMethodData?.otherMethods || '',
+
+
       //Script
       table: clinic?.table || '',
       scriptType: clinic?.scriptType || '',
       edmsPrefix: clinic?.edmsPrefix || '',
+
+
       //Workflow
       stage: clinic?.stage || '',
       todo: clinic?.todo || '',
       actioBy: clinic?.actioBy || '',
       asana_url: clinic?.asana_url || '',
+      Comments:  clinic?.Comments || '',
+
+
       //Appt status values
       defId: clinic?.defId || '',
       edmsStatus: clinic?.edmsStatus || '',
       pmsStatus: clinic?.pmsStatus || '',
+
+
       //Employee mapping
       providerCode: clinic?.providerCode || '',
       employee: clinic?.employee || '',
@@ -285,11 +249,7 @@ export default function UserNewEditForm({ clinic, open, onClose }) {
       primaryChar: clinic?.primaryChar || '',
     }),
     [clinic],
-    
   );
-  useEffect(() =>{
-    // console.log("CLINIC_ADDRESS:", clinic?.clinic_address)
-  }, [clinic]);
 
   
   const methods = useForm({
@@ -301,7 +261,7 @@ export default function UserNewEditForm({ clinic, open, onClose }) {
     reset,
     // watch,
     // control,
-    // setValue,
+    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
@@ -315,22 +275,43 @@ export default function UserNewEditForm({ clinic, open, onClose }) {
   
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar(clinic ? 'Update success!' : 'Create success!');
-      // router.push(paths.dashboard.user.list);
-      router.push(paths.clinicmanager.root);
-      console.info('DATA', data);
+      const res = await $put(`${endpoints.clinics.clinic}${id}`, data);
+      console.info('RES', res);
+      // reset();
+      enqueueSnackbar('Update success!');
+      // // router.push(paths.dashboard.user.list);
+      // router.push(paths.clinicmanager.root);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  const onSubmitPaymentMethod = handleSubmit(async (data) => {
+    try {
+      const {visa,masterCard,persCheque,insCheque,payPlan,balance,refund,amex,writeOff,assignment,etransfer,cash,debit,directDeposit,
+        giftCertificate,webCoupon,batchCheque,finance,creditCard,insuranceETF,otherMethods,insuranceOthers} = data
+
+      const payload = {visa,masterCard,persCheque,insCheque,payPlan,balance,refund,amex,writeOff,assignment,etransfer,cash,debit,directDeposit,
+        giftCertificate,webCoupon,batchCheque,finance,creditCard,insuranceETF,otherMethods,insuranceOthers}
+      console.info('PAYMENT DATA', payload);
+
+      const res = await $put(`${endpoints.clinics.clinic}${id}/paymethod`, payload);
+      console.info('RES: ', res);
+
+      // reset();
+      enqueueSnackbar('Payment Method Updated!');
+      // // router.push(paths.dashboard.user.list);
+      // router.push(paths.clinicmanager.root);
     } catch (error) {
       console.error(error);
     }
   });
 
    //Added by blessing
-   const [value, setValue] = useState(0);
+   const [value, setValue1] = useState(0);
 
    const handleChange = (event, newValue) => {
-     setValue(newValue);
+     setValue1(newValue);
    };
    //
 
@@ -343,10 +324,10 @@ export default function UserNewEditForm({ clinic, open, onClose }) {
       });
 
       if (file) {
-        setValue('avatarUrl', newFile, { shouldValidate: true });
+        setValue1('avatarUrl', newFile, { shouldValidate: true });
       }
     },
-    [setValue]
+    [setValue1]
   );
 
   const getPMS_Corps = ()=>{
@@ -365,9 +346,29 @@ export default function UserNewEditForm({ clinic, open, onClose }) {
     })
   }
 
+
+  const getAdjustments = ()=>{
+    $get(`${endpoints.clinics.clinic}${id}/adjustments`)
+    .then(res =>{
+      const adj = []
+      res.forEach((item, index)=>{
+        item.id = index+1
+        adj.push(item)
+      })
+      setAdjustments(adj)
+    })
+  }
+
   useEffect(()=>{
     getPMS_Corps()
+    getAdjustments()
   }, [])
+  
+
+  const handleCheckBox = (data) => {
+    setValue(data.name, data.value);
+  };
+
   
   //Added by Blessing
   //For workflow tab (starts)
@@ -451,9 +452,6 @@ const [tableData, setTableData] = useState([
   setTableData(updatedTableData);
  }; 
 
-  //
-  //For date
-
   const [date, setDate] = useState(null);
   
   const onDateChange = (event) => {
@@ -461,8 +459,9 @@ const [tableData, setTableData] = useState([
   };
 
   return (
-    // TABS
     <Box sx={{ width: '100%' }}>
+
+      {/* TABS */}
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Details" {...a11yProps(0)} />
@@ -472,323 +471,37 @@ const [tableData, setTableData] = useState([
           <Tab label="Employee Mapping" {...a11yProps(2)} />
           <Tab label="Appt. Status Values" {...a11yProps(2)} />
           <Tab label="Work Flow" {...a11yProps(2)} />
-          {/* <Tab label="Swell CX" {...a11yProps(2)} /> */}
           <Tab label="Script" {...a11yProps(2)} />
+          {/* <Tab label="Swell CX" {...a11yProps(2)} /> */}
           {/* <Tab label="Process" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
-
       {/* TABS ENDS */}
+
+
+      {/* CLINIC TAB */}
       <CustomTabPanel value={value} index={0}>
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
+        <FormProvider methods={methods} onSubmit={onSubmit}>
+          <Grid container spacing={3}>
+              <Grid xs={12} 
+              md={12}
+              display="flex"
+              flexDirection="row">
+              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', columnGap:2 }}>
+                  <LoadingButton sx={{width:120}} type="submit" variant="contained" loading={isSubmitting}>
+                    Go Live
+                  </LoadingButton>
 
-      {/* CLINIC DETAILS */}
-      {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
-      <FormProvider methods={methods} onSubmit={onSubmit}>
-        <Grid container spacing={3}>
-          <Grid xs={12} 
-          md={4}
-          display="flex"
-          flexDirection="row">
-          <Card sx={{ p: 1, marginRight:2 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center"  >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Go live'}
+                  <LoadingButton sx={{width:120}} type="submit" variant="contained" loading={isSubmitting}>
+                    Save Changes
                   </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>  
-            <Card sx={{ p: 1 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center" >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Save Changes'}
-                  </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      <Grid container spacing={3}>
-        <Grid xs={12} md={12}>
-          <Card sx={{ p: 3 }}>
-            <Box
-              rowGap={3}
-              columnGap={2}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(2, 1fr)',
-              }}
-            >
-              <RHFTextField name="clinic_name" label="Name" />
-              <RHFSelect name="corp_id" label="Corp Practice">
-                {corpNames.map((corp) => (
-                  <MenuItem key={corp} value={corp}>
-                    {corp}
-                  </MenuItem>
-                ))}
-              </RHFSelect>
 
-              <RHFSelect name="current_app" label="Current Application">
-                {pmsNames.map((pms) => (
-                  <MenuItem key={pms} value={pms}>
-                    {pms}
-                  </MenuItem>
-                ))}
-              </RHFSelect>
-
-              <RHFTextField name="clinic_address" label="Address" />
-              <RHFTextField name="clinic_city" label="City" />
-
-              <RHFAutocomplete
-                name="country"
-                label="Country"
-                options={edms_countries.map((country) => country.label)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = edms_countries.filter(
-                    (country) => country.label === option
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {label} ({code}) +{phone}
-                    </li>
-                  );
-                }}
-              />
-              
-              <RHFTextField name="clinic_code" label="Clinic Code" />
-              <RHFTextField name="clinic_province" label="Province" />
-              <RHFTextField name="data_Path" label="Data Path" />
-              <RHFTextField name="clinic_postal" label="Postal" />
-              
-              <RHFTextField name="clinic_phone" label="Phone" />
-              <RHFTextField name="dest_db" label="Dest. DB" />
-              <RHFTextField name="email" label="Email" />
-              
-              <RHFSelect name="responsiblePerson" label="Responsible Person">
-              {CLINIC_PERSONS_OPTIONS.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.value}
-                  </MenuItem>
-                ))}
-              </RHFSelect>
-
-              <RHFSelect name="clinic_appointmentunit" label="Clinic Appointment Unit">
-              {CLINIC_UNITAPPOINTMENTS_OPTIONS.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.value}
-                  </MenuItem>
-                ))}
-              </RHFSelect>
-
-              <RHFTextField name="firstTransId" label="Stating Trans Id" />
-
-              <DatePicker
-                name="acquistionDate"
-                label="Acquisition Date"
-                value={date}
-                onChange={onDateChange}
-              />
-
-              
-
-              <DatePicker
-                name="cutoff_date"
-                label="Cut Off Date"
-                value={date}
-                onChange={onDateChange}
-              />
-
-
-              {/* <DatePicker defaultValue={'2022-04-17'} /> */}
-
-              <RHFSelect name="prodDate" label="Production By">
-              {CLINIC_DATE_OPTIONS.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.value}
-                  </MenuItem>
-                ))}
-              </RHFSelect>
-
-              <RHFSelect name="chargeAdj" label="Chrg Adj By">
-                {CLINIC_DATE_OPTIONS.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.value}
-                  </MenuItem>
-                ))}
-              </RHFSelect>
-
-
-              <RHFSelect name="colDate" label="Collection By">
-              {CLINIC_DATE_OPTIONS.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.value}
-                  </MenuItem>
-                ))}
-              </RHFSelect>
-
-              <RHFSelect name="collectionAdj" label="Coll Adj By">
-              {CLINIC_DATE_OPTIONS.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.value}
-                  </MenuItem>
-                ))}
-              </RHFSelect>
-
-
-              <RHFSelect name="dateFormat" label="Date Format" >
-              {CLINIC_DATEFORMAT_OPTIONS.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.value}
-                  </MenuItem>
-                ))}
-              </RHFSelect>
-
-              <RHFTextField name="scriptConvUnit" label="Script Coversion Unit" />
-
-              <RHFSelect name="timezone" label="Time Zone">
-              {CLINIC_TIMEZONE_OPTIONS.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.value}
-                  </MenuItem>
-                ))}
-              </RHFSelect>
-
-              <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
-
-              <FormGroup>
-                <FormControlLabel control={<Checkbox defaultChecked />} label="Is Active" />
-                {/* <FormControlLabel required control={<Checkbox />} label="Required" /> */}
-             </FormGroup>
-            </Box>
-
-
-            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!clinic ? 'Create User' : 'Go live'}
-              </LoadingButton>
-            </Stack>
-          </Card>
-        </Grid>
-      </Grid>
-      </FormProvider>
-      {/* </LocalizationProvider>           */}
-
-
-
-
-
-
-
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-      <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Grid container spacing={3}>
-        <Grid xs={12} md={12}>
-          <Card sx={{ p: 3 }}>
-            <Box
-              rowGap={3}
-              columnGap={2}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(2, 1fr)',
-              }}
-            >
-
-              <RHFTextField name="data_path_source" label="Data Path Source" />
-
-              <FormGroup>
-                <FormControlLabel  control={<Checkbox />} label="Simple Jail" />
-              </FormGroup>
-
-              <RHFTextField name="jailDataDir" label="Jail Data Directory" />
-
-              <FormGroup>
-                <FormControlLabel  control={<Checkbox />} label="Combined Multi Clinic Jail" />
-              </FormGroup>
-
-              <RHFTextField name="locationId" label="Location Id" />
-
-              <FormGroup>
-                <FormControlLabel  control={<Checkbox />} label="Separate Multi Clinic Jail" />
-              </FormGroup>
-
-            </Box>
-
-            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!clinic ? 'Create User' : 'Save Changes'}
-              </LoadingButton>
-            </Stack>
-          </Card>
-        </Grid>
-      </Grid>
-      </FormProvider>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-       <FormProvider methods={methods} onSubmit={onSubmit}>
-        <Grid container spacing={3} >
-          <Grid 
-          xs={12} 
-          md={4}
-          display="flex"
-          flexDirection="row"
-          >
-            <Card sx={{ p: 1, marginRight:2 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center"  >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Save Changes'}
-                  </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>  
-          </Grid>
-        </Grid>  
-        <Grid container spacing={3}>
-            <Grid xs={12} md={8}>
+          <Grid container spacing={3}>
+            <Grid xs={12} md={12}>
               <Card sx={{ p: 3 }}>
                 <Box
                   rowGap={3}
@@ -799,33 +512,281 @@ const [tableData, setTableData] = useState([
                     sm: 'repeat(2, 1fr)',
                   }}
                 >
+                  <RHFTextField name="clinic_name" label="Name" />
+                  <RHFSelect name="corp_id" label="Corp Practice">
+                    {corpNames.map((corp) => (
+                      <MenuItem key={corp} value={corp}>
+                        {corp}
+                      </MenuItem>
+                    ))}
+                  </RHFSelect>
+
+                  <RHFSelect name="current_app" label="Current Application">
+                    {pmsNames.map((pms) => (
+                      <MenuItem key={pms} value={pms}>
+                        {pms}
+                      </MenuItem>
+                    ))}
+                  </RHFSelect>
+
+                  <RHFTextField name="clinic_address" label="Address" />
+                  <RHFTextField name="clinic_city" label="City" />
+
+                  <RHFAutocomplete
+                    name="country"
+                    label="Country"
+                    options={edms_countries.map((country) => country.label)}
+                    getOptionLabel={(option) => option}
+                    isOptionEqualToValue={(option, value) => option === value}
+                    renderOption={(props, option) => {
+                      const { code, label, phone } = edms_countries.filter(
+                        (country) => country.label === option
+                      )[0];
+
+                      if (!label) {
+                        return null;
+                      }
+
+                      return (
+                        <li {...props} key={label}>
+                          <Iconify
+                            key={label}
+                            icon={`circle-flags:${code.toLowerCase()}`}
+                            width={28}
+                            sx={{ mr: 1 }}
+                          />
+                          {label} ({code}) +{phone}
+                        </li>
+                      );
+                    }}
+                  />
+                  
+                  <RHFTextField name="clinic_code" label="Clinic Code" />
+                  <RHFTextField name="clinic_province" label="Province" />
+                  <RHFTextField name="data_Path" label="Data Path" />
+                  <RHFTextField name="clinic_postal" label="Postal" />
+                  
+                  <RHFTextField name="clinic_phone" label="Phone" />
+                  <RHFTextField name="dest_db" label="Dest. DB" />
+                  <RHFTextField name="email" label="Email" />
+                  
+                  <RHFSelect name="responsiblePerson" label="Responsible Person">
+                  {CLINIC_PERSONS_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+                  </RHFSelect>
+
+                  <RHFSelect name="clinic_appointmentunit" label="Clinic Appointment Unit">
+                  {CLINIC_UNITAPPOINTMENTS_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+                  </RHFSelect>
+
+                  <RHFTextField name="firstTransId" label="Stating Trans Id" />
+
+                  <DatePicker
+                    name="acquistionDate"
+                    label="Acquisition Date"
+                    value={date}
+                    onChange={onDateChange}
+                  />
+
                   
 
-                  <RHFTextField name="creditCard" label="Credit Card" />
-                  <RHFTextField name="writeOff" label="Write Off" />
-                  <RHFTextField name="visa" label="Visa" />
-                  <RHFTextField name="finance" label="Finance" />
-                  <RHFTextField name="masterCard" label="Master Card" />
-                  <RHFTextField name="directDeposit" label="Direct Deposit" />
-                  <RHFTextField name="debit" label="Debit" />
-                  <RHFTextField name="giftCerticate" label="Gift Certificate" />
-                  <RHFTextField name="cash" label="Cash" />
-                  <RHFTextField name="webCoupon" label="Web Coupon" />
-                  <RHFTextField name="personalCheque" label="Personal Cheque" />
-                  {/* <RHFTextField name="insuranceEft" label="Insurance EFTs" /> */}
-                  {/* <RHFTextField name="insuranceCheque" label="insurance Cheque" /> */}
-                  {/* <RHFTextField name="insuranceOthers" label="Insurance Others" /> */}
-                  <RHFTextField name="cashBalance" label="Cash Balance" />
-                  {/* <RHFTextField name="batchCollection" label="Batch Collection" /> */}
-                  <RHFTextField name="eTransfer" label="E-Transfer" />
-                  <RHFTextField name="others" label="Others" />
-                  <RHFTextField name="americanExp" label="American Exp" />
+                  <DatePicker
+                    name="cutoff_date"
+                    label="Cut Off Date"
+                    value={date}
+                    onChange={onDateChange}
+                  />
 
+
+                  {/* <DatePicker defaultValue={'2022-04-17'} /> */}
+
+                  <RHFSelect name="prodDate" label="Production By">
+                  {CLINIC_DATE_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+                  </RHFSelect>
+
+                  <RHFSelect name="chargeAdj" label="Chrg Adj By">
+                    {CLINIC_DATE_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+                  </RHFSelect>
+
+
+                  <RHFSelect name="colDate" label="Collection By">
+                  {CLINIC_DATE_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+                  </RHFSelect>
+
+                  <RHFSelect name="collectionAdj" label="Coll Adj By">
+                  {CLINIC_DATE_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+                  </RHFSelect>
+
+
+                  <RHFSelect name="dateFormat" label="Date Format" >
+                  {CLINIC_DATEFORMAT_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+                  </RHFSelect>
+
+                  <RHFTextField name="scriptConvUnit" label="Script Coversion Unit" />
+
+                  <RHFSelect name="timezone" label="Time Zone">
+                  {CLINIC_TIMEZONE_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+                  </RHFSelect>
+
+                  <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
+
+                  <FormGroup>
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Is Active" />
+                    {/* <FormControlLabel required control={<Checkbox />} label="Required" /> */}
+                </FormGroup>
+                </Box>
+
+                <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                    {/* {!clinic ? 'Create User' : 'Go live'} */}
+                    Save Changes
+                  </LoadingButton>
+                </Stack>
+              </Card>
+            </Grid>
+          </Grid>
+        </FormProvider>
+        {/* </LocalizationProvider>           */}
+      </CustomTabPanel>
+
+
+      {/* JAIL TAB */}
+      <CustomTabPanel value={value} index={1}>
+        <FormProvider methods={methods} onSubmit={onSubmit}>
+            <Grid container spacing={3}>
+                <Grid xs={12} 
+                md={12}
+                display="flex"
+                flexDirection="row">
+                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', columnGap:2 }}>
+                    <LoadingButton sx={{width:120}} type="submit" variant="contained" loading={isSubmitting}>
+                      Save Changes
+                    </LoadingButton>
+                </Box>
+              </Grid>
+            </Grid>
+            
+            <Grid container spacing={3}>
+              <Grid xs={12} md={12}>
+                <Card sx={{ p: 3 }}>
+                  <Box
+                    rowGap={3}
+                    columnGap={2}
+                    display="grid"
+                    gridTemplateColumns={{
+                      xs: 'repeat(1, 1fr)',
+                      sm: 'repeat(2, 1fr)',
+                    }}
+                  >
+
+                    <RHFTextField name="data_path_source" label="Data Path Source" />
+
+                    {/* <CustomCheck label="Simple Jail" name="simpleJail" value={clinic?.simpleJail} onChange={handleCheckBox}/> */}
+                    <Stack></Stack>
+
+                    <RHFTextField name="jailDataDir" label="Jail Data Directory" />
+
+                    <CustomCheck label="Combined Multi Clinic Jail" name="multiClinicJail" value={clinic?.multiClinicJail} onChange={handleCheckBox}/>
+
+                    <RHFTextField name="locationId" label="Location Id" />
+
+                    <CustomCheck label="Separate Multi Clinic Jail" name="separateMultiClinicJail" value={clinic?.separateMultiClinicJail} onChange={handleCheckBox}/>
+                  </Box>
+
+                  {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+                    <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                      {!clinic ? 'Create User' : 'Save Changes'}
+                    </LoadingButton>
+                  </Stack> */}
+                </Card>
+              </Grid>
+            </Grid>
+        </FormProvider>
+      </CustomTabPanel>
+
+
+      {/* PAYMENT METHOD TAB */}
+      <CustomTabPanel value={value} index={2}>
+        <FormProvider methods={methods} onSubmit={onSubmitPaymentMethod}>
+          <Grid container spacing={3}>
+              <Grid xs={12} 
+              md={12}
+              display="flex"
+              flexDirection="row">
+              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', columnGap:2 }}>
+                  <LoadingButton sx={{width:120}} type="submit" variant="contained" loading={isSubmitting}>
+                    Save Changes
+                  </LoadingButton>
+              </Box>
+            </Grid>
+          </Grid>
+        
+          <Grid container spacing={3}>
+            <Grid xs={12} md={8}>
+              <Card sx={{ p: 3 }}>
+                <Stack
+                  rowGap={3}
+                  columnGap={2}
+                  display="grid"
+                  gridTemplateColumns={{
+                    xs: 'repeat(1, 1fr)',
+                    sm: 'repeat(2, 1fr)',
+                  }}
+                >
+                  
+                  <RHFTextField name="visa" label="Visa" />
+                  <RHFTextField name="masterCard" label="Master Card" />
+                  <RHFTextField name="persCheque" label="Personal Cheque" />
+                  <RHFTextField name="payPlan" label="Pay Plan" />
+                  <RHFTextField name="balance" label="Cash Balance" />
+                  <RHFTextField name="refund" label="Refund" />
+                  <RHFTextField name="amex" label="American Exp" />
+                  <RHFTextField name="writeOff" label="Write Off" />
+                  <RHFTextField name="assignment" label="Assignment" />
+                  <RHFTextField name="etransfer" label="E-Transfer" />
+                  <RHFTextField name="cash" label="Cash" />
+                  <RHFTextField name="debit" label="Debit" />
+                  <RHFTextField name="directDeposit" label="Direct Deposit" />
+                  <RHFTextField name="giftCerticate" label="Gift Certificate" />
+                  <RHFTextField name="webCoupon" label="Web Coupon" />
+                  <RHFTextField name="finance" label="Finance" />
+                  <RHFTextField name="creditCard" label="Credit Card" />
                   {/* <FormGroup>
                     <FormControlLabel control={<Checkbox defaultChecked />} label="Is Active" />
                     <FormControlLabel required control={<Checkbox />} label="Required" />
                 </FormGroup> */}
-                </Box>
+                </Stack>
 
 
                 {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
@@ -850,7 +811,7 @@ const [tableData, setTableData] = useState([
                   </Label>
                 )} */}
               <Card sx={{ p: 3 }}>
-                <Box
+                <Stack
                   rowGap={3}
                   columnGap={2}
                   display="grid"
@@ -859,85 +820,52 @@ const [tableData, setTableData] = useState([
                     sm: 'repeat(1, 1fr)',
                   }}
                 >
-                <RHFTextField name="insuranceCheque" label="Insurance Cheque" />
+                  <RHFTextField name="insCheque" label="Insurance Cheque" />
 
-                <RHFTextField name="insuranceEft" label="Insurance Efts" />
-                <RHFTextField name="insuranceOthers" label="Insurance Others" />
-                <RHFTextField name="batchCollection" label="Batch Collection" />
-                </Box>
+                  <RHFTextField name="insuranceEft" label="Insurance Efts" />
+                  <RHFTextField name="insuranceOthers" label="Insurance Others" />
+                  <RHFTextField name="batchCheque" label="Batch Collection" />
+                  <RHFTextField name="otherMethods" label="otherMethods" />
+                </Stack>
               </Card>
             </Grid>
          </Grid>
       </FormProvider>
       </CustomTabPanel>
+      
+      
+      {/* ADJUSTMENT TAB */}
       <CustomTabPanel value={value} index={3}>
-      <Grid container spacing={3} >
-          <Grid 
-          xs={12} 
-          md={8}
-          display="flex"
-          flexDirection="row"
-          >
-            <Card sx={{ p: 1, marginRight:2 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center"  >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'purge record'}
-                  </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>  
-            <Card sx={{ p: 1, marginRight:2 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center" >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Add new'}
-                  </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>  
+        <Adjustment id={id} allAdjustments={allAdjustments}/>
+      </CustomTabPanel>
+      
+      
+      {/* EMPLOYEE TAB */}
+      <CustomTabPanel value={value} index={4}>
+        <FormProvider methods={methods} onSubmit={onSubmit}>
+            <Grid container spacing={3}>
+                <Grid xs={12} 
+                md={12}
+                display="flex"
+                flexDirection="row">
+                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', columnGap:2 }}>
+                    <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
+                      Purge
+                    </LoadingButton>
+                    
+                    <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
+                      New
+                    </LoadingButton>
 
-            <Card sx={{ p: 1 }}>  
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center" >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Save Changes'}
-                  </LoadingButton>
-                </Stack>
-              </Box>
-            </Card>  
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={3}>
+                    <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
+                      Save Changes
+                    </LoadingButton>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container spacing={3}>
             <Grid xs={12} md={12}>
-              <Card sx={{ p: 3 }}>
+              <Card sx={{ p: 1 }}>
                 
                 <Box
                   // rowGap={3}
@@ -948,263 +876,71 @@ const [tableData, setTableData] = useState([
                     sm: 'repeat(1, 1fr)',
                   }}
                 >
-                <table>
-                      <thead>
-                        <tr>
-                          <th>Id</th>
-                          <th>Description</th>
-                          <th>Impact</th>
-                          <th>Charge </th>
-                          <th>Payment </th>
-                          <th>Provider </th>
-                          <th>Hygienist </th>
-                          {/* <th>Entry Map</th> */}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {tableData.map((rowData, index) => (
-                          <tr key={index}>
-                            <td align="center">{rowData.defid}</td>
-                            <td align="center">{rowData.adjustmentDescription}</td>
-                            <td align="center">
-                              {/* {rowData.impact} */}
-                              <div>
-                                {/* <FormControl sx={{ m: 1, minWidth: 80 }}> */}
-                                  {/* <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel> */}
-                                  <Select sx={{ m: 1, minWidth: 120 }}
-                                    // labelId="demo-simple-select-autowidth-label"
-                                    // id="demo-simple-select-autowidth"
-                                    // value={age}
-                                    // onChange={handleChange}
-                                    // autoWidth
-                                    // label="Age"
-                                  >
-                                    {/* <MenuItem value="">
-                                      <em>None</em>
-                                    </MenuItem> */}
-                                    <MenuItem value={10}>Positive</MenuItem>
-                                    <MenuItem value={21}>Negative</MenuItem>
-                                  </Select>
-                                {/* </FormControl> */}
-                              </div>
-                            </td>
-                            <td align="center">
-                              <input
-                                type="checkbox"
-                                checked={rowData.chargeAdj}
-                                onChange={() => handleCheckboxChange(index, 'chargeAdj')}
-                              />
-                            </td>
-                            <td align="center">
-                              <input
-                                type="checkbox"
-                                checked={rowData.paymentAdj}
-                                onChange={() => handleCheckboxChange(index, 'paymentAdj')}
-                              />
-                            </td>
-                            <td align="center">
-                              <input
-                                type="checkbox"
-                                checked={rowData.providerAdj}
-                                onChange={() => handleCheckboxChange(index, 'providerAdj')}
-                              />
-                            </td>
-                            <td align="center">
-                              <input
-                                type="checkbox"
-                                checked={rowData.hygienistAdj}
-                                onChange={() => handleCheckboxChange(index, 'hygienistAdj')}
-                              />
-                            </td>
-                            {/* <td>{rowData.entryMap}</td> */}
-                          </tr>
-                        ))}
-                      </tbody>
-                   </table>
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Provider Code</TableCell>
+                        <TableCell align="center">Employee</TableCell>
+                        <TableCell align="center">Map Employee To</TableCell>
+                        <TableCell align="center">Designation</TableCell>
+                        <TableCell align="center">Practice</TableCell>
+                        <TableCell align="center">Primary Chair</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {emRows.map((emRows) => (
+                        <TableRow
+                          key={emRows.providerCode}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell component="th" scope="row" >
+                            {emRows.providerCode}
+                          </TableCell>
+                          <TableCell align="center">{emRows.employee}</TableCell>
+                          <TableCell align="center">{emRows.mapEmployeeTo}</TableCell>
+                          <TableCell align="center">{emRows.designation}</TableCell>
+                          <TableCell align="center">{emRows.practice}</TableCell>
+                          <TableCell align="center">{emRows.primaryChair}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </Box>
               </Card>  
             </Grid>
-        </Grid>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
-      { <Grid container spacing={3} >
-          <Grid 
-          xs={12} 
-          md={8}
-          display="flex"
-          flexDirection="row"
-          >
-            <Card sx={{ p: 1, marginRight:2 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center"  >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'purge record'}
-                  </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>  
-            <Card sx={{ p: 1, marginRight:2 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center" >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Add new'}
-                  </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>
 
-            <Card sx={{ p: 1 }}>  
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center" >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Save Changes'}
-                  </LoadingButton>
-                </Stack>
-              </Box>
-            </Card>  
           </Grid>
-        </Grid>  }
-        <Grid container spacing={3}>
-          <Grid xs={12} md={12}>
-            <Card sx={{ p: 1 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Provider Code</TableCell>
-                      <TableCell align="center">Employee</TableCell>
-                      <TableCell align="center">Map Employee To</TableCell>
-                      <TableCell align="center">Designation</TableCell>
-                      <TableCell align="center">Practice</TableCell>
-                      <TableCell align="center">Primary Chair</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {emRows.map((emRows) => (
-                      <TableRow
-                        key={emRows.providerCode}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell component="th" scope="row" >
-                          {emRows.providerCode}
-                        </TableCell>
-                        <TableCell align="center">{emRows.employee}</TableCell>
-                        <TableCell align="center">{emRows.mapEmployeeTo}</TableCell>
-                        <TableCell align="center">{emRows.designation}</TableCell>
-                        <TableCell align="center">{emRows.practice}</TableCell>
-                        <TableCell align="center">{emRows.primaryChair}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-             </Box>
-            </Card>  
-          </Grid>
-
-        </Grid>
+        </FormProvider>
       </CustomTabPanel>
+      
+      
+
+      {/* APPOINTMENT STATUS TAB */}
       <CustomTabPanel value={value} index={5}>
-        <Grid container spacing={3} >
-          <Grid 
-          xs={12} 
-          md={8}
-          display="flex"
-          flexDirection="row"
-          >
-            <Card sx={{ p: 1, marginRight:2 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center"  >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'purge record'}
+        <FormProvider methods={methods} onSubmit={onSubmit}>
+          <Grid container spacing={3}>
+              <Grid xs={12} 
+              md={12}
+              display="flex"
+              flexDirection="row">
+              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', columnGap:2 }}>
+                  <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
+                    Purge
                   </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>  
-            <Card sx={{ p: 1, marginRight:2 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center" >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Add new'}
+                  
+                  <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
+                    New
                   </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>  
 
-            <Card sx={{ p: 1 }}>  
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center" >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Save Changes'}
+                  <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
+                    Save Changes
                   </LoadingButton>
-                </Stack>
               </Box>
-            </Card>  
+            </Grid>
           </Grid>
-        </Grid> 
-        <Grid container spacing={3}>
+          <Grid container spacing={3}>
           <Grid xs={12} md={12}>
             <Card sx={{ p: 1 }}>
               
@@ -1249,56 +985,30 @@ const [tableData, setTableData] = useState([
              </Box>
             </Card>  
           </Grid>
-
-        </Grid>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={6}>
-      <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Grid container spacing={3} >
-          <Grid 
-          xs={12} 
-          md={4}
-          display="flex"
-          flexDirection="row"
-          >
-            <Card sx={{ p: 1, marginRight:2 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center"  >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Post >>>'}
-                  </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>  
-            <Card sx={{ p: 1 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center" >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Save Changes'}
-                  </LoadingButton>
-                </Stack>
-             </Box>
-            </Card>  
           </Grid>
-         </Grid> 
+        </FormProvider>
+      </CustomTabPanel>
+      
+
+      {/* WORK FLOW TAB */}
+      <CustomTabPanel value={value} index={6}>
+        <FormProvider methods={methods} onSubmit={onSubmit}>
+          <Grid container spacing={3}>
+              <Grid xs={12} 
+              md={12}
+              display="flex"
+              flexDirection="row">
+              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', columnGap:2 }}>
+                  <LoadingButton sx={{width:120}} type="button" variant="contained"  onClick={()=>{alert("Not yet implemented")}}>
+                    Post
+                  </LoadingButton>
+
+                  <LoadingButton sx={{width:120}} type="submit" variant="contained" loading={isSubmitting}>
+                    Save Changes
+                  </LoadingButton>
+              </Box>
+            </Grid>
+          </Grid>
           <Grid container spacing={3}>
               <Grid xs={12} md={6}>
                 <Card sx={{ p: 3 }}>
@@ -1327,8 +1037,7 @@ const [tableData, setTableData] = useState([
                       label=" Action By"
                     />
                     
-                    <Textarea aria-label="minimum height" minRows={5} placeholder="Asana Link" />
-  
+                    <Textarea name='asana_url' aria-label="minimum height" minRows={5} maxRows={5} placeholder="Asana Link" />
                   </Box>
 
 
@@ -1345,10 +1054,12 @@ const [tableData, setTableData] = useState([
                     gridTemplateColumns={{
                       xs: 'repeat(1, 1fr)',
                       sm: 'repeat(1, 1fr)',
-                    }}
-                  >
+                    }}>
 
-                    <Textarea aria-label="minimum height" minRows={16} placeholder="Notes" />
+                  {/* <RHFTextField name="Comments" label="Comments" /> */}
+                    {/* <RHFTextArea /> */}
+
+                    <Textarea aria-label="minimum height" minRows={16} maxRows={16} name="Comments" placeholder="Notes" />
   
                   </Box>
                   
@@ -1357,203 +1068,166 @@ const [tableData, setTableData] = useState([
            </Grid>
         </FormProvider>
       </CustomTabPanel>
+      
+      
+      {/* SCRIPT TAB */}
       <CustomTabPanel value={value} index={7}>
-        <Grid container spacing={3} >
-          <Grid 
-          xs={12} 
-          md={8}
-          display="flex"
-          flexDirection="row"
-          >
-
-            <Card sx={{ p: 1 }}>  
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <Stack alignItems="center" >
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!clinic ? 'Create User' : 'Save Changes'}
-                  </LoadingButton>
-                </Stack>
-              </Box>
-            </Card>  
-
-          </Grid>
-        </Grid> 
-        <FormProvider methods={methods} onSubmit={onSubmit}>
-          <List>
-            <ListItem >
-              <ListItemText primary="MSSSQL Script" />
-            </ListItem>
-                {/* <Divider /> */}
-          </List>
-          <Grid container spacing={3}>
-              
-              <Grid xs={12} md={12}>
-                <Card sx={{ p: 3 }}>
-                  <Box
-                    rowGap={3}
-                    columnGap={2}
-                    display="grid"
-                    gridTemplateColumns={{
-                      xs: 'repeat(1, 1fr)',
-                      sm: 'repeat(2, 1fr)',
-                    }}
-                  >
-                    
-                    <RHFAutocomplete
-                      name="table"
-                      label="Table"
-                      options={edms_countries.map((country) => country.label)}
-                      getOptionLabel={(option) => option}
-                      isOptionEqualToValue={(option, value) => option === value}
-                      renderOption={(props, option) => {
-                        const { code, label, phone } = edms_countries.filter(
-                          (country) => country.label === option
-                        )[0];
-
-                        if (!label) {
-                          return null;
-                        }
-
-                        return (
-                          <li {...props} key={label}>
-                            <Iconify
-                              key={label}
-                              icon={`circle-flags:${code.toLowerCase()}`}
-                              width={28}
-                              sx={{ mr: 1 }}
-                            />
-                            {label} ({code}) +{phone}
-                          </li>
-                        );
-                      }}
-                    />
-                    <RHFAutocomplete
-                      name="scriptType"
-                      label="Script Type"
-                      options={edms_countries.map((country) => country.label)}
-                      getOptionLabel={(option) => option}
-                      isOptionEqualToValue={(option, value) => option === value}
-                      renderOption={(props, option) => {
-                        const { code, label, phone } = edms_countries.filter(
-                          (country) => country.label === option
-                        )[0];
-
-                        if (!label) {
-                          return null;
-                        }
-
-                        return (
-                          <li {...props} key={label}>
-                            <Iconify
-                              key={label}
-                              icon={`circle-flags:${code.toLowerCase()}`}
-                              width={28}
-                              sx={{ mr: 1 }}
-                            />
-                            {label} ({code}) +{phone}
-                          </li>
-                        );
-                      }}
-                    />
-
-
-                  </Box>
-
-
-                  <Stack alignItems="flex-end" sx={{ mt: 2 }}>
-                    <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                      {/* {!clinic ? 'Create User' : 'Save Changes'} */}
-                      {!clinic ? 'Create User' : 'Generate'}
+          <FormProvider methods={methods} onSubmit={onSubmit}>
+            <Grid container spacing={3}>
+                <Grid xs={12} 
+                md={12}
+                display="flex"
+                flexDirection="row">
+                    <LoadingButton sx={{width:120}} type="submit" variant="contained" loading={isSubmitting}>
+                      Save Changes
                     </LoadingButton>
-                  </Stack>
-                </Card>
               </Grid>
-          </Grid>
+            </Grid>
 
-          <List>
-            <ListItem >
-              <ListItemText primary="MySQL Script" sx={{ mt: 5 }}/>
-            </ListItem>
-                {/* <Divider /> */}
-          </List>
-          <Grid container spacing={3}>
-              
-              <Grid xs={12} md={12}>
-                <Card sx={{ p: 3 }}>
-                  <Box
-                    rowGap={3}
-                    columnGap={2}
-                    display="grid"
-                    gridTemplateColumns={{
-                      xs: 'repeat(1, 1fr)',
-                      sm: 'repeat(2, 1fr)',
-                    }}
-                  >
-                    
-                    <RHFAutocomplete
-                      name="edmsPrefix"
-                      label="EDMS Prefix"
-                      options={edms_countries.map((country) => country.label)}
-                      getOptionLabel={(option) => option}
-                      isOptionEqualToValue={(option, value) => option === value}
-                      renderOption={(props, option) => {
-                        const { code, label, phone } = edms_countries.filter(
-                          (country) => country.label === option
-                        )[0];
-
-                        if (!label) {
-                          return null;
-                        }
-
-                        return (
-                          <li {...props} key={label}>
-                            <Iconify
-                              key={label}
-                              icon={`circle-flags:${code.toLowerCase()}`}
-                              width={28}
-                              sx={{ mr: 1 }}
-                            />
-                            {label} ({code}) +{phone}
-                          </li>
-                        );
+           
+            
+            <Grid container spacing={3}>
+                
+                <Grid xs={12} md={12}>
+                  <Card sx={{ p: 3 }}>
+                    <Box
+                      rowGap={3}
+                      columnGap={2}
+                      display="grid"
+                      gridTemplateColumns={{
+                        xs: 'repeat(1, 1fr)',
+                        sm: 'repeat(2, 1fr)',
                       }}
-                    />
+                    >
+                      
+                      <RHFAutocomplete
+                        name="table"
+                        label="Table"
+                        options={edms_countries.map((country) => country.label)}
+                        getOptionLabel={(option) => option}
+                        isOptionEqualToValue={(option, value) => option === value}
+                        renderOption={(props, option) => {
+                          const { code, label, phone } = edms_countries.filter(
+                            (country) => country.label === option
+                          )[0];
+
+                          if (!label) {
+                            return null;
+                          }
+
+                          return (
+                            <li {...props} key={label}>
+                              <Iconify
+                                key={label}
+                                icon={`circle-flags:${code.toLowerCase()}`}
+                                width={28}
+                                sx={{ mr: 1 }}
+                              />
+                              {label} ({code}) +{phone}
+                            </li>
+                          );
+                        }}
+                      />
+                      <RHFAutocomplete
+                        name="scriptType"
+                        label="Script Type"
+                        options={edms_countries.map((country) => country.label)}
+                        getOptionLabel={(option) => option}
+                        isOptionEqualToValue={(option, value) => option === value}
+                        renderOption={(props, option) => {
+                          const { code, label, phone } = edms_countries.filter(
+                            (country) => country.label === option
+                          )[0];
+
+                          if (!label) {
+                            return null;
+                          }
+
+                          return (
+                            <li {...props} key={label}>
+                              <Iconify
+                                key={label}
+                                icon={`circle-flags:${code.toLowerCase()}`}
+                                width={28}
+                                sx={{ mr: 1 }}
+                              />
+                              {label} ({code}) +{phone}
+                            </li>
+                          );
+                        }}
+                      />
+
+
+                    </Box>
+
+
+                    <Stack alignItems="flex-end" sx={{ mt: 2 }}>
+                      <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                        {/* {!clinic ? 'Create User' : 'Save Changes'} */}
+                        {!clinic ? 'Create User' : 'Generate'}
+                      </LoadingButton>
+                    </Stack>
+                  </Card>
+                </Grid>
+            </Grid>
+
+            <List>
+              <ListItem >
+                <ListItemText primary="MySQL Script" sx={{ mt: 5 }}/>
+              </ListItem>
+                  {/* <Divider /> */}
+            </List>
+            
+            <Grid container spacing={3}>
+                <Grid xs={12} md={12}>
+                  <Card sx={{ p: 3 }}>
+                      <RHFAutocomplete
+                          name="edmsPrefix"
+                          label="EDMS Prefix"
+                          options={edms_countries.map((country) => country.label)}
+                          getOptionLabel={(option) => option}
+                          isOptionEqualToValue={(option, value) => option === value}
+                          renderOption={(props, option) => {
+                            const { code, label, phone } = edms_countries.filter(
+                              (country) => country.label === option
+                            )[0];
+
+                            if (!label) {
+                              return null;
+                            }
+
+                            return (
+                              <li {...props} key={label}>
+                                <Iconify
+                                  key={label}
+                                  icon={`circle-flags:${code.toLowerCase()}`}
+                                  width={28}
+                                  sx={{ mr: 1 }}
+                                />
+                                {label} ({code}) +{phone}
+                              </li>
+                            );
+                          }}
+                        />
+                
                     
-                  </Box>
-              
-                  
-                  <Stack 
-                  justifyContent="flex-end"
-                  alignItems="flex-end" 
-                  display="flex" 
-                  flexDirection="row" 
-                  // sx={{ mt: 0 }{ mt: 0 } }
-                  >
-                    <LoadingButton type="submit" variant="contained" loading={isSubmitting} sx={{ ml: 3, marginRight: 2  }}>
-                      {!clinic ? 'Create User' : 'Pull corp\'s adjustments'}
-                    </LoadingButton>
-                    <LoadingButton type="submit" variant="contained" loading={isSubmitting} >
-                      {!clinic ? 'Create User' : 'Add clinic script'}
-                    </LoadingButton>
-                  </Stack>
-                  
-                  {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-                    <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                      {!clinic ? 'Create User' : 'Save Changes'}
-                    </LoadingButton>
-                  </Stack> */}
-                </Card>
-              </Grid>
-          </Grid>
-        </FormProvider>
+                    <Stack 
+                    justifyContent="flex-end"
+                    alignItems="flex-end" 
+                    display="flex" 
+                    flexDirection="row" 
+                    sx={{ mt: 3 }}>
+                      <LoadingButton type="submit" variant="contained" loading={isSubmitting} sx={{ ml: 3, marginRight: 2  }}>
+                        {!clinic ? 'Create User' : 'Pull corp\'s adjustments'}
+                      </LoadingButton>
+                      <LoadingButton type="submit" variant="contained" loading={isSubmitting} >
+                        {!clinic ? 'Create User' : 'Add clinic script'}
+                      </LoadingButton>
+                    </Stack>
+                  </Card>
+                </Grid>
+            </Grid>
+          </FormProvider>
       </CustomTabPanel>
       {/* <CustomTabPanel value={value} index={8}>
         Item Nine

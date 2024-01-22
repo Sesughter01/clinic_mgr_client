@@ -35,10 +35,11 @@ import FileManagerTableRow from './file-manager-table-row';
 const TABLE_HEAD = [
   { id: 'id', label: 'Jail Name' },
   { id: 'id', label: 'Clinic' },
-  { id: 'id', label: 'PMS', width: 120 },
-  { id: 'id', label: 'Active', width: 120 },
-  { id: 'id', label: 'Status', width: 140 },
-  { id: 'id', label: 'Stage', align: 'right', width: 140 },
+  { id: 'id', label: 'Last Modified', width: 120 },
+  // { id: 'id', label: 'PMS', width: 120 },
+  // { id: 'id', label: 'Active', width: 120 },
+  // { id: 'id', label: 'Status', width: 140 },
+  // { id: 'id', label: 'Stage', align: 'right', width: 140 },
   { id: '', width: 88 },
 ];
 

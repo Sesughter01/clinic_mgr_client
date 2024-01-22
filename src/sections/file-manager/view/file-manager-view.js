@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 // @mui
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -10,10 +10,20 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
+import isEqual from 'lodash/isEqual';
 // _mock
 import { _allFiles, FILE_TYPE_OPTIONS } from 'src/_mock';
+
+//  API hooks
+
+import { $get, endpoints} from 'src/utils/axios';
+
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
+
+
+import useSWR from 'swr';
+
 // components
 import Iconify from 'src/components/iconify';
 import EmptyContent from 'src/components/empty-content';
@@ -52,9 +62,75 @@ export default function FileManagerView() {
 
   const [view, setView] = useState('list');
 
-  const [tableData, setTableData] = useState(_allFiles);
+  // const [tableData, setTableData] = useState(_allFiles);
 
   const [filters, setFilters] = useState(defaultFilters);
+
+  // Custom Variables By Charles
+
+
+  
+  const [pageIndex, setPageIndex] = useState(1);
+  const [selectedPms, setSelectedPms] = useState(null);
+  const [selectedCorp, setSelectedCorp] = useState(null);
+  const [clinicName, setClinicName] = useState(null);
+  const [isActive, setIsActive] = useState(true);
+
+  const [tableData, setTableData] = useState([]);
+  const [pmsNames, setPmsNames] = useState([]);
+  const [corpNames, setCorpNames] = useState([]);
+  const quickEdit = useBoolean();
+
+  // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
+  const URL = `${endpoints.clinic_manager.clinic_data}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
+  const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
+    console.log("-------------------")
+    console.log("CLINIC PAGE DATA: ", data || [])
+    console.log("CLINICS", data?.result || 0)
+    console.log("totalCount", data?.totalCount || 0)
+    console.log("currentPage", data?.currentPage || 0)
+    console.log("-------------------")
+
+    // setTableData(data?.result)
+
+  }});
+  // The API URL includes the page index, which is a React state.
+  // const { data, isLoading, error} = useSWR(`${URL}?pageNumber=${pageIndex + 1}`, fetcher);
+  if (error) return console.log(error);
+  // if (isLoading) return <h6>Loading...</h6>;
+
+  // const table = useTable({defaultRowsPerPage: data?.pageSize || 0, defaultCurrentPage:data?.currentPage - 1 || 0});
+  // const table = useTable();
+
+  useEffect(()=>{
+    setTableData(data?.result || [])
+  }, [data])
+
+  useEffect(()=>{
+    setPageIndex(table.page + 1)
+  }, [table.page])
+
+
+  const getPMS_Corps = ()=>{
+    $get(endpoints.pms.names)
+    .then(res =>{
+      res.sort()
+      res.splice(0, 0, "All")
+      setPmsNames(res)
+    })
+
+    $get(endpoints.corps.names)
+    .then(res =>{
+      res.sort()
+      res.splice(0, 0, "All")
+      setCorpNames(res)
+    })
+  }
+
+  useEffect(()=>{
+    getPMS_Corps()
+  }, [])
+
 
   const dateError =
     filters.startDate && filters.endDate

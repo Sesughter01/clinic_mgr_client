@@ -95,8 +95,8 @@ export default function UserListView() {
   const [corpNames, setCorpNames] = useState([]);
   const quickEdit = useBoolean();
 
-  // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
-  const URL = `${endpoints.clinic_manager.clinic_data}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
+  // const URL = `${endpoints.clinics.clinic}?pageNumber=${pageIndex}`;
+  const URL = `${endpoints.clinics.clinic}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
   const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
     console.log("-------------------")
     console.log("CLINIC PAGE DATA: ", data || [])

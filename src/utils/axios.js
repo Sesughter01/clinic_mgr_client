@@ -34,8 +34,13 @@ axiosInstance_Two.interceptors.response.use(
   (res) => res,
   (error) => {
     console.log("---API ERROR---");
-    console.log(error);
-    console.log("--------------");
+    if(error.response){
+      console.log("ERR RESPONSE: ", error.response);
+      if(error.response.status === 400){
+        console.log("ERR DATA: ", error.response.data);
+      }
+    }
+    console.log("------API ERROR ENDS--------");
     Promise.reject((error.response && error.response.data) || 'Something went wrong')
   }
 );
@@ -49,24 +54,38 @@ axiosInstance_Two.interceptors.response.use(
 // ----------------------------------------------------------------------
 export const $get = async (args) => {
   const [url, config] = Array.isArray(args) ? args : [args];
-  console.log("--- GET REQUEST ---");
-  console.log("URL :", url);
+  console.log("--- API GET REQUEST ---", {url});
 
-  const res = await axiosInstance_Two.get(url, { ...config });
-  console.log("RESPONSE:", (res.data));
-  console.log("----------------");
-  return res.data.data;
+  try {
+    const res = await axiosInstance_Two.get(url, { ...config });
+    console.log("API GET RESPONSE SUCCESS:", res.data);
+    return res.data.data;
+  } catch (error) {
+    return error
+  }
 };
+
 
 export const $post = async (url, body) => {
   // const [url, body] = Array.isArray(args) ? args : [args];
-  console.log("--- POST REQUEST ---");
+  console.log("---API POST REQUEST ---");
   console.log("URL :", url);
   console.log("BODY :", body);
 
   const res = await axiosInstance_Two.post(url, body);
-  console.log("RESPONSE:", (res.data));
-  console.log("----------------");
+  console.log("API POST RESPONSE:", (res.data));
+  return res.data.data;
+};
+
+
+
+
+export const $put = async (url, body) => {
+  // const [url, body] = Array.isArray(args) ? args : [args];
+  console.log("---API PUT REQUEST ---", {url, body});
+
+  const res = await axiosInstance_Two.put(url, body);
+  console.log("API PUT RESPONSE:", res.data);
   return res.data.data;
 };
 // ----------------------------------------------------------------------
@@ -136,25 +155,21 @@ export const endpoints = {
    pms_update: '/api/pms',
    pms_delete: 'api/pms',
  },
-  //Added by Blessing
-  clinic_manager: {
-    list: '/api/clinicmanager/list',
-    details: '/api/clinicmanager/details',
-    search: '/api/clinicmanager/search',
-    clinic_data: '/api/clinics',
+
+ 
+  clinics: {
     clinic: '/api/clinics/',
 
-    clinic_add: '/api/clinics/',
-    clinic_update: '/api/clinics/',
-    clinic_data_update: '/api/clinics',
-    clinic_corp: '/api/clinics/corp',
-    clinic_pms: '/api/clinics/pms',
-    clinic_adjustments: '/api/clinics/adjustments',
-    clinic_adjustments_update: '/api/clinics/adjustments',
-    clinic_paymethod_update: '/api/clinics/paymethod',
-    clinic_employee_update: '/api/clinics/employee',
-    clinic_appointment_update: '/api/clinics/appointment',
+    corp: '/api/clinics/corp/',
+    pms: '/api/clinics/pms/',
 
+    employee: '/api/clinics/employee/',
+
+    appointment: '/api/clinics/appointment/',
+  },
+
+  info: {
+    dashboard: '/api/infos/dashboard/',
   },
 
 };

@@ -267,16 +267,16 @@ export const _roles = [
 
 //new clinic name search added by blessing
 export const _clinic_names = [
-  'Yings Clinic ',
-  'Heavens Clinic',
-  'Fings  Clinic',
-  'Sings  Clinic',
-  'Wangs Clinic',
-  'Qings Clinic',
-  'Pungs Clinic',
-  'Jangs Clinic',
-  'Kings Clinic',
-  'Tangs Clinic',
+  'BC-010 Camgara',
+  'Altima Barrie',
+  'Altima Bayview Village Dental Centre',
+  'Camgara Randall Allen',
+  'Bible Hill',
+  'Brightview Dental Strathroy',
+  'Wheatland Dental Centre',
+  'College Clinic',
+  'Coxwell',
+  'RDG - Grasslands',
   'Nangs Clinic',
   'Vings Clinic',
   'Bings Clinic',
@@ -310,23 +310,23 @@ export const _corp_Names = [
 ];
 
 // new corp name search added by blessing
-// export const _pmsNames = [
-//   'Tracker',
-//   'Dentrix G6',
-//   'Dentrix G6',
-//   'Maxident',
-//   'Abledent',
-//   'Tracker',
-//   'Power Practice',
-//   'Dentrix G6',
-//   'Dentrix G6',
-//   'Dentrix G4',
-//   'Dentrix G4',
-//   'Dentrix G6',
-//   'Dentrix G4',
-//   'Dentrix G6',
-//   'Dentrix G6',
-// ];
+export const _pmsNames = [
+  'Tracker',
+  'Dentrix G6',
+  'Dentrix G6',
+  'Maxident',
+  'Abledent',
+  'Tracker',
+  'Power Practice',
+  'Dentrix G6',
+  'Dentrix G6',
+  'Dentrix G4',
+  'Dentrix G4',
+  'Dentrix G6',
+  'Dentrix G4',
+  'Dentrix G6',
+  'Dentrix G6',
+];
 //Shakirat
 export const _status = [
   'Text',

@@ -1,50 +1,37 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
 // utils
-import { fetcher, endpoints, fetcher_Two } from 'src/utils/axios';
-
+import { fetcher, endpoints, $get } from 'src/utils/axios';
+import { fetcher_Three } from '@/utils/axios';
 // ----------------------------------------------------------------------
 
-// export function useGetProducts() {
-//   const URL = endpoints.product.list;
-
-//   const { isLoading, error, isValidating } = useSWR(URL, fetcher);
-
-//   const memoizedValue = useMemo(
-//     () => ({
-//       products: data?.products || [],
-//       productsLoading: isLoading,
-//       productsError: error,
-//       productsValidating: isValidating,
-//       productsEmpty: !isLoading && !data?.products.length,
-//     }),
-//     [data?.products, error, isLoading, isValidating]
-//   );
-
-//   return memoizedValue;
-// }
-
-export function useGetProducts() {
+export function useGetProducts(pageNumber = 1) {
   // const URL = endpoints.product.list;
   const URL = endpoints.product.corp_data;
 
   // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two);
+  const { data, isLoading, error, isValidating } = useSWR(`${URL}?pageNumber=${pageNumber}`, $get);
   
   
   const memoizedValue = useMemo(
     () => ({
       // products: data?.products || [],
-      products: data?.data?.items || [], 
-      productsLoading: isLoading,
-      productsError: error,
-      productsValidating: isValidating,
+      products:data?.items || [], 
+      totalCount:data?.totalCount || 0,
+      pageSize:data?.pageSize || 15,
+      currentPage:data?.currentPage || 0,
+      totalPages:data?.totalPages || 0,
+      hasNext:data?.hasNext || true,
+      hasPrevious:data?.hasPrevious || false,
+      loading: isLoading,
+      error: error,
+      validating: isValidating,
       // productsEmpty: !isLoading && !data?.products.length,
     }),
-    // [data?.products, error, isLoading, isValidating]
-    [data?.data?.items, error, isLoading, isValidating]
+    // [data?.data?.items, error, isLoading, isValidating]
+    [data?.items, error, isLoading, isValidating]
   );
-  console.log(data);
+  // console.log(data);
   return memoizedValue;
 }
 
@@ -55,7 +42,7 @@ export function useGetProduct(corpId) {
   const URL = corpId ? [endpoints.product.corp + corpId, { params: { corpId } }] : null;
 
   // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two);
+  const { data, isLoading, error, isValidating } = useSWR(URL, $get);
   console.log(corpId)
 
   const memoizedValue = useMemo(
@@ -110,19 +97,19 @@ export function useSearchProducts(query) {
   const URL = query ? [endpoints.product.search, { params: { query } }] : null;
 
   // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher_Two, {
+  const { data, isLoading, error, isValidating } = useSWR(URL, $get, {
     keepPreviousData: true,
   });
 
   const memoizedValue = useMemo(
     () => ({
-      searchResults: data?.results || [],
+      searchResults: data?.items || [],
       searchLoading: isLoading,
       searchError: error,
       searchValidating: isValidating,
-      searchEmpty: !isLoading && !data?.results.length,
+      searchEmpty: !isLoading && !data?.items.length,
     }),
-    [data?.results, error, isLoading, isValidating]
+    [data?.items, error, isLoading, isValidating]
   );
 
   return memoizedValue;

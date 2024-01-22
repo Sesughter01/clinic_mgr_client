@@ -28,8 +28,8 @@ import { useSnackbar } from 'src/components/snackbar';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import FileThumbnail from 'src/components/file-thumbnail';
 //
-import FileManagerShareDialog from './file-manager-share-dialog';
-import FileManagerFileDetails from './file-manager-file-details';
+import FileManagerShareDialog from '../file-manager-share-dialog';
+import FileManagerFileDetails from '../file-manager-file-details';
 
 // ----------------------------------------------------------------------
 

@@ -24,13 +24,13 @@ export default function UserTableFiltersResult({
     onFilters('status', 'all');
   };
 
-  // const handleRemoveRole = (inputValue) => {
+  // const handleRemoveCorp = (inputValue) => {
   //   const newValue = filters.role.filter((item) => item !== inputValue);
   //   onFilters('role', newValue);
   // };
-  const handleRemoveRole = (inputValue) => {
-    const newValue = filters.corp_Name.filter((item) => item !== inputValue);
-    onFilters('corp_Name', newValue);
+  const handleRemoveCorp = (inputValue) => {
+    const newValue = filters.corpName.filter((item) => item !== inputValue);
+    onFilters('corpName', newValue);
   };
 
   const handleRemovePms = (inputValue) => {
@@ -54,10 +54,10 @@ export default function UserTableFiltersResult({
           </Block>
         )}
 
-        {!!filters.corp_Name.length && (
+        {!!filters.corpName.length && (
           <Block label="Corp Name:">
-            {filters.corp_Name.map((item) => (
-              <Chip key={item} label={item} size="small" onDelete={() => handleRemoveRole(item)} />
+            {filters.corpName.map((item) => (
+              <Chip key={item} label={item} size="small" onDelete={() => handleRemoveCorp(item)} />
             ))}
           </Block>
         )}

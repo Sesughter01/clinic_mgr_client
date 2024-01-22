@@ -1,5 +1,6 @@
 'use client';
-
+import * as React from 'react';
+// import { BarChart } from '@mui/x-charts/BarChart';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
@@ -9,9 +10,11 @@ import Grid from '@mui/material/Unstable_Grid2';
 // hooks
 import { useMockedUser } from 'src/hooks/use-mocked-user';
 // _mock
-import { _appFeatured, _appAuthors, _appInstalled, _appRelated, _appInvoices } from 'src/_mock';
+import { _appFeatured, _appAuthors, _appInstalled, _appRelated, _appInvoices, _jiraTicket } from 'src/_mock';
 // components
 import { useSettingsContext } from 'src/components/settings';
+
+// import { useAuthContext }
 // assets
 import { SeoIllustration } from 'src/assets/illustrations';
 //
@@ -19,6 +22,8 @@ import AppWidget from '../app-widget';
 import AppWelcome from '../app-welcome';
 import AppFeatured from '../app-featured';
 import AppNewInvoice from '../app-new-invoice';
+import AppJiraTicket from '../app-jira-ticket';
+
 import AppTopAuthors from '../app-top-authors';
 import AppTopRelated from '../app-top-related';
 import AppAreaInstalled from '../app-area-installed';
@@ -28,18 +33,54 @@ import AppTopInstalledCountries from '../app-top-installed-countries';
 
 // ----------------------------------------------------------------------
 
+//For the barchart
+// const chartSetting = {
+//   xAxis: [
+//     {
+//       label: 'Pending',
+//     },
+//   ],
+//   width: 500,
+//   height: 400,
+// };
+// const dataset = [
+//   {
+//     london: 59,
+//     paris: 57,
+//     newYork: 86,
+//     seoul: 21,
+//     month: 'Jan',
+//   },
+//   {
+//     london: 50,
+//     paris: 52,
+//     newYork: 78,
+//     seoul: 28,
+//     month: 'Fev',
+//   },
+//   {
+//     london: 47,
+//     paris: 53,
+//     newYork: 106,
+//     seoul: 41,
+//     month: 'Mar',
+//   },
+  
+// ];
+
 export default function OverviewAppView() {
   const { user } = useMockedUser();
 
   const theme = useTheme();
 
   const settings = useSettingsContext();
-
+// console.log(_jiraTicket);
+// console.log(_appInvoices);
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Grid container spacing={3}>
-        {/* <Grid xs={12} md={8}> */}
-        <Grid xs={12} md={12}>
+        <Grid xs={12} md={8}>
+        {/* <Grid xs={12} md={12}> */}
           <AppWelcome
             // title={`Welcome back 👋 \n ${user?.displayName}`}
             title={`Wellcome to EDMS Clinic Manager 👋 \n Web (CM-WEB1.0)`}
@@ -54,9 +95,9 @@ export default function OverviewAppView() {
           />
         </Grid>
         
-        {/* <Grid xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <AppFeatured list={_appFeatured} />
-        </Grid> */}
+        </Grid>
 
         <Grid xs={12} md={4}>
           <AppWidgetSummary
@@ -158,19 +199,22 @@ export default function OverviewAppView() {
           />
         </Grid> */}
 
-        <Grid xs={12} lg={8}>
-          <AppNewInvoice
-            title="Clinics On-Boarding"
-            tableData={_appInvoices}
+        
+        {/* <Grid xs={12} md={8} lg={8}>
+          <AppTopInstalledCountries title="New JIRA Tickets" list={_appInstalled} />
+        </Grid> */}
+
+        <Grid xs={12} lg={12}>
+          <AppJiraTicket
+            title="New Jira Tickets"
+            tableData={_jiraTicket}
             tableLabels={[
-              // { id: 'id', label: 'Invoice ID' },
-              // { id: 'category', label: 'Category' },
-              // { id: 'price', label: 'Price' },
-              // { id: 'status', label: 'Status' },
-              // { id: '' },
-              { id: 'id', label: 'Clinic Name' },
-              { id: 'category', label: 'Stage' },
-              { id: 'price', label: 'Last Updated' },
+     
+              { id: 'ticket_id', label: 'Ticket Id' },
+              { id: 'project', label: 'project' },
+              { id: 'description', label: 'Description' },
+              { id: 'assign_to', label: 'Assign To' },
+              { id: 'last_updated', label: 'Last Updated' },
               // { id: 'status', label: 'Status' }, 
               { id: '' },
             ]}
@@ -181,10 +225,36 @@ export default function OverviewAppView() {
           <AppTopRelated title="Clinics in the pipeline" list={_appRelated} />
         </Grid>
 
-        {/* <Grid xs={12} md={8} lg={8}> */}
-        <Grid xs={12} md={4} lg={4}>
-          <AppTopInstalledCountries title="New JIRA Tickets" list={_appInstalled} />
+        
+
+        <Grid xs={12} lg={8}>
+          <AppNewInvoice
+            title="Clinics On-Boarding"
+            tableData={_appInvoices}
+            tableLabels={[
+              // { id: 'id', label: 'Invoice ID' },
+              // { id: 'category', label: 'Category' },
+              // { id: 'price', label: 'Price' },
+              // { id: 'status', label: 'Status' },
+              // { id: '' },
+              { id: 'clinic_name', label: 'Clinic Name' },
+              { id: 'stage', label: 'Stage' },
+              { id: 'price', label: 'Last Updated' },
+              // { id: 'status', label: 'Status' }, 
+              { id: '' },
+            ]}
+          />
         </Grid>
+
+        {/* <Grid xs={12} md={6} lg={4}>
+        <BarChart
+            dataset={dataset}
+            yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
+            series={[{ dataKey: 'seoul', label: '',}]}
+            layout="horizontal"
+            {...chartSetting}
+        />
+        </Grid> */}
 
         {/* <Grid xs={12} md={6} lg={4}>
           <AppTopAuthors title="Top Authors" list={_appAuthors} />

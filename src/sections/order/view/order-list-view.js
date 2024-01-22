@@ -1,5 +1,6 @@
 "use client";
 
+import isEqual from 'lodash/isEqual';
 import { useState, useCallback } from "react";
 import { useEffect } from "react";
 
@@ -20,10 +21,15 @@ import { paths } from "src/routes/paths";
 // api
 import { useGetPmss } from "src/api/pms";
 import { useRouter } from "src/routes/hooks";
+// endpoints
+import useSWR from 'swr';
+import { $get, endpoints} from 'src/utils/axios';
 // _mock
 import { _orders, ORDER_STATUS_OPTIONS } from "src/_mock";
 // utils
 import { fTimestamp } from "src/utils/format-time";
+// routes
+import { RouterLink } from 'src/routes/components';
 // hooks
 import { useBoolean } from "src/hooks/use-boolean";
 // components
@@ -50,10 +56,7 @@ import OrderTableFiltersResult from "../order-table-filters-result";
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [
-  { value: "all", label: "All" },
-  ...ORDER_STATUS_OPTIONS,
-];
+const STATUS_OPTIONS = [...ORDER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
   // { id: 'orderNumber', label: 'PMS', width: 116 },
@@ -62,31 +65,57 @@ const TABLE_HEAD = [
   // { id: 'totalQuantity', label: 'Wiki page', width: 120, align: 'center' },
   // { id: 'totalAmount', label: 'Clinics', width: 140 },
   // { id: 'status', label: 'Status', width: 110 },
-  // { id: '', width: 88 },
-  { id: "staff", label: "PMS", width: 126 },
-  { id: "name", label: "Description" },
-  { id: "createdAt", label: "Script Folder", width: 160 },
-  { id: "totalQuantity", label: "Wiki page", width: 140, align: "center" },
+  { id: '', width: 88 },
+  { id: "pms", label: "PMS", width: 126 },
+  { id: "description", label: "Description" },
+  { id: "script_Folder", label: "Script Folder", width: 160 },
+  { id: "wiki_page", label: "Wiki page", width: 140, align: "center" },
   { id: "totalAmount", label: "#Clinics", width: 160 },
   // { id: 'status', label: 'Status', width: 110 },
   { id: "", width: 88 },
 ];
 
 const defaultFilters = {
-  name: "",
-  status: "all",
-  startDate: null,
-  endDate: null,
+  // name: "",
+  // status: "all",
+  // startDate: null,
+  // endDate: null,
   //Added by Shakirat
   pms_status: "all",
-  pms: "",
+  pms: '',
   pmsid: [],
 };
 
 // ----------------------------------------------------------------------
 
 export default function OrderListView() {
-  const table = useTable({ defaultOrderBy: "orderNumber" });
+  // const [tableData, setTableData] = useState(_orders);
+
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pms, setPms] = useState(null);
+
+  const [tableData, setTableData] = useState([]);
+
+  // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
+  const URL = `${endpoints.pms.pms_data}?${ pms != null ? `search=${pms}&` : ''}pageNumber=${pageIndex}`;
+  const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
+    console.log("-------------------")
+    console.log("PMS PAGE DATA: ", data || [])
+    console.log("PMS", data?.result || 0)
+    console.log("totalCount", data?.totalCount || 0)
+    console.log("currentPage", data?.currentPage || 0)
+    console.log("-------------------")
+
+    // setTableData(data?.result)
+
+  }});
+  // The API URL includes the page index, which is a React state.
+  // const { data, isLoading, error} = useSWR(`${URL}?pageNumber=${pageIndex + 1}`, fetcher);
+  if (error) return console.log(error);
+  // if (isLoading) return <h6>Loading...</h6>;
+
+  // const table = useTable({ defaultOrderBy: "orderNumber" });
+  const table = useTable();
 
   const settings = useSettingsContext();
 
@@ -94,28 +123,33 @@ export default function OrderListView() {
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_orders);
-
   const [filters, setFilters] = useState(defaultFilters);
   // Added by Shakirat
-  const { pmss, pmssLoading, pmssEmpty } = useGetPmss();
+  // const { pmss, pmssLoading, pmssEmpty } = useGetPmss();
+  useEffect(()=>{
+    setTableData(data?.result || [])
+  }, [data])
 
-  useEffect(() => {
-    if (pmss.length) {
-      setTableData(pmss);
-    }
-    console.log(pmss);
-  }, [pmss]);
-  const dateError =
-    filters.startDate && filters.endDate
-      ? filters.startDate.getTime() > filters.endDate.getTime()
-      : false;
+  useEffect(()=>{
+    setPageIndex(table.page + 1)
+  }, [table.page])
+  
+  // useEffect(() => {
+  //   if (pmss.length) {
+  //     setTableData(pmss);
+  //   }
+  //   console.log(pmss);
+  // }, [pmss]);
+
+  // const dateError =
+  //   filters.startDate && filters.endDate
+  //     ? filters.startDate.getTime() > filters.endDate.getTime()
+  //     : false;
 
   const dataFiltered = applyFilter({
     inputData: tableData,
     comparator: getComparator(table.order, table.orderBy),
     filters,
-    dateError,
   });
 
   const dataInPage = dataFiltered.slice(
@@ -125,15 +159,26 @@ export default function OrderListView() {
 
   const denseHeight = table.dense ? 52 : 72;
 
-  const canReset =
-    !!filters.name ||
-    filters.status !== "all" ||
-    (!!filters.startDate && !!filters.endDate);
+  const canReset = !isEqual(defaultFilters, filters);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
+  // const canReset =
+  //   !!filters.name ||
+  //   filters.status !== "all" ||
+  //   (!!filters.startDate && !!filters.endDate);
 
   const handleFilters = useCallback(
     (name, value) => {
+      console.log("nameval------------: ",name, value)
+       
+      if (name == 'pms') {
+        if (value.length >= 3) {
+            setPms(value);
+        } else {
+            setPms(null);
+        }
+     }
+
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -142,10 +187,26 @@ export default function OrderListView() {
     },
     [table]
   );
+  
+  const handleRemoveFilter = useCallback(
+    (name, value) => {
+    //  console.log("removeval: ",name, value)
+    if (name == 'pms') {
+      setPms(null)
+  }
+    
+     table.onResetPage();
+     setFilters((prevState) => ({
+       ...prevState,
+       [name]: value,
+     }));
+   },
+   [table]
+ );
 
   const handleDeleteRow = useCallback(
     (id) => {
-      const deleteRow = tableData.filter((row) => row.pmsid !== id);
+      const deleteRow = tableData.filter((row) => row.id !== id);
       setTableData(deleteRow);
 
       table.onUpdatePageDeleteRow(dataInPage.length);
@@ -165,9 +226,19 @@ export default function OrderListView() {
       totalRowsFiltered: dataFiltered.length,
     });
   }, [dataFiltered.length, dataInPage.length, table, tableData]);
+  
+  const handleEditRow = useCallback(
+    (id) => {
+      // router.push(paths.dashboard.user.edit(id));
+      router.push(paths.pms.edit(id));
+      console.log(id)
+    },
+    [router]
+  );
 
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
+    setPms(null)
   }, []);
 
   const handleViewRow = useCallback(
@@ -187,6 +258,7 @@ export default function OrderListView() {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : "lg"}>
+
         <CustomBreadcrumbs
           heading="List of PMS"
           links={[
@@ -196,10 +268,21 @@ export default function OrderListView() {
             // },
             {
               name: "PMS",
-              href: paths.dashboard.order.root,
+              href: paths.pms.root,
             },
             { name: "List" },
           ]}
+          action={
+            <Button
+              component={RouterLink}
+              // href={paths.dashboard.user.new}
+              href={paths.pms.new}
+              variant="contained"
+              startIcon={<Iconify icon="mingcute:add-line" />}
+            >
+              New Pms
+            </Button>
+          }
           sx={{
             mb: { xs: 3, md: 5 },
           }}
@@ -239,7 +322,8 @@ export default function OrderListView() {
                       (tab.value === "development" && "success") ||
                       (tab.value === "production" && "warning") ||
                       (tab.value === "issue" && "error") ||
-                      "default"
+                      (tab.value === "no data" && "none") ||
+                      'default'
                     }
                   >
                     {/* {tab.value === 'all' && _orders.length}
@@ -255,21 +339,23 @@ export default function OrderListView() {
                     {tab.value === 'all' && _orders.length}
                     {tab.value === 'completed' &&
                       _orders.filter((order) => order.pms_status === 'completed').length} */}
-                    {tab.value === "all" && _orders.length}
-                    {tab.value === "production" &&
-                      _orders.filter(
-                        (order) => order.pms_status === "production"
-                      ).length}
-                    {tab.value === "development" &&
-                      _orders.filter(
-                        (order) => order.pms_status === "development"
-                      ).length}
-                    {tab.value === "issue" &&
-                      _orders.filter((order) => order.pms_status === "issue")
-                        .length}
-                    {tab.value === "No data" &&
-                      _orders.filter((order) => order.pms_status === "No data")
-                        .length}
+                    {/* {tab.value === "all" && _orders.length} */}
+                    {tab.value === 'production' && 
+                     _orders.filter(
+                      (order) =>order.pms_status === "production"
+                     ).length}
+                    {tab.value === 'development' && 
+                     _orders.filter(
+                      (order) =>order.pms_status === "development"
+                     ).length}
+                    {tab.value === 'issue'&& 
+                    _orders.filter(
+                      (order) =>order.pms_status === "issue"
+                     ).length}
+                    {tab.value === "nodata" && 
+                    _orders.filter(
+                      (order) =>order.pms_status === "nodata"
+                     ).length}
                   </Label>
                 }
               />
@@ -287,11 +373,13 @@ export default function OrderListView() {
           {canReset && (
             <OrderTableFiltersResult
               filters={filters}
-              onFilters={handleFilters}
+              // onFilters={handleFilters}
+              onFilters={handleRemoveFilter}
               //
               onResetFilters={handleResetFilters}
               //
-              results={dataFiltered.length}
+              // results={dataFiltered.length}
+              results={data?.totalCount}
               sx={{ p: 2.5, pt: 0 }}
             />
           )}
@@ -331,26 +419,26 @@ export default function OrderListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.pmsid)
+                      tableData.map((row) => row.id)
                     )
                   }
                 />
 
                 <TableBody>
                   {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
+                    // .slice(
+                    //   table.page * table.rowsPerPage,
+                    //   table.page * table.rowsPerPage + table.rowsPerPage
+                    // )
                     .map((row) => (
                       <OrderTableRow
-                        key={row.pmsid}
+                        key={row.id}
                         row={row}
-                        selected={table.selected.includes(row.pmsid)}
-                        onSelectRow={() => table.onSelectRow(row.pmsid)}
-                        onDeleteRow={() => handleDeleteRow(row.pmsid)}
-                        onEditRow={() => handleEditRow(row.pmsid)}
-                        onViewRow={() => handleViewRow(row.pmsid)}
+                        selected={table.selected.includes(row.id)}
+                        onSelectRow={() => table.onSelectRow(row.id)}
+                        onDeleteRow={() => handleDeleteRow(row.id)}
+                        onEditRow={() => handleEditRow(row.id)}
+                        onViewRow={() => handleViewRow(row.id)}
                       />
                     ))}
 
@@ -369,10 +457,20 @@ export default function OrderListView() {
             </Scrollbar>
           </TableContainer>
 
-          <TablePaginationCustom
+          {/* <TablePaginationCustom
             count={dataFiltered.length}
             page={table.page}
             rowsPerPage={table.rowsPerPage}
+            onPageChange={table.onChangePage}
+            onRowsPerPageChange={table.onChangeRowsPerPage}
+            //
+            dense={table.dense}
+            onChangeDense={table.onChangeDense}
+          /> */}
+          <TablePaginationCustom
+            count={data?.totalCount}
+            page={data?.currentPage - 1}
+            rowsPerPage={data?.pageSize}
             onPageChange={table.onChangePage}
             onRowsPerPageChange={table.onChangeRowsPerPage}
             //
@@ -412,37 +510,37 @@ export default function OrderListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters, dateError }) {
-  const { pms, status, name, startDate, endDate } = filters;
+  // const { pms, status, name, startDate, endDate } = filters;
 
-  const stabilizedThis = inputData.map((el, index) => [el, index]);
+  // const stabilizedThis = inputData.map((el, index) => [el, index]);
 
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+  // stabilizedThis.sort((a, b) => {
+  //   const order = comparator(a[0], b[0]);
+  //   if (order !== 0) return order;
+  //   return a[1] - b[1];
+  // });
 
-  inputData = stabilizedThis.map((el) => el[0]);
+  // inputData = stabilizedThis.map((el) => el[0]);
 
-  if (pms) {
-    inputData = inputData.filter(
-      (order) => order.pms.toLowerCase().indexOf(pms.toLowerCase()) !== -1
-    );
-  }
+  // if (pms) {
+  //   inputData = inputData.filter(
+  //     (order) => order.pms.toLowerCase().indexOf(pms.toLowerCase()) !== -1
+  //   );
+  // }
 
-  if (status !== "all") {
-    inputData = inputData.filter((order) => order.status === status);
-  }
+  // if (status !== "all") {
+  //   inputData = inputData.filter((order) => order.status === status);
+  // }
 
-  if (!dateError) {
-    if (startDate && endDate) {
-      inputData = inputData.filter(
-        (order) =>
-          fTimestamp(order.createdAt) >= fTimestamp(startDate) &&
-          fTimestamp(order.createdAt) <= fTimestamp(endDate)
-      );
-    }
-  }
+  // if (!dateError) {
+  //   if (startDate && endDate) {
+  //     inputData = inputData.filter(
+  //       (order) =>
+  //         fTimestamp(order.createdAt) >= fTimestamp(startDate) &&
+  //         fTimestamp(order.createdAt) <= fTimestamp(endDate)
+  //     );
+  //   }
+  // }
 
   return inputData;
 }

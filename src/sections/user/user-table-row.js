@@ -21,13 +21,13 @@ import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 //
-import UserQuickEditForm from './user-quick-edit-form';
+import UserQuickEditForm from './user-quick-create-form';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, onPmsreportRow }) {
+export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, onPmsreportRow }){
   // const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
-  const { clinic_name, avatarUrl, corp_Name, pmsName, actioBy, stage, status, todo, asana_url } = row;
+  const { clinic_name, avatarUrl, corp_Name, pmsName, actioBy, stage, status, todo, } = row;
 
   const confirm = useBoolean();
 
@@ -43,19 +43,23 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
   };
 
   return (
-    <>
+     <>
       <TableRow hover selected={selected}>
-        <TableCell>
-          {/* <Checkbox checked={selected} onClick={onSelectRow} /> */}
+
+        <TableCell align="left" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+            <Iconify icon="eva:more-vertical-fill" />
+          </IconButton>
         </TableCell>
+
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>
           {/* <Avatar alt={clinic_name} src={avatarUrl} sx={{ mr: 2 }} /> */}
 
           <ListItemText
             primary={clinic_name}
-            secondary=" "
-            primaryTypographyProps={{ typography: 'body2' }}
+            secondary={corp_Name}
+            primaryTypographyProps={{ typography: 'body' }}
             secondaryTypographyProps={{
               component: 'span',
               color: 'text.disabled',
@@ -63,7 +67,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           />
         </TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{corp_Name}</TableCell>
+        {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{corp_Name}</TableCell> */}
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{pmsName}</TableCell>
 
@@ -74,9 +78,10 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{actioBy}</TableCell>
 
         {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{asana_url}</TableCell> */}
-        <TableCell align="center">{asana_url === '' ? ' - ' : asana_url}</TableCell>
+        {/* <TableCell align="center">{asana_url === '' ? ' - ' : asana_url}</TableCell> */}
+        {/* <TableCell align="center">{asana_url === '' ? ' - ' : asana_url}</TableCell> */}
 
-        <TableCell>
+        {/* <TableCell>
           <Label
             variant="soft"
             color={
@@ -89,10 +94,10 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           >
             {status}
           </Label>
-        </TableCell>
+        </TableCell> */}
 
         <TableCell>
-              <ToggleButtonGroup
+          <ToggleButtonGroup
             value={marked}
             exclusive
             onChange={handleToggle}
@@ -114,9 +119,9 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
             </ToggleButton>
           </ToggleButtonGroup>
          
-        </TableCell>
+        </TableCell> 
 
-        <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+        {/* <TableCell align="left" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <Tooltip title="Quick Edit" placement="top" arrow>
             <IconButton color={quickEdit.value ? 'inherit' : 'default'} onClick={quickEdit.onTrue}>
               <Iconify icon="solar:pen-bold" />
@@ -127,34 +132,9 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
         </TableCell>
-
-        {/* <TableCell>
-              <ToggleButtonGroup
-            value={marked}
-            exclusive
-            onChange={handleToggle}
-            aria-label="custom-toggle-button"
-          >
-            <ToggleButton 
-              value={true}
-              aria-label="marked"
-              style={{ backgroundColor: marked ? '#118D57' : 'white' }}
-            >
-              GoLive
-            </ToggleButton>
-            <ToggleButton
-              value={false}
-              aria-label="not-marked"
-              style={{ backgroundColor: !marked ? '#118D57' : 'white' }}
-            >
-              Retired
-            </ToggleButton>
-          </ToggleButtonGroup>
-         
-        </TableCell> */}
       </TableRow>
 
-      <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
+      {/* <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} /> */}
 
       <CustomPopover
         open={popover.open}
@@ -232,6 +212,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           </Button>
         }
       />
+     </TableRow> 
     </>
   );
 }

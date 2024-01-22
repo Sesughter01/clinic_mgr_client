@@ -1,3 +1,5 @@
+export * from './_clinic';
+
 export * from './assets';
 export * from './_mock';
 
@@ -14,3 +16,6 @@ export * from './_invoice';
 export * from './_product';
 export * from './_overview';
 export * from './_calendar';
+
+
+// ----------------------------------------

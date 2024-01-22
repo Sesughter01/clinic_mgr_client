@@ -36,7 +36,7 @@ import FileManagerFileDetails from './file-manager-file-details';
 export default function FileManagerTableRow({ row, selected, onSelectRow, onDeleteRow }) {
   const theme = useTheme();
 
-  const { name, size, type, modifiedAt, shared, isFavorited } = row;
+  const { clinic_name,corp_id, pmsName, active, status, stage } = row;
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -44,7 +44,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
   const [inviteEmail, setInviteEmail] = useState('');
 
-  const favorite = useBoolean(isFavorited);
+  // const favorite = useBoolean(isFavorited);
 
   const details = useBoolean();
 
@@ -122,7 +122,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
         <TableCell onClick={handleClick}>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <FileThumbnail file={type} sx={{ width: 36, height: 36 }} />
+            <FileThumbnail file="folder" sx={{ width: 36, height: 36 }} />
 
             <Typography
               noWrap
@@ -133,51 +133,38 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
                 ...(details.value && { fontWeight: 'fontWeightBold' }),
               }}
             >
-              {name}
+              {corp_id}
             </Typography>
           </Stack>
         </TableCell>
 
         <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
-          {fData(size)}
+          {/* {fData(size)} */}
+          {clinic_name}
+        </TableCell>
+       
+        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
+          {pmsName}
         </TableCell>
 
         <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
-          {type}
-        </TableCell>
-
-        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
-          <ListItemText
-            primary={format(new Date(modifiedAt), 'dd MMM yyyy')}
-            secondary={format(new Date(modifiedAt), 'p')}
+          {/* <ListItemText
+            primary={active}
+            secondary={status}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
               mt: 0.5,
               component: 'span',
               typography: 'caption',
             }}
-          />
+          /> */}
+
+              {active} 
         </TableCell>
 
         <TableCell align="right" onClick={handleClick}>
-          <AvatarGroup
-            max={4}
-            sx={{
-              display: 'inline-flex',
-              [`& .${avatarGroupClasses.avatar}`]: {
-                width: 24,
-                height: 24,
-                '&:first-of-type': {
-                  fontSize: 12,
-                },
-              },
-            }}
-          >
-            {shared &&
-              shared.map((person) => (
-                <Avatar key={person.id} alt={person.name} src={person.avatarUrl} />
-              ))}
-          </AvatarGroup>
+        {status} 
+          
         </TableCell>
 
         <TableCell
@@ -191,8 +178,8 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
             color="warning"
             icon={<Iconify icon="eva:star-outline" />}
             checkedIcon={<Iconify icon="eva:star-fill" />}
-            checked={favorite.value}
-            onChange={favorite.onToggle}
+            // checked={favorite.value}
+            // onChange={favorite.onToggle}
             sx={{ p: 0.75 }}
           />
 
@@ -242,7 +229,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
         </MenuItem>
       </CustomPopover>
 
-      <FileManagerFileDetails
+      {/* <FileManagerFileDetails
         item={row}
         favorited={favorite.value}
         onFavorite={favorite.onToggle}
@@ -250,9 +237,9 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
         open={details.value}
         onClose={details.onFalse}
         onDelete={onDeleteRow}
-      />
+      /> */}
 
-      <FileManagerShareDialog
+      {/* <FileManagerShareDialog
         open={share.value}
         shared={shared}
         inviteEmail={inviteEmail}
@@ -262,7 +249,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           share.onFalse();
           setInviteEmail('');
         }}
-      />
+      /> */}
 
       <ConfirmDialog
         open={confirm.value}

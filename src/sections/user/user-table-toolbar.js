@@ -21,21 +21,41 @@ export default function UserTableToolbar({
   filters,
   onFilters,
   //
-  roleOptions,
+  corpOptions,
+  pmsOptions,
 }) {
   const popover = usePopover();
 
   const handleFilterName = useCallback(
     (event) => {
-      onFilters('name', event.target.value);
+      // onFilters('name', event.target.value);
+      onFilters('clinic_name', event.target.value);
     },
     [onFilters]
   );
 
+  // const handleFilterRole = useCallback(
+  //   (event) => {
+  //     onFilters(
+  //       'role',
+  //       typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
+  //     );
+  //   },
+  //   [onFilters]
+  // );
   const handleFilterRole = useCallback(
     (event) => {
       onFilters(
-        'role',
+        'corpName',
+        typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
+      );
+    },
+    [onFilters]
+  );
+  const handleFilterPms = useCallback(
+    (event) => {
+      onFilters(
+        'pmsName',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
@@ -56,7 +76,7 @@ export default function UserTableToolbar({
           pr: { xs: 2.5, md: 1 },
         }}
       >
-        <FormControl
+        {/* <FormControl
           sx={{
             flexShrink: 0,
             width: { xs: 1, md: 200 },
@@ -76,19 +96,84 @@ export default function UserTableToolbar({
               },
             }}
           >
-            {roleOptions.map((option) => (
+            {corpOptions.map((option) => (
               <MenuItem key={option} value={option}>
                 <Checkbox disableRipple size="small" checked={filters.role.includes(option)} />
                 {option}
               </MenuItem>
             ))}
           </Select>
+
+          
+        </FormControl> */}
+
+        { <FormControl
+          sx={{
+            flexShrink: 0,
+            width: { xs: 1, md: 200 },
+          }}
+        >
+          <InputLabel>Corp Names</InputLabel>
+
+          <Select
+            // multiple
+            value={filters.corpName}
+            onChange={handleFilterRole}
+            input={<OutlinedInput label="Corp Name" />}
+            // renderValue={(selected) => selected.map((value) => value).join(', ')}
+            MenuProps={{
+              PaperProps: {
+                sx: { maxHeight: 240 },
+              },
+            }}
+          >
+            {corpOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                {/* <Checkbox disableRipple size="small" checked={filters.corpName.includes(option)} /> */}
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+
+          
+        </FormControl> }
+
+        <FormControl
+          sx={{
+            flexShrink: 0,
+            width: { xs: 1, md: 200 },
+          }}
+        >
+          <InputLabel>Pms</InputLabel>
+
+          <Select
+            // multiple
+            value={filters.pmsName}
+            onChange={handleFilterPms}
+            input={<OutlinedInput label="Pms" />}
+            // renderValue={(selected) => selected.map((value) => value).join(', ')}
+            MenuProps={{
+              PaperProps: {
+                sx: { maxHeight: 240 },
+              },
+            }}
+          >
+            {pmsOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                {/* <Checkbox disableRipple size="small" checked={filters.pms.includes(option)} /> */}
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+
+          
         </FormControl>
 
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
           <TextField
             fullWidth
-            value={filters.name}
+            // value={filters.name}
+            value={filters.clinic_name}
             onChange={handleFilterName}
             placeholder="Search..."
             InputProps={{
@@ -146,5 +231,7 @@ export default function UserTableToolbar({
 UserTableToolbar.propTypes = {
   filters: PropTypes.object,
   onFilters: PropTypes.func,
-  roleOptions: PropTypes.array,
+  corpOptions: PropTypes.array,
+  pmsOptions: PropTypes.array,
 };
+

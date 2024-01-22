@@ -27,7 +27,18 @@ import {
   _productNames,
   _descriptions,
   _phoneNumbers,
+  //new data from blessing
+  _clinic_names,
+  _corp_Names,
+  _pmsNames,
+  _stages,
+  _todos,
+  _actioBys,
+  _asana_url,
+
+  clinic_data,
 } from './assets';
+// import { _status } from './_product';
 
 // ----------------------------------------------------------------------
 
@@ -53,6 +64,19 @@ export const _mock = {
   lastName: (index) => _lastNames[index],
   fullName: (index) => _fullNames[index],
   companyName: (index) => _companyNames[index],
+
+  //Clinic Manager 
+  clinic_name: (index) => _clinic_names[index],
+  corp_Name: (index) => _corp_Names[index],
+  pmsName: (index) => _pmsNames[index],
+  stage: (index) => _stages[index],
+  todo: (index) => _todos[index],
+  actioBy: (index) => _actioBys[index],
+  asana_url: (index) => _asana_url[index],
+
+  //Corperation
+  status: (index) => _status[index],
+
   // Number
   number: {
     percent: (index) => _percents[index],

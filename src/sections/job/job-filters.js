@@ -37,6 +37,7 @@ export default function JobFilters({
   benefitOptions,
   experienceOptions,
   employmentTypeOptions,
+  pmsOptions,
 }) {
   const handleFilterEmploymentTypes = useCallback(
     (newValue) => {
@@ -312,4 +313,5 @@ JobFilters.propTypes = {
   onResetFilters: PropTypes.func,
   open: PropTypes.bool,
   roleOptions: PropTypes.array,
+  pmsOptiona: ProtoTypes.array
 };

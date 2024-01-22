@@ -70,8 +70,9 @@ export function useNavData() {
           // },
           {
             // title: t('analytics'),
-            title: t('dashborad'),
-            path: paths.dashboard.general.analytics,
+            title: t('dashboard'),
+            path: paths.dashboard.root,
+            // path: paths.dashboard.general.analytics,
             icon: ICONS.analytics,
           },
           // {
@@ -102,6 +103,7 @@ export function useNavData() {
             title: t('Clinic Manager'),
             // path: paths.dashboard.user.root,
             path: paths.clinicmanager.root,
+            
             icon: ICONS.user,
             // children: [
               // { title: t('profile'), path: paths.dashboard.user.root },

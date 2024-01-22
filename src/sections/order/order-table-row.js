@@ -26,7 +26,20 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 // ----------------------------------------------------------------------
 
 export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteRow }) {
-  const { items, status, orderNumber, createdAt, customer, totalQuantity, subTotal } = row;
+  const { 
+    // items, 
+    // status, 
+    // orderNumber, 
+    // createdAt, 
+    // customer, 
+    // totalQuantity, 
+    // subTotal,
+    pms,
+    description,
+    script_Folder,
+    wiki_page,
+    staff,
+  } = row;
 
   const confirm = useBoolean();
 
@@ -37,7 +50,7 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
   const renderPrimary = (
     <TableRow hover selected={selected}>
       <TableCell padding="checkbox">
-        <Checkbox checked={selected} onClick={onSelectRow} />
+        {/* <Checkbox checked={selected} onClick={onSelectRow} /> */}
       </TableCell>
 
       <TableCell>
@@ -50,14 +63,15 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
             },
           }}
         >
-          {orderNumber}
+          {/* {orderNumber} */}
+          {pms === '' ? ' ---- ' : pms}
         </Box>
       </TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar alt={customer.name} src={customer.avatarUrl} sx={{ mr: 2 }} />
+        {/* <Avatar alt={customer.name} src={customer.avatarUrl} sx={{ mr: 2 }} /> */}
 
-        <ListItemText
+        {/* <ListItemText
           primary={customer.name}
           secondary={customer.email}
           primaryTypographyProps={{ typography: 'body2' }}
@@ -65,11 +79,13 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
             component: 'span',
             color: 'text.disabled',
           }}
-        />
+        /> */}
+          {description === '' ? ' ---- ' : description}
+
       </TableCell>
 
       <TableCell>
-        <ListItemText
+        {/* <ListItemText
           primary={format(new Date(createdAt), 'dd MMM yyyy')}
           secondary={format(new Date(createdAt), 'p')}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
@@ -78,15 +94,17 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
             component: 'span',
             typography: 'caption',
           }}
-        />
+        /> */}
+          {script_Folder === '' ? ' ---- ' : script_Folder}
+        
       </TableCell>
 
-      <TableCell align="center"> {totalQuantity} </TableCell>
+      <TableCell align="center">{wiki_page === '' ? ' ---- ' : wiki_page}</TableCell>
 
-      <TableCell> {fCurrency(subTotal)} </TableCell>
+      {/* <TableCell> {fCurrency(subTotal)} </TableCell> */}
 
       <TableCell>
-        <Label
+        {/* <Label
           variant="soft"
           color={
             (status === 'completed' && 'success') ||
@@ -96,11 +114,11 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
           }
         >
           {status}
-        </Label>
+        </Label> */}
       </TableCell>
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-        <IconButton
+        {/* <IconButton
           color={collapse.value ? 'inherit' : 'default'}
           onClick={collapse.onToggle}
           sx={{
@@ -110,7 +128,7 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
           }}
         >
           <Iconify icon="eva:arrow-ios-downward-fill" />
-        </IconButton>
+        </IconButton> */}
 
         <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
           <Iconify icon="eva:more-vertical-fill" />
@@ -129,7 +147,7 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
           sx={{ bgcolor: 'background.neutral' }}
         >
           <Stack component={Paper} sx={{ m: 1.5 }}>
-            {items.map((item) => (
+            {/* {items.map((item) => (
               <Stack
                 key={item.id}
                 direction="row"
@@ -164,7 +182,7 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
 
                 <Box sx={{ width: 110, textAlign: 'right' }}>{fCurrency(item.price)}</Box>
               </Stack>
-            ))}
+            ))} */}
           </Stack>
         </Collapse>
       </TableCell>

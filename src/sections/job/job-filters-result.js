@@ -33,6 +33,7 @@ export default function JobFiltersResult({
     const newValue = filters.roles.filter((item) => item !== inputValue);
     onFilters('role', newValue);
   };
+  
 
   const handleRemoveLocations = (inputValue) => {
     const newValue = filters.locations.filter((item) => item !== inputValue);

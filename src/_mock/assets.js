@@ -226,7 +226,7 @@ export const _phoneNumbers = [
   '538-295-9408',
   '531-492-6028',
   '981-699-7588',
-  '500-268-4826',
+  '502-268-4826',
   '205-952-3828',
   '222-255-5190',
   '408-439-8033',
@@ -263,6 +263,172 @@ export const _roles = [
   'CEO',
   'CFO',
   'CTO',
+];
+
+//new clinic name search added by blessing
+export const _clinic_names = [
+  'Yings Clinic ',
+  'Heavens Clinic',
+  'Fings  Clinic',
+  'Sings  Clinic',
+  'Wangs Clinic',
+  'Qings Clinic',
+  'Pungs Clinic',
+  'Jangs Clinic',
+  'Kings Clinic',
+  'Tangs Clinic',
+  'Nangs Clinic',
+  'Vings Clinic',
+  'Bings Clinic',
+  'Hings Clinic',
+  'Wings Clinic',
+  'Cings Clinic',
+  'Bangs Clinic',
+  'Mangs Clinic',
+  'Pwngs Clinic',
+  'Yongs Clinic',
+  
+];
+
+//new corp name search added by blessing
+export const _corp_Names = [
+  '123Dentist-12001',
+  'ALTIMA-1015',
+  'ALTIMA-1015',
+  '123Dental2 -12002',
+  'ALTIMA-1015',
+  'ALTIMA-1015',
+  'Mazadreh (Dental Look)-9001',
+  'ALTIMA-1015',
+  'ALTIMA-1015',
+  'ALTIMA-1015',
+  'ALTIMA-1015',
+  'ALTIMA-1015',
+  'ALTIMA-1015',
+  'ALTIMA-1015',
+  'ALTIMA-1015',
+];
+
+// new corp name search added by blessing
+// export const _pmsNames = [
+//   'Tracker',
+//   'Dentrix G6',
+//   'Dentrix G6',
+//   'Maxident',
+//   'Abledent',
+//   'Tracker',
+//   'Power Practice',
+//   'Dentrix G6',
+//   'Dentrix G6',
+//   'Dentrix G4',
+//   'Dentrix G4',
+//   'Dentrix G6',
+//   'Dentrix G4',
+//   'Dentrix G6',
+//   'Dentrix G6',
+// ];
+//Shakirat
+export const _status = [
+  'Text',
+  'Active',
+  'Retired',
+]
+
+
+//new stage search added by blessing
+export const _stages = [
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+  'Moved to production',
+];
+
+//new to do search added by blessing
+export const _todos = [
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+  'none',
+];
+
+//new action by mock up added by blessing
+export const _actioBys = [
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+  'None',
+];
+
+//new action by mock up added by blessing
+export const _asana_url = [
+  'http://url.com',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
+  'url',
 ];
 
 // ----------------------------------------------------------------------
@@ -525,3 +691,5 @@ export const _descriptions = [
   `Ipsam aliquam velit nobis repellendus officiis aut deserunt id et. Nihil sunt aut dolores aut. Dolores est ipsa quia et laborum quidem laborum accusamus id. Facilis odit quod hic laudantium saepe omnis nisi in sint. Sed cupiditate possimus id.`,
   `Magnam non eveniet optio optio ut aliquid atque. Velit libero aspernatur quis laborum consequatur laudantium. Tempora facere optio fugit accusantium ut. Omnis aspernatur reprehenderit autem esse ut ut enim voluptatibus.`,
 ];
+
+

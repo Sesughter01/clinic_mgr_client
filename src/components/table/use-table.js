@@ -7,9 +7,18 @@ export default function useTable(props) {
 
   const [page, setPage] = useState(props?.defaultCurrentPage || 0);
 
-  const [orderBy, setOrderBy] = useState(props?.defaultOrderBy || 'name');
+  // console.log("----------------------------------------------------------------")
+  // console.log("----------------------------------------------------------------")
+  // console.log(props)
+  // console.log(props.defaultCurrentPage)
+  // console.log("----------------------------------------------------------------")
+  // console.log("----------------------------------------------------------------")
 
-  const [rowsPerPage, setRowsPerPage] = useState(props?.defaultRowsPerPage || 5);
+
+  // const [orderBy, setOrderBy] = useState(props?.defaultOrderBy || 'name');
+  const [orderBy, setOrderBy] = useState(props?.defaultOrderBy || 'clinic_name');
+
+  const [rowsPerPage, setRowsPerPage] = useState(props?.defaultRowsPerPage || 0);
 
   const [order, setOrder] = useState(props?.defaultOrder || 'asc');
 

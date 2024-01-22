@@ -38,6 +38,8 @@ export default function ProductFilters({
   genderOptions,
   ratingOptions,
   categoryOptions,
+  //Shakirat
+  statusOptions,
 }) {
   const marksLabel = [...Array(21)].map((_, index) => {
     const value = index * 10;
@@ -63,6 +65,14 @@ export default function ProductFilters({
   const handleFilterCategory = useCallback(
     (newValue) => {
       onFilters('category', newValue);
+    },
+    [onFilters]
+  );
+
+  //Shakirat
+  const handleFilterStatus = useCallback(
+    (newValue) => {
+      onFilters('status', newValue);
     },
     [onFilters]
   );
@@ -157,6 +167,34 @@ export default function ProductFilters({
       ))}
     </Stack>
   );
+
+  //Shakirat
+
+  const renderStatus = (
+    <Stack>
+      <Typography variant="subtitle2" sx={{ mb: 1 }}>
+        Status
+      </Typography>
+      {statusOptions.map((option) => (
+        <FormControlLabel
+          key={option}
+          control={
+            <Radio
+              checked={option === filters.status}
+              onClick={() => handleFilterStatus(option)}
+            />
+          }
+          label={option}
+          sx={{
+            ...(option === 'all' && {
+              textTransform: 'capitalize',
+            }),
+          }}
+        />
+      ))}
+    </Stack>
+  );
+
 
   const renderColor = (
     <Stack>
@@ -263,6 +301,7 @@ export default function ProductFilters({
             {renderGender}
 
             {renderCategory}
+            {renderStatus}
 
             {renderColor}
 
@@ -287,6 +326,7 @@ ProductFilters.propTypes = {
   onResetFilters: PropTypes.func,
   ratingOptions: PropTypes.array,
   categoryOptions: PropTypes.array,
+  statusOptions: PropTypes.array,
   colorOptions: PropTypes.arrayOf(PropTypes.string),
 };
 

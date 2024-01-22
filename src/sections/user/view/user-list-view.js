@@ -1,7 +1,7 @@
 'use client';
 
 import isEqual from 'lodash/isEqual';
-import { useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 // @mui
 import { alpha } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
@@ -19,7 +19,14 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 // _mock
-import { _userList, _roles, USER_STATUS_OPTIONS } from 'src/_mock';
+// import { _userList, _userListTwo, _roles, _corp_Names, pmsNames, USER_STATUS_OPTIONS } from 'src/_mock';
+import {CLINIC_STATUS_OPTIONS } from 'src/_mock';
+import useSWR from 'swr';
+import { $get, endpoints} from 'src/utils/axios';
+
+//Added by Blessing
+// import { _corpName, _pms, _clinicName  } from 'src/_mock';
+
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
 // components
@@ -43,43 +50,108 @@ import {
 import UserTableRow from '../user-table-row';
 import UserTableToolbar from '../user-table-toolbar';
 import UserTableFiltersResult from '../user-table-filters-result';
-
+import UserQuickCreateForm from '../user-quick-create-form';
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All Clinics' }, ...USER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [...CLINIC_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Clinic Name', width: 180 },
-  // { id: 'corpName', label: 'Corp Name', width: 180 },
-  // { id: 'pms', label: 'PMS', width: 180 },
-  { id: 'phoneNumber', label: 'Stage', width: 180 },
-  { id: 'company', label: 'To do', width: 220 },
-  { id: 'role', label: 'Action By', width: 180 },
-  { id: 'status', label: 'Status', width: 100 },
-  { id: '', width: 88 },
+  { id: 'clinic_name', label: 'Clinic Name',},
+  // { id: 'corp_Name', label: 'Corp Name', width: 180 },
+  { id: 'pmsName', label: 'PMS', width: 180 },
+  { id: 'stage', label: 'Stage',  width: 300},
+  { id: 'todo', label: 'To Do', width: 350},
+  { id: 'actioBy', label: 'Action By', width: 350 },
+  // { id: 'asana_url', label: 'Asana Link', width: 300 },
+  // { id: 'status', label: 'Status', width: 100 },
+  // { id: '', width: 88 },
 ];
 
-
+//corpname, pms, clinicname search
 const defaultFilters = {
-  name: '',
-  role: [],
-  status: 'all',
+  // name: '',
+  clinic_name: '',
+  corporation: '',
+  pmss: '',
+  corpName: "",
+  pmsName: "",
+  status: 'active',
 };
 
 // ----------------------------------------------------------------------
 
 export default function UserListView() {
+  // const [tableData, setTableData] = useState(_userList);
+
+
+  const [pageIndex, setPageIndex] = useState(1);
+  const [selectedPms, setSelectedPms] = useState(null);
+  const [selectedCorp, setSelectedCorp] = useState(null);
+  const [clinicName, setClinicName] = useState(null);
+  const [isActive, setIsActive] = useState(true);
+
+  const [tableData, setTableData] = useState([]);
+  const [pmsNames, setPmsNames] = useState([]);
+  const [corpNames, setCorpNames] = useState([]);
+  const quickEdit = useBoolean();
+
+  // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
+  const URL = `${endpoints.clinic_manager.clinic}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
+  const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
+    console.log("-------------------")
+    console.log("CLINIC PAGE DATA: ", data || [])
+    console.log("CLINICS", data?.result || 0)
+    console.log("totalCount", data?.totalCount || 0)
+    console.log("currentPage", data?.currentPage || 0)
+    console.log("-------------------")
+
+    // setTableData(data?.result)
+
+  }});
+  // The API URL includes the page index, which is a React state.
+  // const { data, isLoading, error} = useSWR(`${URL}?pageNumber=${pageIndex + 1}`, fetcher);
+  if (error) return console.log(error);
+  // if (isLoading) return <h6>Loading...</h6>;
+
+  // const table = useTable({defaultRowsPerPage: data?.pageSize || 0, defaultCurrentPage:data?.currentPage - 1 || 0});
   const table = useTable();
+
+  useEffect(()=>{
+    setTableData(data?.result || [])
+  }, [data])
+
+  useEffect(()=>{
+    setPageIndex(table.page + 1)
+  }, [table.page])
+
+
+  const getPMS_Corps = ()=>{
+    $get(endpoints.pms.names)
+    .then(res =>{
+      res.sort()
+      res.splice(0, 0, "All")
+      setPmsNames(res)
+    })
+
+    $get(endpoints.corps.names)
+    .then(res =>{
+      res.sort()
+      res.splice(0, 0, "All")
+      setCorpNames(res)
+    })
+  }
+
+  useEffect(()=>{
+    getPMS_Corps()
+  }, [])
 
   const settings = useSettingsContext();
 
   const router = useRouter();
 
-  const confirm = useBoolean();
-
-  const [tableData, setTableData] = useState(_userList);
-
   const [filters, setFilters] = useState(defaultFilters);
+
+  const confirm = useBoolean();
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -99,7 +171,37 @@ export default function UserListView() {
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
-    (name, value) => {
+     (name, value) => {
+      console.log("nameval------------: ",name, value)
+      
+      if(value == 'all'){
+        setSelectedPms(null)
+        setSelectedCorp(null)
+      }
+
+      if(name == 'pmsName')
+          setSelectedPms(value)
+      else if(name == 'corpName'){
+        setSelectedCorp(value)
+      }
+      else if(name == 'clinic_name'){
+        if(value.length >= 3)
+         setClinicName(value)
+        else
+          setClinicName(null)
+      }
+      else if(name == 'status'){
+        
+        if(value == 'active'){
+            setIsActive(true)
+            console.log('isActive: ', isActive)
+        }
+        else if(value == 'inactive'){
+          setIsActive(false)
+          console.log('Inactive: ', isActive)
+        }
+      }
+
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -108,6 +210,32 @@ export default function UserListView() {
     },
     [table]
   );
+
+  const handleRemoveFilter = useCallback(
+    (name, value) => {
+    //  console.log("removeval: ",name, value)
+     if(value == 'all'){
+      setSelectedPms(null)
+      setSelectedCorp(null)
+     }
+     else if(name == 'pmsName')
+         setSelectedPms(null)
+     else if(name == 'corpName')
+         setSelectedCorp(null)
+      else if(name == 'clinic_name'){
+          setClinicName(null)
+      }
+    
+    setIsActive(isActive)
+
+     table.onResetPage();
+     setFilters((prevState) => ({
+       ...prevState,
+       [name]: value,
+     }));
+   },
+   [table]
+ );
 
   const handleDeleteRow = useCallback(
     (id) => {
@@ -132,7 +260,17 @@ export default function UserListView() {
 
   const handleEditRow = useCallback(
     (id) => {
-      router.push(paths.dashboard.user.edit(id));
+      // router.push(paths.dashboard.user.edit(id));
+      router.push(paths.clinicmanager.clinic.edit(id));
+      console.log(id)
+    },
+    [router]
+  );
+
+  const handlePmsreportRow = useCallback(
+    (id) => {
+      // router.push(paths.dashboard.user.edit(id));
+      router.push(paths.clinicmanager.clinic.pmsreport(id));
     },
     [router]
   );
@@ -146,22 +284,29 @@ export default function UserListView() {
 
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
+    setSelectedCorp(null)
+    setSelectedPms(null)
+    setClinicName(null)
+    setIsActive(true);
   }, []);
 
   return (
     <>
+      <UserQuickCreateForm open={quickEdit.value} onClose={quickEdit.onFalse} />
+
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Clinic Manager"
           links={[
             // { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'Clinics', href: paths.dashboard.user.root },
-            { name: 'List' },
+            { name: 'Clinics', href: paths.clinicmanager.root },
+            { name: 'List' }, 
           ]}
           action={
             <Button
-              component={RouterLink}
-              href={paths.dashboard.user.new}
+              // component={RouterLink}
+              // href={paths.dashboard.user.new}
+              onClick={quickEdit.onTrue}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
@@ -195,21 +340,22 @@ export default function UserListView() {
                     }
                     color={
                       (tab.value === 'active' && 'success') ||
-                      (tab.value === 'pending' && 'warning') ||
-                      (tab.value === 'banned' && 'error') ||
+                      (tab.value === 'inactive' && 'warning') ||
+                      // (tab.value === 'pending' && 'warning') ||
+                      // (tab.value === 'banned' && 'error') ||
                       'default'
                     }
                   >
-                    {tab.value === 'all' && _userList.length}
-                    {tab.value === 'active' &&
-                      _userList.filter((user) => user.status === 'active').length}
+                    {/* {tab.value === 'all' && _userList.length} */}
+                    {tab.value === 'active' && data?.active}
+                    {tab.value === 'inactive' && data?.inactive}
 
-                    {tab.value === 'pending' &&
+                    {/* {tab.value === 'pending' &&
                       _userList.filter((user) => user.status === 'pending').length}
                     {tab.value === 'banned' &&
                       _userList.filter((user) => user.status === 'banned').length}
                     {tab.value === 'rejected' &&
-                      _userList.filter((user) => user.status === 'rejected').length}
+                      _userList.filter((user) => user.status === 'rejected').length} */}
                   </Label>
                 }
               />
@@ -219,21 +365,22 @@ export default function UserListView() {
           <UserTableToolbar
             filters={filters}
             onFilters={handleFilters}
-            //
-            roleOptions={_roles}
+            pmsOptions={pmsNames}
+            corpOptions={corpNames}
           />
 
           {canReset && (
             <UserTableFiltersResult
               filters={filters}
-              onFilters={handleFilters}
+              onFilters={handleRemoveFilter}
               //
               onResetFilters={handleResetFilters}
               //
-              results={dataFiltered.length}
+              results={data?.totalCount}
               sx={{ p: 2.5, pt: 0 }}
             />
           )}
+
 
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction
@@ -274,10 +421,6 @@ export default function UserListView() {
 
                 <TableBody>
                   {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
                     .map((row) => (
                       <UserTableRow
                         key={row.id}
@@ -286,6 +429,9 @@ export default function UserListView() {
                         onSelectRow={() => table.onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onEditRow={() => handleEditRow(row.id)}
+                        //Added by blessing
+                        onPmsreportRow={() => handlePmsreportRow(row.id)}
+                        
                       />
                     ))}
 
@@ -301,9 +447,9 @@ export default function UserListView() {
           </TableContainer>
 
           <TablePaginationCustom
-            count={dataFiltered.length}
-            page={table.page}
-            rowsPerPage={table.rowsPerPage}
+            count={data?.totalCount}
+            page={data?.currentPage - 1}
+            rowsPerPage={data?.pageSize}
             onPageChange={table.onChangePage}
             onRowsPerPageChange={table.onChangeRowsPerPage}
             //
@@ -312,7 +458,6 @@ export default function UserListView() {
           />
         </Card>
       </Container>
-
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
@@ -342,31 +487,50 @@ export default function UserListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters }) {
-  const { name, status, role } = filters;
+  // console.log("applyFilter START: ", inputData)
+  // // const { name, status, role } = filters;
+  // const { clinic_name, status, corpName, pmsName } = filters;
 
-  const stabilizedThis = inputData.map((el, index) => [el, index]);
+  // const stabilizedThis = inputData.map((el, index) => [el, index]);
+  
 
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+  // stabilizedThis.sort((a, b) => {
+  //   const order = comparator(a[0], b[0]);
+  //   if (order !== 0) return order;
+  //   return a[1] - b[1];
+  // });
 
-  inputData = stabilizedThis.map((el) => el[0]);
+  // inputData = stabilizedThis.map((el) => el[0]);
+ 
 
-  if (name) {
-    inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
-    );
-  }
+  // // if (name) {
+  // //   inputData = inputData.filter(
+  // //     (user) => user.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+  // //   );
+  // // }
+  // if (clinic_name) {
+  //   inputData = inputData.filter(
+  //     (user) => user.clinic_name.toLowerCase().indexOf(clinic_name.toLowerCase()) !== -1
+  //   );
+  // }
+  
+  
 
-  if (status !== 'all') {
-    inputData = inputData.filter((user) => user.status === status);
-  }
+  // if (status !== 'all') {
+  //   inputData = inputData.filter((user) => user.status === status);
+  // }
 
-  if (role.length) {
-    inputData = inputData.filter((user) => role.includes(user.role));
-  }
+  // // if (role.length) {
+  // //   inputData = inputData.filter((user) => role.includes(user.role));
+  // // }
+  // if (corpName.length) {
+  //   inputData = inputData.filter((user) => corpName.includes(user.corpName));
+  // }
+
+  // if (pmsName.length) {
+  //   inputData = inputData.filter((user) => pmsName.includes(user.pmsName));
+  // }
+  // console.log("applyFilter END: ", inputData)
 
   return inputData;
 }

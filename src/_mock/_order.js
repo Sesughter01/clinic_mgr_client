@@ -1,12 +1,18 @@
-import { _mock } from './_mock';
+import { _mock } from "./_mock";
 
 // ----------------------------------------------------------------------
 
+// export const ORDER_STATUS_OPTIONS = [
+//   { value: "pending", label: "Production" },
+//   { value: "completed", label: "Development" },
+//   { value: "cancelled", label: "Issue" },
+//   { value: "refunded", label: "No data" },
+// ];
 export const ORDER_STATUS_OPTIONS = [
-  { value: 'pending', label: 'Pending' },
-  { value: 'completed', label: 'Completed' },
-  { value: 'cancelled', label: 'Cancelled' },
-  { value: 'refunded', label: 'Refunded' },
+  { value: "production", label: "Production" },
+  { value: "development", label: "Development" },
+  { value: "issue", label: "Issue" },
+  { value: "No data", label: "No data" },
 ];
 
 const ITEMS = [...Array(3)].map((_, index) => ({
@@ -18,18 +24,28 @@ const ITEMS = [...Array(3)].map((_, index) => ({
   price: _mock.number.price(index),
 }));
 
-export const _orders = [...Array(20)].map((_, index) => {
+// export const _orders = [...Array(20)].map((_, index) => {
+export const _orders = [...Array(15)].map((_, index) => {
   const shipping = 10;
 
   const discount = 10;
 
   const taxes = 10;
 
-  const items = (index % 2 && ITEMS.slice(0, 1)) || (index % 3 && ITEMS.slice(1, 3)) || ITEMS;
+  const items =
+    (index % 2 && ITEMS.slice(0, 1)) ||
+    (index % 3 && ITEMS.slice(1, 3)) ||
+    ITEMS;
 
-  const totalQuantity = items.reduce((accumulator, item) => accumulator + item.quantity, 0);
+  const totalQuantity = items.reduce(
+    (accumulator, item) => accumulator + item.quantity,
+    0
+  );
 
-  const subTotal = items.reduce((accumulator, item) => accumulator + item.price * item.quantity, 0);
+  const subTotal = items.reduce(
+    (accumulator, item) => accumulator + item.price * item.quantity,
+    0
+  );
 
   const totalAmount = subTotal - shipping - discount + taxes;
 
@@ -38,13 +54,13 @@ export const _orders = [...Array(20)].map((_, index) => {
     name: _mock.fullName(index),
     email: _mock.email(index),
     avatarUrl: _mock.image.avatar(index),
-    ipAddress: '192.158.1.38',
+    ipAddress: "192.158.1.38",
   };
 
   const delivery = {
-    shipBy: 'DHL',
-    speedy: 'Standard',
-    trackingNumber: 'SPX037739199373',
+    shipBy: "DHL",
+    speedy: "Standard",
+    trackingNumber: "SPX037739199373",
   };
 
   const history = {
@@ -53,14 +69,14 @@ export const _orders = [...Array(20)].map((_, index) => {
     deliveryTime: _mock.time(3),
     completionTime: _mock.time(4),
     timeline: [
-      { title: 'Delivery successful', time: _mock.time(1) },
-      { title: 'Transporting to [2]', time: _mock.time(2) },
-      { title: 'Transporting to [1]', time: _mock.time(3) },
+      { title: "Delivery successful", time: _mock.time(1) },
+      { title: "Transporting to [2]", time: _mock.time(2) },
+      { title: "Transporting to [1]", time: _mock.time(3) },
       {
-        title: 'The shipping unit has picked up the goods',
+        title: "The shipping unit has picked up the goods",
         time: _mock.time(4),
       },
-      { title: 'Order has been created', time: _mock.time(5) },
+      { title: "Order has been created", time: _mock.time(5) },
     ],
   };
 
@@ -79,17 +95,22 @@ export const _orders = [...Array(20)].map((_, index) => {
     totalAmount,
     totalQuantity,
     shippingAddress: {
-      fullAddress: '19034 Verna Unions Apt. 164 - Honolulu, RI / 87535',
-      phoneNumber: '365-374-4961',
+      fullAddress: "19034 Verna Unions Apt. 164 - Honolulu, RI / 87535",
+      phoneNumber: "365-374-4961",
     },
     payment: {
-      cardType: 'mastercard',
-      cardNumber: '**** **** **** 5678',
+      cardType: "mastercard",
+      cardNumber: "**** **** **** 5678",
     },
     status:
-      (index % 2 && 'completed') ||
-      (index % 3 && 'pending') ||
-      (index % 4 && 'cancelled') ||
-      'refunded',
+      (index % 2 && "completed") ||
+      (index % 3 && "pending") ||
+      (index % 4 && "cancelled") ||
+      "refunded",
+    pms_status:
+      (index % 2 && "production") ||
+      (index % 3 && "development") ||
+      (index % 4 && "issue") ||
+      "No data",
   };
 });

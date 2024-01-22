@@ -1,11 +1,15 @@
+//Added by Blessing (for the toggle)
+import * as React from 'react';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import PropTypes from 'prop-types';
 // @mui
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
+// import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
+// import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -17,12 +21,13 @@ import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 //
-import UserQuickEditForm from './user-quick-edit-form';
+import UserQuickEditForm from './user-quick-create-form';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow }) {
-  const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
+export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, onPmsreportRow }) {
+  // const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
+  const { clinic_name, avatarUrl, corp_Name, pmsName, actioBy, stage, status, todo, asana_url } = row;
 
   const confirm = useBoolean();
 
@@ -30,20 +35,31 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
 
   const popover = usePopover();
 
+  //added by blessing
+  const [marked, setMarked] = React.useState(false);
+
+  const handleToggle = () => {
+    setMarked(!marked);
+  };
+
   return (
     <>
       <TableRow hover selected={selected}>
-        <TableCell padding="checkbox">
-          <Checkbox checked={selected} onClick={onSelectRow} />
+
+        <TableCell align="left" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+            <Iconify icon="eva:more-vertical-fill" />
+          </IconButton>
         </TableCell>
 
-        <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar alt={name} src={avatarUrl} sx={{ mr: 2 }} />
+
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>
+          {/* <Avatar alt={clinic_name} src={avatarUrl} sx={{ mr: 2 }} /> */}
 
           <ListItemText
-            primary={name}
-            secondary={email}
-            primaryTypographyProps={{ typography: 'body2' }}
+            primary={clinic_name}
+            secondary={corp_Name}
+            primaryTypographyProps={{ typography: 'body' }}
             secondaryTypographyProps={{
               component: 'span',
               color: 'text.disabled',
@@ -51,40 +67,93 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           />
         </TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{phoneNumber}</TableCell>
+        {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{corp_Name}</TableCell> */}
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{company}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{pmsName}</TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{role}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{stage}</TableCell>
 
-        <TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{todo}</TableCell>
+
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{actioBy}</TableCell>
+
+        {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{asana_url}</TableCell> */}
+        {/* <TableCell align="center">{asana_url === '' ? ' - ' : asana_url}</TableCell> */}
+
+        {/* <TableCell>
           <Label
             variant="soft"
             color={
               (status === 'active' && 'success') ||
-              (status === 'pending' && 'warning') ||
-              (status === 'banned' && 'error') ||
+              (status === 'inactive' && 'warning') ||
+              // (status === 'pending' && 'warning') ||
+              // (status === 'banned' && 'error') ||
               'default'
             }
           >
             {status}
           </Label>
-        </TableCell>
+        </TableCell> */}
 
-        <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+        {/* <TableCell>
+              <ToggleButtonGroup
+                value={marked}
+                exclusive
+                onChange={handleToggle}
+                aria-label="custom-toggle-button"
+              >
+            <ToggleButton sx={{ p: 0}}
+              value={true}
+              aria-label="marked"
+              style={{ backgroundColor: marked ? '#118D57' : 'white' }}
+            >
+              GoLive
+            </ToggleButton>
+            <ToggleButton sx={{ p: 0}}
+              value={false}
+              aria-label="not-marked"
+              style={{ backgroundColor: !marked ? '#118D57' : 'white' }}
+            >
+              Retired
+            </ToggleButton>
+          </ToggleButtonGroup>
+         
+        </TableCell> */}
+
+        {/* <TableCell align="left" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <Tooltip title="Quick Edit" placement="top" arrow>
             <IconButton color={quickEdit.value ? 'inherit' : 'default'} onClick={quickEdit.onTrue}>
               <Iconify icon="solar:pen-bold" />
             </IconButton>
           </Tooltip>
+        </TableCell> */}
 
-          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </TableCell>
+        {/* <TableCell>
+              <ToggleButtonGroup
+            value={marked}
+            exclusive
+            onChange={handleToggle}
+            aria-label="custom-toggle-button"
+          >
+            <ToggleButton 
+              value={true}
+              aria-label="marked"
+              style={{ backgroundColor: marked ? '#118D57' : 'white' }}
+            >
+              GoLive
+            </ToggleButton>
+            <ToggleButton
+              value={false}
+              aria-label="not-marked"
+              style={{ backgroundColor: !marked ? '#118D57' : 'white' }}
+            >
+              Retired
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </TableCell> */}
       </TableRow>
 
-      <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
+      {/* <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} /> */}
 
       <CustomPopover
         open={popover.open}
@@ -112,6 +181,43 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           <Iconify icon="solar:pen-bold" />
           Edit
         </MenuItem>
+         
+         {/* Added by Blessing */}
+        <MenuItem
+          onClick={() => {
+            onViewRow();
+            popover.onClose();
+          }}
+        >
+          <Iconify icon="solar:eye-bold" />
+
+          View
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            onPmsreportRow();
+            popover.onClose();
+          }}
+        >
+          
+          <Iconify icon="solar:file-linear" />
+
+          PMS Report
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            // onPmsreportRow();
+            popover.onClose();
+          }}
+        >
+          {/* <Iconify icon="solar:eye-bold" /> */}
+          <Iconify icon="solar:notification-unread-bold" color="blue" />
+
+          Jira Issues
+        </MenuItem>
+
       </CustomPopover>
 
       <ConfirmDialog
@@ -132,6 +238,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
 UserTableRow.propTypes = {
   onDeleteRow: PropTypes.func,
   onEditRow: PropTypes.func,
+  onPmsreportRow: PropTypes.func,
   onSelectRow: PropTypes.func,
   row: PropTypes.object,
   selected: PropTypes.bool,

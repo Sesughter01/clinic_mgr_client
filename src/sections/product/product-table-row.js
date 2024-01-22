@@ -1,26 +1,27 @@
-import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+import PropTypes from "prop-types";
+import { format } from "date-fns";
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import MenuItem from '@mui/material/MenuItem';
-import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
-import TableCell from '@mui/material/TableCell';
-import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
-import LinearProgress from '@mui/material/LinearProgress';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import MenuItem from "@mui/material/MenuItem";
+import TableRow from "@mui/material/TableRow";
+import Checkbox from "@mui/material/Checkbox";
+import TableCell from "@mui/material/TableCell";
+import IconButton from "@mui/material/IconButton";
+import ListItemText from "@mui/material/ListItemText";
+import LinearProgress from "@mui/material/LinearProgress";
 // utils
-import { fCurrency } from 'src/utils/format-number';
+import { fCurrency } from "src/utils/format-number";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Label from "src/components/label";
+import Iconify from "src/components/iconify";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
+import { sendStatusCode } from "next/dist/server/api-utils";
 
 // ----------------------------------------------------------------------
 
@@ -33,15 +34,21 @@ export default function ProductTableRow({
   onViewRow,
 }) {
   const {
-    name,
-    price,
-    publish,
-    coverUrl,
-    category,
-    quantity,
-    createdAt,
-    available,
-    inventoryType,
+    // name,
+    // price,
+    // publish,
+    // coverUrl,
+    // category,
+    // quantity,
+    // createdAt,
+    // available,
+    // inventoryType,
+    //Added by Shakirat
+    corp_name,
+    corp_id,
+    corp_scr_name,
+    status,
+    corp_num,
   } = row;
 
   const confirm = useBoolean();
@@ -52,10 +59,10 @@ export default function ProductTableRow({
     <>
       <TableRow hover selected={selected}>
         <TableCell padding="checkbox">
-          <Checkbox checked={selected} onClick={onSelectRow} />
+          {/* <Checkbox checked={selected} onClick={onSelectRow} /> */}
         </TableCell>
 
-        <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+        {/* <TableCell sx={{ display: "flex", alignItems: "center" }}>
           <Avatar
             alt={name}
             src={coverUrl}
@@ -71,23 +78,27 @@ export default function ProductTableRow({
                 color="inherit"
                 variant="subtitle2"
                 onClick={onViewRow}
-                sx={{ cursor: 'pointer' }}
+                sx={{ cursor: "pointer" }}
               >
-                {name}
+                {corp_name}
               </Link>
             }
             secondary={
-              <Box component="div" sx={{ typography: 'body2', color: 'text.disabled' }}>
+              <Box
+                component="div"
+                sx={{ typography: "body2", color: "text.disabled" }}
+              >
                 {category}
               </Box>
             }
           />
-        </TableCell>
+        </TableCell> */}
 
-        <TableCell>
+
+        {/* <TableCell>
           <ListItemText
-            primary={format(new Date(createdAt), 'dd MMM yyyy')}
-            secondary={format(new Date(createdAt), 'p')}
+            // primary={format(new Date(createdAt), 'dd MMM yyyy')}
+            // secondary={format(new Date(createdAt), 'p')}
             primaryTypographyProps={{ typography: 'body2', noWrap: true }}
             secondaryTypographyProps={{
               mt: 0.5,
@@ -95,32 +106,33 @@ export default function ProductTableRow({
               typography: 'caption',
             }}
           />
-        </TableCell>
+        </TableCell> */}
 
-        <TableCell sx={{ typography: 'caption', color: 'text.secondary' }}>
+        {/* <TableCell sx={{ typography: "caption", color: "text.secondary" }}>
           <LinearProgress
             value={(available * 100) / quantity}
             variant="determinate"
             color={
-              (inventoryType === 'out of stock' && 'error') ||
-              (inventoryType === 'low stock' && 'warning') ||
-              'success'
+              (inventoryType === "out of stock" && "error") ||
+              (inventoryType === "low stock" && "warning") ||
+              "success"
             }
             sx={{ mb: 1, height: 6, maxWidth: 80 }}
           />
           {!!available && available} {inventoryType}
-        </TableCell>
-
-        <TableCell>{fCurrency(price)}</TableCell>
-
-        <TableCell>
-          <Label variant="soft" color={(publish === 'published' && 'info') || 'default'}>
-            {publish}
-          </Label>
-        </TableCell>
+        </TableCell> */}
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_name}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_id}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_scr_name}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{corp_num}</TableCell>
+        <TableCell sx={{ whiteSpace: "nowrap" }}>{status}</TableCell>
+        
 
         <TableCell align="right">
-          <IconButton color={popover.open ? 'primary' : 'default'} onClick={popover.onOpen}>
+          <IconButton
+            color={popover.open ? "primary" : "default"}
+            onClick={popover.onOpen}
+          >
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
         </TableCell>
@@ -157,7 +169,7 @@ export default function ProductTableRow({
             confirm.onTrue();
             popover.onClose();
           }}
-          sx={{ color: 'error.main' }}
+          sx={{ color: "error.main" }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete

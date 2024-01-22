@@ -69,7 +69,7 @@ export const _jiraTicket = [...Array(5)].map((_, index) => {
   const ticket_id = ['EW-90', 'EW-61', 'EW-11', 'EW-91', 'EW-97'][index];
   const project = ['Dashboard', 'Clinic Managar', 'Clinic Manager sub', 'Pms', 'Corporation'][index];
   const description = ['Dashboard', 'Clinic Managar', 'Clinic Manager sub', 'Pms', 'Corporation'][index];
-  const assign_to = ['Blessing Ogodogu', 'Blessing Ogodogu', 'Blessing Ogodogu', '-', '-'][index];
+  const assign_to = ['-', '-', '-', '-', '-'][index];
   const last_updated = ['Today', 'Today', 'Today', '-', '-'][index];
 
   // const status = ['paid', 'out of date', 'progress', 'paid', 'paid'][index];

@@ -66,23 +66,23 @@ const TABLE_HEAD = [
   // { id: 'totalAmount', label: 'Clinics', width: 140 },
   // { id: 'status', label: 'Status', width: 110 },
   { id: '', width: 88 },
-  { id: "staff", label: "PMS", width: 126 },
-  { id: "name", label: "Description" },
-  { id: "createdAt", label: "Script Folder", width: 160 },
-  { id: "totalQuantity", label: "Wiki page", width: 140, align: "center" },
+  { id: "pms", label: "PMS", width: 126 },
+  { id: "description", label: "Description" },
+  { id: "script_Folder", label: "Script Folder", width: 160 },
+  { id: "wiki_page", label: "Wiki page", width: 140, align: "center" },
   { id: "totalAmount", label: "#Clinics", width: 160 },
   // { id: 'status', label: 'Status', width: 110 },
   { id: "", width: 88 },
 ];
 
 const defaultFilters = {
-  name: "",
-  status: "all",
-  startDate: null,
-  endDate: null,
+  // name: "",
+  // status: "all",
+  // startDate: null,
+  // endDate: null,
   //Added by Shakirat
   pms_status: "all",
-  pms: "",
+  pms: '',
   pmsid: [],
 };
 
@@ -93,12 +93,11 @@ export default function OrderListView() {
 
   const [pageIndex, setPageIndex] = useState(1);
   const [pms, setPms] = useState(null);
-  const [isActive, setIsActive] = useState(true);
 
   const [tableData, setTableData] = useState([]);
 
   // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
-  const URL = `${endpoints.pms.pms_data}?${ isActive != null ? `active=${isActive}&` : ''}${ pms != null ? `search=${pms}&` : ''}pageNumber=${pageIndex}`;
+  const URL = `${endpoints.pms.pms_data}?${ pms != null ? `search=${pms}&` : ''}pageNumber=${pageIndex}`;
   const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
     console.log("-------------------")
     console.log("PMS PAGE DATA: ", data || [])
@@ -172,23 +171,13 @@ export default function OrderListView() {
     (name, value) => {
       console.log("nameval------------: ",name, value)
        
-      if(name == 'pms'){
-        if(value.length >= 3)
-         setPms(value)
-        else
-          setPms(null)
-      }
-      else if(name == 'status'){
-        
-        if(value == 'active'){
-            setIsActive(true)
-            console.log('isActive: ', isActive)
+      if (name == 'pms') {
+        if (value.length >= 3) {
+            setPms(value);
+        } else {
+            setPms(null);
         }
-        else if(value == 'inactive'){
-          setIsActive(false)
-          console.log('Inactive: ', isActive)
-        }
-      }
+     }
 
       table.onResetPage();
       setFilters((prevState) => ({
@@ -202,12 +191,10 @@ export default function OrderListView() {
   const handleRemoveFilter = useCallback(
     (name, value) => {
     //  console.log("removeval: ",name, value)
-     if(name == 'pms'){
+    if (name == 'pms') {
       setPms(null)
-    }
+  }
     
-    setIsActive(isActive)
-
      table.onResetPage();
      setFilters((prevState) => ({
        ...prevState,
@@ -252,7 +239,6 @@ export default function OrderListView() {
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
     setPms(null)
-    setIsActive(true);
   }, []);
 
   const handleViewRow = useCallback(
@@ -336,7 +322,8 @@ export default function OrderListView() {
                       (tab.value === "development" && "success") ||
                       (tab.value === "production" && "warning") ||
                       (tab.value === "issue" && "error") ||
-                      "default"
+                      (tab.value === "no data" && "none") ||
+                      'default'
                     }
                   >
                     {/* {tab.value === 'all' && _orders.length}
@@ -353,20 +340,22 @@ export default function OrderListView() {
                     {tab.value === 'completed' &&
                       _orders.filter((order) => order.pms_status === 'completed').length} */}
                     {/* {tab.value === "all" && _orders.length} */}
-                    {tab.value === "production" &&
-                      _orders.filter(
-                        (order) => order.pms_status === "production"
-                      ).length}
-                    {tab.value === "development" &&
-                      _orders.filter(
-                        (order) => order.pms_status === "development"
-                      ).length}
-                    {tab.value === "issue" &&
-                      _orders.filter((order) => order.pms_status === "issue")
-                        .length}
-                    {tab.value === "No data" &&
-                      _orders.filter((order) => order.pms_status === "No data")
-                        .length}
+                    {tab.value === 'production' && 
+                     _orders.filter(
+                      (order) =>order.pms_status === "production"
+                     ).length}
+                    {tab.value === 'development' && 
+                     _orders.filter(
+                      (order) =>order.pms_status === "development"
+                     ).length}
+                    {tab.value === 'issue'&& 
+                    _orders.filter(
+                      (order) =>order.pms_status === "issue"
+                     ).length}
+                    {tab.value === "nodata" && 
+                    _orders.filter(
+                      (order) =>order.pms_status === "nodata"
+                     ).length}
                   </Label>
                 }
               />

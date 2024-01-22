@@ -27,6 +27,8 @@ import { PRODUCT_STOCK_OPTIONS } from "src/_mock";
 import { _products, PRODUCT_STATUS_OPTIONS } from "src/_mock";
 // api
 import { useGetProducts } from "src/api/product";
+import useSWR from 'swr';
+import { $get, endpoints} from 'src/utils/axios';
 // components
 import { useSettingsContext } from "src/components/settings";
 import {
@@ -53,7 +55,6 @@ import {
   _roles,
   _corpNames,
   _pmss,
-  USER_STATUS_OPTIONS,
   _status,
   PUBLISH_STATUS_OPTIONS,
 } from "src/_mock";
@@ -62,17 +63,16 @@ import {
 //Shakirat
 // const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 const STATUS_OPTIONS = [
-  { value: "all", label: "All" },
   ...PRODUCT_STATUS_OPTIONS,
 ];
 
 const TABLE_HEAD = [
-  { corp_id: "corp_name", label: "Corps Name" },
-  { corp_id: "corp_id", label: "Corps ID", width: 180 },
-  { corp_id: "corp_scr_name", label: "Base Scripts", width: 180 },
-  { corp_id: "corp_num", label: "#Clinics", width: 160 },
-  { corp_id: "status", label: "Status", width: 130 },
-  { corp_id: "", width: 88 },
+  { id: "corp_name", label: "Corps Name" },
+  { id: "corp_id", label: "Corps ID", width: 180 },
+  { id: "corp_scr_name", label: "Base Scripts", width: 180 },
+  { id: "corp_num", label: "#Clinics", width: 160 },
+  { id: "status", label: "Status", width: 130 },
+  { id: "", width: 88 },
 ];
 
 // const PUBLISH_OPTIONS = [
@@ -121,26 +121,59 @@ const defaultFilters = {
 // ----------------------------------------------------------------------
 
 export default function ProductListView() {
-  const router = useRouter();
+  // const [tableData, setTableData] = useState([]);
 
+  const [pageIndex, setPageIndex] = useState(1);
+  const [tableData, setTableData] = useState([]);
+  const [corpName, setCorpName] = useState([]);
+  
+  // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
+  const URL = `${endpoints.product.corp_data}?${ corpName != null ? `search=${corpName}&` : ''}$pageNumber=${pageIndex}`;
+  const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
+    console.log("-------------------")
+    console.log("CORPORATION PAGE DATA: ", data || [])
+    console.log("CORPS", data?.items || 0)
+    console.log("totalCount", data?.totalCount || 0)
+    console.log("currentPage", data?.currentPage || 0)
+    console.log("-------------------")
+
+    // setTableData(data?.result)
+
+  }});
+  // The API URL includes the page index, which is a React state.
+  // const { data, isLoading, error} = useSWR(`${URL}?pageNumber=${pageIndex + 1}`, fetcher);
+  if (error) return console.log(error);
+  // if (isLoading) return <h6>Loading...</h6>;
+
+
+   // const table = useTable({defaultRowsPerPage: data?.pageSize || 0, defaultCurrentPage:data?.currentPage - 1 || 0});
   const table = useTable();
+
+  useEffect(()=>{
+    setTableData(data?.items || [])
+  }, [data])
+ 
+  useEffect(()=>{
+    setPageIndex(table.page + 1)
+  }, [table.page])
+
+  const router = useRouter();
 
   const settings = useSettingsContext();
 
-  const [tableData, setTableData] = useState([]);
-
   const [filters, setFilters] = useState(defaultFilters);
-
-  const { products, productsLoading, productsEmpty } = useGetProducts();
-
+  
   const confirm = useBoolean();
+  // const { products, productsLoading, productsEmpty } = useGetProducts();
 
-  useEffect(() => {
-    if (products.length) {
-      setTableData(products);
-    }
-    console.log(products);
-  }, [products]);
+  
+
+  // useEffect(() => {
+  //   if (products.length) {
+  //     setTableData(products);
+  //   }
+  //   console.log(products);
+  // }, [products]);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -153,28 +186,59 @@ export default function ProductListView() {
     table.page * table.rowsPerPage + table.rowsPerPage
   );
 
-  const denseHeight = table.dense ? 60 : 80;
+  // const denseHeight = table.dense ? 60 : 80;
+  const denseHeight = table.dense ? 52 : 72;
 
   const canReset = !isEqual(defaultFilters, filters);
 
-  const notFound = (!dataFiltered.length && canReset) || productsEmpty;
+  // const notFound = (!dataFiltered.length && canReset) || productsEmpty;
+  const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
     // (name, value) => {
-    (corp_name, value) => {
+    (name, value) => {
+      console.log("nameval------------: ",name, value)
+        
+      if(name == 'corp_name'){
+        if(value.length >= 3)
+            setCorpName(value);
+        else
+            setCorpName(null);
+      }
+
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
         // [name]: value,
-        [corp_name]: value,
+        [name]: value,
       }));
     },
     [table]
   );
+  
+  const handleRemoveFilter = useCallback(
+    (name, value) => {
+    //  console.log("removeval: ",name, value)
+     if(value == 'corp_name'){
+      setCorpName(null)
+     }
+      // else if(name == 'corp_name'){
+      //     setCorpName(null)
+      // }
+
+     table.onResetPage();
+     setFilters((prevState) => ({
+       ...prevState,
+       [name]: value,
+     }));
+   },
+   [table]
+ );
+
 
   const handleDeleteRow = useCallback(
     (id) => {
-      const deleteRow = tableData.filter((row) => row.corp_id !== id);
+      const deleteRow = tableData.filter((row) => row.id !== id);
       setTableData(deleteRow);
 
       table.onUpdatePageDeleteRow(dataInPage.length);
@@ -197,7 +261,7 @@ export default function ProductListView() {
 
   const handleEditRow = useCallback(
     (id) => {
-      router.push(paths.dashboard.product.edit(id));
+      router.push(paths.corporations.corp.edit(id));
     },
     [router]
   );
@@ -212,13 +276,14 @@ export default function ProductListView() {
 
   const handleViewRow = useCallback(
     (id) => {
-      router.push(paths.dashboard.product.details(id));
+      router.push(paths.corporations.corp.details(id));
     },
     [router]
   );
 
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
+    setCorpName(null)
   }, []);
 
   return (
@@ -228,17 +293,12 @@ export default function ProductListView() {
           heading="Corporations"
           links={[
             // { name: 'Dashboard', href: paths.dashboard.root },
-            {
-              name: "Corps",
-              href: paths.dashboard.product.root,
-            },
+            { name: "Corps", href: paths.corporations.root },
             // { name: 'List of Corps' },
           ]}
           action={
             <Button
-              component={RouterLink}
-              // href={paths.dashboard.product.new}
-              href={paths.corporations.new}
+              // href={paths.corporations.new}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
@@ -308,11 +368,11 @@ export default function ProductListView() {
           {canReset && (
             <ProductTableFiltersResult
               filters={filters}
-              onFilters={handleFilters}
+              onFilters={handleRemoveFilter}
               //
               onResetFilters={handleResetFilters}
               //
-              results={dataFiltered.length}
+              results={data?.totalCount}
               sx={{ p: 2.5, pt: 0 }}
             />
           )}
@@ -352,39 +412,37 @@ export default function ProductListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.corp_id)
+                      tableData.map((row) => row.id)
                     )
                   }
                 />
 
                 <TableBody>
-                  {productsLoading ? (
+                  {/* {productsLoading ? (
                     [...Array(table.rowsPerPage)].map((i, index) => (
                       <TableSkeleton key={index} sx={{ height: denseHeight }} />
                     ))
-                  ) : (
-                    <>
+                  ) : ( */}
+                    
                       {dataFiltered
-                        .slice(
-                          table.page * table.rowsPerPage,
-                          table.page * table.rowsPerPage + table.rowsPerPage
-                        )
-                        .map((row) => {
-                          console.log("Row Data:", row);
-                          return (
+                        // .slice(
+                        //   table.page * table.rowsPerPage,
+                        //   table.page * table.rowsPerPage + table.rowsPerPage
+                        // )
+                        .map((row) => (
+                          // console.log("Row Data:", row);
+                          // return (
                             <ProductTableRow
-                              key={row.corp_id}
+                              key={row.id}
                               row={row}
-                              selected={table.selected.includes(row.corp_id)}
-                              onSelectRow={() => table.onSelectRow(row.corp_id)}
-                              onDeleteRow={() => handleDeleteRow(row.corp_id)}
-                              onEditRow={() => handleEditRow(row.corp_id)}
-                              onViewRow={() => handleViewRow(row.corp_id)}
+                              selected={table.selected.includes(row.id)}
+                              onSelectRow={() => table.onSelectRow(row.id)}
+                              onDeleteRow={() => handleDeleteRow(row.id)}
+                              onEditRow={() => handleEditRow(row.id)}
+                              onViewRow={() => handleViewRow(row.id)}
                             />
-                          );
-                        })}
-                    </>
-                  )}
+                         
+                        ))}
 
                   <TableEmptyRows
                     height={denseHeight}
@@ -402,9 +460,9 @@ export default function ProductListView() {
           </TableContainer>
 
           <TablePaginationCustom
-            count={dataFiltered.length}
-            page={table.page}
-            rowsPerPage={table.rowsPerPage}
+            count={data?.totalCount}
+            page={data?.currentPage - 1}
+            rowsPerPage={data?.pageSize}
             onPageChange={table.onChangePage}
             onRowsPerPageChange={table.onChangeRowsPerPage}
             //
@@ -445,47 +503,47 @@ export default function ProductListView() {
 
 function applyFilter({ inputData, comparator, filters }) {
   // const { name, stock, publish, corp_Name } = filters;
-  const { corp_name, corp_id, status } = filters;
+//   const { corp_name, corp_id, status } = filters;
 
-  const stabilizedThis = inputData.map((el, index) => [el, index]);
+//   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+//   stabilizedThis.sort((a, b) => {
+//     const order = comparator(a[0], b[0]);
+//     if (order !== 0) return order;
+//     return a[1] - b[1];
+//   });
 
-  inputData = stabilizedThis.map((el) => el[0]);
+//   inputData = stabilizedThis.map((el) => el[0]);
 
-  // if (name) {
-  //   inputData = inputData.filter(
-  //     (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
-  //   );
-  // }
-// if (corp_name) {
-  if (corp_name) {
-    inputData = inputData.filter(
-      (product) =>
-        product.corp_name.toLowerCase().indexOf(corp_name.toLowerCase()) !== -1
-    );
-  }
+//   // if (name) {
+//   //   inputData = inputData.filter(
+//   //     (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+//   //   );
+//   // }
+// // if (corp_name) {
+//   if (corp_name) {
+//     inputData = inputData.filter(
+//       (product) =>
+//         product.corp_name.toLowerCase().indexOf(corp_name.toLowerCase()) !== -1
+//     );
+//   }
 
-  // if (stock.length) {
-  //   inputData = inputData.filter((product) => stock.includes(product.inventoryType));
-  // }
-  if (status.length) {
-    inputData = inputData.filter((product) => status.includes(product.status));
-  }
+//   // if (stock.length) {
+//   //   inputData = inputData.filter((product) => stock.includes(product.inventoryType));
+//   // }
+//   if (status.length) {
+//     inputData = inputData.filter((product) => status.includes(product.status));
+//   }
 
-  // if (publish.length) {
-  //   inputData = inputData.filter((product) => publish.includes(product.publish));
-  // }
-  if (status.length) {
-    inputData = inputData.filter((product) => status.includes(product.status));
-  }
+//   // if (publish.length) {
+//   //   inputData = inputData.filter((product) => publish.includes(product.publish));
+//   // }
+//   if (status.length) {
+//     inputData = inputData.filter((product) => status.includes(product.status));
+//   }
 
-  if (status) {
-    inputData = inputData.filter((product) => product.status);
-  }
+//   if (status) {
+//     inputData = inputData.filter((product) => product.status);
+//   }
   return inputData;
 }

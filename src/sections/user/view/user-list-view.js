@@ -106,6 +106,7 @@ export default function UserListView() {
   const [pmsNames, setPmsNames] = useState([]);
   const [corpNames, setCorpNames] = useState([]);
   const quickEdit = useBoolean();
+  
 
   // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
   const URL = `${endpoints.clinic_manager.clinic_data}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;

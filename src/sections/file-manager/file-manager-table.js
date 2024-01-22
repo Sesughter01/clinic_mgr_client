@@ -33,12 +33,12 @@ import FileManagerTableRow from './file-manager-table-row';
 //   { id: '', width: 88 },
 // ];
 const TABLE_HEAD = [
-  { id: 'name', label: 'Jail Name' },
-  { id: 'corpId', label: 'Clinic ' },
-  { id: 'size', label: 'Size', width: 120 },
-  { id: 'type', label: 'Type', width: 120 },
-  { id: 'modifiedAt', label: 'Modified', width: 140 },
-  { id: 'shared', label: 'Shared', align: 'right', width: 140 },
+  { id: 'id', label: 'Jail Name' },
+  { id: 'id', label: 'Clinic' },
+  { id: 'id', label: 'PMS', width: 120 },
+  { id: 'id', label: 'Active', width: 120 },
+  { id: 'id', label: 'Status', width: 140 },
+  { id: 'id', label: 'Stage', align: 'right', width: 140 },
   { id: '', width: 88 },
 ];
 

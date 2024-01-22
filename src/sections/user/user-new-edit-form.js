@@ -20,7 +20,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 // _mock
-import { USER_STATUS_OPTIONS } from 'src/_mock';
 //
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
@@ -37,13 +36,20 @@ import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
+
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// import dayjs, { Dayjs } from 'dayjs';
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 // utils
 import { fData } from 'src/utils/format-number';
 // routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 // assets
-import { countries } from 'src/assets/data';
+import { edms_countries } from 'src/assets/data';
 // components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
@@ -53,9 +59,18 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
   RHFAutocomplete,
+  RHFSelect
 } from 'src/components/hook-form';
 
+
 // ----------------------------------------------------------------------
+
+import { $post, $get, endpoints} from 'src/utils/axios';
+import { CLINIC_DATEFORMAT_OPTIONS, CLINIC_DATE_OPTIONS, CLINIC_UNITAPPOINTMENTS_OPTIONS, CLINIC_TIMEZONE_OPTIONS, CLINIC_PERSONS_OPTIONS } from 'src/_mock';
+
+// ----------------------------------------------------------------------
+
+
 //Added by Blessing
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -90,52 +105,21 @@ function a11yProps(index) {
   };
 }
 
-export default function UserNewEditForm({ currentUser, open, onClose }) {
+export default function UserNewEditForm({ clinic, open, onClose }) {
+  
+  const [pmsNames, setPmsNames] = useState([]);
+  const [corpNames, setCorpNames] = useState([]);
+
   const router = useRouter();
 
   const { enqueueSnackbar } = useSnackbar();
-
-  // const NewUserSchema = Yup.object().shape({
-  //   name: Yup.string().required('Name is required'),
-  //   email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-  //   phoneNumber: Yup.string().required('Phone number is required'),
-  //   address: Yup.string().required('Address is required'),
-  //   country: Yup.string().required('Country is required'),
-  //   company: Yup.string().required('Company is required'),
-  //   state: Yup.string().required('State is required'),
-  //   city: Yup.string().required('City is required'),
-  //   role: Yup.string().required('Role is required'),
-  //   zipCode: Yup.string().required('Zip code is required'),
-  //   avatarUrl: Yup.mixed().nullable().required('Avatar is required'),
-  //   // not required
-  //   status: Yup.string(),
-  //   isVerified: Yup.boolean(),
-  // });
-
-  // const defaultValues = useMemo(
-  //   () => ({
-  //     name: currentUser?.name || '',
-  //     city: currentUser?.city || '',
-  //     role: currentUser?.role || '',
-  //     email: currentUser?.email || '',
-  //     state: currentUser?.state || '',
-  //     status: currentUser?.status || '',
-  //     address: currentUser?.address || '',
-  //     country: currentUser?.country || '',
-  //     zipCode: currentUser?.zipCode || '',
-  //     company: currentUser?.company || '',
-  //     avatarUrl: currentUser?.avatarUrl || null,
-  //     phoneNumber: currentUser?.phoneNumber || '',
-  //     isVerified: currentUser?.isVerified || true,
-  //   }),
-  //   [currentUser]
-  // );
 
   //Added By Blessing
   const NewUserSchema = Yup.object().shape({
     //details
     id: Yup.string(),
     clinic_address: Yup.string().required('Clinic Address is required'),
+    corp_id: Yup.string().required('Corp practice is required'),
     idclinics: Yup.string().required('Clinic Id is required'),
     clinic_city: Yup.string().required('Clinic city is required'),
     clinic_code: Yup.string().required('Clinic code is required'),
@@ -220,92 +204,92 @@ export default function UserNewEditForm({ currentUser, open, onClose }) {
   const defaultValues = useMemo(
     () => ({
       //details
-      // corpPractice: currentUser?.corpPractice|| '',
-      clinic_address: currentUser?.clinic_address || '',
-      idclinics: currentUser?.idclinics || '',
-      clinic_city: currentUser?.clinic_city || '',
-      clinic_code: currentUser?.clinic_code || '',
-      clinic_province: currentUser?.clinic_province || '',
-      data_Path: currentUser?.data_Path || '',
-      clinic_postal: currentUser?.clinic_postal || '',
-      clinic_name: currentUser?.clinic_name|| '',
-      country: currentUser?.country || '',
-      avatarUrl: currentUser?.avatarUrl || null,
-      current_app: currentUser?.current_app || '',
-      clinic_phone: currentUser?.clinic_phone || '',
-      dest_db: currentUser?.dest_db || '',
-      clinic_email: currentUser?.clinic_email || '',
-      clinic_appointmentunit: currentUser?.clinic_appointmentunit || '',
-      acquistionDate: currentUser?.acquistionDate || '',
-      prodDate: currentUser?.prodDate || '',
-      cutoff_date: currentUser?.cutoff_date || '',
-      chargeAdj: currentUser?.chargeAdj || '',
-      firstTransId: currentUser?.firstTransId || '',
-      colDate: currentUser?. colDate || '',
-      responsiblePerson: currentUser?.responsiblePerson || '',
-      collectionAdj: currentUser?.collectionAdj || '',
-      scriptConvUnit: currentUser?.scriptConvUnit || '',
-      collectionAdj: currentUser?.collectionAdj || '',
-      dateFormat: currentUser?.dateFormat || '',
-      timezone: currentUser?.timezone || '',
-      isVerified: currentUser?.isVerified || true,
+      corp_id: clinic?.corp_id|| '',
+      clinic_address: clinic?.clinic_address || '',
+      idclinics: clinic?.idclinics || '',
+      clinic_city: clinic?.clinic_city || '',
+      clinic_code: clinic?.clinic_code || '',
+      clinic_province: clinic?.clinic_province || '',
+      data_Path: clinic?.data_Path || '',
+      clinic_postal: clinic?.clinic_postal || '',
+      clinic_name: clinic?.clinic_name|| '',
+      country: clinic?.country || '',
+      avatarUrl: clinic?.avatarUrl || null,
+      current_app: clinic?.current_app || '',
+      clinic_phone: clinic?.clinic_phone || '',
+      dest_db: clinic?.dest_db || '',
+      clinic_email: clinic?.clinic_email || '',
+      clinic_appointmentunit: clinic?.clinic_appointmentunit || '',
+      acquistionDate: clinic?.acquistionDate || '',
+      prodDate: clinic?.prodDate || '',
+      cutoff_date: clinic?.cutoff_date || '',
+      chargeAdj: clinic?.chargeAdj || '',
+      firstTransId: clinic?.firstTransId || '',
+      colDate: clinic?. colDate || '',
+      responsiblePerson: clinic?.responsiblePerson || '',
+      collectionAdj: clinic?.collectionAdj || '',
+      scriptConvUnit: clinic?.scriptConvUnit || '',
+      collectionAdj: clinic?.collectionAdj || '',
+      dateFormat: clinic?.dateFormat || '',
+      timezone: clinic?.timezone || '',
+      isVerified: clinic?.isVerified || true,
       //Jail
-      data_path_source: currentUser?.data_path_source || '',
-      simpleJail: currentUser?.simpleJail || '',
-      jailDataDir: currentUser?.jailDataDir || '',
-      multiClinicJail: currentUser?.multiClinicJail || '',
-      locationId: currentUser?.locationId || '',
-      separateMultiClinicJail: currentUser?.separateMultiClinicJail || '',
+      data_path_source: clinic?.data_path_source || '',
+      simpleJail: clinic?.simpleJail || '',
+      jailDataDir: clinic?.jailDataDir || '',
+      multiClinicJail: clinic?.multiClinicJail || '',
+      locationId: clinic?.locationId || '',
+      separateMultiClinicJail: clinic?.separateMultiClinicJail || '',
       //Payment method
-      creditCard: currentUser?.creditCard || '',
-      writeOff: currentUser?.writeOff || '',
-      visa: currentUser?.visa || '',
-      finance: currentUser?.finance || '',
-      masterCard: currentUser?.masterCard || '',
-      directDeposit: currentUser?.directDeposit || '',
-      debit: currentUser?.debit || '',
-      giftCertificate: currentUser?.giftCertificate || '',
-      cash: currentUser?.cash || '',
-      webCoupon: currentUser?.webCoupon || '',
-      personalCheque: currentUser?.personalCheque || '',
-      insuranceEfts: currentUser?.insuranceEfts || '',
-      insuranceCheque: currentUser?.insuranceCheque || '',
-      insuranceOthers: currentUser?.insuranceOthers || '',
-      cashBalance: currentUser?.cashBalance || '',
-      batchCollection: currentUser?.batchCollection || '',
-      eTransfer: currentUser?.eTransfer || '',
-      others: currentUser?.others || '',
-      americanExp: currentUser?.americanExp || '',
-      refund: currentUser?.refund || '',
-      assignment: currentUser?.assignment || '',
-      paymentPlan: currentUser?.paymentPlan || '',
+      creditCard: clinic?.creditCard || '',
+      writeOff: clinic?.writeOff || '',
+      visa: clinic?.visa || '',
+      finance: clinic?.finance || '',
+      masterCard: clinic?.masterCard || '',
+      directDeposit: clinic?.directDeposit || '',
+      debit: clinic?.debit || '',
+      giftCertificate: clinic?.giftCertificate || '',
+      cash: clinic?.cash || '',
+      webCoupon: clinic?.webCoupon || '',
+      personalCheque: clinic?.personalCheque || '',
+      insuranceEfts: clinic?.insuranceEfts || '',
+      insuranceCheque: clinic?.insuranceCheque || '',
+      insuranceOthers: clinic?.insuranceOthers || '',
+      cashBalance: clinic?.cashBalance || '',
+      batchCollection: clinic?.batchCollection || '',
+      eTransfer: clinic?.eTransfer || '',
+      others: clinic?.others || '',
+      americanExp: clinic?.americanExp || '',
+      refund: clinic?.refund || '',
+      assignment: clinic?.assignment || '',
+      paymentPlan: clinic?.paymentPlan || '',
       //Script
-      table: currentUser?.table || '',
-      scriptType: currentUser?.scriptType || '',
-      edmsPrefix: currentUser?.edmsPrefix || '',
+      table: clinic?.table || '',
+      scriptType: clinic?.scriptType || '',
+      edmsPrefix: clinic?.edmsPrefix || '',
       //Workflow
-      stage: currentUser?.stage || '',
-      todo: currentUser?.todo || '',
-      actioBy: currentUser?.actioBy || '',
-      asana_url: currentUser?.asana_url || '',
+      stage: clinic?.stage || '',
+      todo: clinic?.todo || '',
+      actioBy: clinic?.actioBy || '',
+      asana_url: clinic?.asana_url || '',
       //Appt status values
-      defId: currentUser?.defId || '',
-      edmsStatus: currentUser?.edmsStatus || '',
-      pmsStatus: currentUser?.pmsStatus || '',
+      defId: clinic?.defId || '',
+      edmsStatus: clinic?.edmsStatus || '',
+      pmsStatus: clinic?.pmsStatus || '',
       //Employee mapping
-      providerCode: currentUser?.providerCode || '',
-      employee: currentUser?.employee || '',
-      mapEmployeeTo: currentUser?.mapEmployeeTo || '',
-      designation: currentUser?.designation || '',
-      practice: currentUser?.practice || '',
-      primaryChar: currentUser?.primaryChar || '',
+      providerCode: clinic?.providerCode || '',
+      employee: clinic?.employee || '',
+      mapEmployeeTo: clinic?.mapEmployeeTo || '',
+      designation: clinic?.designation || '',
+      practice: clinic?.practice || '',
+      primaryChar: clinic?.primaryChar || '',
     }),
-    [currentUser],
+    [clinic],
     
   );
   useEffect(() =>{
-    console.log("CLINIC_ADDRESS:", currentUser?.clinic_address)
-  }, [currentUser]);
+    // console.log("CLINIC_ADDRESS:", clinic?.clinic_address)
+  }, [clinic]);
 
   
   const methods = useForm({
@@ -324,16 +308,16 @@ export default function UserNewEditForm({ currentUser, open, onClose }) {
 
   // const values = watch();
   useEffect(() => {
-    if (currentUser) {
+    if (clinic) {
       reset(defaultValues);
     }
-  }, [currentUser, defaultValues, reset]);
+  }, [clinic, defaultValues, reset]);
   
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
-      enqueueSnackbar(currentUser ? 'Update success!' : 'Create success!');
+      enqueueSnackbar(clinic ? 'Update success!' : 'Create success!');
       // router.push(paths.dashboard.user.list);
       router.push(paths.clinicmanager.root);
       console.info('DATA', data);
@@ -364,6 +348,26 @@ export default function UserNewEditForm({ currentUser, open, onClose }) {
     },
     [setValue]
   );
+
+  const getPMS_Corps = ()=>{
+    $get(endpoints.pms.names)
+    .then(res =>{
+      res.sort()
+      res.splice(0, 0, "All")
+      setPmsNames(res)
+    })
+
+    $get(endpoints.corps.names)
+    .then(res =>{
+      res.sort()
+      res.splice(0, 0, "All")
+      setCorpNames(res)
+    })
+  }
+
+  useEffect(()=>{
+    getPMS_Corps()
+  }, [])
   
   //Added by Blessing
   //For workflow tab (starts)
@@ -413,10 +417,6 @@ export default function UserNewEditForm({ currentUser, open, onClose }) {
   
   const rows = [
     createData(1, 159, 6.0),
-    // createData(2, 237, 9.0),
-    // createData(3, 262, 16.0),
-    // createData(4, 305, 3.7),
-    // createData(5, 356, 16.0),
   ];
   //For appt status value (ends)
 
@@ -427,10 +427,6 @@ export default function UserNewEditForm({ currentUser, open, onClose }) {
   
   const emRows = [
     createEmData(1, 159, 6.0, 7.0, 9.0, 8.0)
-    // createData(2, 237, 9.0),
-    // createData(3, 262, 16.0),
-    // createData(4, 305, 3.7),
-    // createData(5, 356, 16.0),
   ];
   //For employee maping (ends)
 
@@ -457,171 +453,15 @@ const [tableData, setTableData] = useState([
 
   //
   //For date
-const [date, setDate] = useState("none");
+
+  const [date, setDate] = useState(null);
+  
   const onDateChange = (event) => {
      setDate(event.target.value);
   };
 
   return (
-    // <FormProvider methods={methods} onSubmit={onSubmit}>
-    //   <Grid container spacing={3}>
-    //     <Grid xs={12} md={4}>
-    //       <Card sx={{ pt: 10, pb: 5, px: 3 }}>
-    //         {currentUser && (
-    //           <Label
-    //             color={
-    //               (values.status === 'active' && 'success') ||
-    //               (values.status === 'banned' && 'error') ||
-    //               'warning'
-    //             }
-    //             sx={{ position: 'absolute', top: 24, right: 24 }}
-    //           >
-    //             {values.status}
-    //           </Label>
-    //         )}
-
-    //         <Box sx={{ mb: 5 }}>
-    //           <RHFUploadAvatar
-    //             name="avatarUrl"
-    //             maxSize={3145728}
-    //             onDrop={handleDrop}
-    //             helperText={
-    //               <Typography
-    //                 variant="caption"
-    //                 sx={{
-    //                   mt: 3,
-    //                   mx: 'auto',
-    //                   display: 'block',
-    //                   textAlign: 'center',
-    //                   color: 'text.disabled',
-    //                 }}
-    //               >
-    //                 Allowed *.jpeg, *.jpg, *.png, *.gif
-    //                 <br /> max size of {fData(3145728)}
-    //               </Typography>
-    //             }
-    //           />
-    //         </Box>
-
-    //         {currentUser && (
-    //           <FormControlLabel
-    //             labelPlacement="start"
-    //             control={
-    //               <Controller
-    //                 name="status"
-    //                 control={control}
-    //                 render={({ field }) => (
-    //                   <Switch
-    //                     {...field}
-    //                     checked={field.value !== 'active'}
-    //                     onChange={(event) =>
-    //                       field.onChange(event.target.checked ? 'banned' : 'active')
-    //                     }
-    //                   />
-    //                 )}
-    //               />
-    //             }
-    //             label={
-    //               <>
-    //                 <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-    //                   Banned
-    //                 </Typography>
-    //                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-    //                   Apply disable account
-    //                 </Typography>
-    //               </>
-    //             }
-    //             sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
-    //           />
-    //         )}
-
-    //         <RHFSwitch
-    //           name="isVerified"
-    //           labelPlacement="start"
-    //           label={
-    //             <>
-    //               <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-    //                 Email Verified
-    //               </Typography>
-    //               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-    //                 Disabling this will automatically send the user a verification email
-    //               </Typography>
-    //             </>
-    //           }
-    //           sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-    //         />
-
-    //         {currentUser && (
-    //           <Stack justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
-    //             <Button variant="soft" color="error">
-    //               Delete User
-    //             </Button>
-    //           </Stack>
-    //         )}
-    //       </Card>
-    //     </Grid>
-
-    //     <Grid xs={12} md={8}>
-    //       <Card sx={{ p: 3 }}>
-    //         <Box
-    //           rowGap={3}
-    //           columnGap={2}
-    //           display="grid"
-    //           gridTemplateColumns={{
-    //             xs: 'repeat(1, 1fr)',
-    //             sm: 'repeat(2, 1fr)',
-    //           }}
-    //         >
-    //           <RHFTextField name="name" label="Full Name" />
-    //           <RHFTextField name="email" label="Email Address" />
-    //           <RHFTextField name="phoneNumber" label="Phone Number" />
-
-    //           <RHFAutocomplete
-    //             name="country"
-    //             label="Country"
-    //             options={countries.map((country) => country.label)}
-    //             getOptionLabel={(option) => option}
-    //             isOptionEqualToValue={(option, value) => option === value}
-    //             renderOption={(props, option) => {
-    //               const { code, label, phone } = countries.filter(
-    //                 (country) => country.label === option
-    //               )[0];
-
-    //               if (!label) {
-    //                 return null;
-    //               }
-
-    //               return (
-    //                 <li {...props} key={label}>
-    //                   <Iconify
-    //                     key={label}
-    //                     icon={`circle-flags:${code.toLowerCase()}`}
-    //                     width={28}
-    //                     sx={{ mr: 1 }}
-    //                   />
-    //                   {label} ({code}) +{phone}
-    //                 </li>
-    //               );
-    //             }}
-    //           />
-
-    //           <RHFTextField name="state" label="State/Region" />
-    //           <RHFTextField name="city" label="City" />
-    //           <RHFTextField name="address" label="Address" />
-    //           <RHFTextField name="zipCode" label="Zip/Code" />
-    //           <RHFTextField name="company" label="Company" />
-    //           <RHFTextField name="role" label="Role" />
-    //         </Box>
-
-    //         <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-    //           <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-    //             {!currentUser ? 'Create User' : 'Save Changes'}
-    //           </LoadingButton>
-    //         </Stack>
-    //       </Card>
-    //     </Grid>
-    //   </Grid>
-    // </FormProvider>
+    // TABS
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -637,7 +477,12 @@ const [date, setDate] = useState("none");
           {/* <Tab label="Process" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
+
+      {/* TABS ENDS */}
       <CustomTabPanel value={value} index={0}>
+
+      {/* CLINIC DETAILS */}
+      {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Grid container spacing={3}>
           <Grid xs={12} 
@@ -657,7 +502,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Go live'}
+                    {!clinic ? 'Create User' : 'Go live'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -675,7 +520,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Save Changes'}
+                    {!clinic ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -683,105 +528,8 @@ const [date, setDate] = useState("none");
           </Grid>
         </Grid>
       <Grid container spacing={3}>
-        {/* <Grid xs={12} md={4}>
-          <Card sx={{ pt: 10, pb: 5, px: 3 }}>
-            {currentUser && (
-              <Label
-                color={
-                  (values.status === 'active' && 'success') ||
-                  (values.status === 'banned' && 'error') ||
-                  'warning'
-                }
-                sx={{ position: 'absolute', top: 24, right: 24 }}
-              >
-                {values.status}
-              </Label>
-            )}
-
-            <Box sx={{ mb: 5 }}>
-              <RHFUploadAvatar
-                name="avatarUrl"
-                maxSize={3145728}
-                onDrop={handleDrop}
-                helperText={
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      mt: 3,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.disabled',
-                    }}
-                  >
-                    Allowed *.jpeg, *.jpg, *.png, *.gif
-                    <br /> max size of {fData(3145728)}
-                  </Typography>
-                }
-              />
-            </Box>
-
-            {currentUser && (
-              <FormControlLabel
-                labelPlacement="start"
-                control={
-                  <Controller
-                    name="status"
-                    control={control}
-                    render={({ field }) => (
-                      <Switch
-                        {...field}
-                        checked={field.value !== 'active'}
-                        onChange={(event) =>
-                          field.onChange(event.target.checked ? 'banned' : 'active')
-                        }
-                      />
-                    )}
-                  />
-                }
-                label={
-                  <>
-                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                      Banned
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      Apply disable account
-                    </Typography>
-                  </>
-                }
-                sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
-              />
-            )}
-
-            <RHFSwitch
-              name="isVerified"
-              labelPlacement="start"
-              label={
-                <>
-                  <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                    Email Verified
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Disabling this will automatically send the user a verification email
-                  </Typography>
-                </>
-              }
-              sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-            />
-
-            {currentUser && (
-              <Stack justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
-                <Button variant="soft" color="error">
-                  Delete User
-                </Button>
-              </Stack>
-            )}
-          </Card>
-        </Grid> */}
-
         <Grid xs={12} md={12}>
           <Card sx={{ p: 3 }}>
-             
             <Box
               rowGap={3}
               columnGap={2}
@@ -791,30 +539,34 @@ const [date, setDate] = useState("none");
                 sm: 'repeat(2, 1fr)',
               }}
             >
-              
-              <RHFTextField
-                name="corpPractice"
-                label="Corp Practice"
-              />
-            
+              <RHFTextField name="clinic_name" label="Name" />
+              <RHFSelect name="corp_id" label="Corp Practice">
+                {corpNames.map((corp) => (
+                  <MenuItem key={corp} value={corp}>
+                    {corp}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
 
-              <RHFTextField name="clinic_address" label="Clinic Address" />
-              <RHFTextField name="idclinics" label="Clinic Id" />
-              <RHFTextField name="clinic_city" label="Clinic City" />
-              <RHFTextField name="clinic_code" label="Clinic Code" />
-              <RHFTextField name="clinic_province" label="Clinic Province" />
-              <RHFTextField name="data_Path" label="Data Path" />
-              <RHFTextField name="clinic_postal" label="Clinic Postal" />
-              <RHFTextField name="clinic_name" label="Clinic Name" />
+              <RHFSelect name="current_app" label="Current Application">
+                {pmsNames.map((pms) => (
+                  <MenuItem key={pms} value={pms}>
+                    {pms}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
+
+              <RHFTextField name="clinic_address" label="Address" />
+              <RHFTextField name="clinic_city" label="City" />
 
               <RHFAutocomplete
                 name="country"
                 label="Country"
-                options={countries.map((country) => country.label)}
+                options={edms_countries.map((country) => country.label)}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) => option === value}
                 renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
+                  const { code, label, phone } = edms_countries.filter(
                     (country) => country.label === option
                   )[0];
 
@@ -835,57 +587,106 @@ const [date, setDate] = useState("none");
                   );
                 }}
               />
-
-              <RHFTextField
-                name="current_app"
-                label="Current Application"
-              />
               
-              <RHFTextField name="clinic_phone" label="Clinic Phone" />
+              <RHFTextField name="clinic_code" label="Clinic Code" />
+              <RHFTextField name="clinic_province" label="Province" />
+              <RHFTextField name="data_Path" label="Data Path" />
+              <RHFTextField name="clinic_postal" label="Postal" />
+              
+              <RHFTextField name="clinic_phone" label="Phone" />
               <RHFTextField name="dest_db" label="Dest. DB" />
               <RHFTextField name="email" label="Email" />
+              
+              <RHFSelect name="responsiblePerson" label="Responsible Person">
+              {CLINIC_PERSONS_OPTIONS.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.value}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
 
-              <RHFTextField
-                name="clinic_appointmentunit"
-                label="Clinic Appointment Unit"
-              />
+              <RHFSelect name="clinic_appointmentunit" label="Clinic Appointment Unit">
+              {CLINIC_UNITAPPOINTMENTS_OPTIONS.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.value}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
 
-              <RHFTextField name="acquistionDate"
-                 label="Acquisition Date"
-                 type="date"
-                 value={date}
-                 onChange={onDateChange} />
-
-              <RHFTextField
-                name="prodDate"
-                label="Production By"
-              />
-
-              <RHFTextField
-                name="chargeAdj"
-                label="Chrg Adj By"
-              />
-
-              <RHFTextField
-                name="colDate"
-                label="Collection By"
-              />
-               
-               <RHFTextField
-                name="collectionAdj"
-                label="Coll Adj By"
-              />
-
-              <RHFTextField name="cutoff_date" 
-                 label="Cut Off Date" 
-                 type="date"
-                 value={date}
-                 onChange={onDateChange}/>
               <RHFTextField name="firstTransId" label="Stating Trans Id" />
-              <RHFTextField name="responsiblePerson" label="Responsible Person" />
-              <RHFTextField name="dateFormat" label="Date Format" />
+
+              <DatePicker
+                name="acquistionDate"
+                label="Acquisition Date"
+                value={date}
+                onChange={onDateChange}
+              />
+
+              
+
+              <DatePicker
+                name="cutoff_date"
+                label="Cut Off Date"
+                value={date}
+                onChange={onDateChange}
+              />
+
+
+              {/* <DatePicker defaultValue={'2022-04-17'} /> */}
+
+              <RHFSelect name="prodDate" label="Production By">
+              {CLINIC_DATE_OPTIONS.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.value}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
+
+              <RHFSelect name="chargeAdj" label="Chrg Adj By">
+                {CLINIC_DATE_OPTIONS.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.value}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
+
+
+              <RHFSelect name="colDate" label="Collection By">
+              {CLINIC_DATE_OPTIONS.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.value}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
+
+              <RHFSelect name="collectionAdj" label="Coll Adj By">
+              {CLINIC_DATE_OPTIONS.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.value}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
+
+
+              <RHFSelect name="dateFormat" label="Date Format" >
+              {CLINIC_DATEFORMAT_OPTIONS.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.value}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
+
               <RHFTextField name="scriptConvUnit" label="Script Coversion Unit" />
-              <RHFTextField name="timezone" label="Time Zone" />
+
+              <RHFSelect name="timezone" label="Time Zone">
+              {CLINIC_TIMEZONE_OPTIONS.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.value}
+                  </MenuItem>
+                ))}
+              </RHFSelect>
+
+              <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
 
               <FormGroup>
                 <FormControlLabel control={<Checkbox defaultChecked />} label="Is Active" />
@@ -896,13 +697,21 @@ const [date, setDate] = useState("none");
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentUser ? 'Create User' : 'Go live'}
+                {!clinic ? 'Create User' : 'Go live'}
               </LoadingButton>
             </Stack>
           </Card>
         </Grid>
       </Grid>
       </FormProvider>
+      {/* </LocalizationProvider>           */}
+
+
+
+
+
+
+
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
@@ -941,7 +750,7 @@ const [date, setDate] = useState("none");
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentUser ? 'Create User' : 'Save Changes'}
+                {!clinic ? 'Create User' : 'Save Changes'}
               </LoadingButton>
             </Stack>
           </Card>
@@ -971,7 +780,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Save Changes'}
+                    {!clinic ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1021,14 +830,14 @@ const [date, setDate] = useState("none");
 
                 {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Save Changes'}
+                    {!clinic ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack> */}
               </Card>
             </Grid>
             <Grid xs={12} md={4}>
               {/* <Card sx={{ pt: 10, pb: 5, px: 3 }}> */}
-                {/* {currentUser && (
+                {/* {clinic && (
                   <Label
                     color={
                       (values.status === 'active' && 'success') ||
@@ -1082,7 +891,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'purge record'}
+                    {!clinic ? 'Create User' : 'purge record'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1100,7 +909,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Add new'}
+                    {!clinic ? 'Create User' : 'Add new'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1118,7 +927,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Save Changes'}
+                    {!clinic ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -1238,7 +1047,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'purge record'}
+                    {!clinic ? 'Create User' : 'purge record'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1256,7 +1065,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Add new'}
+                    {!clinic ? 'Create User' : 'Add new'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1274,7 +1083,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Save Changes'}
+                    {!clinic ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -1352,7 +1161,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'purge record'}
+                    {!clinic ? 'Create User' : 'purge record'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1370,7 +1179,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Add new'}
+                    {!clinic ? 'Create User' : 'Add new'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1388,7 +1197,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Save Changes'}
+                    {!clinic ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -1465,7 +1274,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Post >>>'}
+                    {!clinic ? 'Create User' : 'Post >>>'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1483,7 +1292,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Save Changes'}
+                    {!clinic ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1569,7 +1378,7 @@ const [date, setDate] = useState("none");
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentUser ? 'Create User' : 'Save Changes'}
+                    {!clinic ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -1601,11 +1410,11 @@ const [date, setDate] = useState("none");
                     <RHFAutocomplete
                       name="table"
                       label="Table"
-                      options={countries.map((country) => country.label)}
+                      options={edms_countries.map((country) => country.label)}
                       getOptionLabel={(option) => option}
                       isOptionEqualToValue={(option, value) => option === value}
                       renderOption={(props, option) => {
-                        const { code, label, phone } = countries.filter(
+                        const { code, label, phone } = edms_countries.filter(
                           (country) => country.label === option
                         )[0];
 
@@ -1629,11 +1438,11 @@ const [date, setDate] = useState("none");
                     <RHFAutocomplete
                       name="scriptType"
                       label="Script Type"
-                      options={countries.map((country) => country.label)}
+                      options={edms_countries.map((country) => country.label)}
                       getOptionLabel={(option) => option}
                       isOptionEqualToValue={(option, value) => option === value}
                       renderOption={(props, option) => {
-                        const { code, label, phone } = countries.filter(
+                        const { code, label, phone } = edms_countries.filter(
                           (country) => country.label === option
                         )[0];
 
@@ -1661,8 +1470,8 @@ const [date, setDate] = useState("none");
 
                   <Stack alignItems="flex-end" sx={{ mt: 2 }}>
                     <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                      {/* {!currentUser ? 'Create User' : 'Save Changes'} */}
-                      {!currentUser ? 'Create User' : 'Generate'}
+                      {/* {!clinic ? 'Create User' : 'Save Changes'} */}
+                      {!clinic ? 'Create User' : 'Generate'}
                     </LoadingButton>
                   </Stack>
                 </Card>
@@ -1692,11 +1501,11 @@ const [date, setDate] = useState("none");
                     <RHFAutocomplete
                       name="edmsPrefix"
                       label="EDMS Prefix"
-                      options={countries.map((country) => country.label)}
+                      options={edms_countries.map((country) => country.label)}
                       getOptionLabel={(option) => option}
                       isOptionEqualToValue={(option, value) => option === value}
                       renderOption={(props, option) => {
-                        const { code, label, phone } = countries.filter(
+                        const { code, label, phone } = edms_countries.filter(
                           (country) => country.label === option
                         )[0];
 
@@ -1729,16 +1538,16 @@ const [date, setDate] = useState("none");
                   // sx={{ mt: 0 }{ mt: 0 } }
                   >
                     <LoadingButton type="submit" variant="contained" loading={isSubmitting} sx={{ ml: 3, marginRight: 2  }}>
-                      {!currentUser ? 'Create User' : 'Pull corp\'s adjustments'}
+                      {!clinic ? 'Create User' : 'Pull corp\'s adjustments'}
                     </LoadingButton>
                     <LoadingButton type="submit" variant="contained" loading={isSubmitting} >
-                      {!currentUser ? 'Create User' : 'Add clinic script'}
+                      {!clinic ? 'Create User' : 'Add clinic script'}
                     </LoadingButton>
                   </Stack>
                   
                   {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
                     <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                      {!currentUser ? 'Create User' : 'Save Changes'}
+                      {!clinic ? 'Create User' : 'Save Changes'}
                     </LoadingButton>
                   </Stack> */}
                 </Card>
@@ -1757,5 +1566,5 @@ const [date, setDate] = useState("none");
 }
 
 UserNewEditForm.propTypes = {
-  currentUser: PropTypes.object,
+  clinic: PropTypes.object,
 };

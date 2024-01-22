@@ -37,6 +37,9 @@ import FileManagerFilters from '../file-manager-filters';
 import FileManagerGridView from '../file-manager-grid-view';
 import FileManagerFiltersResult from '../file-manager-filters-result';
 import FileManagerNewFolderDialog from '../file-manager-new-folder-dialog';
+import FileListTableRow from '../file-list-table';
+
+
 
 // ----------------------------------------------------------------------
 

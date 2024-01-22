@@ -13,11 +13,11 @@ import { useGetProduct } from 'src/api/product';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 //
-import ProductNewEditForm from '../product-new-edit-form';
+// import FileNewEditForm from '../file-new-edit-form';
 
 // ----------------------------------------------------------------------
 
-export default function ProductEditView({ id }) {
+export default function FileEditView({ id }) {
   const settings = useSettingsContext();
   const corp = {
     "status": true,

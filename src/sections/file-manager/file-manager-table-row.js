@@ -44,7 +44,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
   const [inviteEmail, setInviteEmail] = useState('');
 
-  const file_type = file_type;
+  const type = file_type;
 
   // const favorite = useBoolean(isFavorited);
 
@@ -124,7 +124,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
         <TableCell onClick={handleClick}>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <FileThumbnail file={file_type} sx={{ width: 36, height: 36 }} />
+            <FileThumbnail file={type} sx={{ width: 36, height: 36 }} />
 
             <Typography
               noWrap

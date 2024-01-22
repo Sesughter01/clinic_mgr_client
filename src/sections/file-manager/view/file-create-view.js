@@ -6,13 +6,13 @@ import Container from '@mui/material/Container';
 import { paths } from 'src/routes/paths';
 // components
 import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+// import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 //
-import ProductNewEditForm from '../product-new-edit-form';
+// import ProductNewEditForm from '../product-new-edit-form';
 
 // ----------------------------------------------------------------------
 
-export default function ProductCreateView() {
+export default function FileCreateView() {
   const settings = useSettingsContext();
 
   return (

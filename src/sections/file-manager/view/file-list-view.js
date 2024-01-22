@@ -281,6 +281,7 @@ export default function FileManagerView() {
                 table={table}
                 tableData={tableData}
                 dataFiltered={dataFiltered}
+                ftype="file"
                 onDeleteRow={handleDeleteItem}
                 notFound={notFound}
                 onOpenConfirm={confirm.onTrue}
@@ -290,7 +291,6 @@ export default function FileManagerView() {
                 table={table}
                 data={tableData}
                 dataFiltered={dataFiltered}
-                ftype="file"
                 onDeleteItem={handleDeleteItem}
                 onOpenConfirm={confirm.onTrue}
               />

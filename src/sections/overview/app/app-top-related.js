@@ -77,12 +77,12 @@ function ApplicationItem({ app }) {
         </Stack> */}
       </Box>
 
-      <Stack alignItems="flex-end">
+      {/* <Stack alignItems="flex-end">
         <Rating readOnly size="small" precision={0.5} name="reviews" value={ratingNumber} />
-        {/* <Typography variant="caption" sx={{ mt: 0.5, color: 'text.secondary' }}>
+        <Typography variant="caption" sx={{ mt: 0.5, color: 'text.secondary' }}>
           {fShortenNumber(totalReviews)} reviews
-        </Typography> */}
-      </Stack>
+        </Typography>
+      </Stack> */}
     </Stack>
   );
 }

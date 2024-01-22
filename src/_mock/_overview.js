@@ -3,7 +3,8 @@ import { _mock } from './_mock';
 // APP
 // ----------------------------------------------------------------------
 
-export const _appRelated = ['Chrome', 'Drive', 'Dropbox', 'Evernote', 'Github'].map(
+// export const _appRelated = ['Chrome', 'Drive', 'Dropbox', 'Evernote', 'Github'].map(
+export const _appRelated = ['Jira', 'Clinic', '-', '-', '-', '-'].map(
   (name, index) => {
     const system = [2, 4].includes(index) ? 'Windows' : 'Mac';
 
@@ -28,7 +29,8 @@ export const _appRelated = ['Chrome', 'Drive', 'Dropbox', 'Evernote', 'Github'].
   }
 );
 
-export const _appInstalled = ['Germany', 'England', 'France', 'Korean', 'USA'].map(
+// export const _appInstalled = ['Germany', 'England', 'France', 'Korean', 'USA'].map(
+export const _appInstalled = ['Ticket Id', 'Project', 'Description', 'Assign To', 'Last Updated'].map(
   (name, index) => ({
     id: _mock.id(index),
     name,
@@ -47,16 +49,38 @@ export const _appAuthors = [...Array(3)].map((_, index) => ({
 }));
 
 export const _appInvoices = [...Array(5)].map((_, index) => {
-  const category = ['Android', 'Mac', 'Windows', 'Android', 'Mac'][index];
+  const category = ['5-Moved To Production', '5-Moved To Production', '5-Moved To Production', '5-Moved To Production', '5-Moved To Production'][index];
+  const invoiceNumber = ['BC-010 Camgara', 'Altima Barrie', 'Altima Bayview Village Dental Centre', 'Camgara Randall Allen', 'Bible Hill'][index];
 
-  // const status = ['paid', 'out of date', 'progress', 'paid', 'paid'][index];
+  const status = ['paid', 'out of date', 'progress', 'paid', 'paid'][index];
 
   return {
-    id: _mock.id(index),
-    invoiceNumber: `INV-199${index}`,
+    // id: _mock.id(index),
+    // invoiceNumber: `INV-199${index}`,
     price: _mock.number.price(index),
+    invoiceNumber,
     category,
     status,
+  };
+});
+
+//created by blessing
+export const _jiraTicket = [...Array(5)].map((_, index) => {
+  const ticket_id = ['EW-90', 'EW-61', 'EW-11', 'EW-91', 'EW-97'][index];
+  const project = ['Dashboard', 'Clinic Managar', 'Clinic Manager sub', 'Pms', 'Corporation'][index];
+  const description = ['Dashboard', 'Clinic Managar', 'Clinic Manager sub', 'Pms', 'Corporation'][index];
+  const assign_to = ['-', '-', '-', '-', '-'][index];
+  const last_updated = ['Today', 'Today', 'Today', '-', '-'][index];
+
+  // const status = ['paid', 'out of date', 'progress', 'paid', 'paid'][index];
+  
+  return {
+    ticket_id,
+    project,
+    description,
+    assign_to,
+    last_updated,
+    
   };
 });
 

@@ -205,7 +205,8 @@ export const paths = {
   
   // CORPORATIONS
   corporations: {
-    root: `${ROOTS.CORPORATIONS}`,
+   root: `${ROOTS.CORPORATIONS}`, 
+   corp: {
     new: `${ROOTS.CORPORATIONS}/new`,
     list: `${ROOTS.CORPORATIONS}/list`,
     cards: `${ROOTS.CORPORATIONS}/cards`,
@@ -216,6 +217,7 @@ export const paths = {
     demo: {
       edit: `${ROOTS.CORPORATIONS}/${MOCK_ID}/edit`,
     },
+   }
   }, 
 
   // PMS 

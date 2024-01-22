@@ -51,20 +51,32 @@ import UserTableRow from '../user-table-row';
 import UserTableToolbar from '../user-table-toolbar';
 import UserTableFiltersResult from '../user-table-filters-result';
 import UserQuickCreateForm from '../user-quick-create-form';
+import { USER_STATUS_OPTIONS } from '@/_mock';
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [...CLINIC_STATUS_OPTIONS];
+// const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [...USER_STATUS_OPTIONS];
+
+// const TABLE_HEAD2 = [
+//   { id: 'name', label: 'Name',},
+//   { id: 'phoneNumber', label: 'Phone Number', width: 180 },
+//   { id: 'company', label: 'Company', width: 220 },
+//   { id: 'role', label: 'Role', width: 180 },
+//   { id: 'status', label: 'Status', width: 100 },
+//   { id: '', width: 88 },
+// ];
 
 const TABLE_HEAD = [
   { id: 'clinic_name', label: 'Clinic Name',},
   // { id: 'corp_Name', label: 'Corp Name', width: 180 },
   { id: 'pmsName', label: 'PMS', width: 180 },
-  { id: 'stage', label: 'Stage',  width: 300},
-  { id: 'todo', label: 'To Do', width: 350},
-  { id: 'actioBy', label: 'Action By', width: 350 },
+  { id: 'stage', label: 'Stage',  },
+  { id: 'todo', label: 'To Do', },
+  { id: 'actioBy', label: 'Action By', width: 220 },
   // { id: 'asana_url', label: 'Asana Link', width: 300 },
-  // { id: 'status', label: 'Status', width: 100 },
-  // { id: '', width: 88 },
+  { id: 'status', label: 'Status', width: 100 },
+  { id: '', width: 88 },
+  { id: '', width: 88 },
 ];
 
 //corpname, pms, clinicname search
@@ -82,7 +94,7 @@ const defaultFilters = {
 
 export default function UserListView() {
   // const [tableData, setTableData] = useState(_userList);
-
+  
 
   const [pageIndex, setPageIndex] = useState(1);
   const [selectedPms, setSelectedPms] = useState(null);
@@ -94,6 +106,7 @@ export default function UserListView() {
   const [pmsNames, setPmsNames] = useState([]);
   const [corpNames, setCorpNames] = useState([]);
   const quickEdit = useBoolean();
+  
 
   // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
   const URL = `${endpoints.clinic_manager.clinic}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;

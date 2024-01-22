@@ -52,6 +52,7 @@ export default function FileManagerTable({
   onDeleteRow,
   dataFiltered,
   onOpenConfirm,
+  ftype,
 }) {
   const theme = useTheme();
 
@@ -167,6 +168,7 @@ export default function FileManagerTable({
                   <FileManagerTableRow
                     key={row.id}
                     row={row}
+                    file_type={ftype}
                     selected={selected.includes(row.id)}
                     onSelectRow={() => onSelectRow(row.id)}
                     onDeleteRow={() => onDeleteRow(row.id)}

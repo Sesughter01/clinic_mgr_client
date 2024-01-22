@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 // utils
 import axios, { endpoints } from 'src/utils/axios';
 // sections
-import { ProductEditView } from 'src/sections/product/view';
+import { FileEditView } from 'src/sections/product/view';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ export const metadata = {
 export default function ProductEditPage({ params }) {
   const { id } = params;
 
-  return <ProductEditView id={id} />;
+  return <FileEditView id={id} />;
 }
 
 export async function generateStaticParams() {

@@ -33,7 +33,7 @@ import FileManagerFileDetails from './file-manager-file-details';
 
 // ----------------------------------------------------------------------
 
-export default function FileManagerTableRow({ row, selected, onSelectRow, onDeleteRow }) {
+export default function FileManagerTableRow({ row, selected, onSelectRow, onDeleteRow,file_type }) {
   const theme = useTheme();
 
   const {data_Path, clinic_name,corp_id, pmsName, active, status, stage } = row;
@@ -43,6 +43,8 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
   const { copy } = useCopyToClipboard();
 
   const [inviteEmail, setInviteEmail] = useState('');
+
+  const file_type = file_type;
 
   // const favorite = useBoolean(isFavorited);
 
@@ -122,7 +124,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
         <TableCell onClick={handleClick}>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <FileThumbnail file="folder" sx={{ width: 36, height: 36 }} />
+            <FileThumbnail file={file_type} sx={{ width: 36, height: 36 }} />
 
             <Typography
               noWrap

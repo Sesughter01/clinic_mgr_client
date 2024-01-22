@@ -1,7 +1,7 @@
-"use client";
+"use client";useEffect
 
 import isEqual from "lodash/isEqual";
-import { useState, useEffect, useCallback } from "react";
+import { useState,useEffect , useCallback } from "react";
 // @mui
 import Card from "@mui/material/Card";
 import { alpha } from "@mui/material/styles";

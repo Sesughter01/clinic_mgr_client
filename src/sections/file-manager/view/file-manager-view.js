@@ -281,6 +281,7 @@ export default function FileManagerView() {
                 table={table}
                 tableData={tableData}
                 dataFiltered={dataFiltered}
+                ftype="folder"
                 onDeleteRow={handleDeleteItem}
                 notFound={notFound}
                 onOpenConfirm={confirm.onTrue}

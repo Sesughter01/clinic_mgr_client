@@ -29,7 +29,9 @@ export default function AppNewInvoice({ title, subheader, tableData, tableLabels
       <CardHeader title={title} subheader={subheader} sx={{ mb: 3 }} />
 
       <TableContainer sx={{ overflow: 'unset' }}>
-        <Scrollbar>
+        <Box sx={{ textTransform: 'uppercase', m: 1, color: 'text.disabled', py:5, mx: 'auto', width:1, textAlign: 'center',}}>Coming Soon.</Box>
+
+        {/* <Scrollbar>
           <Table sx={{ minWidth: 680 }}>
             <TableHeadCustom headLabel={tableLabels} />
 
@@ -38,8 +40,9 @@ export default function AppNewInvoice({ title, subheader, tableData, tableLabels
                 <AppNewInvoiceRow key={row.id} row={row} />
               ))}
             </TableBody>
+
           </Table>
-        </Scrollbar>
+        </Scrollbar> */}
       </TableContainer>
 
       <Divider sx={{ borderStyle: 'dashed' }} />

@@ -35,10 +35,11 @@ import FileManagerTableRow from './file-manager-table-row';
 const TABLE_HEAD = [
   { id: 'id', label: 'Jail Name' },
   { id: 'id', label: 'Clinic' },
-  { id: 'id', label: 'PMS', width: 120 },
-  { id: 'id', label: 'Active', width: 120 },
-  { id: 'id', label: 'Status', width: 140 },
-  { id: 'id', label: 'Stage', align: 'right', width: 140 },
+  { id: 'id', label: 'Last Modified', width: 120 },
+  // { id: 'id', label: 'PMS', width: 120 },
+  // { id: 'id', label: 'Active', width: 120 },
+  // { id: 'id', label: 'Status', width: 140 },
+  // { id: 'id', label: 'Stage', align: 'right', width: 140 },
   { id: '', width: 88 },
 ];
 
@@ -51,6 +52,7 @@ export default function FileManagerTable({
   onDeleteRow,
   dataFiltered,
   onOpenConfirm,
+  ftype,
 }) {
   const theme = useTheme();
 
@@ -166,6 +168,7 @@ export default function FileManagerTable({
                   <FileManagerTableRow
                     key={row.id}
                     row={row}
+                    file_type={ftype}
                     selected={selected.includes(row.id)}
                     onSelectRow={() => onSelectRow(row.id)}
                     onDeleteRow={() => onDeleteRow(row.id)}

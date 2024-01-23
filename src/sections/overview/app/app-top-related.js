@@ -20,14 +20,15 @@ export default function AppTopRelated({ title, subheader, list, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
+      <Box sx={{ textTransform: 'uppercase', m: 1, color: 'text.disabled', py:5, mx: 'auto', width:1, textAlign: 'center',}}>Coming Soon.</Box>
 
-      <Scrollbar>
+      {/* <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, minWidth: 360 }}>
           {list.map((app) => (
             <ApplicationItem key={app.id} app={app} />
           ))}
         </Stack>
-      </Scrollbar>
+      </Scrollbar> */}
     </Card>
   );
 }

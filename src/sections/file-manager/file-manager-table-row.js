@@ -33,16 +33,18 @@ import FileManagerFileDetails from './file-manager-file-details';
 
 // ----------------------------------------------------------------------
 
-export default function FileManagerTableRow({ row, selected, onSelectRow, onDeleteRow }) {
+export default function FileManagerTableRow({ row, selected, onSelectRow, onDeleteRow,file_type }) {
   const theme = useTheme();
 
-  const { clinic_name,corp_id, pmsName, active, status, stage } = row;
+  const {data_Path, clinic_name,corp_id, pmsName, active, status, stage } = row;
 
   const { enqueueSnackbar } = useSnackbar();
 
   const { copy } = useCopyToClipboard();
 
   const [inviteEmail, setInviteEmail] = useState('');
+
+  const type = file_type;
 
   // const favorite = useBoolean(isFavorited);
 
@@ -122,7 +124,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
         <TableCell onClick={handleClick}>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <FileThumbnail file="folder" sx={{ width: 36, height: 36 }} />
+            <FileThumbnail file={type} sx={{ width: 36, height: 36 }} />
 
             <Typography
               noWrap
@@ -133,39 +135,30 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
                 ...(details.value && { fontWeight: 'fontWeightBold' }),
               }}
             >
-              {corp_id}
+              {data_Path}
             </Typography>
           </Stack>
         </TableCell>
 
-        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
-          {/* {fData(size)} */}
+        {/* <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
+       
           {clinic_name}
-        </TableCell>
+        </TableCell> */}
        
         <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
-          {pmsName}
+          {clinic_name}
         </TableCell>
 
-        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
-          {/* <ListItemText
-            primary={active}
-            secondary={status}
-            primaryTypographyProps={{ typography: 'body2' }}
-            secondaryTypographyProps={{
-              mt: 0.5,
-              component: 'span',
-              typography: 'caption',
-            }}
-          /> */}
+        {/* <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
+      
 
               {active} 
-        </TableCell>
+        </TableCell> */}
 
-        <TableCell align="right" onClick={handleClick}>
+        {/* <TableCell align="right" onClick={handleClick}>
         {status} 
           
-        </TableCell>
+        </TableCell> */}
 
         <TableCell
           align="right"
@@ -174,14 +167,14 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
             whiteSpace: 'nowrap',
           }}
         >
-          <Checkbox
+          {/* <Checkbox
             color="warning"
             icon={<Iconify icon="eva:star-outline" />}
             checkedIcon={<Iconify icon="eva:star-fill" />}
             // checked={favorite.value}
             // onChange={favorite.onToggle}
             sx={{ p: 0.75 }}
-          />
+          /> */}
 
           <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
             <Iconify icon="eva:more-vertical-fill" />

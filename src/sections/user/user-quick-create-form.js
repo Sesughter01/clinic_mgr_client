@@ -27,7 +27,7 @@ import FormProvider, { RHFSelect, RHFTextField, RHFAutocomplete } from 'src/comp
 import { $post, $get, endpoints} from 'src/utils/axios';
 // ----------------------------------------------------------------------
 
-const URL = `${endpoints.clinic_manager.clinic_data}`
+const URL = `${endpoints.clinics.clinic}`
 
 export default function UserQuickEditForm({ open, onClose }) {
   const { enqueueSnackbar } = useSnackbar();

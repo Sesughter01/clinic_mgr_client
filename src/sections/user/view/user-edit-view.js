@@ -7,7 +7,6 @@ import Container from "@mui/material/Container";
 import { paths } from "src/routes/paths";
 // _mock
 import { _userList, _userListTwo } from "src/_mock";
-import { useGetClinic } from "src/api/clinic_manager";
 
 // components
 import { useSettingsContext } from "src/components/settings";
@@ -24,10 +23,9 @@ export default function UserEditView({ id }) {
   const settings = useSettingsContext();
 
   // console.log("RES: ", (id));
-  // const { clinic, clinicLoading, clinicEmpty } = useGetClinic(id);
 
-  // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
-  const URL = `${endpoints.clinic_manager.clinic}${id}`;
+  // const URL = `${endpoints.clinics.clinic_data}?pageNumber=${pageIndex}`;
+  const URL = `${endpoints.clinics.clinic}${id}`;
   const { data:clinic, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{}});
   if (error) return console.log(error);
 
@@ -53,7 +51,7 @@ export default function UserEditView({ id }) {
         }}
       />
 
-      <UserNewEditForm clinic={clinic} />
+      <UserNewEditForm clinic={clinic} id={id} />
     </Container>
   );
 }

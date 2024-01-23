@@ -60,21 +60,16 @@ function CustomCheck({onChange, name, label, value}) {
 //   impact: "+"
 // }
 
-export default function Adjustment({ id, allAdjustments }) {
-  const [data, setData] = useState(allAdjustments);
+export default function Appointment({ id, allAppointments }) {
+  const [data, setData] = useState(allAppointments);
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const columns = [
     // { field: 'defId', headerName: 'defId', width: 20 },
-    // { field: 'clinic_Path', headerName: 'clinic_Path', width: 150 },
-    { field: 'description', headerName: 'description', width: 220, editable: true, },
-    { field: 'chrg_adj_incl', headerName: 'chrg_adj_incl', width: 120, editable: true, },
-    { field: 'pmt_adj_incl', headerName: 'pmt_adj_incl', width: 120, editable: true, },
-    { field: 'prov_comp_incl', headerName: 'prov_comp_incl', width: 120, editable: true, },
-    { field: 'idlgr_entry_map', headerName: 'idlgr_entry_map', width: 90, editable: true, },
-    { field: 'hyg_comp_incl', headerName: 'hyg_comp_incl', width: 90, editable: true, },
-    { field: 'posting_Type', headerName: 'posting_Type', width: 90, editable: true, },
-    { field: 'impact', headerName: 'impact', width: 70, editable: true, },
+    { field: 'DefId', headerName: 'DefId', width: 80 },
+    { field: 'Clinic_Path', headerName: 'Clinic_Path', width: 250 },
+    { field: 'pms_status', headerName: 'pms_status', width: 250 },
+    { field: 'edms_status', headerName: 'edms_status', width: 150 },
 
     // {field: 'age', headerName: 'Age', type: 'number', width: 110, editable: true, },
     // {field: 'fullName', headerName: 'Full name', width: 110, sortable: false,
@@ -102,13 +97,13 @@ export default function Adjustment({ id, allAdjustments }) {
   const UpdateData = async() => {
     setIsSubmitting(true)
     try {
-      const URL = `${endpoints.clinics.clinic}${id}/adjustments`
+      const URL = `${endpoints.clinics.clinic}${id}/appointments`
       console.info('URL: ', URL);
       console.log("UpdateData: ", data);
 
       const res = await $put(URL, data);
       // console.info('RES: ', res);
-      enqueueSnackbar('Ajustments Updated!');
+      enqueueSnackbar('Appointments Updated!');
       setTimeout(()=>{
         setIsSubmitting(false)
       }, 500)
@@ -126,7 +121,7 @@ export default function Adjustment({ id, allAdjustments }) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      {/* ADJUSTMENT TAB */}
+      {/* Appointment TAB */}
       <Grid container spacing={3}>
           <Grid xs={12} 
           md={12}
@@ -182,8 +177,8 @@ export default function Adjustment({ id, allAdjustments }) {
   );
 }
 
-Adjustment.propTypes = {
+Appointment.propTypes = {
   id:PropTypes.integer,
-  allAdjustments:PropTypes.array
+  allAppointments:PropTypes.array
 
 };

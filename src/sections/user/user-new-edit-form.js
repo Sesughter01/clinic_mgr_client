@@ -63,6 +63,8 @@ import FormProvider, {
   RHFSelect
 } from 'src/components/hook-form';
 import Adjustment from "./adjustments";
+import Employees from "./employees";
+import Appointments from "./appointments";
 
 
 // ----------------------------------------------------------------------
@@ -136,6 +138,8 @@ export default function UserNewEditForm({ clinic, open, onClose, id }) {
   const [pmsNames, setPmsNames] = useState([]);
   const [corpNames, setCorpNames] = useState([]);
   const [allAdjustments, setAdjustments] = useState([]);
+  const [allEmployees, setEmployees] = useState([]);
+  const [allAppointments, setAppointments] = useState([]);
 
   const router = useRouter();
 
@@ -359,9 +363,35 @@ export default function UserNewEditForm({ clinic, open, onClose, id }) {
     })
   }
 
+  const getEmployees = ()=>{
+    $get(`${endpoints.clinics.clinic}${id}/employees`)
+    .then(res =>{
+      const emp = []
+      res.forEach((item, index)=>{
+        item.id = index+1
+        emp.push(item)
+      })
+      setEmployees(emp)
+    })
+  }
+
+  const getAppointments = ()=>{
+    $get(`${endpoints.clinics.clinic}${id}/appointments`)
+    .then(res =>{
+      const app = []
+      res.forEach((item, index)=>{
+        item.id = index+1
+        app.push(item)
+      })
+      setAppointments(app)
+    })
+  }
+
   useEffect(()=>{
     getPMS_Corps()
     getAdjustments()
+    getEmployees()
+    getAppointments()
   }, [])
   
 
@@ -842,151 +872,14 @@ const [tableData, setTableData] = useState([
       
       {/* EMPLOYEE TAB */}
       <CustomTabPanel value={value} index={4}>
-        <FormProvider methods={methods} onSubmit={onSubmit}>
-            <Grid container spacing={3}>
-                <Grid xs={12} 
-                md={12}
-                display="flex"
-                flexDirection="row">
-                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', columnGap:2 }}>
-                    <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
-                      Purge
-                    </LoadingButton>
-                    
-                    <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
-                      New
-                    </LoadingButton>
-
-                    <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
-                      Save Changes
-                    </LoadingButton>
-                </Box>
-              </Grid>
-            </Grid>
-            <Grid container spacing={3}>
-            <Grid xs={12} md={12}>
-              <Card sx={{ p: 1 }}>
-                
-                <Box
-                  // rowGap={3}
-                  // columnGap={2}
-                  display="grid"
-                  gridTemplateColumns={{
-                    xs: 'repeat(1, 1fr)',
-                    sm: 'repeat(1, 1fr)',
-                  }}
-                >
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Provider Code</TableCell>
-                        <TableCell align="center">Employee</TableCell>
-                        <TableCell align="center">Map Employee To</TableCell>
-                        <TableCell align="center">Designation</TableCell>
-                        <TableCell align="center">Practice</TableCell>
-                        <TableCell align="center">Primary Chair</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {emRows.map((emRows) => (
-                        <TableRow
-                          key={emRows.providerCode}
-                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                          <TableCell component="th" scope="row" >
-                            {emRows.providerCode}
-                          </TableCell>
-                          <TableCell align="center">{emRows.employee}</TableCell>
-                          <TableCell align="center">{emRows.mapEmployeeTo}</TableCell>
-                          <TableCell align="center">{emRows.designation}</TableCell>
-                          <TableCell align="center">{emRows.practice}</TableCell>
-                          <TableCell align="center">{emRows.primaryChair}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Box>
-              </Card>  
-            </Grid>
-
-          </Grid>
-        </FormProvider>
+        <Employees id={id} allEmployees={allEmployees}/>
       </CustomTabPanel>
       
       
 
       {/* APPOINTMENT STATUS TAB */}
       <CustomTabPanel value={value} index={5}>
-        <FormProvider methods={methods} onSubmit={onSubmit}>
-          <Grid container spacing={3}>
-              <Grid xs={12} 
-              md={12}
-              display="flex"
-              flexDirection="row">
-              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', columnGap:2 }}>
-                  <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
-                    Purge
-                  </LoadingButton>
-                  
-                  <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
-                    New
-                  </LoadingButton>
-
-                  <LoadingButton sx={{width:120}} type="button" variant="contained" onClick={()=>{alert("Not yet implemented")}} loading={isSubmitting}>
-                    Save Changes
-                  </LoadingButton>
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={3}>
-          <Grid xs={12} md={12}>
-            <Card sx={{ p: 1 }}>
-              
-              <Box
-                // rowGap={3}
-                // columnGap={2}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Defid</TableCell>
-                      <TableCell align="center">PMS Status</TableCell>
-                      <TableCell align="center">EDMS Status</TableCell>
-                      {/* <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                      <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row) => (
-                      <TableRow
-                        key={row.defId}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell component="th" scope="row" >
-                          {row.defId}
-                        </TableCell>
-                        <TableCell align="center">{row.pmsStatus}</TableCell>
-                        <TableCell align="center">{row.edmsStatus}</TableCell>
-                        {/* <TableCell align="right">{row.carbs}</TableCell>
-                        <TableCell align="right">{row.protein}</TableCell> */}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-             </Box>
-            </Card>  
-          </Grid>
-          </Grid>
-        </FormProvider>
+        <Appointments id={id} allAppointments={allAppointments}/>
       </CustomTabPanel>
       
 

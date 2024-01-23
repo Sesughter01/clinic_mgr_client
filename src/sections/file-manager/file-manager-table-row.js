@@ -19,6 +19,9 @@ import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useDoubleClick } from 'src/hooks/use-double-click';
 import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
+
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 // utils
 import { fData } from 'src/utils/format-number';
 // components
@@ -56,6 +59,8 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
   const popover = usePopover();
 
+  const router = useRouter();
+
   const handleChangeInvite = useCallback((event) => {
     setInviteEmail(event.target.value);
   }, []);
@@ -64,6 +69,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
     click: () => {
       details.onTrue();
     },
+   
     doubleClick: () => console.info('DOUBLE CLICK'),
   });
 
@@ -71,6 +77,13 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
     enqueueSnackbar('Copied!');
     copy(row.url);
   }, [copy, enqueueSnackbar, row.url]);
+
+  const handleFileClick = useCallback(
+    (id) => {
+      router.push(paths.settings.files(id));
+    },
+    [router]
+  );
 
   const defaultStyles = {
     borderTop: `solid 1px ${alpha(theme.palette.grey[500], 0.16)}`,
@@ -85,6 +98,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
       borderBottomRightRadius: 16,
       borderRight: `solid 1px ${alpha(theme.palette.grey[500], 0.16)}`,
     },
+    
   };
 
   return (
@@ -122,7 +136,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           />
         </TableCell>
 
-        <TableCell onClick={handleClick}>
+        <TableCell onClick={() => handleFileClick(row.id)}>
           <Stack direction="row" alignItems="center" spacing={2}>
             <FileThumbnail file={type} sx={{ width: 36, height: 36 }} />
 

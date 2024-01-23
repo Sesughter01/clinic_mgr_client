@@ -15,13 +15,15 @@ import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
 import OrderNewEditForm from "../order-new-edit-form";
 
+import useSWR from 'swr';
+import { $post, $get, endpoints} from 'src/utils/axios';
 // ----------------------------------------------------------------------
 
 export default function OrderEditView({ id }) {
   const settings = useSettingsContext();
 
   // console.log("RES: ", (id));
-  const { clinic: currentUser, clinicLoading, clinicEmpty } = useGetClinic(id);
+  // const { clinic: currentUser, clinicLoading, clinicEmpty } = useGetClinic(id);
   
   useEffect(() => {
     // console.log(currentUser);

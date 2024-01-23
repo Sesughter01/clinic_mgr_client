@@ -19,9 +19,9 @@ export default function OrderEditPage({ params }) {
 }
 
 export async function generateStaticParams() {
-  return _userList.map((_user) => ({
+  return _userList.map((user) => ({
   
-    id: _user.id,
+    id: user.id,
   }));
 }
 

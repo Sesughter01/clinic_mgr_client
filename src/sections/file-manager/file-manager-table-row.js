@@ -33,10 +33,10 @@ import FileManagerFileDetails from './file-manager-file-details';
 
 // ----------------------------------------------------------------------
 
-export default function FileManagerTableRow({ row, selected, onSelectRow, onDeleteRow }) {
+export default function FileManagerTableRow({ row, selected, onSelectRow, onDeleteRow,file_type }) {
   const theme = useTheme();
 
-  const { name, size, type, modifiedAt, shared, isFavorited } = row;
+  const {data_Path, clinic_name,corp_id, pmsName, active, status, stage } = row;
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -44,7 +44,9 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
   const [inviteEmail, setInviteEmail] = useState('');
 
-  const favorite = useBoolean(isFavorited);
+  const type = file_type;
+
+  // const favorite = useBoolean(isFavorited);
 
   const details = useBoolean();
 
@@ -133,52 +135,30 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
                 ...(details.value && { fontWeight: 'fontWeightBold' }),
               }}
             >
-              {name}
+              {data_Path}
             </Typography>
           </Stack>
         </TableCell>
 
+        {/* <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
+       
+          {clinic_name}
+        </TableCell> */}
+       
         <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
-          {fData(size)}
+          {clinic_name}
         </TableCell>
 
-        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
-          {type}
-        </TableCell>
+        {/* <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
+      
 
-        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
-          <ListItemText
-            primary={format(new Date(modifiedAt), 'dd MMM yyyy')}
-            secondary={format(new Date(modifiedAt), 'p')}
-            primaryTypographyProps={{ typography: 'body2' }}
-            secondaryTypographyProps={{
-              mt: 0.5,
-              component: 'span',
-              typography: 'caption',
-            }}
-          />
-        </TableCell>
+              {active} 
+        </TableCell> */}
 
-        <TableCell align="right" onClick={handleClick}>
-          <AvatarGroup
-            max={4}
-            sx={{
-              display: 'inline-flex',
-              [`& .${avatarGroupClasses.avatar}`]: {
-                width: 24,
-                height: 24,
-                '&:first-of-type': {
-                  fontSize: 12,
-                },
-              },
-            }}
-          >
-            {shared &&
-              shared.map((person) => (
-                <Avatar key={person.id} alt={person.name} src={person.avatarUrl} />
-              ))}
-          </AvatarGroup>
-        </TableCell>
+        {/* <TableCell align="right" onClick={handleClick}>
+        {status} 
+          
+        </TableCell> */}
 
         <TableCell
           align="right"
@@ -187,14 +167,14 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
             whiteSpace: 'nowrap',
           }}
         >
-          <Checkbox
+          {/* <Checkbox
             color="warning"
             icon={<Iconify icon="eva:star-outline" />}
             checkedIcon={<Iconify icon="eva:star-fill" />}
-            checked={favorite.value}
-            onChange={favorite.onToggle}
+            // checked={favorite.value}
+            // onChange={favorite.onToggle}
             sx={{ p: 0.75 }}
-          />
+          /> */}
 
           <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
             <Iconify icon="eva:more-vertical-fill" />
@@ -242,7 +222,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
         </MenuItem>
       </CustomPopover>
 
-      <FileManagerFileDetails
+      {/* <FileManagerFileDetails
         item={row}
         favorited={favorite.value}
         onFavorite={favorite.onToggle}
@@ -250,9 +230,9 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
         open={details.value}
         onClose={details.onFalse}
         onDelete={onDeleteRow}
-      />
+      /> */}
 
-      <FileManagerShareDialog
+      {/* <FileManagerShareDialog
         open={share.value}
         shared={shared}
         inviteEmail={inviteEmail}
@@ -262,7 +242,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           share.onFalse();
           setInviteEmail('');
         }}
-      />
+      /> */}
 
       <ConfirmDialog
         open={confirm.value}

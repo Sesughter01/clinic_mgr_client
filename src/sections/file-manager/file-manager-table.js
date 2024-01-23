@@ -24,12 +24,22 @@ import FileManagerTableRow from './file-manager-table-row';
 
 // ----------------------------------------------------------------------
 
+// const TABLE_HEAD = [
+//   { id: 'name', label: 'Name' },
+//   { id: 'size', label: 'Size', width: 120 },
+//   { id: 'type', label: 'Type', width: 120 },
+//   { id: 'modifiedAt', label: 'Modified', width: 140 },
+//   { id: 'shared', label: 'Shared', align: 'right', width: 140 },
+//   { id: '', width: 88 },
+// ];
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name' },
-  { id: 'size', label: 'Size', width: 120 },
-  { id: 'type', label: 'Type', width: 120 },
-  { id: 'modifiedAt', label: 'Modified', width: 140 },
-  { id: 'shared', label: 'Shared', align: 'right', width: 140 },
+  { id: 'id', label: 'Jail Name' },
+  { id: 'id', label: 'Clinic' },
+  { id: 'id', label: 'Last Modified', width: 120 },
+  // { id: 'id', label: 'PMS', width: 120 },
+  // { id: 'id', label: 'Active', width: 120 },
+  // { id: 'id', label: 'Status', width: 140 },
+  // { id: 'id', label: 'Stage', align: 'right', width: 140 },
   { id: '', width: 88 },
 ];
 
@@ -42,6 +52,7 @@ export default function FileManagerTable({
   onDeleteRow,
   dataFiltered,
   onOpenConfirm,
+  ftype,
 }) {
   const theme = useTheme();
 
@@ -65,6 +76,7 @@ export default function FileManagerTable({
   const denseHeight = dense ? 58 : 78;
 
   return (
+    
     <>
       <Box
         sx={{
@@ -152,9 +164,11 @@ export default function FileManagerTable({
               {dataFiltered
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
+                  
                   <FileManagerTableRow
                     key={row.id}
                     row={row}
+                    file_type={ftype}
                     selected={selected.includes(row.id)}
                     onSelectRow={() => onSelectRow(row.id)}
                     onDeleteRow={() => onDeleteRow(row.id)}

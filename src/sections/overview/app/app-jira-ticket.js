@@ -23,31 +23,28 @@ import { TableHeadCustom } from 'src/components/table';
 
 // ----------------------------------------------------------------------
 
-export default function AppNewInvoice({ title, subheader, tableData, tableLabels, ...other }) {
+export default function AppJiraTicket({ title, subheader, tableData, tableLabels, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} sx={{ mb: 3 }} />
 
       <TableContainer sx={{ overflow: 'unset' }}>
-        <Box sx={{ textTransform: 'uppercase', m: 1, color: 'text.disabled', py:5, mx: 'auto', width:1, textAlign: 'center',}}>Coming Soon.</Box>
-
-        {/* <Scrollbar>
+        <Scrollbar>
           <Table sx={{ minWidth: 680 }}>
             <TableHeadCustom headLabel={tableLabels} />
 
             <TableBody>
               {tableData.map((row) => (
-                <AppNewInvoiceRow key={row.id} row={row} />
+                <AppJiraTicketRow key={row.id} row={row} />
               ))}
             </TableBody>
-
           </Table>
-        </Scrollbar> */}
+        </Scrollbar>
       </TableContainer>
 
       <Divider sx={{ borderStyle: 'dashed' }} />
 
-      {/* <Box sx={{ p: 2, textAlign: 'right' }}>
+      <Box sx={{ p: 2, textAlign: 'right' }}>
         <Button
           size="small"
           color="inherit"
@@ -55,12 +52,12 @@ export default function AppNewInvoice({ title, subheader, tableData, tableLabels
         >
           View All
         </Button>
-      </Box> */}
+      </Box>
     </Card>
   );
 }
 
-AppNewInvoice.propTypes = {
+AppJiraTicket.propTypes = {
   subheader: PropTypes.string,
   tableData: PropTypes.array,
   tableLabels: PropTypes.array,
@@ -69,7 +66,7 @@ AppNewInvoice.propTypes = {
 
 // ----------------------------------------------------------------------
 
-function AppNewInvoiceRow({ row }) {
+function AppJiraTicketRow({ row }) {
   const popover = usePopover();
 
   const handleDownload = () => {
@@ -95,11 +92,15 @@ function AppNewInvoiceRow({ row }) {
   return (
     <>
       <TableRow>
-        <TableCell>{row.invoiceNumber}</TableCell>
+        <TableCell>{row.ticket_id}</TableCell>
 
-        <TableCell>{row.category}</TableCell>
+        <TableCell>{row.project}</TableCell>
 
-        <TableCell>{fCurrency(row.price)}</TableCell>
+        <TableCell>{row.description}</TableCell>
+
+        <TableCell>{row.assign_to}</TableCell>
+
+        <TableCell>{row.last_updated}</TableCell>
 
         {/* <TableCell>
           <Label
@@ -121,7 +122,7 @@ function AppNewInvoiceRow({ row }) {
         </TableCell> */}
       </TableRow>
 
-      {/* <CustomPopover
+      <CustomPopover
         open={popover.open}
         onClose={popover.onClose}
         arrow="right-top"
@@ -148,11 +149,11 @@ function AppNewInvoiceRow({ row }) {
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
         </MenuItem>
-      </CustomPopover> */}
+      </CustomPopover>
     </>
   );
 }
 
-AppNewInvoiceRow.propTypes = {
+AppJiraTicketRow.propTypes = {
   row: PropTypes.object,
 };

@@ -25,9 +25,9 @@ import UserQuickEditForm from './user-quick-create-form';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, onPmsreportRow }) {
+export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, onPmsreportRow }){
   // const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
-  const { clinic_name, avatarUrl, corp_Name, pmsName, actioBy, stage, status, todo, asana_url } = row;
+  const { clinic_name, avatarUrl, corp_Name, pmsName, actioBy, stage, status, todo, } = row;
 
   const confirm = useBoolean();
 
@@ -43,7 +43,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
   };
 
   return (
-    <>
+     <>
       <TableRow hover selected={selected}>
 
         <TableCell align="left" sx={{ px: 1, whiteSpace: 'nowrap' }}>
@@ -79,6 +79,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
 
         {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{asana_url}</TableCell> */}
         {/* <TableCell align="center">{asana_url === '' ? ' - ' : asana_url}</TableCell> */}
+        {/* <TableCell align="center">{asana_url === '' ? ' - ' : asana_url}</TableCell> */}
 
         {/* <TableCell>
           <Label
@@ -95,13 +96,13 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           </Label>
         </TableCell> */}
 
-        {/* <TableCell>
-              <ToggleButtonGroup
-                value={marked}
-                exclusive
-                onChange={handleToggle}
-                aria-label="custom-toggle-button"
-              >
+        <TableCell>
+          <ToggleButtonGroup
+            value={marked}
+            exclusive
+            onChange={handleToggle}
+            aria-label="custom-toggle-button"
+          >
             <ToggleButton sx={{ p: 0}}
               value={true}
               aria-label="marked"
@@ -118,7 +119,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
             </ToggleButton>
           </ToggleButtonGroup>
          
-        </TableCell> */}
+        </TableCell> 
 
         {/* <TableCell align="left" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <Tooltip title="Quick Edit" placement="top" arrow>
@@ -126,31 +127,11 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
               <Iconify icon="solar:pen-bold" />
             </IconButton>
           </Tooltip>
-        </TableCell> */}
 
-        {/* <TableCell>
-              <ToggleButtonGroup
-            value={marked}
-            exclusive
-            onChange={handleToggle}
-            aria-label="custom-toggle-button"
-          >
-            <ToggleButton 
-              value={true}
-              aria-label="marked"
-              style={{ backgroundColor: marked ? '#118D57' : 'white' }}
-            >
-              GoLive
-            </ToggleButton>
-            <ToggleButton
-              value={false}
-              aria-label="not-marked"
-              style={{ backgroundColor: !marked ? '#118D57' : 'white' }}
-            >
-              Retired
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </TableCell> */}
+          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+            <Iconify icon="eva:more-vertical-fill" />
+          </IconButton>
+        </TableCell>
       </TableRow>
 
       {/* <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} /> */}
@@ -231,6 +212,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           </Button>
         }
       />
+     </TableRow> 
     </>
   );
 }

@@ -12,7 +12,7 @@ export const ORDER_STATUS_OPTIONS = [
   { value: "production", label: "Production" },
   { value: "development", label: "Development" },
   { value: "issue", label: "Issue" },
-  { value: "No data", label: "No data" },
+  { value: "nodata", label: "No data" },
 ];
 
 const ITEMS = [...Array(3)].map((_, index) => ({
@@ -102,15 +102,15 @@ export const _orders = [...Array(15)].map((_, index) => {
       cardType: "mastercard",
       cardNumber: "**** **** **** 5678",
     },
-    status:
-      (index % 2 && "completed") ||
-      (index % 3 && "pending") ||
-      (index % 4 && "cancelled") ||
-      "refunded",
+    // status:
+    //   (index % 2 && "completed") ||
+    //   (index % 3 && "pending") ||
+    //   (index % 4 && "cancelled") ||
+    //   "refunded",
     pms_status:
-      (index % 2 && "production") ||
+      (index % 2 && "production") || 
       (index % 3 && "development") ||
       (index % 4 && "issue") ||
-      "No data",
+      "nodata",
   };
 });

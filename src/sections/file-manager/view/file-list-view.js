@@ -548,7 +548,7 @@ export default function FileListView(id) {
                   />
                 ))} */}
          
-                    {file  ? (
+                    {file && file.length > 0 ?  (
                         file.map((fil) => (
                           <FileRecentItem
                             key={fil.id}

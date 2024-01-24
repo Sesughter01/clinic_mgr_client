@@ -53,6 +53,7 @@ import FileUpgrade from '../file-upgrade';
 import FileDataActivity from '../file-data-activity';
 import FileStorageOverview from '../file-storage-overview';
 import FileManagerPanel from '../file-manager-panel';
+import FileRecentItem from '../file-recent-item';
 import FileManagerFolderItem from '../file-manager-folder-item';
 import FileManagerNewFolderDialog from '../file-manager-new-folder-dialog';
 import { useGetFile } from 'src/api/jail_files';
@@ -71,6 +72,7 @@ const defaultFilters = {
 
 export default function FileListView(id) {
   const table = useTable({ defaultRowsPerPage: 10 });
+
   const theme = useTheme();
 
   const settings = useSettingsContext();
@@ -79,7 +81,8 @@ export default function FileListView(id) {
 
   const [folderName, setFolderName] = useState('');
 
-  const [files, setFiles] = useState([]);
+  // const [files, setFiles] = useState([]);
+  const { file, fileLoading, fileError, fileValidating } = useGetFile(id);
 
   const newFolder = useBoolean();
 
@@ -103,7 +106,7 @@ export default function FileListView(id) {
 
       setFiles([...files, ...newFiles]);
     },
-    [files]
+    [file]
   );
 
   const openDateRange = useBoolean();
@@ -136,13 +139,13 @@ export default function FileListView(id) {
 
   // Get files
 
-  const { apifiles, filesLoading, filesEmpty } = useGetFile(id);
+  // const { apifiles, filesLoading, filesEmpty } = useGetFile(id);
 
   // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
   // const URL = `${endpoints.clinic_manager.clinic_data}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
   // const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
   //   console.log("-------------------")
-  //   console.log("CLINIC PAGE DATA: ", data || [])
+    console.log("FILE PAGE DATA: ", file || [])
   //   console.log("CLINICS", data?.result || 0)
   //   console.log("totalCount", data?.totalCount || 0)
   //   console.log("currentPage", data?.currentPage || 0)
@@ -159,9 +162,23 @@ export default function FileListView(id) {
   // const table = useTable({defaultRowsPerPage: data?.pageSize || 0, defaultCurrentPage:data?.currentPage - 1 || 0});
   // const table = useTable();
 
-  useEffect(()=>{
-    setTableData(apifiles || [])
-  }, [apifiles])
+  // useEffect(()=>{
+  //   setTableData(apifiles || [])
+  // }, [apifiles])
+
+  useEffect(() => {
+    console.log('FileListView component mounted'); // Add this line
+    // Add any additional logic you might have in useEffect
+    // ...
+
+    // Don't forget to clean up if necessary
+    return () => {
+      console.log('FileListView component unmounted'); // Add this line
+      // Add any cleanup logic if needed
+      // ...
+    };
+  }, [file]);
+
 
   useEffect(()=>{
     setPageIndex(table.page + 1)
@@ -385,38 +402,58 @@ export default function FileListView(id) {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+
+
+      <Grid xs={12} sm={6} md={4}>
+                        {/* <FileWidget
+                          title="OneDrive"
+                          value={GB / 2}
+                          total={GB}
+                          icon="/assets/icons/app/ic_onedrive.svg"
+                        /> */}
+
+                   <UploadBox
+                        onDrop={handleDrop}
+                        placeholder={
+                          <Stack spacing={0.5} alignItems="right" sx={{ color: 'text.disabled' }}>
+                            <Iconify icon="eva:cloud-upload-fill" width={40} />
+                            <Typography variant="body2">Upload file</Typography>
+                          </Stack>
+                        }
+                        sx={{
+                          mb: 3,
+                          py: 2.5,
+                          width: 'auto',
+                          height: 'auto',
+                          borderRadius: 1.5,
+                        }}
+                    />
+          </Grid>
         <Grid container spacing={3}>
           {smDown && <Grid xs={12}>{renderStorageOverview}</Grid>}
 
-          <Grid xs={12} sm={6} md={4}>
-            <FileWidget
+          {/* <Grid xs={12} sm={6} md={4}> */}
+            {/* <FileWidget
               title="Dropbox"
               value={GB / 10}
               total={GB}
               icon="/assets/icons/app/ic_dropbox.svg"
-            />
-          </Grid>
+            /> */}
+          {/* </Grid> */}
 
-          <Grid xs={12} sm={6} md={4}>
-            <FileWidget
+          {/* <Grid xs={12} sm={6} md={4}> */}
+            {/* <FileWidget
               title="Drive"
               value={GB / 5}
               total={GB}
               icon="/assets/icons/app/ic_drive.svg"
-            />
-          </Grid>
+            /> */}
+          {/* </Grid> */}
 
-          <Grid xs={12} sm={6} md={4}>
-            <FileWidget
-              title="OneDrive"
-              value={GB / 2}
-              total={GB}
-              icon="/assets/icons/app/ic_onedrive.svg"
-            />
-          </Grid>
+          
 
-          {/* <Grid xs={12} md={6} lg={8}>
-            <FileDataActivity
+          <Grid xs={12}  >
+            {/* <FileDataActivity
               title="Data Activity"
               chart={{
                 labels: TIME_LABELS,
@@ -468,17 +505,17 @@ export default function FileListView(id) {
                   },
                 ],
               }}
-            />
+            /> */}
 
             <div>
-              <FileManagerPanel
+              {/* <FileManagerPanel
                 title="Folders"
                 link={paths.dashboard.fileManager}
                 onOpen={newFolder.onTrue}
                 sx={{ mt: 5 }}
-              />
+              /> */}
 
-              <Scrollbar>
+              {/* <Scrollbar>
                 <Stack direction="row" spacing={3} sx={{ pb: 3 }}>
                   {_folders.map((folder) => (
                     <FileManagerFolderItem
@@ -493,49 +530,47 @@ export default function FileListView(id) {
                     />
                   ))}
                 </Stack>
-              </Scrollbar>
+              </Scrollbar> */}
 
               <FileManagerPanel
-                title="Recent Files"
+                title="Jail Files"
                 link={paths.dashboard.fileManager}
                 onOpen={upload.onTrue}
                 sx={{ mt: 2 }}
               />
-
+                  
               <Stack spacing={2}>
-                {_files.slice(0, 5).map((file) => (
+                {/* {files.map((file) => (
                   <FileRecentItem
                     key={file.id}
                     file={file}
                     onDelete={() => console.info('DELETE', file.id)}
                   />
-                ))}
+                ))} */}
+         
+                    {file  ? (
+                        file.map((fil) => (
+                          <FileRecentItem
+                            key={fil.id}
+                            file={fil}
+                            onDelete={() => console.info('DELETE', fil.id)}
+                          />
+                        ))
+                      ) : (
+                        // Handle the case when files or files.data is undefined
+                        <div >No Files Available Yet</div>
+                      )}
               </Stack>
             </div>
-          </Grid> */}
-
-          <Grid xs={12} md={6} lg={4}>
-            <UploadBox
-              onDrop={handleDrop}
-              placeholder={
-                <Stack spacing={0.5} alignItems="center" sx={{ color: 'text.disabled' }}>
-                  <Iconify icon="eva:cloud-upload-fill" width={40} />
-                  <Typography variant="body2">Upload file</Typography>
-                </Stack>
-              }
-              sx={{
-                mb: 3,
-                py: 2.5,
-                width: 'auto',
-                height: 'auto',
-                borderRadius: 1.5,
-              }}
-            />
-
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>{renderStorageOverview}</Box>
-
-            <FileUpgrade sx={{ mt: 3 }} />
           </Grid>
+
+          {/* <Grid xs={12} md={6} lg={4}> */}
+           
+
+            {/* <Box sx={{ display: { xs: 'none', sm: 'block' } }}>{renderStorageOverview}</Box> */}
+
+            {/* <FileUpgrade sx={{ mt: 3 }} /> */}
+          {/* </Grid>  */}
         </Grid>
       </Container>
 

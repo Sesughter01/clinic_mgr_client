@@ -45,11 +45,12 @@ export function useGetFile(Id) {
   // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
   const { data, isLoading, error, isValidating } = useSWR(URL, $get);
   console.log(Id)
+  console.log("FILE DATA", data || 0)
 
   const memoizedValue = useMemo(
     () => ({
       // product: data?.product,
-      file: data?.data,
+      file: data,
       fileLoading: isLoading,
       fileError: error,
       fileValidating: isValidating,
@@ -59,59 +60,27 @@ export function useGetFile(Id) {
   return memoizedValue;
 }
 
-// export function useGetProduct(productId) {
-//   const product = data.data.items.find(item => item.corpId === productId); // Find the product by corpId
-//   return {
-//     product,
-//     productLoading: false, // Set to false since you are using static data
-//     productError: null, // Set to null since there is no error
-//     productValidating: false, // Set to false since you are using static data
-//   };
-// }
 
 
-// ----------------------------------------------------------------------
 
-// export function useSearchProducts(query) {
+// export function useSearchFiles(query) {
 //   const URL = query ? [endpoints.product.search, { params: { query } }] : null;
 
-//   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
+//   // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
+//   const { data, isLoading, error, isValidating } = useSWR(URL, $get, {
 //     keepPreviousData: true,
 //   });
 
 //   const memoizedValue = useMemo(
 //     () => ({
-//       searchResults: data?.results || [],
+//       searchResults: data?.items || [],
 //       searchLoading: isLoading,
 //       searchError: error,
 //       searchValidating: isValidating,
-//       searchEmpty: !isLoading && !data?.results.length,
+//       searchEmpty: !isLoading && !data?.items.length,
 //     }),
-//     [data?.results, error, isLoading, isValidating]
+//     [data?.items, error, isLoading, isValidating]
 //   );
 
 //   return memoizedValue;
 // }
-
-
-export function useSearchFiles(query) {
-  const URL = query ? [endpoints.product.search, { params: { query } }] : null;
-
-  // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
-  const { data, isLoading, error, isValidating } = useSWR(URL, $get, {
-    keepPreviousData: true,
-  });
-
-  const memoizedValue = useMemo(
-    () => ({
-      searchResults: data?.items || [],
-      searchLoading: isLoading,
-      searchError: error,
-      searchValidating: isValidating,
-      searchEmpty: !isLoading && !data?.items.length,
-    }),
-    [data?.items, error, isLoading, isValidating]
-  );
-
-  return memoizedValue;
-}

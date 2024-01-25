@@ -150,7 +150,7 @@ export default function OverviewFileView() {
           </Grid>
 
           <Grid xs={12} md={6} lg={8}>
-            <FileDataActivity
+            {/* <FileDataActivity
               title="Data Activity"
               chart={{
                 labels: TIME_LABELS,
@@ -202,7 +202,7 @@ export default function OverviewFileView() {
                   },
                 ],
               }}
-            />
+            /> */}
 
             <div>
               <FileManagerPanel

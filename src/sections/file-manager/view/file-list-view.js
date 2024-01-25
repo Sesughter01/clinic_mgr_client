@@ -154,7 +154,9 @@ const handleDrop = useCallback(
 
      try {
       
-       const res = $post(URL,formDta);
+       const res = $post(URL,formDta)
+       .then(res => window.location.reload())
+      .then(res=>enqueueSnackbar('File added  successfully!'))
 
           // Handle the response if needed
           console.log("FILE UPLOAD RESPONSE",res.data);

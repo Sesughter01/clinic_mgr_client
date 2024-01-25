@@ -40,7 +40,7 @@ export function useGetFiles(clinicId = 1) {
 
 export function useGetFile(Id) {
 //   const URL = Id ? [endpoints.clinics.clinic + Id + `documents`, { params: { Id } }] : null;
-  const URL = Id ? endpoints.clinics.clinic + Id.id + `/documents` : null;
+  const URL = Id ? endpoints.clinics.clinic + Id + `/documents` : null;
 
   // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
   const { data, isLoading, error, isValidating } = useSWR(URL, $get);

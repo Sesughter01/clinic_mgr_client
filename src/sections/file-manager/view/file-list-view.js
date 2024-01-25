@@ -20,7 +20,7 @@ import { _folders, _files } from 'src/_mock';
 
 //  API hooks
 
-import { $get, endpoints} from 'src/utils/axios';
+import {$post, $get, endpoints} from 'src/utils/axios';
 
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -56,6 +56,8 @@ import FileManagerPanel from '../file-manager-panel';
 import FileRecentItem from '../file-recent-item';
 import FileManagerFolderItem from '../file-manager-folder-item';
 import FileManagerNewFolderDialog from '../file-manager-new-folder-dialog';
+
+import { useSnackbar } from 'src/components/snackbar';
 import { useGetFile } from 'src/api/jail_files';
 
 
@@ -70,7 +72,10 @@ const defaultFilters = {
 
 // ----------------------------------------------------------------------
 
-export default function FileListView(id) {
+
+export default function FileListView({id}) {
+
+  const URL = id ? endpoints.clinics.clinic + id + `/documents` : null;
   const table = useTable({ defaultRowsPerPage: 10 });
 
   const theme = useTheme();
@@ -86,6 +91,8 @@ export default function FileListView(id) {
 
   const newFolder = useBoolean();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleChangeFolderName = useCallback((event) => {
     setFolderName(event.target.value);
   }, []);
@@ -96,18 +103,67 @@ export default function FileListView(id) {
     console.info('CREATE NEW FOLDER');
   }, [newFolder]);
 
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const newFiles = acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
-      );
+  // const handleDrop = useCallback(
+  //   (acceptedFiles) => {
+  //     const newFiles = acceptedFiles.map((file) =>
+  //       Object.assign(file, {
+  //         preview: URL.createObjectURL(file),
+  //       })
+  //     );
 
-      setFiles([...files, ...newFiles]);
-    },
-    [file]
-  );
+  //     setFiles([...files, ...newFiles]);
+  //   },
+  //   [file]
+  // );
+
+
+
+// ... other imports and code ...
+
+// const handleDrop = useCallback(
+//   async (acceptedFiles,jid) => {
+//     try {
+//       // Make a POST request using the Axios instance
+//       const body = {files:acceptedFiles,id:jid};
+//       $post(URL, body)
+//       .then(res => window.location.reload())
+//       .then(res=>enqueueSnackbar('File added  successfully!'))
+//       // await new Promise((resolve) => setTimeout(resolve, 500));
+//       // reset();
+//       // onClose();
+      
+//     } catch (error) {
+//       console.error('Error uploading files:', error);
+//       // Handle the error (e.g., show an error message to the user)
+//     }
+//   }
+ 
+// );
+
+const handleDrop = useCallback(
+
+   async(acceptedFiles) => {
+    const jid = id;
+    const formDta = new FormData();
+    formDta.append('id',jid);
+
+     acceptedFiles.map((uploadfile)=>{
+      formDta.append('files',uploadfile);
+      
+     });
+
+     try {
+      
+       const res = $post(URL,formDta);
+
+          // Handle the response if needed
+          console.log("FILE UPLOAD RESPONSE",res.data);
+
+     } catch (error){
+
+     }
+   }
+)
 
   const openDateRange = useBoolean();
 

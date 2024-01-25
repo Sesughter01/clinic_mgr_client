@@ -22,14 +22,14 @@ export const PMS_OS_OPTIONS = [
 
 
 export const PMS_DATABASE_OPTIONS = [
-  { value: "mssql", label: "MSSQL" },
+  { value: "MSSQL", label: "MSSQL" },
   { value: "None", label: "None" },
   
 ];
 
 
 export const PMS_EXPORT_OPTIONS = [
-  { value: "xml", label: "XML" },
+  { value: "XML", label: "XML" },
   { value: "None", label: "None" },
 ];
 
@@ -37,6 +37,11 @@ export const PMS_EXPORT_OPTIONS = [
 export const PMS_VERSION_OPTIONS = [
   { value: "Base", label: "Base" },
   { value: "None", label: "None" },
+ 
+];
+
+export const PMS_EDMS_REPORTS_OPTIONS = [
+  { value: "Reconcilation Reports", label: "Reconcilation Reports" },
  
 ];
 

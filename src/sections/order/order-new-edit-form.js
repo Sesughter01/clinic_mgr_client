@@ -55,7 +55,7 @@ import InputLabel from '@mui/material/InputLabel';
 // ----------------------------------------------------------------------
 
 import { $put, $get, endpoints} from 'src/utils/axios';
-import { PMS_PERSONS_OPTIONS, PMS_OS_OPTIONS, PMS_DATABASE_OPTIONS, PMS_EXPORT_OPTIONS, PMS_VERSION_OPTIONS } from 'src/_mock';
+import { PMS_EDMS_REPORTS_OPTIONS, PMS_PERSONS_OPTIONS, PMS_OS_OPTIONS, PMS_DATABASE_OPTIONS, PMS_EXPORT_OPTIONS, PMS_VERSION_OPTIONS } from 'src/_mock';
 
 // ----------------------------------------------------------------------
 //Added by Blessing
@@ -149,6 +149,7 @@ export default function OrderNewEditForm({ pms, open, onClose, id }) {
     pms_os: Yup.string().required('Pms Os is required'),
     dL_Version: Yup.string().required('Dl Version is required'),
     description: Yup.string(),
+    wiki_page: Yup.string(),
   }); 
 
   const defaultValues = useMemo(
@@ -170,6 +171,7 @@ export default function OrderNewEditForm({ pms, open, onClose, id }) {
       pms_os: pms?.pms_os || '',
       dL_Version: pms?.dL_Version || '',
       description: pms?.description || '',
+      wiki_page: pms?.wiki_page || '',
     }),
     [pms],
     
@@ -547,7 +549,17 @@ export default function OrderNewEditForm({ pms, open, onClose, id }) {
                 sm: 'repeat(1, 1fr)',
               }}
             >  
-              <Textarea aria-label="minimum height" minRows={5} placeholder="Wiki Page" />
+              <Controller
+                  name="wiki_page"
+                  // control={control}
+                  render={({ field }) => (
+                    <Textarea
+                      rows={5}
+                      placeholder="Wiki Page"
+                      {...field}
+                    />
+                  )}
+                />
             </Box>
           </Card>
         </Grid>
@@ -556,6 +568,20 @@ export default function OrderNewEditForm({ pms, open, onClose, id }) {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
+      <Grid container spacing={3}>
+              <Grid xs={12} 
+              md={12}
+              display="flex"
+              flexDirection="row">
+              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', columnGap:2 }}>
+
+                  <LoadingButton sx={{width:120}} type="submit" variant="contained" loading={isSubmitting}>
+                    Save Changes
+                  </LoadingButton>
+              </Box>
+            </Grid>
+          </Grid> 
+
       <Grid container spacing={3}>
         <Grid xs={12} md={12}>
           <Card sx={{ p: 3 }}>
@@ -571,21 +597,25 @@ export default function OrderNewEditForm({ pms, open, onClose, id }) {
 
               <RHFTextField name="data_path_source" label="Data Path Source" />
 
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">EDMS Report</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="EDMS Report"
-                  
-                >
-                  <MenuItem value={10}>Reconcilation Report</MenuItem>
-                  <MenuItem value={20}>Reconcilation Report</MenuItem>
-                  <MenuItem value={30}>Reconcilation Report</MenuItem>
-                </Select>
-              </FormControl>
+              <RHFSelect name="edms_report" label="EDMS Report">
+                  {PMS_EDMS_REPORTS_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+              </RHFSelect>
 
-              <Textarea aria-label="minimum height" minRows={5} placeholder="Description" />
+              <Controller
+                  name="description"
+                  // control={control}
+                  render={({ field }) => (
+                    <Textarea
+                      rows={5}
+                      placeholder="Description"
+                      {...field}
+                    />
+                  )}
+                />
 
 
             </Box>

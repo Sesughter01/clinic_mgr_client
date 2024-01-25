@@ -31,8 +31,7 @@ import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
-// utils
-import { fData } from 'src/utils/format-number';
+
 // routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -47,11 +46,16 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
   RHFAutocomplete,
+  RHFSelect
 } from 'src/components/hook-form';
 import Radio, { RadioProps } from '@mui/material/Radio';
 import InputLabel from '@mui/material/InputLabel';
 
 
+// ----------------------------------------------------------------------
+
+import { $put, $get, endpoints} from 'src/utils/axios';
+import { PMS_PERSONS_OPTIONS, PMS_OS_OPTIONS, PMS_DATABASE_OPTIONS, PMS_EXPORT_OPTIONS, PMS_VERSION_OPTIONS } from 'src/_mock';
 
 // ----------------------------------------------------------------------
 //Added by Blessing
@@ -88,7 +92,35 @@ function a11yProps(index) {
   };
 }
 
-export default function OrderNewEditForm({ currentUser, open, onClose }) {
+
+function CustomCheck({onChange, name, label, value}) {
+  const [checked, setChecked] = useState(value);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+    onChange({name, value:event.target.checked})
+    // onChange({name, value:event.target.checked ? "1" : "0"})
+    // handleCheckBox(label, event.target.checked ? "1" : "0")
+  };
+
+  return (
+    <FormGroup>
+      <FormControlLabel  control={
+          <Checkbox 
+          checked={checked}
+          onChange={handleChange}
+          inputProps={{ 'aria-label': 'controlled' }}
+          />
+        } label={label} />
+      </FormGroup>
+  );
+}
+
+
+
+
+
+export default function OrderNewEditForm({ pms, open, onClose, id }) {
   const router = useRouter();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -101,50 +133,50 @@ export default function OrderNewEditForm({ currentUser, open, onClose }) {
   //Added By Blessing
   const NewUserSchema = Yup.object().shape({
     //details
+    
     pmsid: Yup.string(),
-    pms: Yup.string(),
-    script_Folder: Yup.string(),
-    testClinic: Yup.string(),
+    pms: Yup.string().required('pms is required'),
+    script_Folder: Yup.string().required('Script Folder is required'),
     pms_company_name: Yup.string(),
     staff: Yup.string(),
-    pms_status: Yup.string(),
-    pms_testing_jail: Yup.string(),
+    pms_status: Yup.string().required('Pms Status is required'),
+    pms_testing_jail: Yup.string().required('Pms Testing Jail is required'),
     pms_contact: Yup.string(),
-    pms_tables: Yup.string(),
-    pms_reports: Yup.string(),
-    pms_database: Yup.string(),
-    pms_export: Yup.string(),
-    pms_os: Yup.string(),
-    dL_Version: Yup.string(),
+    pms_tables: Yup.string().required('Pms Table is required'),
+    pms_reports: Yup.string().required('Pms Reports is required'),
+    pms_database: Yup.string().required('Pms Database is required'),
+    pms_export: Yup.string().required('Pms Export is required'),
+    pms_os: Yup.string().required('Pms Os is required'),
+    dL_Version: Yup.string().required('Dl Version is required'),
+    description: Yup.string(),
   }); 
 
   const defaultValues = useMemo(
     () => ({
       //details
       // corpPractice: currentUser?.corpPractice|| '',
-      pmsid: currentUser?.pmsid || '',
-      pms: currentUser?.pms || '',
-      script_Folder: currentUser?.script_Folder || '',
-      testClinic: currentUser?.testClinic || '',
-      pms_company_name: currentUser?.pms_company_name || '',
-      staff: currentUser?.staff || '',
-      pms_status: currentUser?.pms_status || '',
-      pms_testing_jail: currentUser?.pms_testing_jail|| '',
-      pms_contact: currentUser?.pms_contact || '',
-      pms_tables: currentUser?.pms_tables || null,
-      pms_reports: currentUser?.pms_reports || '',
-      pms_database: currentUser?.pms_database || '',
-      pms_export: currentUser?.pms_export || '',
-      pms_os: currentUser?.pms_os || '',
-      dL_Version: currentUser?.dL_Version || '',
+      pmsid: pms?.pmsid || '',
+      pms: pms?.pms || '',
+      script_Folder: pms?.script_Folder || '',
+      pms_company_name: pms?.pms_company_name || '',
+      staff: pms?.staff || '',
+      pms_status: pms?.pms_status || '',
+      pms_testing_jail: pms?.pms_testing_jail|| '',
+      pms_contact: pms?.pms_contact || '',
+      pms_tables: pms?.pms_tables || null,
+      pms_reports: pms?.pms_reports || '',
+      pms_database: pms?.pms_database || '',
+      pms_export: pms?.pms_export || '',
+      pms_os: pms?.pms_os || '',
+      dL_Version: pms?.dL_Version || '',
+      description: pms?.description || '',
     }),
-    [currentUser],
+    [pms],
     
   );
-  useEffect(() =>{
-    console.log("CLINIC_ADDRESS:", currentUser?.clinic_address)
-  }, [currentUser]);
-
+  // useEffect(() =>{
+  //   console.log("CLINIC_ADDRESS:", currentUser?.clinic_address)
+  // }, [currentUser]);
   
   const methods = useForm({
     resolver: yupResolver(NewUserSchema),
@@ -155,38 +187,40 @@ export default function OrderNewEditForm({ currentUser, open, onClose }) {
     reset,
     // watch,
     // control,
-    // setValue,
+    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
   // const values = watch();
   useEffect(() => {
-    if (currentUser) {
+    if (pms) {
       reset(defaultValues);
     }
-  }, [currentUser, defaultValues, reset]);
+  }, [pms, defaultValues, reset]);
   
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar(currentUser ? 'Update success!' : 'Create success!');
+      const res = await $put(`${endpoints.pms.pms}${id}`, data);
+      console.info('RES', res);
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+      // reset();
+      enqueueSnackbar( 'Update success!');
       // router.push(paths.dashboard.user.list);
-      router.push(paths.clinicmanager.root);
-      console.info('DATA', data);
+      // router.push(paths.clinicmanager.root);
+      // console.info('DATA', data);
     } catch (error) {
       console.error(error);
     }
   });
 
    //Added by blessing
-   const [value, setValue] = useState(0);
+   const [value, setValue1] = useState(0);
 
    const handleChange = (event, newValue) => {
-     setValue(newValue);
+     setValue1(newValue);
    };
-   
+
 
   const handleDrop = useCallback(
     (acceptedFiles) => {
@@ -197,49 +231,33 @@ export default function OrderNewEditForm({ currentUser, open, onClose }) {
       });
 
       if (file) {
-        setValue('avatarUrl', newFile, { shouldValidate: true });
+        setValue1('avatarUrl', newFile, { shouldValidate: true });
       }
     },
-    [setValue]
+    [setValue1]
   );
-
-  // For adjustment 
-  const [tableData, setTableData] = useState([
-  {
-    defid: 1,
-    adjustmentDescription: 'Adjustment 1',
-    impact: 'Some Impact',
-    chargeAdj: false,
-    paymentAdj: false,
-    providerAdj: false,
-    hygienistAdj: false,
-    entryMap: 0,
-  },
-  // Add more data as needed
-  ]);
-  //For appt status value (starts)
-  function createData(defId, pmsStatus, edmsStatus,) {
-    return { defId, pmsStatus, edmsStatus, };
-  }
+   
   
-  const rows = [
-    createData(1, 159, 6.0),
-    // createData(2, 237, 9.0),
-    // createData(3, 262, 16.0),
-    // createData(4, 305, 3.7),
-    // createData(5, 356, 16.0),
-  ];
-  //For appt status value (ends)
+  // const getPMS_Data = ()=>{
+  //   $get(endpoints.pms.names)
+  //   .then(res =>{
+  //     res.sort()
+  //     res.splice(0, 0, "All")
+  //     setPmsNames(res)
+  //   })
 
-   //For Employee mapping (starts)
-   function createEmData(providerCode, employee, mapEmployeeTo, designation, practice, primaryChair) {
-    return { providerCode, employee, mapEmployeeTo, designation, practice, primaryChair };
-  }
+  // }
   
-  const emRows = [
-    createEmData(1, 159, 6.0, 7.0, 9.0, 8.0)
-  ];
-  //For employee maping (ends)
+  // useEffect(()=>{
+  //   getPMS_Data()
+  // }, [])
+
+
+  const handleCheckBox = (data) => {
+    setValue(data.name, data.value);
+  };
+  
+  
 
 
  const handleCheckboxChange = (index, field) => {
@@ -250,15 +268,12 @@ export default function OrderNewEditForm({ currentUser, open, onClose }) {
 
   //
   //For date
-  const [date, setDate] = useState("none");
+  const [date, setDate] = useState(null);
+
   const onDateChange = (event) => {
      setDate(event.target.value);
   };
   
-  const [staff, setStaff] = React.useState('');
-  // const handleChange = (event) => {
-  //   setStaff(event.target.value);
-  // };
   
   const grey = {
     50: '#f6f8fa',
@@ -302,12 +317,18 @@ export default function OrderNewEditForm({ currentUser, open, onClose }) {
 
   return (
     <Box sx={{ width: '100%' }}>
+
+
+      {/* TABS STARTS */}
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Details" {...a11yProps(0)} />
           <Tab label="Reports" {...a11yProps(1)} />
         </Tabs>
       </Box>
+      {/* TABLE ENDS */}
+
+      {/* PMS TAB STARTS */}
       <CustomTabPanel value={value} index={0}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Grid container spacing={3}>
@@ -315,7 +336,12 @@ export default function OrderNewEditForm({ currentUser, open, onClose }) {
           md={4}
           display="flex"
           flexDirection="row">
-          <Card sx={{ p: 1, marginRight:2 }}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', columnGap:2 }}>
+              <LoadingButton sx={{width:120}} type="submit" variant="contained" loading={isSubmitting}>
+                    Save Changes
+              </LoadingButton>
+          </Box>  
+          {/* <Card sx={{ p: 1, marginRight:2 }}>
               
               <Box
                 // rowGap={3}
@@ -332,7 +358,7 @@ export default function OrderNewEditForm({ currentUser, open, onClose }) {
                   </LoadingButton>
                 </Stack>
              </Box>
-            </Card>  
+            </Card>   */}
           </Grid>
         </Grid>
       <Grid container spacing={3}>
@@ -356,22 +382,17 @@ export default function OrderNewEditForm({ currentUser, open, onClose }) {
             
 
               <RHFTextField name="script_Folder" label="Script Folder" />
-              <RHFTextField name="testClinic" label="Test Clinic" />
+              <RHFTextField name="pms_testing_jail" label="Test Clinic" />
               <RHFTextField name="pms_company_name" label="Company Name" />
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Staff</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={staff}
-                  label="Staff"
-                  // onChange={handleChange}
-                >
-                  <MenuItem value={10}>Alexander MORDI</MenuItem>
-                  <MenuItem value={20}>Alexander MORDI</MenuItem>
-                  <MenuItem value={30}>Alexander MORDI</MenuItem>
-                </Select>
-              </FormControl>
+              <RHFTextField name="staff" label="Responsible Person" />
+
+              {/* <RHFSelect name="responsiblePerson" label="Responsible Person">
+                  {PMS_PERSONS_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+              </RHFSelect> */}
             </Box>
           </Card>
         </Grid>
@@ -438,64 +459,37 @@ export default function OrderNewEditForm({ currentUser, open, onClose }) {
                 sm: 'repeat(4, 1fr)',
               }}
             >  
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">OS</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  // value={pms_os}
-                  label="OS"
-                  // onChange={handleChange}
-                >
-                  <MenuItem value={10}>Windows</MenuItem>
-                  <MenuItem value={20}>macOS</MenuItem>
-                  <MenuItem value={30}>Linus</MenuItem>
-                </Select>
-              </FormControl>
+             <RHFSelect name="pms_os" label="OS">
+                  {PMS_OS_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+              </RHFSelect>
               
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Database</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  // value={staff}
-                  label="Database"
-                  // onChange={handleChange}
-                >
-                  <MenuItem value={1}>MSSQL</MenuItem>
-                  <MenuItem value={2}>MSSQL</MenuItem>
-                  <MenuItem value={3}>MSSQL</MenuItem>
-                  
-                </Select>
-              </FormControl>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Export fmt</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  // value={staff}
-                  label="Export fmt"
-                  // onChange={handleChange}
-                >
-                  <MenuItem value={10}>XML 1</MenuItem>
-                  <MenuItem value={20}>XML 2</MenuItem>
-                  <MenuItem value={30}>XML 3</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">DL Version</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  // value={staff}
-                  label="DL Version"
-                  // onChange={handleChange}
-                >
-                  <MenuItem value={10}>Base 1</MenuItem>
-                  <MenuItem value={20}>Base 2</MenuItem>
-                  <MenuItem value={30}>Base 3</MenuItem>
-                </Select>
-              </FormControl>
+              <RHFSelect name="pms_database" label="DATABASE">
+                  {PMS_DATABASE_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+              </RHFSelect>
+
+              <RHFSelect name="pms_export" label="Export Fmt">
+                  {PMS_EXPORT_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+              </RHFSelect>
+
+               <RHFSelect name="dL_Version" label="Dl Version">
+                  {PMS_VERSION_OPTIONS.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.value}
+                      </MenuItem>
+                    ))}
+              </RHFSelect>
             </Box>
           </Card>
         </Grid>
@@ -519,7 +513,17 @@ export default function OrderNewEditForm({ currentUser, open, onClose }) {
                 sm: 'repeat(1, 1fr)',
               }}
             >  
-              <Textarea aria-label="minimum height" minRows={5} placeholder="Contact Details" />
+              <Controller
+                  name="pms_contact"
+                  // control={control}
+                  render={({ field }) => (
+                    <Textarea
+                      rows={5}
+                      placeholder="Contact Details"
+                      {...field}
+                    />
+                  )}
+                />
             </Box>
           </Card>
         </Grid>

@@ -22,17 +22,21 @@ import { $post, $get, endpoints} from 'src/utils/axios';
 export default function OrderEditView({ id }) {
   const settings = useSettingsContext();
 
-  // console.log("RES: ", (id));
+  console.log("RES: ", (id));
   // const { clinic: currentUser, clinicLoading, clinicEmpty } = useGetClinic(id);
-  
-  useEffect(() => {
-    // console.log(currentUser);
-  });
+  const URL = `${endpoints.pms.pms_data}${id}`;
+  const { data:pms_data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{}});
+  if (error) return console.log(error);
+
+  console.log("PMS: ", pms_data);
+  // useEffect(() => {
+  //   // console.log(currentUser);
+  // });
 
   return (
     <Container maxWidth={settings.themeStretch ? false : "lg"}>
       <CustomBreadcrumbs
-        heading="Edit"
+        heading={pms_data?.pms}
         links={[
           {
             name: "PMS",
@@ -45,7 +49,7 @@ export default function OrderEditView({ id }) {
         }}
       />
 
-      <OrderNewEditForm currentUser={currentUser} />
+      <OrderNewEditForm pms={pms_data} id={id}/>
     </Container>
   );
 }

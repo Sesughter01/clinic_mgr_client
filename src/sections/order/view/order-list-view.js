@@ -230,8 +230,8 @@ export default function OrderListView() {
   const handleEditRow = useCallback(
     (id) => {
       // router.push(paths.dashboard.user.edit(id));
-      router.push(paths.pms.edit(id));
-      console.log(id)
+      router.push(paths.pms.pmss.edit(id));
+      console.log("ID", id)
     },
     [router]
   );
@@ -274,9 +274,9 @@ export default function OrderListView() {
           ]}
           action={
             <Button
-              component={RouterLink}
+              // component={RouterLink}
               // href={paths.dashboard.user.new}
-              href={paths.pms.new}
+              href={paths.pms.pmss.new}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
@@ -426,19 +426,15 @@ export default function OrderListView() {
 
                 <TableBody>
                   {dataFiltered
-                    // .slice(
-                    //   table.page * table.rowsPerPage,
-                    //   table.page * table.rowsPerPage + table.rowsPerPage
-                    // )
                     .map((row) => (
                       <OrderTableRow
-                        key={row.id}
+                        key={row.pmsid}
                         row={row}
-                        selected={table.selected.includes(row.id)}
-                        onSelectRow={() => table.onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.id)}
-                        onViewRow={() => handleViewRow(row.id)}
+                        selected={table.selected.includes(row.pmsid)}
+                        onSelectRow={() => table.onSelectRow(row.pmsid)}
+                        onDeleteRow={() => handleDeleteRow(row.pmsid)}
+                        onEditRow={() => handleEditRow(row.pmsid)}
+                        onViewRow={() => handleViewRow(row.pmsid)}
                       />
                     ))}
 

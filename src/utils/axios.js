@@ -150,7 +150,7 @@ export const endpoints = {
    search: '/api/pms/search',
    names: '/api/pms/names',
    pms: '/api/pms',
-   pms_data: '/api/pms',
+   pms_data: '/api/pms/',
    pms_add: '/api/pms',
    pms_update: '/api/pms',
    pms_delete: 'api/pms',

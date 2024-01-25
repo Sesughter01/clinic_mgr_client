@@ -1,4 +1,5 @@
 export * from './_clinic';
+export * from './_pms';
 
 export * from './assets';
 export * from './_mock';

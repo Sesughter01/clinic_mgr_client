@@ -223,14 +223,16 @@ export const paths = {
   // PMS 
   pms: {
     root: `${ROOTS.PMS}`,
-    new: `${ROOTS.PMS}/new`,
-    list: `${ROOTS.PMS}/list`,
-    cards: `${ROOTS.PMS}/cards`,
-    profile: `${ROOTS.PMS}/profile`,
-    account: `${ROOTS.PMS}/account`,
-    edit: (id) => `${ROOTS.PMS}/${id}/edit`,
-    demo: {
-      edit: `${ROOTS.PMS}/${MOCK_ID}/edit`,
+    pmss: {
+      new: `${ROOTS.PMS}/pmss/new`,
+      list: `${ROOTS.PMS}/pmss/list`,
+      cards: `${ROOTS.PMS}/pmss/cards`,
+      profile: `${ROOTS.PMS}/pmss/profile`,
+      account: `${ROOTS.PMS}/pmss/account`,
+      edit: (id) => `${ROOTS.PMS}/pmss/${id}/edit`,
+      demo: {
+        edit: `${ROOTS.PMS}/pmss/${MOCK_ID}/edit`,
+      },
     },
   }, 
   

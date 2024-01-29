@@ -55,6 +55,10 @@ const defaultFilters = {
 export default function FileManagerView() {
   const table = useTable({ defaultRowsPerPage: 10 });
 
+  // no effect test variable
+
+  const test_var = {test1: 2}
+
   const settings = useSettingsContext();
 
   const openDateRange = useBoolean();

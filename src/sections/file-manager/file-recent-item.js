@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';ListItemText
+import { useEffect,useState, useCallback } from 'react';
 // @mui
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -45,7 +45,7 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
 
   const details = useBoolean();
 
-  const favorite = useBoolean(file.isFavorited);
+  const status = useBoolean(file.status);
 
   const handleChangeInvite = useCallback((event) => {
     setInviteEmail(event.target.value);
@@ -55,6 +55,20 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
     enqueueSnackbar('Copied!');
     copy(file.url);
   }, [copy, enqueueSnackbar, file.url]);
+
+
+  useEffect(() => {
+    console.log('FILE RECENT ITEM', file || 0); // Add this line
+    // Add any additional logic you might have in useEffect
+    // ...
+
+    // Don't forget to clean up if necessary
+    return () => {
+      console.log('FILE RECENT ITEM', file || 0); // Add this line
+      // Add any cleanup logic if needed
+      // ...
+    };
+  }, [file]);
 
   const renderAction = (
     <Box
@@ -72,8 +86,8 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
         color="warning"
         icon={<Iconify icon="eva:star-outline" />}
         checkedIcon={<Iconify icon="eva:star-fill" />}
-        checked={favorite.value}
-        onChange={favorite.onToggle}
+        checked={status.value}
+        onChange={status.onToggle}
       />
 
       <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
@@ -85,10 +99,11 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
   const renderText = (
     <ListItemText
       onClick={details.onTrue}
-      primary={file.name}
+      primary={file.uniqueId}
+      // primary="File Name goes Here"
       secondary={
         <>
-          {fData(file.size)}
+          {fData(file.type)}
           <Box
             sx={{
               mx: 0.75,
@@ -98,7 +113,7 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
               bgcolor: 'currentColor',
             }}
           />
-          {fDateTime(file.modifiedAt)}
+          {fDateTime(file.updatedAt)}
         </>
       }
       primaryTypographyProps={{
@@ -116,24 +131,24 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
     />
   );
 
-  const renderAvatar = (
-    <AvatarGroup
-      max={3}
-      sx={{
-        [`& .${avatarGroupClasses.avatar}`]: {
-          width: 24,
-          height: 24,
-          '&:first-of-type': {
-            fontSize: 12,
-          },
-        },
-      }}
-    >
-      {file.shared?.map((person) => (
-        <Avatar key={person.id} alt={person.name} src={person.avatarUrl} />
-      ))}
-    </AvatarGroup>
-  );
+  // const renderAvatar = (
+  //   <AvatarGroup
+  //     max={3}
+  //     sx={{
+  //       [`& .${avatarGroupClasses.avatar}`]: {
+  //         width: 24,
+  //         height: 24,
+  //         '&:first-of-type': {
+  //           fontSize: 12,
+  //         },
+  //       },
+  //     }}
+  //   >
+  //     {file.shared?.map((person) => (
+  //       <Avatar key={person.id} alt={person.name} src={person.avatarUrl} />
+  //     ))}
+  //   </AvatarGroup>
+  // );
 
   return (
     <>
@@ -157,11 +172,11 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
         }}
         {...other}
       >
-        <FileThumbnail file={file.type} sx={{ width: 36, height: 36, mr: 1 }} />
+        <FileThumbnail file="file" sx={{ width: 36, height: 36, mr: 1 }} />
 
         {renderText}
 
-        {!!file?.shared?.length && renderAvatar}
+        {/* {!!file?.shared?.length && renderAvatar} */}
 
         {renderAction}
       </Stack>
@@ -206,10 +221,10 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
         </MenuItem>
       </CustomPopover>
 
-      <FileManagerFileDetails
+      {/* <FileManagerFileDetails
         item={file}
-        favorited={favorite.value}
-        onFavorite={favorite.onToggle}
+        favorited={status.value}
+        onFavorite={status.onToggle}
         onCopyLink={handleCopy}
         open={details.value}
         onClose={details.onFalse}
@@ -217,7 +232,7 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
           details.onFalse();
           onDelete();
         }}
-      />
+      /> */}
 
       <FileManagerShareDialog
         open={share.value}

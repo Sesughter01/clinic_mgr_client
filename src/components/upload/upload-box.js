@@ -8,8 +8,9 @@ import Iconify from '../iconify';
 
 // ----------------------------------------------------------------------
 
-export default function UploadBox({ placeholder, error, disabled, sx, ...other }) {
+export default function UploadBox({  onDrop,placeholder, error, disabled, sx, ...other }) {
   const { getRootProps, getInputProps, isDragActive, isDragReject } = useDropzone({
+    onDrop,
     disabled,
     ...other,
   });

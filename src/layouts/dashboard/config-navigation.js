@@ -202,18 +202,18 @@ export function useNavData() {
 
           // FILE MANAGER
           {
-            title: t('Settings & Reports'),
+            title: t('Clinic Reports'),
             path: paths.settings.root,
-            icon: ICONS.folder,
+            icon: ICONS.file,
           },
 
           // MAIL
-          // {
-          //   title: t('mail'),
-          //   path: paths.dashboard.mail,
-          //   icon: ICONS.mail,
-          //   info: <Label color="error">+32</Label>,
-          // },
+          {
+            title: t('Settings'),
+            path: "#",
+            icon: ICONS.folder,
+            // info: <Label color="error">+32</Label>,
+          }
 
           // CHAT
           // {

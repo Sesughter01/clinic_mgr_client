@@ -242,7 +242,7 @@ export const paths = {
     // cards: `${ROOTS.SETTINGS}/cards`,
     // profile: `${ROOTS.SETTINGS}/profile`,
     // account: `${ROOTS.SETTINGS}/account`,
-    // edit: (id) => `${ROOTS.SETTINGS}/${id}/edit`,
+    files: (id) => `${ROOTS.SETTINGS}/${id}`,
     // demo: {
     //   edit: `${ROOTS.SETTINGS}/${MOCK_ID}/edit`,
     // },

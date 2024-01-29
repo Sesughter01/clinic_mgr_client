@@ -64,6 +64,7 @@ export default function Adjustment({ id, allAdjustments }) {
   const [data, setData] = useState(allAdjustments);
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  
   const columns = [
     // { field: 'defId', headerName: 'defId', width: 20 },
     // { field: 'clinic_Path', headerName: 'clinic_Path', width: 150 },

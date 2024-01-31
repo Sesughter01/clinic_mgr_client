@@ -50,7 +50,7 @@ export default function FileManagerFileDetails({
 
   const [inviteEmail, setInviteEmail] = useState('');
 
-  const [tags, setTags] = useState(item.tags.slice(0, 3));
+  // const [tags, setTags] = useState(item.tags.slice(0, 3));
 
   const handleChangeInvite = useCallback((event) => {
     setInviteEmail(event.target.value);
@@ -76,7 +76,7 @@ export default function FileManagerFileDetails({
         </IconButton>
       </Stack>
 
-      {toggleTags.value && (
+      {/* {toggleTags.value && (
         <Autocomplete
           multiple
           freeSolo
@@ -105,85 +105,85 @@ export default function FileManagerFileDetails({
           }
           renderInput={(params) => <TextField {...params} placeholder="#Add a tags" />}
         />
-      )}
+      )} */}
     </Stack>
   );
 
-  const renderProperties = (
-    <Stack spacing={1.5}>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ typography: 'subtitle2' }}
-      >
-        Properties
-        <IconButton size="small" onClick={properties.onToggle}>
-          <Iconify
-            icon={properties.value ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
-          />
-        </IconButton>
-      </Stack>
+  // const renderProperties = (
+  //   <Stack spacing={1.5}>
+  //     <Stack
+  //       direction="row"
+  //       alignItems="center"
+  //       justifyContent="space-between"
+  //       sx={{ typography: 'subtitle2' }}
+  //     >
+  //       Properties
+  //       <IconButton size="small" onClick={properties.onToggle}>
+  //         <Iconify
+  //           icon={properties.value ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
+  //         />
+  //       </IconButton>
+  //     </Stack>
 
-      {properties.value && (
-        <>
-          <Stack direction="row" sx={{ typography: 'caption', textTransform: 'capitalize' }}>
-            <Box component="span" sx={{ width: 80, color: 'text.secondary', mr: 2 }}>
-              Size
-            </Box>
-            {fData(size)}
-          </Stack>
+  //     {properties.value && (
+  //       <>
+  //         <Stack direction="row" sx={{ typography: 'caption', textTransform: 'capitalize' }}>
+  //           <Box component="span" sx={{ width: 80, color: 'text.secondary', mr: 2 }}>
+  //             Size
+  //           </Box>
+  //           {fData(size)}
+  //         </Stack>
 
-          <Stack direction="row" sx={{ typography: 'caption', textTransform: 'capitalize' }}>
-            <Box component="span" sx={{ width: 80, color: 'text.secondary', mr: 2 }}>
-              Modified
-            </Box>
-            {fDateTime(modifiedAt)}
-          </Stack>
+  //         <Stack direction="row" sx={{ typography: 'caption', textTransform: 'capitalize' }}>
+  //           <Box component="span" sx={{ width: 80, color: 'text.secondary', mr: 2 }}>
+  //             Modified
+  //           </Box>
+  //           {fDateTime(modifiedAt)}
+  //         </Stack>
 
-          <Stack direction="row" sx={{ typography: 'caption', textTransform: 'capitalize' }}>
-            <Box component="span" sx={{ width: 80, color: 'text.secondary', mr: 2 }}>
-              Type
-            </Box>
-            {fileFormat(type)}
-          </Stack>
-        </>
-      )}
-    </Stack>
-  );
+  //         <Stack direction="row" sx={{ typography: 'caption', textTransform: 'capitalize' }}>
+  //           <Box component="span" sx={{ width: 80, color: 'text.secondary', mr: 2 }}>
+  //             Type
+  //           </Box>
+  //           {fileFormat(type)}
+  //         </Stack>
+  //       </>
+  //     )}
+  //   </Stack>
+  // );
 
-  const renderShared = (
-    <>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 2.5 }}>
-        <Typography variant="subtitle2"> File Share With </Typography>
+  // const renderShared = (
+  //   <>
+  //     <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 2.5 }}>
+  //       <Typography variant="subtitle2"> File Share With </Typography>
 
-        <IconButton
-          size="small"
-          color="primary"
-          onClick={share.onTrue}
-          sx={{
-            width: 24,
-            height: 24,
-            bgcolor: 'primary.main',
-            color: 'primary.contrastText',
-            '&:hover': {
-              bgcolor: 'primary.dark',
-            },
-          }}
-        >
-          <Iconify icon="mingcute:add-line" />
-        </IconButton>
-      </Stack>
+  //       <IconButton
+  //         size="small"
+  //         color="primary"
+  //         onClick={share.onTrue}
+  //         sx={{
+  //           width: 24,
+  //           height: 24,
+  //           bgcolor: 'primary.main',
+  //           color: 'primary.contrastText',
+  //           '&:hover': {
+  //             bgcolor: 'primary.dark',
+  //           },
+  //         }}
+  //       >
+  //         <Iconify icon="mingcute:add-line" />
+  //       </IconButton>
+  //     </Stack>
 
-      {hasShared && (
-        <Box sx={{ pl: 2.5, pr: 1 }}>
-          {shared.map((person) => (
-            <FileManagerInvitedItem key={person.id} person={person} />
-          ))}
-        </Box>
-      )}
-    </>
-  );
+  //     {hasShared && (
+  //       <Box sx={{ pl: 2.5, pr: 1 }}>
+  //         {shared.map((person) => (
+  //           <FileManagerInvitedItem key={person.id} person={person} />
+  //         ))}
+  //       </Box>
+  //     )}
+  //   </>
+  // );
 
   return (
     <>
@@ -233,12 +233,12 @@ export default function FileManagerFileDetails({
 
             <Divider sx={{ borderStyle: 'dashed' }} />
 
-            {renderTags}
+            {/* {renderTags} */}
 
-            {renderProperties}
+            {/* {renderProperties} */}
           </Stack>
 
-          {renderShared}
+          {/* {renderShared} */}
         </Scrollbar>
 
         <Box sx={{ p: 2.5 }}>

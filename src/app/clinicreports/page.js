@@ -4,7 +4,7 @@ import { FileManagerView } from 'src/sections/file-manager/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Settings and Reports',
+  title: 'Clinic Reports',
 };
 
 export default function FileManagerPage() {

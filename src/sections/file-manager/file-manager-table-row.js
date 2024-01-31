@@ -80,7 +80,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
   const handleFileClick = useCallback(
     (id) => {
-      router.push(paths.settings.files(id));
+      router.push(paths.clinicReports.files(id));
     },
     [router]
   );

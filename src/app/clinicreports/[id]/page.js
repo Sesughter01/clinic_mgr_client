@@ -2,18 +2,18 @@ import PropTypes from 'prop-types';
 // utils
 import axios, { endpoints } from 'src/utils/axios';
 // sections
-import {FileListView } from 'src/sections/file-manager/view';
+import { FileListView } from 'src/sections/file-manager/view';
 
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Dashboard: Jail files',
+  title: 'Dashboard: Jail Files',
 };
 
-export default function FileDetailsPage({ params }) {
+export default function FileListPage({ params }) {
   const { id } = params;
 
-  return <FileListView id={id} />
+  return <FileListView id={id} />;
 }
 
 export async function generateStaticParams() {
@@ -24,7 +24,7 @@ export async function generateStaticParams() {
   }));
 }
 
-FileDetailsPage.propTypes = {
+FileListPage.propTypes = {
   params: PropTypes.shape({
     id: PropTypes.string,
   }),

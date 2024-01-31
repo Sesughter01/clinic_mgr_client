@@ -19,6 +19,7 @@ const ROOTS = {
   CORPORATIONS: '/corporations',
   PMS: '/pms',
   SETTINGS: '/settings',
+  CLINIC_REPORTS: '/clinicreports',
 };
 
 // ----------------------------------------------------------------------
@@ -243,6 +244,18 @@ export const paths = {
     // profile: `${ROOTS.SETTINGS}/profile`,
     // account: `${ROOTS.SETTINGS}/account`,
     files: (id) => `${ROOTS.SETTINGS}/${id}`,
+    // demo: {
+    //   edit: `${ROOTS.SETTINGS}/${MOCK_ID}/edit`,
+    // },
+  }, 
+  clinicReports: {
+    root: `${ROOTS.CLINIC_REPORTS}`,
+    // new: `${ROOTS.SETTINGS}/new`,
+    // list: `${ROOTS.SETTINGS}/list`,
+    // cards: `${ROOTS.SETTINGS}/cards`,
+    // profile: `${ROOTS.SETTINGS}/profile`,
+    // account: `${ROOTS.SETTINGS}/account`,
+    files: (id) => `${ROOTS.CLINIC_REPORTS}/${id}`,
     // demo: {
     //   edit: `${ROOTS.SETTINGS}/${MOCK_ID}/edit`,
     // },

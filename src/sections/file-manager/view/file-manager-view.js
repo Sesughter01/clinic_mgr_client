@@ -43,11 +43,17 @@ import FileListTableRow from './file-list-view';
 
 // ----------------------------------------------------------------------
 
+// const defaultFilters = {
+//   name: '',
+//   type: [],
+//   startDate: null,
+//   endDate: null,
+// };
 const defaultFilters = {
-  name: '',
-  type: [],
-  startDate: null,
-  endDate: null,
+  clinic_name: '',
+  cutoff_date: null,
+   prodDate: null,
+
 };
 
 // ----------------------------------------------------------------------
@@ -141,7 +147,7 @@ export default function FileManagerView() {
 
   const dateError =
     filters.startDate && filters.endDate
-      ? filters.startDate.getTime() > filters.endDate.getTime()
+      ? filters.setup_Date.getTime() > filters.cutoff_date.getTime()
       : false;
 
   const dataFiltered = applyFilter({
@@ -157,7 +163,8 @@ export default function FileManagerView() {
   );
 
   const canReset =
-    !!filters.name || !!filters.type.length || (!!filters.startDate && !!filters.endDate);
+    // !!filters.name || !!filters.type.length || (!!filters.startDate && !!filters.endDate);
+    !!filters.clinic_name;
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
@@ -168,11 +175,11 @@ export default function FileManagerView() {
   }, []);
 
   const handleFilters = useCallback(
-    (name, value) => {
+    (clinic_name, value) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
-        [name]: value,
+        [clinic_name]: value,
       }));
     },
     [table]
@@ -249,7 +256,7 @@ export default function FileManagerView() {
     <>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography variant="h4">File Manager</Typography>
+          <Typography variant="h4">Clinic Reports</Typography>
           {/* <Button
             variant="contained"
             startIcon={<Iconify icon="eva:cloud-upload-fill" />}
@@ -334,7 +341,7 @@ export default function FileManagerView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters, dateError }) {
-  const { name, type, startDate, endDate } = filters;
+  const {clinic_name,cutoff_date,prodDate } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -346,25 +353,25 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
 
   inputData = stabilizedThis.map((el) => el[0]);
 
-  if (name) {
+  if (clinic_name) {
     inputData = inputData.filter(
-      (file) => file.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (file) => file.clinic_name.toLowerCase().indexOf(clinic_name.toLowerCase()) !== -1
     );
   }
 
-  if (type.length) {
-    inputData = inputData.filter((file) => type.includes(fileFormat(file.type)));
-  }
+  // if (clinic_name) {
+  //   inputData = inputData.filter((file) => type.includes(fileFormat(file.type)));
+  // }
 
-  if (!dateError) {
-    if (startDate && endDate) {
-      inputData = inputData.filter(
-        (file) =>
-          fTimestamp(file.createdAt) >= fTimestamp(startDate) &&
-          fTimestamp(file.createdAt) <= fTimestamp(endDate)
-      );
-    }
-  }
+  // if (!dateError) {
+  //   if (cutoff_date && prodDate) {
+  //     inputData = inputData.filter(
+  //       (file) =>
+  //         fTimestamp(file.cutoff_date) >= fTimestamp(cutoff_date) &&
+  //         fTimestamp(file.prodDate) <= fTimestamp(prodDate)
+  //     );
+  //   }
+  // }
 
   return inputData;
 }

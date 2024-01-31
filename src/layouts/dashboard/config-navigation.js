@@ -203,7 +203,7 @@ export function useNavData() {
           // FILE MANAGER
           {
             title: t('Clinic Reports'),
-            path: paths.settings.root,
+            path: paths.clinicReports.root,
             icon: ICONS.file,
           },
 

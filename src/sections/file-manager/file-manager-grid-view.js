@@ -16,6 +16,8 @@ import FileManagerFolderItem from './file-manager-folder-item';
 import FileManagerActionSelected from './file-manager-action-selected';
 import FileManagerShareDialog from './file-manager-share-dialog';
 import FileManagerNewFolderDialog from './file-manager-new-folder-dialog';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +45,15 @@ export default function FileManagerGridView({
   const files = useBoolean();
 
   const folders = useBoolean();
+
+  const router = useRouter();
+
+  const handleFileClick = useCallback(
+    (id) => {
+      router.push(paths.clinicReports.files(id));
+    },
+    [router]
+  );
 
   const handleChangeInvite = useCallback((event) => {
     setInviteEmail(event.target.value);
@@ -116,9 +127,10 @@ export default function FileManagerGridView({
                 <FileManagerFileItem
                   key={file.id}
                   file={file}
-                  selected={selected.includes(file.id)}
-                  onSelect={() => onSelectItem(file.id)}
-                  onDelete={() => onDeleteItem(file.id)}
+                  // selected={selected.includes(file.id)}
+                  // onSelect={() => onSelectItem(file.id)}
+                  // onDelete={() => onDeleteItem(file.id)}
+                  onClick={() => handleFileClick(file.id)}
                   sx={{ maxWidth: 'auto' }}
                 />
               ))}

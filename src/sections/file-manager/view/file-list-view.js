@@ -140,67 +140,67 @@ export default function FileListView({id}) {
  
 // );
 
-// const handleDrop = useCallback(
+const handleDrop = useCallback(
 
-//    async(acceptedFiles) => {
-//     const jid = id;
-//     const formDta = new FormData();
-//     formDta.append('id',jid);
+   async(acceptedFiles) => {
+    const jid = id;
+    const formDta = new FormData();
+    formDta.append('id',jid);
 
-//      acceptedFiles.map((uploadfile)=>{
-//       formDta.append('files',uploadfile);
+     acceptedFiles.map((uploadfile)=>{
+      formDta.append('files',uploadfile);
       
-//      });
+     });
 
-//      try {
+     try {
       
-//        const res = $post(URL,formDta)
-//        .then(res => window.location.reload())
-//       .then(res=>{enqueueSnackbar('File added  successfully!') ; 
-//         // file= {...file,...res.data}
-//         console.log("FILE UPLOAD RESPONSE",res.data);})
+       const res = $post(URL,formDta)
+       .then(res => window.location.reload())
+      .then(res=>{enqueueSnackbar('File added  successfully!') ; 
+        // file= {...file,...res.data}
+        console.log("FILE UPLOAD RESPONSE",res.data);})
 
-//           // Handle the response if needed
-//           // console.log("FILE UPLOAD RESPONSE",res.data);
+          // Handle the response if needed
+          // console.log("FILE UPLOAD RESPONSE",res.data);
 
-//      } catch (error){
+     } catch (error){
 
-//      }
-//    }
-// )
+     }
+   }
+)
 
-const handleDrop = useCallback(async (acceptedFiles) => {
-  const jid = id;
-  const formDta = new FormData();
-  formDta.append('id', jid);
+// const handleDrop = useCallback(async (acceptedFiles) => {
+//   const jid = id;
+//   const formDta = new FormData();
+//   formDta.append('id', jid);
 
-  acceptedFiles.forEach((uploadfile) => {
-    formDta.append('files', uploadfile);
-  });
+//   acceptedFiles.forEach((uploadfile) => {
+//     formDta.append('files', uploadfile);
+//   });
 
-  try {
-    const res = await $post(URL, formDta);
+//   try {
+//     const res = await $post(URL, formDta);
 
-    // Assuming the response contains the new file data
-    const newFile = res.data;
+//     // Assuming the response contains the new file data
+//     const newFile = res.data;
 
-    // Update the state to include the new file
-    setFiles(() => {
-      if (typeof file === 'object' && !Array.isArray(file)) {
-        return { ...file, ...newFile };
-      } else {
-        // If prevFiles is not an object, initialize it as an object with the new file
-        return { [newFile.id]: newFile };
-      }
-    });
+//     // Update the state to include the new file
+//     setFiles(() => {
+//       if (typeof file === 'object' && !Array.isArray(file)) {
+//         return { ...file, ...newFile };
+//       } else {
+//         // If prevFiles is not an object, initialize it as an object with the new file
+//         return { [newFile.id]: newFile };
+//       }
+//     });
 
-    enqueueSnackbar('File added successfully!');
-    console.log('FILE UPLOAD RESPONSE', newFile);
-  } catch (error) {
-    console.error('Error uploading files:', error);
-    // Handle the error (e.g., show an error message to the user)
-  }
-}, [id]);
+//     enqueueSnackbar('File added successfully!');
+//     console.log('FILE UPLOAD RESPONSE', newFile);
+//   } catch (error) {
+//     console.error('Error uploading files:', error);
+//     // Handle the error (e.g., show an error message to the user)
+//   }
+// }, [id]);
 
   const openDateRange = useBoolean();
 

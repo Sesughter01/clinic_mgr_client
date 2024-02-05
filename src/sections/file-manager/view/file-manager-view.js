@@ -30,7 +30,18 @@ import EmptyContent from 'src/components/empty-content';
 import { fileFormat } from 'src/components/file-thumbnail';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { useSettingsContext } from 'src/components/settings';
-import { useTable, getComparator } from 'src/components/table';
+// import { useTable, getComparator } from 'src/components/table';
+
+import {
+  useTable,
+  getComparator,
+  emptyRows,
+  TableNoData,
+  TableEmptyRows,
+  TableHeadCustom,
+  TableSelectedAction,
+  TablePaginationCustom,
+} from 'src/components/table';
 //
 import FileManagerTable from '../file-manager-table';
 import FileManagerFilters from '../file-manager-filters';
@@ -63,7 +74,7 @@ export default function FileManagerView() {
 
   // no effect test variable
 
-  const test_var = {test1: 2}
+  
 
   const settings = useSettingsContext();
 
@@ -289,6 +300,7 @@ export default function FileManagerView() {
           <>
             {view === 'list' ? (
               <FileManagerTable
+              dta={data}
                 table={table}
                 tableData={tableData}
                 dataFiltered={dataFiltered}

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+// import { useEffect, useState, useCallback } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -46,6 +47,7 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 export default function FileManagerTable({
+  dta,
   table,
   tableData,
   notFound,
@@ -162,7 +164,7 @@ export default function FileManagerTable({
 
             <TableBody>
               {dataFiltered
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   
                   <FileManagerTableRow
@@ -194,10 +196,18 @@ export default function FileManagerTable({
       </Box>
 
       <TablePaginationCustom
-        count={dataFiltered.length}
-        page={page}
-        rowsPerPage={rowsPerPage}
+        // count={dataFiltered.length}
+      
+        count={dta?.totalCount}
+        // page={page}
+        page={dta?.currentPage - 1}
+        // rowsPerPage={rowsPerPage}
+        rowsPerPage={dta?.pageSize}
+
+        // onPageChange={onChangePage}
         onPageChange={onChangePage}
+
+        // onRowsPerPageChange={onChangeRowsPerPage}
         onRowsPerPageChange={onChangeRowsPerPage}
         //
         dense={dense}

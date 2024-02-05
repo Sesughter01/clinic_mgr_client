@@ -25,6 +25,7 @@ import { useSnackbar } from 'src/components/snackbar';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import FileThumbnail from 'src/components/file-thumbnail';
 //
+import { fileData, fileData2,fileFormat, fileThumb } from 'src/components/file-thumbnail/utils';
 import FileManagerShareDialog from './file-manager-share-dialog';
 import FileManagerFileDetails from './file-manager-file-details';
 
@@ -47,6 +48,9 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
 
   const status = useBoolean(file.status);
 
+  const {  path = '', preview = '' } = fileData(file);
+  const { name = '' } = fileData2(file.url);
+
   const handleChangeInvite = useCallback((event) => {
     setInviteEmail(event.target.value);
   }, []);
@@ -56,7 +60,12 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
     copy(file.url);
   }, [copy, enqueueSnackbar, file.url]);
 
-
+  const handleFileClick2 = useCallback(
+    (id) => {
+      window.location.href=file.url;
+    }
+    // [router]
+  );
   useEffect(() => {
     console.log('FILE RECENT ITEM', file || 0); // Add this line
     // Add any additional logic you might have in useEffect
@@ -98,8 +107,8 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
 
   const renderText = (
     <ListItemText
-      onClick={details.onTrue}
-      primary={file.uniqueId}
+      onClick={handleFileClick2}
+      primary={name}
       // primary="File Name goes Here"
       secondary={
         <>

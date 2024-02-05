@@ -146,3 +146,26 @@ export function fileData(file) {
     lastModifiedDate: file.lastModifiedDate,
   };
 }
+export function fileData2(file) {
+  // Url
+  if (typeof file === 'string') {
+    return {
+      // key: file,
+      // preview: file,
+      name: fileNameByUrl(file),
+      type: fileTypeByUrl(file),
+    };
+  }
+
+  // File
+  return {
+    key: file.id,
+    name: file.clinic_name,
+    size: file.size,
+    path: file.url,
+    type: file.type,
+    // preview: file.preview,
+    // lastModified: file.lastModified,
+    // lastModifiedDate: file.lastModifiedDate,
+  };
+}

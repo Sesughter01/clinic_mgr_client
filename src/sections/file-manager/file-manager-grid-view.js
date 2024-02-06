@@ -16,6 +16,8 @@ import FileManagerFolderItem from './file-manager-folder-item';
 import FileManagerActionSelected from './file-manager-action-selected';
 import FileManagerShareDialog from './file-manager-share-dialog';
 import FileManagerNewFolderDialog from './file-manager-new-folder-dialog';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -44,6 +46,15 @@ export default function FileManagerGridView({
 
   const folders = useBoolean();
 
+  const router = useRouter();
+
+  const handleFileClick = useCallback(
+    (id) => {
+      router.push(paths.clinicReports.files(id));
+    },
+    [router]
+  );
+
   const handleChangeInvite = useCallback((event) => {
     setInviteEmail(event.target.value);
   }, []);
@@ -55,15 +66,15 @@ export default function FileManagerGridView({
   return (
     <>
       <Box ref={containerRef}>
-        <FileManagerPanel
+         {/*<FileManagerPanel
           title="Folders"
           subTitle={`${data.filter((item) => item.type === 'folder').length} folders`}
           onOpen={newFolder.onTrue}
           collapse={folders.value}
           onCollapse={folders.onToggle}
-        />
+        /> */}
 
-        <Collapse in={!folders.value} unmountOnExit>
+        {/* <Collapse in={!folders.value} unmountOnExit>
           <Box
             gap={3}
             display="grid"
@@ -87,12 +98,12 @@ export default function FileManagerGridView({
                 />
               ))}
           </Box>
-        </Collapse>
+        </Collapse> */}
 
-        <Divider sx={{ my: 5, borderStyle: 'dashed' }} />
+        {/* <Divider sx={{ my: 5, borderStyle: 'dashed' }} /> */}
 
         <FileManagerPanel
-          title="Files"
+          title="Folders"
           subTitle={`${data.filter((item) => item.type !== 'folder').length} files`}
           onOpen={upload.onTrue}
           collapse={files.value}
@@ -116,9 +127,10 @@ export default function FileManagerGridView({
                 <FileManagerFileItem
                   key={file.id}
                   file={file}
-                  selected={selected.includes(file.id)}
-                  onSelect={() => onSelectItem(file.id)}
-                  onDelete={() => onDeleteItem(file.id)}
+                  // selected={selected.includes(file.id)}
+                  // onSelect={() => onSelectItem(file.id)}
+                  // onDelete={() => onDeleteItem(file.id)}
+                  onClick={() => handleFileClick(file.id)}
                   sx={{ maxWidth: 'auto' }}
                 />
               ))}

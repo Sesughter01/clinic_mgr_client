@@ -3,13 +3,14 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 //
-import { fileData, fileFormat, fileThumb } from './utils';
+import { fileData,fileData2, fileFormat, fileThumb } from './utils';
 import DownloadButton from './download-button';
 
 // ----------------------------------------------------------------------
 
 export default function FileThumbnail({ file, tooltip, imageView, onDownload, sx, imgSx }) {
-  const { name = '', path = '', preview = '' } = fileData(file);
+  const {  path = '', preview = '' } = fileData(file);
+  const { name = '' } = fileData2(file);
 
   const format = fileFormat(path || preview);
 

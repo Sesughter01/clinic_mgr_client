@@ -71,7 +71,7 @@ export default function FileManagerFileItem({ file, selected, onSelect, onDelete
         sx={{ p: 0.75 }}
       />
     ) : (
-      <FileThumbnail file={file.type} sx={{ width: 36, height: 36 }} />
+      <FileThumbnail file={"folder"} sx={{ width: 36, height: 36 }} />
     );
 
   const renderAction = (
@@ -98,7 +98,7 @@ export default function FileManagerFileItem({ file, selected, onSelect, onDelete
         onClick={details.onTrue}
         sx={{ width: 1, mt: 2, mb: 0.5 }}
       >
-        {file.name}
+        {file.clinic_name}
       </TextMaxLine>
 
       <Stack

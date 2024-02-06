@@ -14,6 +14,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
 import isEqual from 'lodash/isEqual';
+
+import { LoadingScreen } from 'src/components/loading-screen';
 // _mock
 import { _allFiles, FILE_TYPE_OPTIONS } from 'src/_mock';
 import { _folders, _files } from 'src/_mock';
@@ -86,8 +88,9 @@ export default function FileListView({id}) {
 
   const [folderName, setFolderName] = useState('');
 
-  // const [files, setFiles] = useState([]);
-  const { file, fileLoading, fileError, fileValidating } = useGetFile(id);
+  const [files, setFiles] = useState([]);
+  const { file, fileError, fileValidating } = useGetFile(id);
+  const [fileLoading, setFileLoading] = useState(false);
 
   const newFolder = useBoolean();
 
@@ -143,6 +146,7 @@ export default function FileListView({id}) {
 const handleDrop = useCallback(
 
    async(acceptedFiles) => {
+    setFileLoading(true);
     const jid = id;
     const formDta = new FormData();
     formDta.append('id',jid);
@@ -156,16 +160,58 @@ const handleDrop = useCallback(
       
        const res = $post(URL,formDta)
        .then(res => window.location.reload())
-      .then(res=>enqueueSnackbar('File added  successfully!'))
+      .then(res=>{enqueueSnackbar('File added  successfully!') ; 
+        // file= {...file,...res.data}
+        console.log("FILE UPLOAD RESPONSE",res.data);})
 
           // Handle the response if needed
-          console.log("FILE UPLOAD RESPONSE",res.data);
+          // console.log("FILE UPLOAD RESPONSE",res.data);
 
      } catch (error){
-
+      console.error('Error uploading files:', error);
+      // Handle the error
+     } finally{
+     
+      useEffect(() => {
+        // Code that depends on the updated state (fileLoading) goes here
+        setFileLoading(false);
+      }, [fileLoading]);
      }
    }
 )
+
+// const handleDrop = useCallback(async (acceptedFiles) => {
+//   const jid = id;
+//   const formDta = new FormData();
+//   formDta.append('id', jid);
+
+//   acceptedFiles.forEach((uploadfile) => {
+//     formDta.append('files', uploadfile);
+//   });
+
+//   try {
+//     const res = await $post(URL, formDta);
+
+//     // Assuming the response contains the new file data
+//     const newFile = res.data;
+
+//     // Update the state to include the new file
+//     setFiles(() => {
+//       if (typeof file === 'object' && !Array.isArray(file)) {
+//         return { ...file, ...newFile };
+//       } else {
+//         // If prevFiles is not an object, initialize it as an object with the new file
+//         return { [newFile.id]: newFile };
+//       }
+//     });
+
+//     enqueueSnackbar('File added successfully!');
+//     console.log('FILE UPLOAD RESPONSE', newFile);
+//   } catch (error) {
+//     console.error('Error uploading files:', error);
+//     // Handle the error (e.g., show an error message to the user)
+//   }
+// }, [id]);
 
   const openDateRange = useBoolean();
 
@@ -241,6 +287,10 @@ const handleDrop = useCallback(
   useEffect(()=>{
     setPageIndex(table.page + 1)
   }, [table.page])
+
+  useEffect(()=>{
+    setFiles(file)
+  }, [])
 
 
   const getPMS_Corps = ()=>{
@@ -462,7 +512,7 @@ const handleDrop = useCallback(
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
 
 
-      <Grid xs={12} sm={6} md={4}>
+         <Grid xs={12} sm={6} md={4}>
                         {/* <FileWidget
                           title="OneDrive"
                           value={GB / 2}
@@ -630,6 +680,12 @@ const handleDrop = useCallback(
             {/* <FileUpgrade sx={{ mt: 3 }} /> */}
           {/* </Grid>  */}
         </Grid>
+        {fileLoading && 
+      
+      // <h1>Loading...</h1>
+      <LoadingScreen text="Loading"/>
+      
+      } 
       </Container>
 
       <FileManagerNewFolderDialog open={upload.value} onClose={upload.onFalse} />
@@ -642,6 +698,7 @@ const handleDrop = useCallback(
         onChangeFolderName={handleChangeFolderName}
         onCreate={handleCreateNewFolder}
       />
+    
     </>
   );
 }

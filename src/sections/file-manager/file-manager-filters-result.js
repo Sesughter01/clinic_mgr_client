@@ -21,7 +21,7 @@ export default function FileManagerFiltersResult({
   results,
   ...other
 }) {
-  const shortLabel = shortDateLabel(filters.startDate, filters.endDate);
+  // const shortLabel = shortDateLabel(filters.clinic_name);
 
   const handleRemoveTypes = (inputValue) => {
     const newValue = filters.type.filter((item) => item !== inputValue);
@@ -41,7 +41,7 @@ export default function FileManagerFiltersResult({
           results found
         </Box>
       </Box>
-
+{/* 
       <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
         {!!filters.type.length && (
           <Block label="Types:">
@@ -66,7 +66,7 @@ export default function FileManagerFiltersResult({
             Clear
           </Button>
         )}
-      </Stack>
+      </Stack> */}
     </Stack>
   );
 }

@@ -113,7 +113,7 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
   const renderText = (
     <ListItemText
       onClick={handleFileClick2}
-      primary={name}
+      primary={name.split("__")[1]?.length > 0 ? name.split("__")[1] : name}
       // primary="File Name goes Here"
       secondary={
         <>
@@ -223,7 +223,7 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             popover.onClose();
             onDelete();
@@ -232,7 +232,7 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
-        </MenuItem>
+        </MenuItem> */}
       </CustomPopover>
 
       {/* <FileManagerFileDetails

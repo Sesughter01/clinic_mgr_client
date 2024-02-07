@@ -27,6 +27,8 @@ import useSWR from 'swr';
 // components
 import Iconify from 'src/components/iconify';
 import EmptyContent from 'src/components/empty-content';
+import LoadingScreen from 'src/components/loading-screen';
+
 import { fileFormat } from 'src/components/file-thumbnail';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { useSettingsContext } from 'src/components/settings';
@@ -242,6 +244,7 @@ export default function FileManagerView() {
               py: 10,
             }}
           />
+          // <LoadingScreen/>
         ) : (
           <>
             {view === 'list' ? (

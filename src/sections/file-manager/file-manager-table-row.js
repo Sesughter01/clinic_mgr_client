@@ -161,7 +161,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           {clinic_name}
         </TableCell>
        
-        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap', width:200 }}>
+        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap', width:150 }}>
           N/A
         </TableCell>
 

@@ -81,12 +81,8 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
   const handleFileClick = useCallback(
     (id,clinic_name) => {
       const fileUrl = paths.clinicReports.files(id);
-      router.push( {
-          pathname:fileUrl,
-          query: {clinic_name }
-
-        }
-        
+      router.push( fileUrl
+       
         );
     },
     [router]

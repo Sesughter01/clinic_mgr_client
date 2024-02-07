@@ -88,7 +88,7 @@ function CarouselItem({ item, active }) {
       >
         <m.div variants={varFade().inRight}>
           <Typography variant="overline" sx={{ color: 'primary.light' }}>
-            Featured App
+           Some Online Resources
           </Typography>
         </m.div>
 

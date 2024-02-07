@@ -63,50 +63,29 @@ import FileListTableRow from './file-list-view';
 const defaultFilters = {
   clinic_name: '',
   cutoff_date: null,
-   prodDate: null,
-
+  prodDate: null,
 };
 
 // ----------------------------------------------------------------------
 
 export default function FileManagerView() {
   const table = useTable({ defaultRowsPerPage: 10 });
-
-  // no effect test variable
-
-  
-
   const settings = useSettingsContext();
-
   const openDateRange = useBoolean();
-
   const confirm = useBoolean();
-
-  const upload = useBoolean();
-
   const [view, setView] = useState('list');
 
   // const [tableData, setTableData] = useState(_allFiles);
-
   const [filters, setFilters] = useState(defaultFilters);
 
-  // Custom Variables By Charles
-
-
-  
   const [pageIndex, setPageIndex] = useState(1);
-  const [selectedPms, setSelectedPms] = useState(null);
-  const [selectedCorp, setSelectedCorp] = useState(null);
   const [clinicName, setClinicName] = useState(null);
   const [isActive, setIsActive] = useState(true);
 
   const [tableData, setTableData] = useState([]);
-  const [pmsNames, setPmsNames] = useState([]);
-  const [corpNames, setCorpNames] = useState([]);
-  const quickEdit = useBoolean();
 
   // const URL = `${endpoints.clinic_manager.clinic_data}?pageNumber=${pageIndex}`;
-  const URL = `${endpoints.clinics.clinic}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
+  const URL = `${endpoints.clinics.clinic}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}pageNumber=${pageIndex}`;
   const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
     console.log("-------------------")
     console.log("CLINIC PAGE DATA: ", data || [])
@@ -114,17 +93,12 @@ export default function FileManagerView() {
     console.log("totalCount", data?.totalCount || 0)
     console.log("currentPage", data?.currentPage || 0)
     console.log("-------------------")
-
-    // setTableData(data?.result)
-
   }});
+  
   // The API URL includes the page index, which is a React state.
   // const { data, isLoading, error} = useSWR(`${URL}?pageNumber=${pageIndex + 1}`, fetcher);
   if (error) return console.log(error);
   // if (isLoading) return <h6>Loading...</h6>;
-
-  // const table = useTable({defaultRowsPerPage: data?.pageSize || 0, defaultCurrentPage:data?.currentPage - 1 || 0});
-  // const table = useTable();
 
   useEffect(()=>{
     setTableData(data?.result || [])
@@ -133,27 +107,6 @@ export default function FileManagerView() {
   useEffect(()=>{
     setPageIndex(table.page + 1)
   }, [table.page])
-
-
-  const getPMS_Corps = ()=>{
-    $get(endpoints.pms.names)
-    .then(res =>{
-      res.sort()
-      res.splice(0, 0, "All")
-      setPmsNames(res)
-    })
-
-    $get(endpoints.corps.names)
-    .then(res =>{
-      res.sort()
-      res.splice(0, 0, "All")
-      setCorpNames(res)
-    })
-  }
-
-  useEffect(()=>{
-    getPMS_Corps()
-  }, [])
 
 
   const dateError =
@@ -187,10 +140,13 @@ export default function FileManagerView() {
 
   const handleFilters = useCallback(
     (clinic_name, value) => {
-      table.onResetPage();
+      console.log("clinic_name: " + value);
+      if(value.length > 2){
+        setClinicName(value)
+      }
+      // table.onResetPage();
       setFilters((prevState) => ({
-        ...prevState,
-        [clinic_name]: value,
+        ...prevState,[clinic_name]: value,
       }));
     },
     [table]
@@ -206,19 +162,9 @@ export default function FileManagerView() {
     [dataInPage.length, table, tableData]
   );
 
-  const handleDeleteItems = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-    setTableData(deleteRows);
-
-    table.onUpdatePageDeleteRows({
-      totalRows: tableData.length,
-      totalRowsInPage: dataInPage.length,
-      totalRowsFiltered: dataFiltered.length,
-    });
-  }, [dataFiltered.length, dataInPage.length, table, tableData]);
-
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
+    setClinicName(null);
   }, []);
 
   const renderFilters = (
@@ -259,7 +205,7 @@ export default function FileManagerView() {
       canReset={canReset}
       onFilters={handleFilters}
       //
-      results={dataFiltered.length}
+      results={data?.totalCount || 0}
     />
   );
 
@@ -322,30 +268,6 @@ export default function FileManagerView() {
         )}
       </Container>
 
-      <FileManagerNewFolderDialog open={upload.value} onClose={upload.onFalse} />
-
-      <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content={
-          <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
-          </>
-        }
-        action={
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => {
-              handleDeleteItems();
-              confirm.onFalse();
-            }}
-          >
-            Delete
-          </Button>
-        }
-      />
     </>
   );
 }
@@ -353,23 +275,23 @@ export default function FileManagerView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters, dateError }) {
-  const {clinic_name,cutoff_date,prodDate } = filters;
+  // const {clinic_name,cutoff_date,prodDate } = filters;
 
-  const stabilizedThis = inputData.map((el, index) => [el, index]);
+  // const stabilizedThis = inputData.map((el, index) => [el, index]);
 
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+  // stabilizedThis.sort((a, b) => {
+  //   const order = comparator(a[0], b[0]);
+  //   if (order !== 0) return order;
+  //   return a[1] - b[1];
+  // });
 
-  inputData = stabilizedThis.map((el) => el[0]);
+  // inputData = stabilizedThis.map((el) => el[0]);
 
-  if (clinic_name) {
-    inputData = inputData.filter(
-      (file) => file.clinic_name.toLowerCase().indexOf(clinic_name.toLowerCase()) !== -1
-    );
-  }
+  // if (clinic_name) {
+  //   inputData = inputData.filter(
+  //     (file) => file.clinic_name.toLowerCase().indexOf(clinic_name.toLowerCase()) !== -1
+  //   );
+  // }
 
   // if (clinic_name) {
   //   inputData = inputData.filter((file) => type.includes(fileFormat(file.type)));

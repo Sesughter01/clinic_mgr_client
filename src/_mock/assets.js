@@ -434,9 +434,9 @@ export const _asana_url = [
 // ----------------------------------------------------------------------
 
 export const _postTitles = [
-  '10 Essential Tips for Healthy Living',
-  'The Ultimate Guide to Productivity Hacks',
-  'Exploring the Hidden Gems of [Destination]',
+  'How to setup a new Corp',
+  'Adding a new PMS',
+  'Setting up a new clinic',
   'How to Master the Art of Public Speaking',
   'The Future of Artificial Intelligence: Trends and Insights',
   'Delicious Recipes for a Vegan Diet',
@@ -637,9 +637,9 @@ export const _taskNames = [
 // ----------------------------------------------------------------------
 
 export const _sentences = [
-  'The sun slowly set over the horizon, painting the sky in vibrant hues of orange and pink.',
-  'She eagerly opened the gift, her eyes sparkling with excitement.',
-  'The old oak tree stood tall and majestic, its branches swaying gently in the breeze.',
+  'When working on a new corp, follow this guide to set it up',
+  'Here is a guide to setup a new PMS',
+  'Follwoing this guide to setup a new clinic',
   'The aroma of freshly brewed coffee filled the air, awakening my senses.',
   'The children giggled with joy as they ran through the sprinklers on a hot summer day.',
   'He carefully crafted a beautiful sculpture out of clay, his hands skillfully shaping the intricate details.',

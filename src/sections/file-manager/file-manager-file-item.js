@@ -76,13 +76,13 @@ export default function FileManagerFileItem({ file, selected, onSelect, onDelete
 
   const renderAction = (
     <Stack direction="row" alignItems="center" sx={{ top: 8, right: 8, position: 'absolute' }}>
-      <Checkbox
+      {/* <Checkbox
         color="warning"
         icon={<Iconify icon="eva:star-outline" />}
         checkedIcon={<Iconify icon="eva:star-fill" />}
         checked={favorite.value}
         onChange={favorite.onToggle}
-      />
+      /> */}
 
       <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
         <Iconify icon="eva:more-vertical-fill" />
@@ -210,7 +210,7 @@ export default function FileManagerFileItem({ file, selected, onSelect, onDelete
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             confirm.onTrue();
             popover.onClose();
@@ -219,7 +219,7 @@ export default function FileManagerFileItem({ file, selected, onSelect, onDelete
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
-        </MenuItem>
+        </MenuItem> */}
       </CustomPopover>
 
       <FileManagerFileDetails

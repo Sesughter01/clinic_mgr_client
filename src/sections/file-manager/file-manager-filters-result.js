@@ -34,29 +34,15 @@ export default function FileManagerFiltersResult({
   };
 
   return (
-    <Stack spacing={1.5} {...other}>
+    <Stack spacing={1.5} {...other} flexGrow={1} direction="row" flexWrap="wrap" alignItems="center">
       <Box sx={{ typography: 'body2' }}>
         <strong>{results}</strong>
         <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
           results found
         </Box>
       </Box>
-{/* 
-      <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
-        {!!filters.type.length && (
-          <Block label="Types:">
-            {filters.type.map((item) => (
-              <Chip key={item} label={item} size="small" onDelete={() => handleRemoveTypes(item)} />
-            ))}
-          </Block>
-        )}
 
-        {filters.startDate && filters.endDate && (
-          <Block label="Date:">
-            <Chip size="small" label={shortLabel} onDelete={handleRemoveDate} />
-          </Block>
-        )}
-
+      <Box>
         {canReset && (
           <Button
             color="error"
@@ -66,7 +52,7 @@ export default function FileManagerFiltersResult({
             Clear
           </Button>
         )}
-      </Stack> */}
+      </Box>
     </Stack>
   );
 }

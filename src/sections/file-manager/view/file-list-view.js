@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import { useRouter } from 'next/router';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -82,6 +83,10 @@ export default function FileListView({id}) {
 
   const theme = useTheme();
 
+  // // const router = useRouter();
+
+  // const { clinic_name } = router.query;
+
   const settings = useSettingsContext();
 
   const smDown = useResponsive('down', 'sm');
@@ -91,6 +96,7 @@ export default function FileListView({id}) {
   const [files, setFiles] = useState([]);
   const { file, fileError, fileValidating } = useGetFile(id);
   const [fileLoading, setFileLoading] = useState(false);
+
 
   const newFolder = useBoolean();
 
@@ -643,7 +649,7 @@ const handleDrop = useCallback(
               <FileManagerPanel
                 title="Jail Files"
                 link={paths.dashboard.fileManager}
-                onOpen={upload.onTrue}
+                // onOpen={upload.onTrue}
                 sx={{ mt: 2 }}
               />
                   

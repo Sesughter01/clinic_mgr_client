@@ -61,9 +61,14 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }) {
   }, [copy, enqueueSnackbar, file.url]);
 
   const handleFileClick2 = useCallback(
+    // (id) => {
+    //   window.location.href=file.url;
+    // }
+
     (id) => {
-      window.location.href=file.url;
-    }
+      // const fileUrl = paths.clinicReports.files(id);
+      window.open(file.url, '_blank');
+    },
     // [router]
   );
   useEffect(() => {

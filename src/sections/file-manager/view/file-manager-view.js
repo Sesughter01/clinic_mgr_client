@@ -70,7 +70,7 @@ const defaultFilters = {
 // ----------------------------------------------------------------------
 
 export default function FileManagerView() {
-  const table = useTable({ defaultRowsPerPage: 10 });
+  const table = useTable({ defaultRowsPerPage: 15 });
 
   // no effect test variable
 

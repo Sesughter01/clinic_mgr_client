@@ -123,9 +123,10 @@ export default function FileManagerTable({
         />
 
         <TableContainer
-          sx={{
-            p: theme.spacing(0, 3, 3, 3),
-          }}
+          // sx={{
+          //   p: theme.spacing(0, 3, 3, 3),
+          // }}
+          sx={{ position: 'relative', overflow: 'unset' }}
         >
           <Table
             size={dense ? 'small' : 'medium'}
@@ -177,10 +178,10 @@ export default function FileManagerTable({
                   />
                 ))}
 
-              <TableEmptyRows
+              {/* <TableEmptyRows
                 height={denseHeight}
                 emptyRows={emptyRows(page, rowsPerPage, tableData.length)}
-              />
+              /> */}
 
               <TableNoData
                 notFound={notFound}

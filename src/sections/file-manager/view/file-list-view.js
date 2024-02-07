@@ -639,13 +639,13 @@ const handleDrop = useCallback(
                   ))}
                 </Stack>
               </Scrollbar> */}
-
+{/* 
               <FileManagerPanel
                 title="Jail Files"
                 link={paths.dashboard.fileManager}
                 onOpen={upload.onTrue}
                 sx={{ mt: 2 }}
-              />
+              /> */}
                   
               <Stack spacing={2}>
                 {/* {files.map((file) => (

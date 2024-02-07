@@ -34,14 +34,14 @@ import FileManagerTableRow from './file-manager-table-row';
 //   { id: '', width: 88 },
 // ];
 const TABLE_HEAD = [
-  { id: 'id', label: 'Jail Name' },
-  { id: 'id', label: 'Clinic' },
-  { id: 'id', label: 'Last Modified', width: 120 },
+  { id: 1, label: 'Jail Name' },
+  { id: 2, label: 'Clinic' },
+  { id: 3, label: 'Last Modified', width: 120 },
   // { id: 'id', label: 'PMS', width: 120 },
   // { id: 'id', label: 'Active', width: 120 },
   // { id: 'id', label: 'Status', width: 140 },
   // { id: 'id', label: 'Stage', align: 'right', width: 140 },
-  { id: '', width: 88 },
+  { id: 4, label:'', width: 88 },
 ];
 
 // ----------------------------------------------------------------------
@@ -166,7 +166,6 @@ export default function FileManagerTable({
               {dataFiltered
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
-                  
                   <FileManagerTableRow
                     key={row.id}
                     row={row}
@@ -175,12 +174,8 @@ export default function FileManagerTable({
                     onSelectRow={() => onSelectRow(row.id)}
                     onDeleteRow={() => onDeleteRow(row.id)}
                   />
+                  // <h5 key={Math.random() * 800000}>{Math.random() * 800000}</h5>
                 ))}
-
-              <TableEmptyRows
-                height={denseHeight}
-                emptyRows={emptyRows(page, rowsPerPage, tableData.length)}
-              />
 
               <TableNoData
                 notFound={notFound}
@@ -193,6 +188,7 @@ export default function FileManagerTable({
             </TableBody>
           </Table>
         </TableContainer>
+        
       </Box>
 
       <TablePaginationCustom

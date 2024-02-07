@@ -35,7 +35,7 @@ export default function TableHeadCustom({
 }) {
   return (
     <TableHead sx={sx}>
-      <TableRow>
+      <TableRow key={Math.random() * 25}>
         {onSelectAllRows && (
           <TableCell padding="checkbox">
             {/* <Checkbox

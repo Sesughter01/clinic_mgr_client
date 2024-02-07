@@ -154,13 +154,12 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           </Stack>
         </TableCell>
 
-        {/* <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
-       
-          {clinic_name}
-        </TableCell> */}
-       
         <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
           {clinic_name}
+        </TableCell>
+       
+        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap', width:200 }}>
+          N/A
         </TableCell>
 
         {/* <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
@@ -224,7 +223,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             confirm.onTrue();
             popover.onClose();
@@ -233,7 +232,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
-        </MenuItem>
+        </MenuItem> */}
       </CustomPopover>
 
       {/* <FileManagerFileDetails

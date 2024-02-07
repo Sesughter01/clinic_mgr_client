@@ -83,9 +83,9 @@ export default function FileListView({id}) {
 
   const theme = useTheme();
 
-  const router = useRouter();
+  // // const router = useRouter();
 
-  const { clinic_name } = router.query;
+  // const { clinic_name } = router.query;
 
   const settings = useSettingsContext();
 
@@ -647,7 +647,7 @@ const handleDrop = useCallback(
               </Scrollbar> */}
 
               <FileManagerPanel
-                title={clinic_name}
+                title="Jail Files"
                 link={paths.dashboard.fileManager}
                 // onOpen={upload.onTrue}
                 sx={{ mt: 2 }}

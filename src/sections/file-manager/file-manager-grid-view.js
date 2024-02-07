@@ -19,6 +19,15 @@ import FileManagerNewFolderDialog from './file-manager-new-folder-dialog';
 import { paths } from "src/routes/paths";
 import { useRouter } from "src/routes/hooks";
 
+import {
+  emptyRows,
+  TableNoData,
+  TableEmptyRows,
+  TableHeadCustom,
+  TableSelectedAction,
+  TablePaginationCustom,
+} from 'src/components/table';
+
 // ----------------------------------------------------------------------
 
 export default function FileManagerGridView({
@@ -29,6 +38,9 @@ export default function FileManagerGridView({
   onOpenConfirm,
 }) {
   const { selected, onSelectRow: onSelectItem, onSelectAllRows: onSelectAllItems } = table;
+
+  
+
 
   const containerRef = useRef(null);
 
@@ -175,7 +187,7 @@ export default function FileManagerGridView({
           />
         )}
       </Box>
-
+     
       <FileManagerShareDialog
         open={share.value}
         inviteEmail={inviteEmail}

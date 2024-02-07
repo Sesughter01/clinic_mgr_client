@@ -18,7 +18,7 @@ const ROOTS = {
   CLINIC_MANAGER: '/clinic-manager',
   CORPORATIONS: '/corporations',
   PMS: '/pms',
-  SETTINGS: '/settings',
+  // SETTINGS: '/settings',
   CLINIC_REPORTS: '/clinicreports',
 };
 

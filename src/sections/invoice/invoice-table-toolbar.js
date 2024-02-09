@@ -23,7 +23,7 @@ export default function InvoiceTableToolbar({
   onFilters,
   //
   dateError,
-  serviceOptions,
+  managedByOptions,
 }) {
   const popover = usePopover();
 
@@ -82,15 +82,15 @@ export default function InvoiceTableToolbar({
 
           <Select
             multiple
-            value={filters.service}
+            value={filters.managedBy}
             onChange={handleFilterService}
             input={<OutlinedInput label="Service" />}
             renderValue={(selected) => selected.map((value) => value).join(', ')}
             sx={{ textTransform: 'capitalize' }}
           >
-            {serviceOptions.map((option) => (
+            { managedByOptions.map((option) => (
               <MenuItem key={option} value={option}>
-                <Checkbox disableRipple size="small" checked={filters.service.includes(option)} />
+                <Checkbox disableRipple size="small" checked={filters.managedBy.includes(option)} />
                 {option}
               </MenuItem>
             ))}
@@ -184,5 +184,5 @@ InvoiceTableToolbar.propTypes = {
   dateError: PropTypes.bool,
   filters: PropTypes.object,
   onFilters: PropTypes.func,
-  serviceOptions: PropTypes.array,
+   managedBy: PropTypes.array,
 };

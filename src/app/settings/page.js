@@ -1,12 +1,12 @@
 // sections
-import { FileManagerView } from 'src/sections/file-manager/view';
+import { InvoiceListView } from 'src/sections/invoice/view';
 
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Settings and Reports',
+  title: 'Settings ',
 };
 
-export default function FileManagerPage() {
-  return <FileManagerView />;
+export default function SettingsPage() {
+  return <InvoiceListView />;
 }

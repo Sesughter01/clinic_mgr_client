@@ -51,22 +51,39 @@ import InvoiceTableFiltersResult from '../invoice-table-filters-result';
 
 // ----------------------------------------------------------------------
 
+// const TABLE_HEAD = [
+//   { id: 'invoiceNumber', label: 'Customer' },
+//   { id: 'createDate', label: 'Create' },
+//   { id: 'dueDate', label: 'Due' },
+//   { id: 'price', label: 'Amount' },
+//   { id: 'sent', label: 'Sent', align: 'center' },
+//   { id: 'status', label: 'Status' },
+//   { id: '' },
+// ];
 const TABLE_HEAD = [
-  { id: 'invoiceNumber', label: 'Customer' },
-  { id: 'createDate', label: 'Create' },
-  { id: 'dueDate', label: 'Due' },
-  { id: 'price', label: 'Amount' },
-  { id: 'sent', label: 'Sent', align: 'center' },
+  { id: 'pms', label: 'PMS' },
   { id: 'status', label: 'Status' },
+  { id: 'managedBy', label: 'Managed By' },
+  { id: 'conversionRate', label: 'Conversion Rate (MB/s)' },
+  { id: 'test_clinic', label: 'Test Clinic', align: 'center' },
+  { id: 'data_path', label: 'Data Path' },
   { id: '' },
 ];
 
+// const defaultFilters = {
+//   name: '',
+//   service: [],
+//   status: 'all',
+//   startDate: null,
+//   endDate: null,
+// };
+
 const defaultFilters = {
-  name: '',
-  service: [],
-  status: 'all',
-  startDate: null,
-  endDate: null,
+  pms: '',
+  status: [],
+  managedBy: [],
+  conversionRate: null,
+  testClinic: null,
 };
 
 // ----------------------------------------------------------------------
@@ -87,8 +104,8 @@ export default function InvoiceListView() {
   const [filters, setFilters] = useState(defaultFilters);
 
   const dateError =
-    filters.startDate && filters.endDate
-      ? filters.startDate.getTime() > filters.endDate.getTime()
+    filters.conversionRate && filters.endDate
+      ? filters.conversionRate.getTime() > filters.endDate.getTime()
       : false;
 
   const dataFiltered = applyFilter({
@@ -106,10 +123,10 @@ export default function InvoiceListView() {
   const denseHeight = table.dense ? 56 : 76;
 
   const canReset =
-    !!filters.name ||
-    !!filters.service.length ||
+    !!filters.pms ||
+    !!filters. managedBy.length ||
     filters.status !== 'all' ||
-    (!!filters.startDate && !!filters.endDate);
+    (!!filters.conversionRate && !!filters.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
@@ -212,28 +229,28 @@ export default function InvoiceListView() {
     <>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="List"
+          heading="List of PMS"
           links={[
             {
               name: 'Dashboard',
               href: paths.dashboard.root,
             },
             {
-              name: 'Invoice',
-              href: paths.dashboard.invoice.root,
+              name: 'Settings',
+              href: paths.settings.root,
             },
-            {
-              name: 'List',
-            },
+            // {
+            //   name: 'List',
+            // },
           ]}
           action={
             <Button
               component={RouterLink}
-              href={paths.dashboard.invoice.new}
+              href={paths.settings.new}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
-              New Invoice
+              Invite User
             </Button>
           }
           sx={{
@@ -252,15 +269,15 @@ export default function InvoiceListView() {
               divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
               sx={{ py: 2 }}
             >
-              <InvoiceAnalytic
+              {/* <InvoiceAnalytic
                 title="Total"
                 total={tableData.length}
                 percent={100}
                 price={sumBy(tableData, 'totalAmount')}
                 icon="solar:bill-list-bold-duotone"
                 color={theme.palette.info.main}
-              />
-
+              /> */}
+{/* 
               <InvoiceAnalytic
                 title="Paid"
                 total={getInvoiceLength('paid')}
@@ -268,40 +285,40 @@ export default function InvoiceListView() {
                 price={getTotalAmount('paid')}
                 icon="solar:file-check-bold-duotone"
                 color={theme.palette.success.main}
-              />
+              /> */}
 
-              <InvoiceAnalytic
+              {/* <InvoiceAnalytic
                 title="Pending"
                 total={getInvoiceLength('pending')}
                 percent={getPercentByStatus('pending')}
                 price={getTotalAmount('pending')}
                 icon="solar:sort-by-time-bold-duotone"
                 color={theme.palette.warning.main}
-              />
+              /> */}
 
-              <InvoiceAnalytic
+              {/* <InvoiceAnalytic
                 title="Overdue"
                 total={getInvoiceLength('overdue')}
                 percent={getPercentByStatus('overdue')}
                 price={getTotalAmount('overdue')}
                 icon="solar:bell-bing-bold-duotone"
                 color={theme.palette.error.main}
-              />
+              /> */}
 
-              <InvoiceAnalytic
+              {/* <InvoiceAnalytic
                 title="Draft"
                 total={getInvoiceLength('draft')}
                 percent={getPercentByStatus('draft')}
                 price={getTotalAmount('draft')}
                 icon="solar:file-corrupted-bold-duotone"
                 color={theme.palette.text.secondary}
-              />
+              /> */}
             </Stack>
           </Scrollbar>
         </Card>
 
         <Card>
-          <Tabs
+          {/* <Tabs
             value={filters.status}
             onChange={handleFilterStatus}
             sx={{
@@ -327,17 +344,17 @@ export default function InvoiceListView() {
                 }
               />
             ))}
-          </Tabs>
+          </Tabs> */}
 
-          <InvoiceTableToolbar
+          {/* <InvoiceTableToolbar
             filters={filters}
             onFilters={handleFilters}
             //
             dateError={dateError}
-            serviceOptions={INVOICE_SERVICE_OPTIONS.map((option) => option.name)}
-          />
+            managedByOptions={INVOICE_SERVICE_OPTIONS.map((option) => option.name)}
+          /> */}
 
-          {canReset && (
+          {/* {canReset && (
             <InvoiceTableFiltersResult
               filters={filters}
               onFilters={handleFilters}
@@ -347,7 +364,7 @@ export default function InvoiceListView() {
               results={dataFiltered.length}
               sx={{ p: 2.5, pt: 0 }}
             />
-          )}
+          )} */}
 
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction
@@ -477,7 +494,7 @@ export default function InvoiceListView() {
 // ----------------------------------------------------------------------
 
 function applyFilter({ inputData, comparator, filters, dateError }) {
-  const { name, status, service, startDate, endDate } = filters;
+  const { pms, status, service, conversionRate, endDate } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -501,17 +518,17 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
     inputData = inputData.filter((invoice) => invoice.status === status);
   }
 
-  if (service.length) {
+  if (pms.length) {
     inputData = inputData.filter((invoice) =>
       invoice.items.some((filterItem) => service.includes(filterItem.service))
     );
   }
 
   if (!dateError) {
-    if (startDate && endDate) {
+    if (conversionRate && endDate) {
       inputData = inputData.filter(
         (invoice) =>
-          fTimestamp(invoice.createDate) >= fTimestamp(startDate) &&
+          fTimestamp(invoice.createDate) >= fTimestamp(conversionRate) &&
           fTimestamp(invoice.createDate) <= fTimestamp(endDate)
       );
     }

@@ -238,7 +238,7 @@ export const paths = {
   // SETTINGS AND REPORTS
   settings: {
     root: `${ROOTS.SETTINGS}`,
-    // new: `${ROOTS.SETTINGS}/new`,
+    new: `${ROOTS.SETTINGS}/new`,
     // list: `${ROOTS.SETTINGS}/list`,
     // cards: `${ROOTS.SETTINGS}/cards`,
     // profile: `${ROOTS.SETTINGS}/profile`,

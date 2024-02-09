@@ -1,19 +1,13 @@
 'use client';
 
 import PropTypes from 'prop-types';
-// auth
-import { AuthGuard } from 'src/auth/guard';
 // components
-import DashboardLayout from 'src/layouts/dashboard';
+import AuthModernCompactLayout from 'src/layouts/auth/modern-compact';
 
 // ----------------------------------------------------------------------
 
 export default function Layout({ children }) {
-  return (
-    <AuthGuard>
-      <DashboardLayout>{children}</DashboardLayout>
-    </AuthGuard>
-  );
+  return <AuthModernCompactLayout>{children}</AuthModernCompactLayout>;
 }
 
 Layout.propTypes = {

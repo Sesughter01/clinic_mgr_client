@@ -210,7 +210,7 @@ export function useNavData() {
           // MAIL
           {
             title: t('Settings'),
-            path: "#",
+            path: paths.settings.root,
             icon: ICONS.folder,
             // info: <Label color="error">+32</Label>,
           }

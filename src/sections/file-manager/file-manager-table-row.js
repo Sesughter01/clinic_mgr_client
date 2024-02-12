@@ -87,6 +87,15 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
     },
     [router]
   );
+  const handleFileClick3 = useCallback(
+    (id,clinic_name) => {
+      const fileUrl = `${paths.clinicReports.files(id)}?clinic_name=${encodeURIComponent(clinic_name)}`;
+      router.push( fileUrl
+       
+        );
+    },
+    [router]
+  );
 
   const defaultStyles = {
     borderTop: `solid 1px ${alpha(theme.palette.grey[500], 0.16)}`,
@@ -139,7 +148,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           />
         </TableCell>
 
-        <TableCell onClick={() => handleFileClick(row.id,row.clinic_name)}>
+        <TableCell onClick={() => handleFileClick3(row.id,row.clinic_name)}>
           <Stack direction="row" alignItems="center" spacing={2}>
             <FileThumbnail file={type} sx={{ width: 36, height: 36 }} />
 

@@ -118,7 +118,7 @@ export function fileTypeByUrl(fileUrl = '') {
 // ----------------------------------------------------------------------
 
 export function fileNameByUrl(fileUrl) {
-  return fileUrl.split('/').pop();
+  return fileUrl.split(/[\/__]/).pop();
 }
 
 // ----------------------------------------------------------------------

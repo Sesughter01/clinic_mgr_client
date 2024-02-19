@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState , useMemo} from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -28,6 +28,8 @@ import FormProvider, { RHFTextField , RHFSelect} from 'src/components/hook-form'
 import Select from '@mui/material/Select';
 
 import { INVOICE_SERVICE_OPTIONS } from 'src/_mock';
+
+import { $post, $get, endpoints} from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -74,29 +76,67 @@ export default function AddNewUser() {
   };
 
 
-  const defaultValues = {
-    email: '',
-    role: '',
-  };
+  // const defaultValues = {
+  //   email: '',
+  //   role: '',
+  // };
+
+  const defaultValues = useMemo(
+    () => ({
+      email: '',
+      role: '',
+     
+    }),
+    []
+  );
 
   const methods = useForm({
     resolver: yupResolver(AddNewUserSchema),
     defaultValues,
   });
-
   const {
+    reset,
+    // watch,
+    // control,
+    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
+  // const values = watch();
+  // useEffect(() => {
+  //   if (clinic) {
+  //     reset(defaultValues);
+  //   }
+  // }, [clinic, defaultValues, reset]);
+  
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      console.info('DATA', data);
+      const res = await $put(`${endpoints.clinics.clinic}${id}`, data);
+      console.info('RES', res);
+      // reset();
+      enqueueSnackbar('Update success!');
+      // // router.push(paths.dashboard.user.list);
+      // router.push(paths.clinicmanager.root);
     } catch (error) {
       console.error(error);
     }
   });
+
+  const getRoles = ()=>{
+    $get(endpoints.pms.names)
+    .then(res =>{
+      res.sort()
+      setPmsNames(res)
+    })
+
+    // $get(endpoints.corps.names)
+    // .then(res =>{
+    //   res.sort()
+    //   setCorpNames(res)
+    // })
+  }
+
 
 
   const handleClearService = useCallback(

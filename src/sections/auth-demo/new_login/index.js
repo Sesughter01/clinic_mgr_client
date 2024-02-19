@@ -1,0 +1,1 @@
+export { default as NewLoginView } from './classic-login-view';

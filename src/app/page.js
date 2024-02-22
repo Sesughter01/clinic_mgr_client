@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default function HomePage() {
-  redirect("auth/jwt/login", 'push')
+  redirect("/login", 'push')
  
 
   return <HomeView />;

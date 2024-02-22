@@ -33,6 +33,7 @@ import Scrollbar from 'src/components/scrollbar';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import InvoiceQuickCreateForm from '../invoice-quick-create-form';
 import {
   useTable,
   getComparator,
@@ -98,6 +99,8 @@ export default function InvoiceListView() {
   const table = useTable({ defaultOrderBy: 'createDate' });
 
   const confirm = useBoolean();
+
+  const quickEdit = useBoolean();
 
   const [tableData, setTableData] = useState(_invoices);
 
@@ -227,6 +230,8 @@ export default function InvoiceListView() {
 
   return (
     <>
+
+<InvoiceQuickCreateForm open={quickEdit.value} onClose={quickEdit.onFalse} />
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="List of PMS"
@@ -245,8 +250,9 @@ export default function InvoiceListView() {
           ]}
           action={
             <Button
-              component={RouterLink}
-              href={paths.settings.new}
+              // component={RouterLink}
+              // href={paths.settings.new}
+              onClick={quickEdit.onTrue}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >

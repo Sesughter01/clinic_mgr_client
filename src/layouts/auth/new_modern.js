@@ -82,7 +82,7 @@ export default function AuthNewLayout({ children }) {
   {/* Left Half (Logo) */}
   <div
     style={{
-      background: 'linear-gradient(-45deg, #DCDCDC , #FFFFFF , #DCDCDC )', // Slanting gradient
+      background: 'linear-gradient(-45deg, #DCDCDC , #FFFFFF 20%, #DCDCDC )', // Slanting gradient
       flex: 1,
       padding: '20px', // Adjust padding as needed
       display: 'flex',

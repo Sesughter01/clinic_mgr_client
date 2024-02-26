@@ -4,7 +4,7 @@ import { _userList } from 'src/_mock/_user';
 
 
 // sections
-import { ClinicEditView } from 'src/sections/user/view';
+import { ClinicEditView } from 'src/sections/clinic/view';
 
 // ----------------------------------------------------------------------
 

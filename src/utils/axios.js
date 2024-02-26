@@ -179,7 +179,7 @@ export const endpoints = {
   },
 
   info: {
-    dashboard: '/api/infos/dashboard/',
+    dashboard: '/api/info/dashboard/',
   },
   manage: {
     roles: '/api/manage/roles',

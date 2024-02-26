@@ -1,5 +1,5 @@
 // sections
-import { ClinicListView } from 'src/sections/user/view';
+import { ClinicListView } from 'src/sections/clinic/view';
 
 // ----------------------------------------------------------------------
 

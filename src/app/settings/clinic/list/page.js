@@ -4,7 +4,8 @@ import { UserListView } from 'src/sections/user/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'User Management',
+  title: 'Clinic manager: Clinic List',
+  
 };
 
 export default function UserListPage() {

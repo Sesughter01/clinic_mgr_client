@@ -4,7 +4,7 @@ import { _userList } from 'src/_mock/_user';
 
 
 // sections
-import { ClinicEditView } from 'src/sections/user/view';
+import { UserEditView } from 'src/sections/user/view';
 
 // ----------------------------------------------------------------------
 
@@ -12,10 +12,10 @@ export const metadata = {
   title: 'Clinic manager: Clinic Edit',
 };
 
-export default function ClinicEditPage({ params }) {
+export default function UserEditPage({ params }) {
   const { id } = params;
 
-  return <ClinicEditView id={id} />;
+  return <UserEditView id={id} />;
 }
 
 export async function generateStaticParams() {
@@ -27,7 +27,7 @@ export async function generateStaticParams() {
 
 
 
-ClinicEditPage.propTypes = {
+UserEditPage.propTypes = {
   params: PropTypes.shape({
     id: PropTypes.string,
   }),

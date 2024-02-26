@@ -93,7 +93,6 @@ export default function InvoiceQuickCreateForm({open, onClose}) {
     () => ({
       email: '',
       role: '',
-     
     }),
     []
   );
@@ -111,25 +110,6 @@ export default function InvoiceQuickCreateForm({open, onClose}) {
     formState: { isSubmitting },
   } = methods;
 
-  // const values = watch();
-  // useEffect(() => {
-  //   if (clinic) {
-  //     reset(defaultValues);
-  //   }
-  // }, [clinic, defaultValues, reset]);
-  
-//   const onSubmit = handleSubmit(async (data) => {
-//     try {
-//       const res = await $put(`${endpoints.clinics.clinic}${id}`, data);
-//       console.info('RES', res);
-//       // reset();
-//       enqueueSnackbar('Update success!');
-//       // // router.push(paths.dashboard.user.list);
-//       // router.push(paths.clinicmanager.root);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   });
 const onSubmit = handleSubmit(async (data) => {
     console.info('FORM DATA: ', data);
 
@@ -146,94 +126,31 @@ const onSubmit = handleSubmit(async (data) => {
   }
 });
 
-  const getRoles = ()=>{
-    $get(endpoints.pms.names)
-    .then(res =>{
-      res.sort()
-      setPmsNames(res)
-    })
-
-    // $get(endpoints.corps.names)
-    // .then(res =>{
-    //   res.sort()
-    //   setCorpNames(res)
-    // })
-  }
-
-
-
-  const handleClearService = useCallback(
-    (index) => {
-    //   resetField(`items[${index}].quantity`);
-    //   resetField(`items[${index}].price`);
-    //   resetField(`items[${index}].total`);
-    },
-    // [resetField]
-  );
-
-  const handleSelectService = useCallback(
-    (index, option) => {
-    //   setValue(
-    //     `items[${index}].price`,
-    //     INVOICE_SERVICE_OPTIONS.find((service) => service.name === option)?.price
-    //   );
-    //   setValue(
-    //     `items[${index}].total`,
-    //     values.items.map((item) => item.quantity * item.price)[index]
-    //   );
-    },
-    // [setValue, values.items]
-  );
+const getRoles = ()=>{
+  $get(endpoints.pms.names)
+  .then(res =>{
+    res.sort()
+    setPmsNames(res)
+  })
+}
 
 
   const renderForm = (
     <Stack spacing={3} alignItems="left" >
       <RHFTextField name="email" label="Email address" />
-      {/* <RHFSelect
-                name="role"
-                size="small"
-                label="Role"
-                InputLabelProps={{ shrink: true }}
-                sx={{ maxWidth: { md: 350 }}}
-              >
-                <MenuItem
-                  value=""
-                  onClick={() => handleClearService(index)}
-                  sx={{ fontStyle: 'italic', color: 'text.secondary' }}
-                >
-                  None
-                </MenuItem>
 
-                <Divider sx={{ borderStyle: 'dashed' }} />
-
-                {INVOICE_SERVICE_OPTIONS.map((service) => (
-                  <MenuItem
-                    key={service.id}
-                    value={service.name}
-                    onClick={() => handleSelectService(index, service.name)}
-                  >
-                    {service.name}
-                  </MenuItem>
-                ))}
-      </RHFSelect> */}
-
-<InputLabel  id="demo-simple-select-label"  style={{ textAlign: 'left', paddingLeft:"12px" }} >Role</InputLabel>
-  <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-    variant="outlined"
-    name="role"
-    value=""
-    label="Role"
-    style={{ width: '300px', height: '58px' }}
-    MenuProps={MenuProps}
-    onChange={handleChange}
-    // placeholder="Select a Role"
-  >
-    <MenuItem value={"Role1"}>Role1</MenuItem>
-    <MenuItem value={"Role2"}>Role2</MenuItem>
-    <MenuItem value={"Role3"}>Role3</MenuItem>
-  </Select>
+      <Select
+        id="demo-simple-select"
+        variant="outlined"
+        name="role"
+        label="Role"
+        style={{ width: '350px', height: '50px' }}
+        MenuProps={MenuProps}
+        onChange={handleChange}
+        // placeholder="Select a Role"
+      >
+        <MenuItem value={"Role"}>Role</MenuItem>
+      </Select>
 
       <LoadingButton
         fullWidth
@@ -263,21 +180,6 @@ const onSubmit = handleSubmit(async (data) => {
     </Stack>
   );
 
-  const renderHead = (
-    <>
-      <PasswordIcon sx={{ height: 96 }} />
-
-      <Stack spacing={1} sx={{ my: 5 }}>
-        <Typography variant="h3">Invite A User?</Typography>
-
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          Please enter an email address and We will email a link
-          to the new user.
-        </Typography>
-      </Stack>
-    </>
-  );
-
   return (
     <Dialog
     fullWidth
@@ -285,50 +187,29 @@ const onSubmit = handleSubmit(async (data) => {
     open={open}
     onClose={onClose}
     PaperProps={{
-      sx: { maxWidth: 540 },
+      sx: { maxWidth:400 },
     }}
   >
     <Box
         component="main"
         sx={{
-          py: 8,
+          py: 2,
           display: 'flex',
-        //   minHeight: '100vh',
+          minHeight: '40vh',
           textAlign: 'center',
-          px: { xs: 2, md: 0 },
           position: 'relative',
           alignItems: 'center',
           justifyContent: 'center',
-          '&:before': {
-            width: 1,
-            height: 1,
-            zIndex: -1,
-            content: "''",
-            opacity: 0.24,
-            position: 'absolute',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center center',
-            backgroundImage: 'url(/assets/background/overlay_4.jpg)',
-          },
         }}
       >
-        <Card
-          sx={{
-            py: 5,
-            px: 3,
-            maxWidth: 420,
-          }}
-        >
-          <FormProvider methods={methods} onSubmit={onSubmit}>
+        <FormProvider methods={methods} onSubmit={onSubmit}>
                 {/* {renderHead} */}
-                <DialogTitle>Create New User</DialogTitle>
+                <DialogTitle>Invite New User</DialogTitle>
                 <DialogContent >
-
                   {renderForm}
                 </DialogContent >
             <DialogActions>
-            <Button variant="outlined" onClick={onClose}>
+            <Button sx={{width:1, py:1}} variant="outlined" onClick={onClose}>
                 Cancel
             </Button>
 
@@ -337,7 +218,6 @@ const onSubmit = handleSubmit(async (data) => {
             </LoadingButton> */}
             </DialogActions>
         </FormProvider>
-        </Card>
       </Box>
     
     

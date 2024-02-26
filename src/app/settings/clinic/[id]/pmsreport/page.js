@@ -3,8 +3,8 @@
 // // _mock
 // import { _userList } from 'src/_mock/_user';
 // // sections
-// // import { ClinicEditView } from 'src/sections/user/view';
-// import { ClinicPmsreporttView } from 'src/sections/user/view';
+// // import { UserEditView } from 'src/sections/user/view';
+// import { UserPmsreporttView } from 'src/sections/user/view';
 
 // // ----------------------------------------------------------------------
 
@@ -12,10 +12,10 @@
 //   title: 'Clinic manager: Pms',
 // };
 
-// export default function ClinicPmsreportPage({ params }) {
+// export default function UserPmsreportPage({ params }) {
 //   const { id } = params;
 
-//   return <ClinicPmsreporttView id={id} />;
+//   return <UserPmsreporttView id={id} />;
 // }
 
 // export async function generateStaticParams() {
@@ -24,7 +24,7 @@
 //   }));
 // }
 
-// ClinicPmsreportPage.propTypes = {
+// UserPmsreportPage.propTypes = {
 //   params: PropTypes.shape({
 //     id: PropTypes.string,
 //   }),
@@ -114,12 +114,12 @@ function a11yProps(index) {
   title: 'Clinic manager: Clinic Edit',
 };
 
-export default function ClinicPmsreportForm({ currentClinic }) {
+export default function UserPmsreportForm({ currentUser }) {
   const router = useRouter();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const NewClinicSchema = Yup.object().shape({
+  const NewUserSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     phoneNumber: Yup.string().required('Phone number is required'),
@@ -138,25 +138,25 @@ export default function ClinicPmsreportForm({ currentClinic }) {
 
   const defaultValues = useMemo(
     () => ({
-      name: currentClinic?.name || '',
-      city: currentClinic?.city || '',
-      role: currentClinic?.role || '',
-      email: currentClinic?.email || '',
-      state: currentClinic?.state || '',
-      status: currentClinic?.status || '',
-      address: currentClinic?.address || '',
-      country: currentClinic?.country || '',
-      zipCode: currentClinic?.zipCode || '',
-      company: currentClinic?.company || '',
-      avatarUrl: currentClinic?.avatarUrl || null,
-      phoneNumber: currentClinic?.phoneNumber || '',
-      isVerified: currentClinic?.isVerified || true,
+      name: currentUser?.name || '',
+      city: currentUser?.city || '',
+      role: currentUser?.role || '',
+      email: currentUser?.email || '',
+      state: currentUser?.state || '',
+      status: currentUser?.status || '',
+      address: currentUser?.address || '',
+      country: currentUser?.country || '',
+      zipCode: currentUser?.zipCode || '',
+      company: currentUser?.company || '',
+      avatarUrl: currentUser?.avatarUrl || null,
+      phoneNumber: currentUser?.phoneNumber || '',
+      isVerified: currentUser?.isVerified || true,
     }),
-    [currentClinic]
+    [currentUser]
   );
 
   const methods = useForm({
-    resolver: yupResolver(NewClinicSchema),
+    resolver: yupResolver(NewUserSchema),
     defaultValues,
   });
 
@@ -175,7 +175,7 @@ export default function ClinicPmsreportForm({ currentClinic }) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
-      enqueueSnackbar(currentClinic ? 'Update success!' : 'Create success!');
+      enqueueSnackbar(currentUser ? 'Update success!' : 'Create success!');
       // router.push(paths.dashboard.user.list);
       router.push(paths.clinicmanager.root);
       console.info('DATA', data);
@@ -207,7 +207,7 @@ export default function ClinicPmsreportForm({ currentClinic }) {
       <Grid container spacing={3}>
         <Grid xs={12} md={4}>
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
-            {currentClinic && (
+            {currentUser && (
               <Label
                 color={
                   (values.status === 'active' && 'success') ||
@@ -243,7 +243,7 @@ export default function ClinicPmsreportForm({ currentClinic }) {
               />
             </Box>
 
-            {/* {currentClinic && (
+            {/* {currentUser && (
               <FormControlLabel
                 labelPlacement="start"
                 control={
@@ -291,10 +291,10 @@ export default function ClinicPmsreportForm({ currentClinic }) {
               sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
             /> */}
 
-            {currentClinic && (
+            {currentUser && (
               <Stack justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
                 <Button variant="soft" color="error">
-                  Delete Clinic
+                  Delete User
                 </Button>
               </Stack>
             )}
@@ -400,7 +400,7 @@ export default function ClinicPmsreportForm({ currentClinic }) {
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                {!currentUser ? 'Create User' : 'Save Changes'}
               </LoadingButton>
             </Stack>
           </Card>
@@ -411,6 +411,6 @@ export default function ClinicPmsreportForm({ currentClinic }) {
   );
 }
 
-ClinicPmsreportForm.propTypes = {
-  currentClinic: PropTypes.object,
+UserPmsreportForm.propTypes = {
+  currentUser: PropTypes.object,
 };

@@ -102,7 +102,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs(currentClinic) {
+export default function BasicTabs(currentUser) {
 
   //added 
 
@@ -110,7 +110,7 @@ export default function BasicTabs(currentClinic) {
 
   const { enqueueSnackbar } = useSnackbar();
 
-//   const NewClinicSchema = Yup.object().shape({
+//   const NewUserSchema = Yup.object().shape({
 //     name: Yup.string().required('Name is required'),
 //     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
 //     phoneNumber: Yup.string().required('Phone number is required'),
@@ -127,7 +127,7 @@ export default function BasicTabs(currentClinic) {
 //     isVerified: Yup.boolean(),
 //   });
 
-  const NewClinicSchema = Yup.object().shape({
+  const NewUserSchema = Yup.object().shape({
     //details
     corpPractice: Yup.string().required('Corp practice is required'),
     clinic_address: Yup.string().required('Clinic Address is required'),
@@ -214,111 +214,111 @@ export default function BasicTabs(currentClinic) {
 
   // const defaultValues = useMemo(
   //   () => ({
-  //     name: currentClinic?.name || '',
-  //     city: currentClinic?.city || '',
-  //     role: currentClinic?.role || '',
-  //     email: currentClinic?.email || '',
-  //     state: currentClinic?.state || '',
-  //     status: currentClinic?.status || '',
-  //     address: currentClinic?.address || '',
-  //     country: currentClinic?.country || '',
-  //     zipCode: currentClinic?.zipCode || '',
-  //     company: currentClinic?.company || '',
-  //     avatarUrl: currentClinic?.avatarUrl || null,
-  //     phoneNumber: currentClinic?.phoneNumber || '',
-  //     isVerified: currentClinic?.isVerified || true,
+  //     name: currentUser?.name || '',
+  //     city: currentUser?.city || '',
+  //     role: currentUser?.role || '',
+  //     email: currentUser?.email || '',
+  //     state: currentUser?.state || '',
+  //     status: currentUser?.status || '',
+  //     address: currentUser?.address || '',
+  //     country: currentUser?.country || '',
+  //     zipCode: currentUser?.zipCode || '',
+  //     company: currentUser?.company || '',
+  //     avatarUrl: currentUser?.avatarUrl || null,
+  //     phoneNumber: currentUser?.phoneNumber || '',
+  //     isVerified: currentUser?.isVerified || true,
   //   }),
-  //   [currentClinic]
+  //   [currentUser]
   // );
 
   const defaultValues = useMemo(
     () => ({
       //details
-      corpPractice: currentClinic?.corpPractice|| '',
-      clinic_address: currentClinic?.clinic_address || '',
-      idclinics: currentClinic?.idclinics || '',
-      clinic_city: currentClinic?.clinic_city || '',
-      clinic_code: currentClinic?.clinic_code || '',
-      clinic_province: currentClinic?.clinic_province || '',
-      data_Path: currentClinic?.data_Path || '',
-      clinic_postal: currentClinic?.clinic_postal || '',
-      clinic_name: currentClinic?.clinic_name || '',
-      country: currentClinic?.country || '',
-      avatarUrl: currentClinic?.avatarUrl || null,
-      current_app: currentClinic?.current_app || '',
-      clinic_phone: currentClinic?.clinic_phone || '',
-      dest_db: currentClinic?.dest_db || '',
-      clinic_email: currentClinic?.clinic_email || '',
-      clinic_appointmentunit: currentClinic?.clinic_appointmentunit || '',
-      acquistionDate: currentClinic?.acquistionDate || '',
-      prodDate: currentClinic?.prodDate || '',
-      cutoff_date: currentClinic?.cutoff_date || '',
-      chargeAdj: currentClinic?.chargeAdj || '',
-      firstTransId: currentClinic?.firstTransId || '',
-      colDate: currentClinic?. colDate || '',
-      responsiblePerson: currentClinic?.responsiblePerson || '',
-      collectionAdj: currentClinic?.collectionAdj || '',
-      scriptConvUnit: currentClinic?.scriptConvUnit || '',
-      collectionAdj: currentClinic?.collectionAdj || '',
-      dateFormat: currentClinic?.dateFormat || '',
-      timezone: currentClinic?.timezone || '',
-      isVerified: currentClinic?.isVerified || true,
+      corpPractice: currentUser?.corpPractice|| '',
+      clinic_address: currentUser?.clinic_address || '',
+      idclinics: currentUser?.idclinics || '',
+      clinic_city: currentUser?.clinic_city || '',
+      clinic_code: currentUser?.clinic_code || '',
+      clinic_province: currentUser?.clinic_province || '',
+      data_Path: currentUser?.data_Path || '',
+      clinic_postal: currentUser?.clinic_postal || '',
+      clinic_name: currentUser?.clinic_name || '',
+      country: currentUser?.country || '',
+      avatarUrl: currentUser?.avatarUrl || null,
+      current_app: currentUser?.current_app || '',
+      clinic_phone: currentUser?.clinic_phone || '',
+      dest_db: currentUser?.dest_db || '',
+      clinic_email: currentUser?.clinic_email || '',
+      clinic_appointmentunit: currentUser?.clinic_appointmentunit || '',
+      acquistionDate: currentUser?.acquistionDate || '',
+      prodDate: currentUser?.prodDate || '',
+      cutoff_date: currentUser?.cutoff_date || '',
+      chargeAdj: currentUser?.chargeAdj || '',
+      firstTransId: currentUser?.firstTransId || '',
+      colDate: currentUser?. colDate || '',
+      responsiblePerson: currentUser?.responsiblePerson || '',
+      collectionAdj: currentUser?.collectionAdj || '',
+      scriptConvUnit: currentUser?.scriptConvUnit || '',
+      collectionAdj: currentUser?.collectionAdj || '',
+      dateFormat: currentUser?.dateFormat || '',
+      timezone: currentUser?.timezone || '',
+      isVerified: currentUser?.isVerified || true,
       //Jail
-      data_path_source: currentClinic?.data_path_source || '',
-      simpleJail: currentClinic?.simpleJail || '',
-      jailDataDir: currentClinic?.jailDataDir || '',
-      multiClinicJail: currentClinic?.multiClinicJail|| '',
-      locationId: currentClinic?.locationId || '',
-      separateMultiClinicJail: currentClinic?.separateMultiClinicJail || '',
+      data_path_source: currentUser?.data_path_source || '',
+      simpleJail: currentUser?.simpleJail || '',
+      jailDataDir: currentUser?.jailDataDir || '',
+      multiClinicJail: currentUser?.multiClinicJail|| '',
+      locationId: currentUser?.locationId || '',
+      separateMultiClinicJail: currentUser?.separateMultiClinicJail || '',
       //Payment method
-      creditCard: currentClinic?.creditCard || '',
-      writeOff: currentClinic?.writeOff || '',
-      visa: currentClinic?.visa || '',
-      finance: currentClinic?.finance || '',
-      masterCard: currentClinic?.masterCard || '',
-      directDeposit: currentClinic?.directDeposit || '',
-      debit: currentClinic?.debit || '',
-      giftCertificate: currentClinic?.giftCertificate || '',
-      cash: currentClinic?.cash || '',
-      webCoupon: currentClinic?.webCoupon || '',
-      personalCheque: currentClinic?.personalCheque || '',
-      insuranceEfts: currentClinic?.insuranceEfts || '',
-      insuranceCheque: currentClinic?.insuranceCheque || '',
-      insuranceOthers: currentClinic?.insuranceOthers || '',
-      cashBalance: currentClinic?.cashBalance || '',
-      batchCollection: currentClinic?.batchCollection || '',
-      eTransfer: currentClinic?.eTransfer || '',
-      others: currentClinic?.others || '',
-      americanExp: currentClinic?.americanExp || '',
-      refund: currentClinic?.refund || '',
-      assignment: currentClinic?.assignment || '',
-      paymentPlan: currentClinic?.paymentPlan || '',
+      creditCard: currentUser?.creditCard || '',
+      writeOff: currentUser?.writeOff || '',
+      visa: currentUser?.visa || '',
+      finance: currentUser?.finance || '',
+      masterCard: currentUser?.masterCard || '',
+      directDeposit: currentUser?.directDeposit || '',
+      debit: currentUser?.debit || '',
+      giftCertificate: currentUser?.giftCertificate || '',
+      cash: currentUser?.cash || '',
+      webCoupon: currentUser?.webCoupon || '',
+      personalCheque: currentUser?.personalCheque || '',
+      insuranceEfts: currentUser?.insuranceEfts || '',
+      insuranceCheque: currentUser?.insuranceCheque || '',
+      insuranceOthers: currentUser?.insuranceOthers || '',
+      cashBalance: currentUser?.cashBalance || '',
+      batchCollection: currentUser?.batchCollection || '',
+      eTransfer: currentUser?.eTransfer || '',
+      others: currentUser?.others || '',
+      americanExp: currentUser?.americanExp || '',
+      refund: currentUser?.refund || '',
+      assignment: currentUser?.assignment || '',
+      paymentPlan: currentUser?.paymentPlan || '',
       //Script
-      table: currentClinic?.table || '',
-      scriptType: currentClinic?.scriptType || '',
-      edmsPrefix: currentClinic?.edmsPrefix || '',
+      table: currentUser?.table || '',
+      scriptType: currentUser?.scriptType || '',
+      edmsPrefix: currentUser?.edmsPrefix || '',
       //Workflow
-      stage: currentClinic?.stage || '',
-      todo: currentClinic?.todo || '',
-      actioBy: currentClinic?.actioBy || '',
-      asana_url: currentClinic?.asana_url || '',
+      stage: currentUser?.stage || '',
+      todo: currentUser?.todo || '',
+      actioBy: currentUser?.actioBy || '',
+      asana_url: currentUser?.asana_url || '',
       //Appt status values
-      defId: currentClinic?.defId || '',
-      edmsStatus: currentClinic?.edmsStatus || '',
-      pmsStatus: currentClinic?.pmsStatus || '',
+      defId: currentUser?.defId || '',
+      edmsStatus: currentUser?.edmsStatus || '',
+      pmsStatus: currentUser?.pmsStatus || '',
       //Employee mapping
-      providerCode: currentClinic?.providerCode || '',
-      employee: currentClinic?.employee || '',
-      mapEmployeeTo: currentClinic?.mapEmployeeTo || '',
-      designation: currentClinic?.designation || '',
-      practice: currentClinic?.practice || '',
-      primaryChar: currentClinic?.primaryChar || '',
+      providerCode: currentUser?.providerCode || '',
+      employee: currentUser?.employee || '',
+      mapEmployeeTo: currentUser?.mapEmployeeTo || '',
+      designation: currentUser?.designation || '',
+      practice: currentUser?.practice || '',
+      primaryChar: currentUser?.primaryChar || '',
     }),
-    [currentClinic]
+    [currentUser]
   );
   
   const methods = useForm({
-    resolver: yupResolver(NewClinicSchema),
+    resolver: yupResolver(NewUserSchema),
     defaultValues,
   });
   
@@ -366,7 +366,7 @@ export default function BasicTabs(currentClinic) {
   //   try {
   //     await new Promise((resolve) => setTimeout(resolve, 500));
   //     reset();
-  //     enqueueSnackbar(currentClinic ? 'Update success!' : 'Create success!');
+  //     enqueueSnackbar(currentUser ? 'Update success!' : 'Create success!');
   //     // router.push(paths.dashboard.user.list);
   //     console.info('DATA', data);
   //     console.log('DATA', data);
@@ -526,7 +526,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Go live'}
+                    {!currentUser ? 'Create User' : 'Go live'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -544,7 +544,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                    {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -554,7 +554,7 @@ const [tableData, setTableData] = useState([
       <Grid container spacing={3}>
         {/* <Grid xs={12} md={4}>
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
-            {currentClinic && (
+            {currentUser && (
               <Label
                 color={
                   (values.status === 'active' && 'success') ||
@@ -590,7 +590,7 @@ const [tableData, setTableData] = useState([
               />
             </Box>
 
-            {currentClinic && (
+            {currentUser && (
               <FormControlLabel
                 labelPlacement="start"
                 control={
@@ -638,10 +638,10 @@ const [tableData, setTableData] = useState([
               sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
             />
 
-            {currentClinic && (
+            {currentUser && (
               <Stack justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
                 <Button variant="soft" color="error">
-                  Delete Clinic
+                  Delete User
                 </Button>
               </Stack>
             )}
@@ -765,7 +765,7 @@ const [tableData, setTableData] = useState([
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentClinic ? 'Create Clinic' : 'Go live'}
+                {!currentUser ? 'Create User' : 'Go live'}
               </LoadingButton>
             </Stack>
           </Card>
@@ -810,7 +810,7 @@ const [tableData, setTableData] = useState([
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                {!currentUser ? 'Create User' : 'Save Changes'}
               </LoadingButton>
             </Stack>
           </Card>
@@ -840,7 +840,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                    {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -890,14 +890,14 @@ const [tableData, setTableData] = useState([
 
                 {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                    {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack> */}
               </Card>
             </Grid>
             <Grid xs={12} md={4}>
               {/* <Card sx={{ pt: 10, pb: 5, px: 3 }}> */}
-                {/* {currentClinic && (
+                {/* {currentUser && (
                   <Label
                     color={
                       (values.status === 'active' && 'success') ||
@@ -951,7 +951,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'purge record'}
+                    {!currentUser ? 'Create User' : 'purge record'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -969,7 +969,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Add new'}
+                    {!currentUser ? 'Create User' : 'Add new'}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -987,7 +987,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                    {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -1107,7 +1107,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'purge record'}
+                    {!currentUser ? 'Create User' : 'purge record'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1125,7 +1125,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Add new'}
+                    {!currentUser ? 'Create User' : 'Add new'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1143,7 +1143,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                    {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -1221,7 +1221,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'purge record'}
+                    {!currentUser ? 'Create User' : 'purge record'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1238,7 +1238,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Add new'}
+                    {!currentUser ? 'Create User' : 'Add new'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1256,7 +1256,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                    {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -1334,7 +1334,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center"  >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Post >>>'}
+                    {!currentUser ? 'Create User' : 'Post >>>'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1352,7 +1352,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                    {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
              </Box>
@@ -1438,7 +1438,7 @@ const [tableData, setTableData] = useState([
               >
                 <Stack alignItems="center" >
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                    {!currentUser ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Stack>
               </Box>
@@ -1530,8 +1530,8 @@ const [tableData, setTableData] = useState([
 
                   <Stack alignItems="flex-end" sx={{ mt: 2 }}>
                     <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                      {/* {!currentClinic ? 'Create Clinic' : 'Save Changes'} */}
-                      {!currentClinic ? 'Create Clinic' : 'Generate'}
+                      {/* {!currentUser ? 'Create User' : 'Save Changes'} */}
+                      {!currentUser ? 'Create User' : 'Generate'}
                     </LoadingButton>
                   </Stack>
                 </Card>
@@ -1598,16 +1598,16 @@ const [tableData, setTableData] = useState([
                   // sx={{ mt: 0 }{ mt: 0 } }
                   >
                     <LoadingButton type="submit" variant="contained" loading={isSubmitting} sx={{ ml: 3, marginRight: 2  }}>
-                      {!currentClinic ? 'Create Clinic' : 'Pull corp\'s adjustments'}
+                      {!currentUser ? 'Create User' : 'Pull corp\'s adjustments'}
                     </LoadingButton>
                     <LoadingButton type="submit" variant="contained" loading={isSubmitting} >
-                      {!currentClinic ? 'Create Clinic' : 'Add clinic script'}
+                      {!currentUser ? 'Create User' : 'Add clinic script'}
                     </LoadingButton>
                   </Stack>
                   
                   {/* <Stack alignItems="flex-end" sx={{ mt: 3 }}>
                     <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                      {!currentClinic ? 'Create Clinic' : 'Save Changes'}
+                      {!currentUser ? 'Create User' : 'Save Changes'}
                     </LoadingButton>
                   </Stack> */}
                 </Card>
@@ -1627,5 +1627,5 @@ const [tableData, setTableData] = useState([
 
 
 BasicTabs.propTypes = {
-    currentClinic: PropTypes.object,
+    currentUser: PropTypes.object,
   };

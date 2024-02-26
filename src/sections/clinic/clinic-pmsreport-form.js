@@ -1,47 +1,4 @@
 
-// import PropTypes from 'prop-types';
-// // _mock
-// import { _userList } from 'src/_mock/_user';
-// // sections
-// // import { ClinicEditView } from 'src/sections/user/view';
-// import { ClinicPmsreporttView } from 'src/sections/user/view';
-
-// // ----------------------------------------------------------------------
-
-// export const metadata = {
-//   title: 'Clinic manager: Pms',
-// };
-
-// export default function ClinicPmsreportPage({ params }) {
-//   const { id } = params;
-
-//   return <ClinicPmsreporttView id={id} />;
-// }
-
-// export async function generateStaticParams() {
-//   return _userList.map((user) => ({
-//     id: user.id,
-//   }));
-// }
-
-// ClinicPmsreportPage.propTypes = {
-//   params: PropTypes.shape({
-//     id: PropTypes.string,
-//   }),
-// };
-
-
-"use client"
-//Added by Blessing
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-//
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { useCallback, useMemo } from 'react';
@@ -109,10 +66,6 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-
- const metadata = {
-  title: 'Clinic manager: Clinic Edit',
-};
 
 export default function ClinicPmsreportForm({ currentClinic }) {
   const router = useRouter();
@@ -184,25 +137,8 @@ export default function ClinicPmsreportForm({ currentClinic }) {
     }
   });
 
-  const metadata = {
-      title: 'Clinic manager: Pms',
-    };
 
-  //For PMS REPORT (starts)
-  function createEmData(date, fileName, type) {
-    return { date, fileName, type };
-  }
-  
-  const emRows = [
-    createEmData()
-    // createData(2, 237, 9.0),
-    // createData(3, 262, 16.0),
-    // createData(4, 305, 3.7),
-    // createData(5, 356, 16.0),
-  ];
-  //For employee maping (ends)
   return (
-
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
         <Grid xs={12} md={4}>
@@ -224,7 +160,7 @@ export default function ClinicPmsreportForm({ currentClinic }) {
               <RHFUploadAvatar
                 name="avatarUrl"
                 maxSize={3145728}
-                // onDrop={handleDrop}
+                onDrop={handleDrop}
                 helperText={
                   <Typography
                     variant="caption"
@@ -243,7 +179,7 @@ export default function ClinicPmsreportForm({ currentClinic }) {
               />
             </Box>
 
-            {/* {currentClinic && (
+            {currentClinic && (
               <FormControlLabel
                 labelPlacement="start"
                 control={
@@ -273,9 +209,9 @@ export default function ClinicPmsreportForm({ currentClinic }) {
                 }
                 sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
               />
-            )} */}
+            )}
 
-            {/* <RHFSwitch
+            <RHFSwitch
               name="isVerified"
               labelPlacement="start"
               label={
@@ -289,7 +225,7 @@ export default function ClinicPmsreportForm({ currentClinic }) {
                 </>
               }
               sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-            /> */}
+            />
 
             {currentClinic && (
               <Stack justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
@@ -302,51 +238,6 @@ export default function ClinicPmsreportForm({ currentClinic }) {
         </Grid>
 
         <Grid xs={12} md={8}>
-          <Card sx={{ p: 3 }}>
-            <Box
-              rowGap={3}
-              columnGap={2}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-            <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Date</TableCell>
-                      <TableCell align="center">File Name</TableCell>
-                      <TableCell align="center">Type</TableCell>
-                      {/* <TableCell align="center">Designation</TableCell>
-                      <TableCell align="center">Practice</TableCell>
-                      <TableCell align="center">Primary Chair</TableCell> */}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {emRows.map((emRows) => (
-                      <TableRow
-                        key={emRows.providerCode}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell component="th" scope="row" >
-                          {emRows.date}
-                        </TableCell>
-                        <TableCell align="center">{emRows.fileName}</TableCell>
-                        <TableCell align="center">{emRows.type}</TableCell>
-                        {/* <TableCell align="center">{emRows.practice}</TableCell>
-                        <TableCell align="center">{emRows.primaryChair}</TableCell> */}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-             </Box>
-
-          </Card>
-         </Grid>
-        {/* <Grid xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Box
               rowGap={3}
@@ -404,7 +295,7 @@ export default function ClinicPmsreportForm({ currentClinic }) {
               </LoadingButton>
             </Stack>
           </Card>
-        </Grid> */}
+        </Grid>
       </Grid>
     </FormProvider>
    

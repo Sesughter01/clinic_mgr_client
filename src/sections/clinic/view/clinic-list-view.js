@@ -47,10 +47,10 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 //
-import UserTableRow from '../user-table-row';
-import UserTableToolbar from '../user-table-toolbar';
-import UserTableFiltersResult from '../user-table-filters-result';
-import UserQuickCreateForm from '../user-quick-create-form';
+import ClinicTableRow from '../clinic-table-row';
+import ClinicTableToolbar from '../clinic-table-toolbar';
+import ClinicTableFiltersResult from '../clinic-table-filters-result';
+import ClinicQuickCreateForm from '../clinic-quick-create-form';
 import { USER_STATUS_OPTIONS } from '@/_mock';
 // ----------------------------------------------------------------------
 
@@ -92,7 +92,7 @@ const defaultFilters = {
 
 // ----------------------------------------------------------------------
 
-export default function UserListView() {
+export default function ClinicListView() {
   // const [tableData, setTableData] = useState(_userList);
   
 
@@ -109,33 +109,54 @@ export default function UserListView() {
   
 
   // const URL = `${endpoints.clinics.clinic}?pageNumber=${pageIndex}`;
-  // const URL = `${endpoints.clinics.clinic}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
-  // const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
-  //   console.log("-------------------")
-  //   console.log("CLINIC PAGE DATA: ", data || [])
-  //   console.log("CLINICS", data?.result || 0)
-  //   console.log("totalCount", data?.totalCount || 0)
-  //   console.log("currentPage", data?.currentPage || 0)
-  //   console.log("-------------------")
+  const URL = `${endpoints.clinics.clinic}?${ isActive != null ? `active=${isActive}&` : ''}${ clinicName != null ? `search=${clinicName}&` : ''}${ selectedPms != null ? `pmsId=${selectedPms}&` : ''}${ selectedCorp != null ? `corpId=${selectedCorp}&` : ''}pageNumber=${pageIndex}`;
+  const { data, error, isLoading } = useSWR(URL,$get,{onSuccess: ()=>{
+    console.log("-------------------")
+    console.log("CLINIC PAGE DATA: ", data || [])
+    console.log("CLINICS", data?.result || 0)
+    console.log("totalCount", data?.totalCount || 0)
+    console.log("currentPage", data?.currentPage || 0)
+    console.log("-------------------")
 
-  //   // setTableData(data?.result)
+    // setTableData(data?.result)
 
-  // }});
+  }});
   // The API URL includes the page index, which is a React state.
   // const { data, isLoading, error} = useSWR(`${URL}?pageNumber=${pageIndex + 1}`, fetcher);
-  // if (error) return console.log(error);
+  if (error) return console.log(error);
   // if (isLoading) return <h6>Loading...</h6>;
 
   // const table = useTable({defaultRowsPerPage: data?.pageSize || 0, defaultCurrentPage:data?.currentPage - 1 || 0});
   const table = useTable();
 
-  // useEffect(()=>{
-  //   setTableData(data?.result || [])
-  // }, [data])
+  useEffect(()=>{
+    setTableData(data?.result || [])
+  }, [data])
 
   useEffect(()=>{
     setPageIndex(table.page + 1)
   }, [table.page])
+
+
+  const getPMS_Corps = ()=>{
+    $get(endpoints.pms.names)
+    .then(res =>{
+      res.sort()
+      res.splice(0, 0, "All")
+      setPmsNames(res)
+    })
+
+    $get(endpoints.corps.names)
+    .then(res =>{
+      res.sort()
+      res.splice(0, 0, "All")
+      setCorpNames(res)
+    })
+  }
+
+  useEffect(()=>{
+    getPMS_Corps()
+  }, [])
 
   const settings = useSettingsContext();
 
@@ -284,15 +305,15 @@ export default function UserListView() {
 
   return (
     <>
-      <UserQuickCreateForm open={quickEdit.value} onClose={quickEdit.onFalse} />
+      <ClinicQuickCreateForm open={quickEdit.value} onClose={quickEdit.onFalse} />
 
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="User Management"
+          heading="Clinic Manager"
           links={[
             // { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'users', href: paths.clinicmanager.root },
-            // { name: 'List' }, 
+            { name: 'Clinics', href: paths.clinicmanager.root },
+            { name: 'List' }, 
           ]}
           action={
             <Button
@@ -302,7 +323,7 @@ export default function UserListView() {
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
-              Invite User
+              New Clinic
             </Button>
           }
           sx={{
@@ -310,7 +331,145 @@ export default function UserListView() {
           }}
         />
 
-        
+        <Card>
+          <Tabs
+            value={filters.status}
+            onChange={handleFilterStatus}
+            sx={{
+              px: 2.5,
+              boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
+            }}
+          >
+            {STATUS_OPTIONS.map((tab) => (
+              <Tab
+                key={tab.value}
+                iconPosition="end"
+                value={tab.value}
+                label={tab.label}
+                icon={
+                  <Label
+                    variant={
+                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                    }
+                    color={
+                      (tab.value === 'active' && 'success') ||
+                      (tab.value === 'inactive' && 'warning') ||
+                      // (tab.value === 'pending' && 'warning') ||
+                      // (tab.value === 'banned' && 'error') ||
+                      'default'
+                    }
+                  >
+                    {/* {tab.value === 'all' && _userList.length} */}
+                    {tab.value === 'active' && data?.active}
+                    {tab.value === 'inactive' && data?.inactive}
+
+                    {/* {tab.value === 'pending' &&
+                      _userList.filter((user) => user.status === 'pending').length}
+                    {tab.value === 'banned' &&
+                      _userList.filter((user) => user.status === 'banned').length}
+                    {tab.value === 'rejected' &&
+                      _userList.filter((user) => user.status === 'rejected').length} */}
+                  </Label>
+                }
+              />
+            ))}
+          </Tabs>
+
+          <ClinicTableToolbar
+            filters={filters}
+            onFilters={handleFilters}
+            pmsOptions={pmsNames}
+            corpOptions={corpNames}
+          />
+
+          {canReset && (
+            <ClinicTableFiltersResult
+              filters={filters}
+              onFilters={handleRemoveFilter}
+              //
+              onResetFilters={handleResetFilters}
+              //
+              results={data?.totalCount}
+              sx={{ p: 2.5, pt: 0 }}
+            />
+          )}
+
+
+          <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+            <TableSelectedAction
+              dense={table.dense}
+              numSelected={table.selected.length}
+              rowCount={tableData.length}
+              onSelectAllRows={(checked) =>
+                table.onSelectAllRows(
+                  checked,
+                  tableData.map((row) => row.id)
+                )
+              }
+              action={
+                <Tooltip title="Delete">
+                  <IconButton color="primary" onClick={confirm.onTrue}>
+                    <Iconify icon="solar:trash-bin-trash-bold" />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
+
+            <Scrollbar>
+              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+                <TableHeadCustom
+                  order={table.order}
+                  orderBy={table.orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={tableData.length}
+                  numSelected={table.selected.length}
+                  onSort={table.onSort}
+                  onSelectAllRows={(checked) =>
+                    table.onSelectAllRows(
+                      checked,
+                      tableData.map((row) => row.id)
+                    )
+                  }
+                />
+
+                <TableBody>
+                  {dataFiltered
+                    .map((row) => (
+                      <ClinicTableRow
+                        key={row.id}
+                        row={row}
+                        selected={table.selected.includes(row.id)}
+                        onSelectRow={() => table.onSelectRow(row.id)}
+                        onDeleteRow={() => handleDeleteRow(row.id)}
+                        onEditRow={() => handleEditRow(row.id)}
+                        //Added by blessing
+                        onPmsreportRow={() => handlePmsreportRow(row.id)}
+                        
+                      />
+                    ))}
+
+                  <TableEmptyRows
+                    height={denseHeight}
+                    emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
+                  />
+
+                  <TableNoData notFound={notFound} />
+                </TableBody>
+              </Table>
+            </Scrollbar>
+          </TableContainer>
+
+          <TablePaginationCustom
+            count={data?.totalCount}
+            page={data?.currentPage - 1}
+            rowsPerPage={data?.pageSize}
+            onPageChange={table.onChangePage}
+            onRowsPerPageChange={table.onChangeRowsPerPage}
+            //
+            dense={table.dense}
+            onChangeDense={table.onChangeDense}
+          />
+        </Card>
       </Container>
       <ConfirmDialog
         open={confirm.value}

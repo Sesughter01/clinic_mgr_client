@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState , useMemo} from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -28,6 +28,8 @@ import FormProvider, { RHFTextField , RHFSelect} from 'src/components/hook-form'
 import Select from '@mui/material/Select';
 
 import { INVOICE_SERVICE_OPTIONS } from 'src/_mock';
+
+import { $post, $get, endpoints} from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -61,46 +63,80 @@ function getStyles(name, role, theme) {
           : theme.typography.fontWeightMedium,
     };
   }
-export default function RegisterNewUser() {
-  const RegisterNewUserSchema = Yup.object().shape({
-    firstname: Yup.string().required('First Name is required'),
-    lastname: Yup.string().required('Last Name is required'),
-    password: Yup.string().required('Password is required'),
+export default function AddNewUser() {
+  const AddNewUserSchema = Yup.object().shape({
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    role: Yup.string().required('Role is required'),
   });
 
-//   const [role, setRole] = useState('');
+  const [role, setRole] = useState('');
 
   const handleChange = (event) => {
     setRole(event.target.value);
   };
 
 
-  const defaultValues = {
-    firstname: '',
-    lastname: '',
-    password: '',
-    email: '',
-  };
+  // const defaultValues = {
+  //   email: '',
+  //   role: '',
+  // };
+
+  const defaultValues = useMemo(
+    () => ({
+      email: '',
+      role: '',
+     
+    }),
+    []
+  );
 
   const methods = useForm({
-    resolver: yupResolver(RegisterNewUserSchema),
+    resolver: yupResolver(AddNewUserSchema),
     defaultValues,
   });
-
   const {
+    reset,
+    // watch,
+    // control,
+    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
+  // const values = watch();
+  // useEffect(() => {
+  //   if (clinic) {
+  //     reset(defaultValues);
+  //   }
+  // }, [clinic, defaultValues, reset]);
+  
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      console.info('DATA', data);
+      const res = await $put(`${endpoints.clinics.clinic}${id}`, data);
+      console.info('RES', res);
+      // reset();
+      enqueueSnackbar('Update success!');
+      // // router.push(paths.dashboard.user.list);
+      // router.push(paths.clinicmanager.root);
     } catch (error) {
       console.error(error);
     }
   });
+
+  const getRoles = ()=>{
+    $get(endpoints.pms.names)
+    .then(res =>{
+      res.sort()
+      setPmsNames(res)
+    })
+
+    // $get(endpoints.corps.names)
+    // .then(res =>{
+    //   res.sort()
+    //   setCorpNames(res)
+    // })
+  }
+
 
 
   const handleClearService = useCallback(
@@ -128,10 +164,7 @@ export default function RegisterNewUser() {
 
 
   const renderForm = (
-    <Stack spacing={2} alignItems="left" >
-      <RHFTextField name="firstname" label="First Name" />
-      <RHFTextField name="lastname" label="Last Name" />
-      <RHFTextField name="password" label="Password" />
+    <Stack spacing={3} alignItems="left" >
       <RHFTextField name="email" label="Email address" />
       {/* <RHFSelect
                 name="role"
@@ -161,8 +194,8 @@ export default function RegisterNewUser() {
                 ))}
       </RHFSelect> */}
 
-{/* <InputLabel  id="demo-simple-select-label"  style={{ textAlign: 'left', paddingLeft:"16px" }} >Role</InputLabel> */}
-  {/* <Select
+<InputLabel  id="demo-simple-select-label"  style={{ textAlign: 'left', paddingLeft:"16px" }} >Role</InputLabel>
+  <Select
     labelId="demo-simple-select-label"
     id="demo-simple-select"
     variant="outlined"
@@ -177,7 +210,8 @@ export default function RegisterNewUser() {
     <MenuItem value={"Role1"}>Role1</MenuItem>
     <MenuItem value={"Role2"}>Role2</MenuItem>
     <MenuItem value={"Role3"}>Role3</MenuItem>
-  </Select> */}
+    <MenuItem value={"Role3"}>Role4</MenuItem>
+  </Select>
 
       <LoadingButton
         fullWidth
@@ -188,7 +222,7 @@ export default function RegisterNewUser() {
         endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
         sx={{ justifyContent: 'space-between', pl: 2, pr: 1.5 }}
       >
-       Register
+        Send Invite
       </LoadingButton>
 
       <Link
@@ -211,11 +245,12 @@ export default function RegisterNewUser() {
     <>
       <PasswordIcon sx={{ height: 96 }} />
 
-      <Stack spacing={1} sx={{ my: 5,width:'350px' }}>
-        <Typography variant="h3">Register </Typography>
+      <Stack spacing={1} sx={{ my: 5 }}>
+        <Typography variant="h3">Invite A User?</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          Please fill in the details below to register.
+          Please enter an email address and We will email a link
+          to the new user.
         </Typography>
       </Stack>
     </>

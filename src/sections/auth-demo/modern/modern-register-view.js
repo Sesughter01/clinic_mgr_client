@@ -18,23 +18,31 @@ import { paths } from 'src/routes/paths';
 import Iconify from 'src/components/iconify';
 import { RouterLink } from 'src/routes/components';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import { useSearchParams, useRouter } from 'next/navigation'
+import { useSnackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
 
+import { $post, endpoints} from 'src/utils/axios';
+
+
 export default function ModernRegisterView() {
   const password = useBoolean();
-
+  const params = useSearchParams();
+  const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
+ 
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().required('First name required'),
     lastName: Yup.string().required('Last name required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    // email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
     firstName: '',
     lastName: '',
-    email: '',
+    // email: '',
     password: '',
   };
 
@@ -44,30 +52,44 @@ export default function ModernRegisterView() {
   });
 
   const {
+    reset,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      console.info('DATA', data);
-    } catch (error) {
-      console.error(error);
-    }
+    const userId = params.get('userId')
+    const code = params.get('code')
+
+    const body = {...data, userId, code};
+    console.info('COMPLETE FORM DATA: ', body);
+    
+    $post(endpoints.auth.complete, body)
+    .then(res => {
+      reset();
+      enqueueSnackbar('Registeration successfully!');
+      router.push('/login')
+    })
+    .catch((err) => {
+      enqueueSnackbar(err.message, {variant: 'error'});
+    })
   });
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-      <Typography variant="h4">Register</Typography>
+      <Typography variant="h5">Finish your account setup</Typography>
 
-      {/* <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2"> Already have an account? </Typography>
+      <Stack direction="row" spacing={0.5}>
+        <Typography 
+        component="div"
+        sx={{
+            textAlign: 'center',
+        }}> Already have an account? </Typography>
 
         <Link href={paths.authDemo.modern.login} component={RouterLink} variant="subtitle2">
           Sign in
         </Link>
-      </Stack> */}
+      </Stack>
     </Stack>
   );
 
@@ -95,12 +117,13 @@ export default function ModernRegisterView() {
 
   const renderForm = (
     <Stack spacing={2.5}>
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+      {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
         <RHFTextField name="firstName" label="First name" />
         <RHFTextField name="lastName" label="Last name" />
-      </Stack>
+      </Stack> */}
 
-      <RHFTextField name="email" label="Email address" />
+      <RHFTextField name="firstName" label="First name" />
+      <RHFTextField name="lastName" label="Last name" />
 
       <RHFTextField
         name="password"
@@ -127,7 +150,7 @@ export default function ModernRegisterView() {
         endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
         sx={{ justifyContent: 'space-between', pl: 2, pr: 1.5 }}
       >
-        Create account
+        Finish
       </LoadingButton>
     </Stack>
   );

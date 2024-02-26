@@ -41,7 +41,7 @@ axiosInstance_Two.interceptors.response.use(
       }
     }
     console.log("------API ERROR ENDS--------");
-    Promise.reject((error.response && error.response.data) || 'Something went wrong')
+    return Promise.reject((error.response && error.response.data) || 'Something went wrong')
   }
 );
 
@@ -61,20 +61,30 @@ export const $get = async (args) => {
     console.log("API GET RESPONSE SUCCESS:", res.data);
     return res.data.data;
   } catch (error) {
-    return error
+    return Promise.reject(error)
   }
 };
 
 
 export const $post = async (url, body) => {
-  // const [url, body] = Array.isArray(args) ? args : [args];
-  console.log("---API POST REQUEST ---");
-  console.log("URL :", url);
-  console.log("BODY :", body);
+  return new Promise(async (resolve, reject) => {
+    // "Producing Code" (May take some time)
+    try { 
+      const res = await axiosInstance_Two.post(url, body);
+      console.log("API POST RESPONSE:", (res?.data));
+      resolve(res?.data?.data)
+    }
+    catch (error){
+      reject(error)
+    }
+      // resolve(); // when successful
+      // reject();  // when error
+    });
+  // // const [url, body] = Array.isArray(args) ? args : [args];
+  // console.log("---API POST REQUEST ---");
+  // console.log("URL :", url);
+  // console.log("BODY :", body);
 
-  const res = await axiosInstance_Two.post(url, body);
-  console.log("API POST RESPONSE:", (res.data));
-  return res.data.data;
 };
 
 
@@ -171,7 +181,16 @@ export const endpoints = {
   info: {
     dashboard: '/api/infos/dashboard/',
   },
+  manage: {
+    roles: '/api/manage/roles',
+    users: '/api/manage/users',
+    invite: '/api/manage/users/invite',
+  },
 
+  auth:{
+    login: '/api/auth/login',
+    complete: '/api/auth/complete',
+  }
 };
 
 

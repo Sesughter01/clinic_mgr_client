@@ -1,5 +1,5 @@
 // sections
-import { UserListView } from 'src/sections/user/view';
+import { ClinicListView } from 'src/sections/user/view';
 
 // ----------------------------------------------------------------------
 
@@ -8,6 +8,6 @@ export const metadata = {
   
 };
 
-export default function UserListPage() {
-  return <UserListView />;
+export default function ClinicListPage() {
+  return <ClinicListView />;
 }

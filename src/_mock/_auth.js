@@ -1,5 +1,5 @@
 // _mock
-import { _mock } from 'src/_mock';
+// import { _mock } from 'src/_mock';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ export const _users = [
     // email: 'bus@gmail.com',
     password: 'demo1234',
     // password: '1234',
-    photoURL: _mock.image.avatar(24),
+    // photoURL: _mock.image.avatar(24),
     phoneNumber: '+40 777666555',
     country: 'United States',
     address: '90210 Broadway Blvd',
